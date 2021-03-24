@@ -1,3 +1,3 @@
 # ZumoBot
 
-[:white_check_mark: Zuuuumo]
+:white_check_mark: Zuuuumo
