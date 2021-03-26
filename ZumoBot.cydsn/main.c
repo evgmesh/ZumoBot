@@ -69,14 +69,17 @@ void zmain(void)
     BatteryLed_Write(true);
     vTaskDelay(500);
     BatteryLed_Write(false);
-    motor_forward(125,2750);     // moving forward
-    tankTR(255, 103);
+    motor_forward(125,2750);     // moving forward from starting point
     motor_forward(0,0);         // stop motors
-    motor_forward(125,2300);
-    tankTR(255, 103);
-    motor_forward(125,2550);
-    motor_stop();               // disable motor controller
+    tankTR(255, 103);           // 1st turning right 
     
+    motor_forward(125,2350);    // forward on horisontal line
+    tankTR(255, 103);           // 2nd turn
+    motor_forward(125,2550);
+    tankTR(255, 103);           // 2nd turn
+    tankTurn(164,135,1780);
+    motor_forward(125,570);     // moving forward from starting point
+    motor_stop();               // disable motor controller
     progEnd(100);
 }
 #endif

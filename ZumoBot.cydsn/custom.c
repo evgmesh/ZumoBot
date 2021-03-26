@@ -46,4 +46,8 @@ void tankTL(uint8_t speed, uint32_t delay) {
 void tankTR(uint8_t speed, uint32_t delay) {
     SetMotors(0, 1, speed, speed, delay);
 }
+
+void tankTurn(uint8 l_speed, uint8 r_speed, uint32 delay){
+    SetMotors(0,0, l_speed, r_speed, delay);
+}
 /* [] END OF FILE */
