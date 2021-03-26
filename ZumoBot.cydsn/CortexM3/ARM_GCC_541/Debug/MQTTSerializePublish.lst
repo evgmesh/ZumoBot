@@ -1,0 +1,2658 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"MQTTSerializePublish.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MQTTSerialize_publishLength,"ax",%progbits
+  20              		.align	2
+  21              		.global	MQTTSerialize_publishLength
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	MQTTSerialize_publishLength, %function
+  25              	MQTTSerialize_publishLength:
+  26              	.LFB1:
+  27              		.file 1 "..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTSerializePublish.c"
+   1:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /*******************************************************************************
+   2:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * Copyright (c) 2014 IBM Corp.
+   3:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *
+   4:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * All rights reserved. This program and the accompanying materials
+   5:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * are made available under the terms of the Eclipse Public License v1.0
+   6:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * and Eclipse Distribution License v1.0 which accompany this distribution.
+   7:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *
+   8:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * The Eclipse Public License is available at
+   9:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *    http://www.eclipse.org/legal/epl-v10.html
+  10:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * and the Eclipse Distribution License is available at
+  11:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *   http://www.eclipse.org/org/documents/edl-v10.php.
+  12:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *
+  13:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  * Contributors:
+  14:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *    Ian Craggs - initial API and implementation and/or initial documentation
+  15:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *    Ian Craggs - fix for https://bugs.eclipse.org/bugs/show_bug.cgi?id=453144
+  16:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****  *******************************************************************************/
+  17:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  18:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** #include "MQTTPacket.h"
+  19:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** #include "StackTrace.h"
+  20:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  21:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** #include <string.h>
+  22:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  23:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  24:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+  25:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Determines the length of the MQTT publish packet that would be produced using the supplied para
+  26:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param qos the MQTT QoS of the publish (packetid is omitted for QoS 0)
+  27:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param topicName the topic name to be used in the publish  
+  28:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param payloadlen the length of the payload to be sent
+  29:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return the length of buffer needed to contain the serialized version of the packet
+  30:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 2
+
+
+  31:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_publishLength(int qos, MQTTString topicName, int payloadlen)
+  32:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+  28              		.loc 1 32 0
+  29              		.cfi_startproc
+  30              		@ args = 4, pretend = 0, frame = 16
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37 0002 84B0     		sub	sp, sp, #16
+  38              		.cfi_def_cfa_offset 24
+  39 0004 0446     		mov	r4, r0
+  40 0006 01A8     		add	r0, sp, #4
+  41              	.LVL1:
+  42 0008 80E80E00 		stmia	r0, {r1, r2, r3}
+  43              	.LVL2:
+  33:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	int len = 0;
+  34:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  35:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	len += 2 + MQTTstrlen(topicName) + payloadlen;
+  44              		.loc 1 35 0
+  45 000c 07C8     		ldmia	r0, {r0, r1, r2}
+  46 000e FFF7FEFF 		bl	MQTTstrlen
+  47              	.LVL3:
+  48 0012 0230     		adds	r0, r0, #2
+  49 0014 069B     		ldr	r3, [sp, #24]
+  50 0016 1844     		add	r0, r0, r3
+  51              	.LVL4:
+  36:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	if (qos > 0)
+  52              		.loc 1 36 0
+  53 0018 002C     		cmp	r4, #0
+  54 001a 00DD     		ble	.L2
+  37:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		len += 2; /* packetid */
+  55              		.loc 1 37 0
+  56 001c 0230     		adds	r0, r0, #2
+  57              	.LVL5:
+  58              	.L2:
+  38:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return len;
+  39:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+  59              		.loc 1 39 0
+  60 001e 04B0     		add	sp, sp, #16
+  61              		.cfi_def_cfa_offset 8
+  62              		@ sp needed
+  63 0020 10BD     		pop	{r4, pc}
+  64              		.cfi_endproc
+  65              	.LFE1:
+  66              		.size	MQTTSerialize_publishLength, .-MQTTSerialize_publishLength
+  67 0022 00BF     		.section	.text.MQTTSerialize_publish,"ax",%progbits
+  68              		.align	2
+  69              		.global	MQTTSerialize_publish
+  70              		.thumb
+  71              		.thumb_func
+  72              		.type	MQTTSerialize_publish, %function
+  73              	MQTTSerialize_publish:
+  74              	.LFB2:
+  40:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 3
+
+
+  41:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  42:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+  43:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Serializes the supplied publish data into the supplied buffer, ready for sending
+  44:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buf the buffer into which the packet will be serialized
+  45:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buflen the length in bytes of the supplied buffer
+  46:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param dup integer - the MQTT dup flag
+  47:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param qos integer - the MQTT QoS value
+  48:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param retained integer - the MQTT retained flag
+  49:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param packetid integer - the MQTT packet identifier
+  50:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param topicName MQTTString - the MQTT topic in the publish
+  51:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param payload byte buffer - the MQTT publish payload
+  52:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param payloadlen integer - the length of the MQTT payload
+  53:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return the length of the serialized data.  <= 0 indicates error
+  54:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+  55:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_publish(unsigned char* buf, int buflen, unsigned char dup, int qos, unsigned char
+  56:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		MQTTString topicName, unsigned char* payload, int payloadlen)
+  57:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+  75              		.loc 1 57 0
+  76              		.cfi_startproc
+  77              		@ args = 28, pretend = 0, frame = 8
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              	.LVL6:
+  80 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+  81              		.cfi_def_cfa_offset 32
+  82              		.cfi_offset 4, -32
+  83              		.cfi_offset 5, -28
+  84              		.cfi_offset 6, -24
+  85              		.cfi_offset 7, -20
+  86              		.cfi_offset 8, -16
+  87              		.cfi_offset 9, -12
+  88              		.cfi_offset 10, -8
+  89              		.cfi_offset 14, -4
+  90 0004 84B0     		sub	sp, sp, #16
+  91              		.cfi_def_cfa_offset 48
+  92 0006 0746     		mov	r7, r0
+  93 0008 8846     		mov	r8, r1
+  94 000a 9246     		mov	r10, r2
+  95 000c 1E46     		mov	r6, r3
+  96 000e 129C     		ldr	r4, [sp, #72]
+  58:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	unsigned char *ptr = buf;
+  97              		.loc 1 58 0
+  98 0010 0390     		str	r0, [sp, #12]
+  99              	.LVL7:
+  59:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	MQTTHeader header = {0};
+  60:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	int rem_len = 0;
+  61:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	int rc = 0;
+  62:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  63:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	FUNC_ENTRY;
+  64:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	if (MQTTPacket_len(rem_len = MQTTSerialize_publishLength(qos, topicName, payloadlen)) > buflen)
+ 100              		.loc 1 64 0
+ 101 0012 0094     		str	r4, [sp]
+ 102 0014 0EAB     		add	r3, sp, #56
+ 103              	.LVL8:
+ 104 0016 0ECB     		ldmia	r3, {r1, r2, r3}
+ 105              	.LVL9:
+ 106 0018 3046     		mov	r0, r6
+ 107              	.LVL10:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 4
+
+
+ 108 001a FFF7FEFF 		bl	MQTTSerialize_publishLength
+ 109              	.LVL11:
+ 110 001e 8146     		mov	r9, r0
+ 111              	.LVL12:
+ 112 0020 FFF7FEFF 		bl	MQTTPacket_len
+ 113              	.LVL13:
+ 114 0024 4045     		cmp	r0, r8
+ 115 0026 2BDC     		bgt	.L7
+ 116 0028 0025     		movs	r5, #0
+ 117              	.LVL14:
+  65:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	{
+  66:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		rc = MQTTPACKET_BUFFER_TOO_SHORT;
+  67:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		goto exit;
+  68:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	}
+  69:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  70:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.type = PUBLISH;
+ 118              		.loc 1 70 0
+ 119 002a 0323     		movs	r3, #3
+ 120 002c 63F30715 		bfi	r5, r3, #4, #4
+ 121              	.LVL15:
+  71:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.dup = dup;
+ 122              		.loc 1 71 0
+ 123 0030 6AF3C305 		bfi	r5, r10, #3, #1
+  72:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.qos = qos;
+ 124              		.loc 1 72 0
+ 125 0034 66F34205 		bfi	r5, r6, #1, #2
+  73:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.retain = retained;
+ 126              		.loc 1 73 0
+ 127 0038 9DF83030 		ldrb	r3, [sp, #48]	@ zero_extendqisi2
+ 128 003c 63F30005 		bfi	r5, r3, #0, #1
+  74:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	writeChar(&ptr, header.byte); /* write header */
+ 129              		.loc 1 74 0
+ 130 0040 E9B2     		uxtb	r1, r5
+ 131 0042 03A8     		add	r0, sp, #12
+ 132 0044 FFF7FEFF 		bl	writeChar
+ 133              	.LVL16:
+  75:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  76:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	ptr += MQTTPacket_encode(ptr, rem_len); /* write remaining length */;
+ 134              		.loc 1 76 0
+ 135 0048 4946     		mov	r1, r9
+ 136 004a 0398     		ldr	r0, [sp, #12]
+ 137 004c FFF7FEFF 		bl	MQTTPacket_encode
+ 138              	.LVL17:
+ 139 0050 039B     		ldr	r3, [sp, #12]
+ 140 0052 1844     		add	r0, r0, r3
+ 141 0054 0390     		str	r0, [sp, #12]
+  77:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  78:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	writeMQTTString(&ptr, topicName);
+ 142              		.loc 1 78 0
+ 143 0056 0EAB     		add	r3, sp, #56
+ 144 0058 0ECB     		ldmia	r3, {r1, r2, r3}
+ 145 005a 03A8     		add	r0, sp, #12
+ 146 005c FFF7FEFF 		bl	writeMQTTString
+ 147              	.LVL18:
+  79:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  80:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	if (qos > 0)
+ 148              		.loc 1 80 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 5
+
+
+ 149 0060 002E     		cmp	r6, #0
+ 150 0062 04DD     		ble	.L6
+  81:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		writeInt(&ptr, packetid);
+ 151              		.loc 1 81 0
+ 152 0064 BDF83410 		ldrh	r1, [sp, #52]
+ 153 0068 03A8     		add	r0, sp, #12
+ 154 006a FFF7FEFF 		bl	writeInt
+ 155              	.LVL19:
+ 156              	.L6:
+  82:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  83:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	memcpy(ptr, payload, payloadlen);
+ 157              		.loc 1 83 0
+ 158 006e 2246     		mov	r2, r4
+ 159 0070 1199     		ldr	r1, [sp, #68]
+ 160 0072 0398     		ldr	r0, [sp, #12]
+ 161 0074 FFF7FEFF 		bl	memcpy
+ 162              	.LVL20:
+  84:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	ptr += payloadlen;
+ 163              		.loc 1 84 0
+ 164 0078 0398     		ldr	r0, [sp, #12]
+ 165 007a 2044     		add	r0, r0, r4
+ 166              	.LVL21:
+  85:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  86:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	rc = ptr - buf;
+ 167              		.loc 1 86 0
+ 168 007c C01B     		subs	r0, r0, r7
+ 169              	.LVL22:
+ 170 007e 01E0     		b	.L5
+ 171              	.LVL23:
+ 172              	.L7:
+  66:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		goto exit;
+ 173              		.loc 1 66 0
+ 174 0080 6FF00100 		mvn	r0, #1
+ 175              	.LVL24:
+ 176              	.L5:
+  87:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  88:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** exit:
+  89:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	FUNC_EXIT_RC(rc);
+  90:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return rc;
+  91:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+ 177              		.loc 1 91 0
+ 178 0084 04B0     		add	sp, sp, #16
+ 179              		.cfi_def_cfa_offset 32
+ 180              		@ sp needed
+ 181 0086 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 182              		.cfi_endproc
+ 183              	.LFE2:
+ 184              		.size	MQTTSerialize_publish, .-MQTTSerialize_publish
+ 185 008a 00BF     		.section	.text.MQTTSerialize_ack,"ax",%progbits
+ 186              		.align	2
+ 187              		.global	MQTTSerialize_ack
+ 188              		.thumb
+ 189              		.thumb_func
+ 190              		.type	MQTTSerialize_ack, %function
+ 191              	MQTTSerialize_ack:
+ 192              	.LFB3:
+  92:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 6
+
+
+  93:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  94:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+  95:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+  96:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Serializes the ack packet into the supplied buffer.
+  97:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buf the buffer into which the packet will be serialized
+  98:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buflen the length in bytes of the supplied buffer
+  99:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param type the MQTT packet type
+ 100:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param dup the MQTT dup flag
+ 101:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param packetid the MQTT packet identifier
+ 102:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return serialized length, or error if 0
+ 103:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+ 104:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_ack(unsigned char* buf, int buflen, unsigned char packettype, unsigned char dup, 
+ 105:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+ 193              		.loc 1 105 0
+ 194              		.cfi_startproc
+ 195              		@ args = 4, pretend = 0, frame = 8
+ 196              		@ frame_needed = 0, uses_anonymous_args = 0
+ 197              	.LVL25:
+ 198 0000 30B5     		push	{r4, r5, lr}
+ 199              		.cfi_def_cfa_offset 12
+ 200              		.cfi_offset 4, -12
+ 201              		.cfi_offset 5, -8
+ 202              		.cfi_offset 14, -4
+ 203 0002 83B0     		sub	sp, sp, #12
+ 204              		.cfi_def_cfa_offset 24
+ 205              	.LVL26:
+ 106:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	MQTTHeader header = {0};
+ 107:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	int rc = 0;
+ 108:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	unsigned char *ptr = buf;
+ 206              		.loc 1 108 0
+ 207 0004 0190     		str	r0, [sp, #4]
+ 109:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 110:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	FUNC_ENTRY;
+ 111:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	if (buflen < 4)
+ 208              		.loc 1 111 0
+ 209 0006 0329     		cmp	r1, #3
+ 210 0008 1EDD     		ble	.L11
+ 211 000a 0025     		movs	r5, #0
+ 212              	.LVL27:
+ 213 000c 0446     		mov	r4, r0
+ 112:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	{
+ 113:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		rc = MQTTPACKET_BUFFER_TOO_SHORT;
+ 114:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		goto exit;
+ 115:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	}
+ 116:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.type = packettype;
+ 214              		.loc 1 116 0
+ 215 000e 62F30715 		bfi	r5, r2, #4, #4
+ 216              	.LVL28:
+ 117:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.dup = dup;
+ 217              		.loc 1 117 0
+ 218 0012 63F3C305 		bfi	r5, r3, #3, #1
+ 118:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	header.bits.qos = (packettype == PUBREL) ? 1 : 0;
+ 219              		.loc 1 118 0
+ 220 0016 062A     		cmp	r2, #6
+ 221 0018 14BF     		ite	ne
+ 222 001a 0022     		movne	r2, #0
+ 223              	.LVL29:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 7
+
+
+ 224 001c 0122     		moveq	r2, #1
+ 225 001e 62F34205 		bfi	r5, r2, #1, #2
+ 119:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	writeChar(&ptr, header.byte); /* write header */
+ 226              		.loc 1 119 0
+ 227 0022 E9B2     		uxtb	r1, r5
+ 228              	.LVL30:
+ 229 0024 01A8     		add	r0, sp, #4
+ 230              	.LVL31:
+ 231 0026 FFF7FEFF 		bl	writeChar
+ 232              	.LVL32:
+ 120:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 121:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	ptr += MQTTPacket_encode(ptr, 2); /* write remaining length */
+ 233              		.loc 1 121 0
+ 234 002a 0221     		movs	r1, #2
+ 235 002c 0198     		ldr	r0, [sp, #4]
+ 236 002e FFF7FEFF 		bl	MQTTPacket_encode
+ 237              	.LVL33:
+ 238 0032 019B     		ldr	r3, [sp, #4]
+ 239 0034 1844     		add	r0, r0, r3
+ 240 0036 0190     		str	r0, [sp, #4]
+ 122:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	writeInt(&ptr, packetid);
+ 241              		.loc 1 122 0
+ 242 0038 BDF81810 		ldrh	r1, [sp, #24]
+ 243 003c 01A8     		add	r0, sp, #4
+ 244 003e FFF7FEFF 		bl	writeInt
+ 245              	.LVL34:
+ 123:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	rc = ptr - buf;
+ 246              		.loc 1 123 0
+ 247 0042 0198     		ldr	r0, [sp, #4]
+ 248 0044 001B     		subs	r0, r0, r4
+ 249              	.LVL35:
+ 250 0046 01E0     		b	.L10
+ 251              	.LVL36:
+ 252              	.L11:
+ 113:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 		goto exit;
+ 253              		.loc 1 113 0
+ 254 0048 6FF00100 		mvn	r0, #1
+ 255              	.LVL37:
+ 256              	.L10:
+ 124:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** exit:
+ 125:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	FUNC_EXIT_RC(rc);
+ 126:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return rc;
+ 127:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+ 257              		.loc 1 127 0
+ 258 004c 03B0     		add	sp, sp, #12
+ 259              		.cfi_def_cfa_offset 12
+ 260              		@ sp needed
+ 261 004e 30BD     		pop	{r4, r5, pc}
+ 262              		.cfi_endproc
+ 263              	.LFE3:
+ 264              		.size	MQTTSerialize_ack, .-MQTTSerialize_ack
+ 265              		.section	.text.MQTTSerialize_puback,"ax",%progbits
+ 266              		.align	2
+ 267              		.global	MQTTSerialize_puback
+ 268              		.thumb
+ 269              		.thumb_func
+ 270              		.type	MQTTSerialize_puback, %function
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 8
+
+
+ 271              	MQTTSerialize_puback:
+ 272              	.LFB4:
+ 128:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 129:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 130:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+ 131:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Serializes a puback packet into the supplied buffer.
+ 132:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buf the buffer into which the packet will be serialized
+ 133:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buflen the length in bytes of the supplied buffer
+ 134:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param packetid integer - the MQTT packet identifier
+ 135:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return serialized length, or error if 0
+ 136:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+ 137:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_puback(unsigned char* buf, int buflen, unsigned short packetid)
+ 138:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+ 273              		.loc 1 138 0
+ 274              		.cfi_startproc
+ 275              		@ args = 0, pretend = 0, frame = 0
+ 276              		@ frame_needed = 0, uses_anonymous_args = 0
+ 277              	.LVL38:
+ 278 0000 00B5     		push	{lr}
+ 279              		.cfi_def_cfa_offset 4
+ 280              		.cfi_offset 14, -4
+ 281 0002 83B0     		sub	sp, sp, #12
+ 282              		.cfi_def_cfa_offset 16
+ 139:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return MQTTSerialize_ack(buf, buflen, PUBACK, 0, packetid);
+ 283              		.loc 1 139 0
+ 284 0004 0092     		str	r2, [sp]
+ 285 0006 0023     		movs	r3, #0
+ 286 0008 0422     		movs	r2, #4
+ 287              	.LVL39:
+ 288 000a FFF7FEFF 		bl	MQTTSerialize_ack
+ 289              	.LVL40:
+ 140:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+ 290              		.loc 1 140 0
+ 291 000e 03B0     		add	sp, sp, #12
+ 292              		.cfi_def_cfa_offset 4
+ 293              		@ sp needed
+ 294 0010 5DF804FB 		ldr	pc, [sp], #4
+ 295              		.cfi_endproc
+ 296              	.LFE4:
+ 297              		.size	MQTTSerialize_puback, .-MQTTSerialize_puback
+ 298              		.section	.text.MQTTSerialize_pubrel,"ax",%progbits
+ 299              		.align	2
+ 300              		.global	MQTTSerialize_pubrel
+ 301              		.thumb
+ 302              		.thumb_func
+ 303              		.type	MQTTSerialize_pubrel, %function
+ 304              	MQTTSerialize_pubrel:
+ 305              	.LFB5:
+ 141:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 142:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 143:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+ 144:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Serializes a pubrel packet into the supplied buffer.
+ 145:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buf the buffer into which the packet will be serialized
+ 146:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buflen the length in bytes of the supplied buffer
+ 147:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param dup integer - the MQTT dup flag
+ 148:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param packetid integer - the MQTT packet identifier
+ 149:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return serialized length, or error if 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 9
+
+
+ 150:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+ 151:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_pubrel(unsigned char* buf, int buflen, unsigned char dup, unsigned short packetid
+ 152:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+ 306              		.loc 1 152 0
+ 307              		.cfi_startproc
+ 308              		@ args = 0, pretend = 0, frame = 0
+ 309              		@ frame_needed = 0, uses_anonymous_args = 0
+ 310              	.LVL41:
+ 311 0000 00B5     		push	{lr}
+ 312              		.cfi_def_cfa_offset 4
+ 313              		.cfi_offset 14, -4
+ 314 0002 83B0     		sub	sp, sp, #12
+ 315              		.cfi_def_cfa_offset 16
+ 153:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return MQTTSerialize_ack(buf, buflen, PUBREL, dup, packetid);
+ 316              		.loc 1 153 0
+ 317 0004 0093     		str	r3, [sp]
+ 318 0006 1346     		mov	r3, r2
+ 319              	.LVL42:
+ 320 0008 0622     		movs	r2, #6
+ 321              	.LVL43:
+ 322 000a FFF7FEFF 		bl	MQTTSerialize_ack
+ 323              	.LVL44:
+ 154:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+ 324              		.loc 1 154 0
+ 325 000e 03B0     		add	sp, sp, #12
+ 326              		.cfi_def_cfa_offset 4
+ 327              		@ sp needed
+ 328 0010 5DF804FB 		ldr	pc, [sp], #4
+ 329              		.cfi_endproc
+ 330              	.LFE5:
+ 331              		.size	MQTTSerialize_pubrel, .-MQTTSerialize_pubrel
+ 332              		.section	.text.MQTTSerialize_pubcomp,"ax",%progbits
+ 333              		.align	2
+ 334              		.global	MQTTSerialize_pubcomp
+ 335              		.thumb
+ 336              		.thumb_func
+ 337              		.type	MQTTSerialize_pubcomp, %function
+ 338              	MQTTSerialize_pubcomp:
+ 339              	.LFB6:
+ 155:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 156:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 
+ 157:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** /**
+ 158:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * Serializes a pubrel packet into the supplied buffer.
+ 159:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buf the buffer into which the packet will be serialized
+ 160:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param buflen the length in bytes of the supplied buffer
+ 161:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @param packetid integer - the MQTT packet identifier
+ 162:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   * @return serialized length, or error if 0
+ 163:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c ****   */
+ 164:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** int MQTTSerialize_pubcomp(unsigned char* buf, int buflen, unsigned short packetid)
+ 165:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** {
+ 340              		.loc 1 165 0
+ 341              		.cfi_startproc
+ 342              		@ args = 0, pretend = 0, frame = 0
+ 343              		@ frame_needed = 0, uses_anonymous_args = 0
+ 344              	.LVL45:
+ 345 0000 00B5     		push	{lr}
+ 346              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 10
+
+
+ 347              		.cfi_offset 14, -4
+ 348 0002 83B0     		sub	sp, sp, #12
+ 349              		.cfi_def_cfa_offset 16
+ 166:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** 	return MQTTSerialize_ack(buf, buflen, PUBCOMP, 0, packetid);
+ 350              		.loc 1 166 0
+ 351 0004 0092     		str	r2, [sp]
+ 352 0006 0023     		movs	r3, #0
+ 353 0008 0722     		movs	r2, #7
+ 354              	.LVL46:
+ 355 000a FFF7FEFF 		bl	MQTTSerialize_ack
+ 356              	.LVL47:
+ 167:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTSerializePublish.c **** }
+ 357              		.loc 1 167 0
+ 358 000e 03B0     		add	sp, sp, #12
+ 359              		.cfi_def_cfa_offset 4
+ 360              		@ sp needed
+ 361 0010 5DF804FB 		ldr	pc, [sp], #4
+ 362              		.cfi_endproc
+ 363              	.LFE6:
+ 364              		.size	MQTTSerialize_pubcomp, .-MQTTSerialize_pubcomp
+ 365              		.text
+ 366              	.Letext0:
+ 367              		.file 2 "..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTPacket.h"
+ 368              		.section	.debug_info,"",%progbits
+ 369              	.Ldebug_info0:
+ 370 0000 32060000 		.4byte	0x632
+ 371 0004 0400     		.2byte	0x4
+ 372 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 373 000a 04       		.byte	0x4
+ 374 000b 01       		.uleb128 0x1
+ 375 000c 55020000 		.4byte	.LASF63
+ 376 0010 0C       		.byte	0xc
+ 377 0011 85030000 		.4byte	.LASF64
+ 378 0015 EF020000 		.4byte	.LASF65
+ 379 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 380 001d 00000000 		.4byte	0
+ 381 0021 00000000 		.4byte	.Ldebug_line0
+ 382 0025 02       		.uleb128 0x2
+ 383 0026 43010000 		.4byte	.LASF3
+ 384 002a 01       		.byte	0x1
+ 385 002b 48000000 		.4byte	0x48
+ 386 002f 02       		.byte	0x2
+ 387 0030 24       		.byte	0x24
+ 388 0031 48000000 		.4byte	0x48
+ 389 0035 03       		.uleb128 0x3
+ 390 0036 00000000 		.4byte	.LASF0
+ 391 003a 7E       		.sleb128 -2
+ 392 003b 03       		.uleb128 0x3
+ 393 003c 8C000000 		.4byte	.LASF1
+ 394 0040 7F       		.sleb128 -1
+ 395 0041 04       		.uleb128 0x4
+ 396 0042 74010000 		.4byte	.LASF2
+ 397 0046 00       		.byte	0
+ 398 0047 00       		.byte	0
+ 399 0048 05       		.uleb128 0x5
+ 400 0049 01       		.byte	0x1
+ 401 004a 06       		.byte	0x6
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 11
+
+
+ 402 004b B0000000 		.4byte	.LASF19
+ 403 004f 02       		.uleb128 0x2
+ 404 0050 25010000 		.4byte	.LASF4
+ 405 0054 01       		.byte	0x1
+ 406 0055 B4000000 		.4byte	0xb4
+ 407 0059 02       		.byte	0x2
+ 408 005a 2B       		.byte	0x2b
+ 409 005b B4000000 		.4byte	0xb4
+ 410 005f 04       		.uleb128 0x4
+ 411 0060 0F020000 		.4byte	.LASF5
+ 412 0064 01       		.byte	0x1
+ 413 0065 04       		.uleb128 0x4
+ 414 0066 3B010000 		.4byte	.LASF6
+ 415 006a 02       		.byte	0x2
+ 416 006b 04       		.uleb128 0x4
+ 417 006c 4D020000 		.4byte	.LASF7
+ 418 0070 03       		.byte	0x3
+ 419 0071 04       		.uleb128 0x4
+ 420 0072 61030000 		.4byte	.LASF8
+ 421 0076 04       		.byte	0x4
+ 422 0077 04       		.uleb128 0x4
+ 423 0078 E9030000 		.4byte	.LASF9
+ 424 007c 05       		.byte	0x5
+ 425 007d 04       		.uleb128 0x4
+ 426 007e F0030000 		.4byte	.LASF10
+ 427 0082 06       		.byte	0x6
+ 428 0083 04       		.uleb128 0x4
+ 429 0084 68030000 		.4byte	.LASF11
+ 430 0088 07       		.byte	0x7
+ 431 0089 04       		.uleb128 0x4
+ 432 008a 52030000 		.4byte	.LASF12
+ 433 008e 08       		.byte	0x8
+ 434 008f 04       		.uleb128 0x4
+ 435 0090 98010000 		.4byte	.LASF13
+ 436 0094 09       		.byte	0x9
+ 437 0095 04       		.uleb128 0x4
+ 438 0096 02010000 		.4byte	.LASF14
+ 439 009a 0A       		.byte	0xa
+ 440 009b 04       		.uleb128 0x4
+ 441 009c 5B000000 		.4byte	.LASF15
+ 442 00a0 0B       		.byte	0xb
+ 443 00a1 04       		.uleb128 0x4
+ 444 00a2 F7030000 		.4byte	.LASF16
+ 445 00a6 0C       		.byte	0xc
+ 446 00a7 04       		.uleb128 0x4
+ 447 00a8 06020000 		.4byte	.LASF17
+ 448 00ac 0D       		.byte	0xd
+ 449 00ad 04       		.uleb128 0x4
+ 450 00ae F3010000 		.4byte	.LASF18
+ 451 00b2 0E       		.byte	0xe
+ 452 00b3 00       		.byte	0
+ 453 00b4 05       		.uleb128 0x5
+ 454 00b5 01       		.byte	0x1
+ 455 00b6 08       		.byte	0x8
+ 456 00b7 17020000 		.4byte	.LASF20
+ 457 00bb 06       		.uleb128 0x6
+ 458 00bc 04       		.byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 12
+
+
+ 459 00bd 02       		.byte	0x2
+ 460 00be 41       		.byte	0x41
+ 461 00bf 00010000 		.4byte	0x100
+ 462 00c3 07       		.uleb128 0x7
+ 463 00c4 64000000 		.4byte	.LASF21
+ 464 00c8 02       		.byte	0x2
+ 465 00c9 43       		.byte	0x43
+ 466 00ca 00010000 		.4byte	0x100
+ 467 00ce 04       		.byte	0x4
+ 468 00cf 01       		.byte	0x1
+ 469 00d0 1F       		.byte	0x1f
+ 470 00d1 00       		.byte	0
+ 471 00d2 08       		.uleb128 0x8
+ 472 00d3 716F7300 		.ascii	"qos\000"
+ 473 00d7 02       		.byte	0x2
+ 474 00d8 44       		.byte	0x44
+ 475 00d9 00010000 		.4byte	0x100
+ 476 00dd 04       		.byte	0x4
+ 477 00de 02       		.byte	0x2
+ 478 00df 1D       		.byte	0x1d
+ 479 00e0 00       		.byte	0
+ 480 00e1 08       		.uleb128 0x8
+ 481 00e2 64757000 		.ascii	"dup\000"
+ 482 00e6 02       		.byte	0x2
+ 483 00e7 45       		.byte	0x45
+ 484 00e8 00010000 		.4byte	0x100
+ 485 00ec 04       		.byte	0x4
+ 486 00ed 01       		.byte	0x1
+ 487 00ee 1C       		.byte	0x1c
+ 488 00ef 00       		.byte	0
+ 489 00f0 07       		.uleb128 0x7
+ 490 00f1 40000000 		.4byte	.LASF22
+ 491 00f5 02       		.byte	0x2
+ 492 00f6 46       		.byte	0x46
+ 493 00f7 00010000 		.4byte	0x100
+ 494 00fb 04       		.byte	0x4
+ 495 00fc 04       		.byte	0x4
+ 496 00fd 18       		.byte	0x18
+ 497 00fe 00       		.byte	0
+ 498 00ff 00       		.byte	0
+ 499 0100 05       		.uleb128 0x5
+ 500 0101 04       		.byte	0x4
+ 501 0102 07       		.byte	0x7
+ 502 0103 2E010000 		.4byte	.LASF23
+ 503 0107 09       		.uleb128 0x9
+ 504 0108 04       		.byte	0x4
+ 505 0109 02       		.byte	0x2
+ 506 010a 35       		.byte	0x35
+ 507 010b 26010000 		.4byte	0x126
+ 508 010f 0A       		.uleb128 0xa
+ 509 0110 0E010000 		.4byte	.LASF24
+ 510 0114 02       		.byte	0x2
+ 511 0115 37       		.byte	0x37
+ 512 0116 B4000000 		.4byte	0xb4
+ 513 011a 0A       		.uleb128 0xa
+ 514 011b C5000000 		.4byte	.LASF25
+ 515 011f 02       		.byte	0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 13
+
+
+ 516 0120 47       		.byte	0x47
+ 517 0121 BB000000 		.4byte	0xbb
+ 518 0125 00       		.byte	0
+ 519 0126 0B       		.uleb128 0xb
+ 520 0127 39030000 		.4byte	.LASF28
+ 521 012b 02       		.byte	0x2
+ 522 012c 49       		.byte	0x49
+ 523 012d 07010000 		.4byte	0x107
+ 524 0131 06       		.uleb128 0x6
+ 525 0132 08       		.byte	0x8
+ 526 0133 02       		.byte	0x2
+ 527 0134 4B       		.byte	0x4b
+ 528 0135 52010000 		.4byte	0x152
+ 529 0139 0C       		.uleb128 0xc
+ 530 013a 6C656E00 		.ascii	"len\000"
+ 531 013e 02       		.byte	0x2
+ 532 013f 4D       		.byte	0x4d
+ 533 0140 52010000 		.4byte	0x152
+ 534 0144 00       		.byte	0
+ 535 0145 0D       		.uleb128 0xd
+ 536 0146 5C010000 		.4byte	.LASF26
+ 537 014a 02       		.byte	0x2
+ 538 014b 4E       		.byte	0x4e
+ 539 014c 59010000 		.4byte	0x159
+ 540 0150 04       		.byte	0x4
+ 541 0151 00       		.byte	0
+ 542 0152 0E       		.uleb128 0xe
+ 543 0153 04       		.byte	0x4
+ 544 0154 05       		.byte	0x5
+ 545 0155 696E7400 		.ascii	"int\000"
+ 546 0159 0F       		.uleb128 0xf
+ 547 015a 04       		.byte	0x4
+ 548 015b 5F010000 		.4byte	0x15f
+ 549 015f 05       		.uleb128 0x5
+ 550 0160 01       		.byte	0x1
+ 551 0161 08       		.byte	0x8
+ 552 0162 5C030000 		.4byte	.LASF27
+ 553 0166 0B       		.uleb128 0xb
+ 554 0167 44030000 		.4byte	.LASF29
+ 555 016b 02       		.byte	0x2
+ 556 016c 4F       		.byte	0x4f
+ 557 016d 31010000 		.4byte	0x131
+ 558 0171 06       		.uleb128 0x6
+ 559 0172 0C       		.byte	0xc
+ 560 0173 02       		.byte	0x2
+ 561 0174 51       		.byte	0x51
+ 562 0175 92010000 		.4byte	0x192
+ 563 0179 0D       		.uleb128 0xd
+ 564 017a EB010000 		.4byte	.LASF30
+ 565 017e 02       		.byte	0x2
+ 566 017f 53       		.byte	0x53
+ 567 0180 59010000 		.4byte	0x159
+ 568 0184 00       		.byte	0
+ 569 0185 0D       		.uleb128 0xd
+ 570 0186 6B000000 		.4byte	.LASF31
+ 571 018a 02       		.byte	0x2
+ 572 018b 54       		.byte	0x54
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 14
+
+
+ 573 018c 66010000 		.4byte	0x166
+ 574 0190 04       		.byte	0x4
+ 575 0191 00       		.byte	0
+ 576 0192 0B       		.uleb128 0xb
+ 577 0193 9F010000 		.4byte	.LASF32
+ 578 0197 02       		.byte	0x2
+ 579 0198 55       		.byte	0x55
+ 580 0199 71010000 		.4byte	0x171
+ 581 019d 05       		.uleb128 0x5
+ 582 019e 04       		.byte	0x4
+ 583 019f 07       		.byte	0x7
+ 584 01a0 B3010000 		.4byte	.LASF33
+ 585 01a4 05       		.uleb128 0x5
+ 586 01a5 02       		.byte	0x2
+ 587 01a6 07       		.byte	0x7
+ 588 01a7 61010000 		.4byte	.LASF34
+ 589 01ab 05       		.uleb128 0x5
+ 590 01ac 02       		.byte	0x2
+ 591 01ad 05       		.byte	0x5
+ 592 01ae 43020000 		.4byte	.LASF35
+ 593 01b2 05       		.uleb128 0x5
+ 594 01b3 04       		.byte	0x4
+ 595 01b4 05       		.byte	0x5
+ 596 01b5 CA000000 		.4byte	.LASF36
+ 597 01b9 05       		.uleb128 0x5
+ 598 01ba 04       		.byte	0x4
+ 599 01bb 07       		.byte	0x7
+ 600 01bc 4A010000 		.4byte	.LASF37
+ 601 01c0 05       		.uleb128 0x5
+ 602 01c1 08       		.byte	0x8
+ 603 01c2 05       		.byte	0x5
+ 604 01c3 A2000000 		.4byte	.LASF38
+ 605 01c7 05       		.uleb128 0x5
+ 606 01c8 08       		.byte	0x8
+ 607 01c9 07       		.byte	0x7
+ 608 01ca 75000000 		.4byte	.LASF39
+ 609 01ce 05       		.uleb128 0x5
+ 610 01cf 08       		.byte	0x8
+ 611 01d0 04       		.byte	0x4
+ 612 01d1 CC010000 		.4byte	.LASF40
+ 613 01d5 0F       		.uleb128 0xf
+ 614 01d6 04       		.byte	0x4
+ 615 01d7 B4000000 		.4byte	0xb4
+ 616 01db 10       		.uleb128 0x10
+ 617 01dc CD030000 		.4byte	.LASF43
+ 618 01e0 01       		.byte	0x1
+ 619 01e1 1F       		.byte	0x1f
+ 620 01e2 52010000 		.4byte	0x152
+ 621 01e6 00000000 		.4byte	.LFB1
+ 622 01ea 22000000 		.4byte	.LFE1-.LFB1
+ 623 01ee 01       		.uleb128 0x1
+ 624 01ef 9C       		.byte	0x9c
+ 625 01f0 38020000 		.4byte	0x238
+ 626 01f4 11       		.uleb128 0x11
+ 627 01f5 716F7300 		.ascii	"qos\000"
+ 628 01f9 01       		.byte	0x1
+ 629 01fa 1F       		.byte	0x1f
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 15
+
+
+ 630 01fb 52010000 		.4byte	0x152
+ 631 01ff 00000000 		.4byte	.LLST0
+ 632 0203 12       		.uleb128 0x12
+ 633 0204 2B000000 		.4byte	.LASF41
+ 634 0208 01       		.byte	0x1
+ 635 0209 1F       		.byte	0x1f
+ 636 020a 92010000 		.4byte	0x192
+ 637 020e 02       		.uleb128 0x2
+ 638 020f 91       		.byte	0x91
+ 639 0210 6C       		.sleb128 -20
+ 640 0211 12       		.uleb128 0x12
+ 641 0212 35000000 		.4byte	.LASF42
+ 642 0216 01       		.byte	0x1
+ 643 0217 1F       		.byte	0x1f
+ 644 0218 52010000 		.4byte	0x152
+ 645 021c 02       		.uleb128 0x2
+ 646 021d 91       		.byte	0x91
+ 647 021e 00       		.sleb128 0
+ 648 021f 13       		.uleb128 0x13
+ 649 0220 6C656E00 		.ascii	"len\000"
+ 650 0224 01       		.byte	0x1
+ 651 0225 21       		.byte	0x21
+ 652 0226 52010000 		.4byte	0x152
+ 653 022a 1E000000 		.4byte	.LLST1
+ 654 022e 14       		.uleb128 0x14
+ 655 022f 12000000 		.4byte	.LVL3
+ 656 0233 EA050000 		.4byte	0x5ea
+ 657 0237 00       		.byte	0
+ 658 0238 10       		.uleb128 0x10
+ 659 0239 45000000 		.4byte	.LASF44
+ 660 023d 01       		.byte	0x1
+ 661 023e 37       		.byte	0x37
+ 662 023f 52010000 		.4byte	0x152
+ 663 0243 00000000 		.4byte	.LFB2
+ 664 0247 8A000000 		.4byte	.LFE2-.LFB2
+ 665 024b 01       		.uleb128 0x1
+ 666 024c 9C       		.byte	0x9c
+ 667 024d C2030000 		.4byte	0x3c2
+ 668 0251 11       		.uleb128 0x11
+ 669 0252 62756600 		.ascii	"buf\000"
+ 670 0256 01       		.byte	0x1
+ 671 0257 37       		.byte	0x37
+ 672 0258 D5010000 		.4byte	0x1d5
+ 673 025c 3D000000 		.4byte	.LLST2
+ 674 0260 15       		.uleb128 0x15
+ 675 0261 E3020000 		.4byte	.LASF45
+ 676 0265 01       		.byte	0x1
+ 677 0266 37       		.byte	0x37
+ 678 0267 52010000 		.4byte	0x152
+ 679 026b 5B000000 		.4byte	.LLST3
+ 680 026f 11       		.uleb128 0x11
+ 681 0270 64757000 		.ascii	"dup\000"
+ 682 0274 01       		.byte	0x1
+ 683 0275 37       		.byte	0x37
+ 684 0276 B4000000 		.4byte	0xb4
+ 685 027a 79000000 		.4byte	.LLST4
+ 686 027e 11       		.uleb128 0x11
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 16
+
+
+ 687 027f 716F7300 		.ascii	"qos\000"
+ 688 0283 01       		.byte	0x1
+ 689 0284 37       		.byte	0x37
+ 690 0285 52010000 		.4byte	0x152
+ 691 0289 9A000000 		.4byte	.LLST5
+ 692 028d 12       		.uleb128 0x12
+ 693 028e 25020000 		.4byte	.LASF46
+ 694 0292 01       		.byte	0x1
+ 695 0293 37       		.byte	0x37
+ 696 0294 B4000000 		.4byte	0xb4
+ 697 0298 02       		.uleb128 0x2
+ 698 0299 91       		.byte	0x91
+ 699 029a 00       		.sleb128 0
+ 700 029b 12       		.uleb128 0x12
+ 701 029c AA010000 		.4byte	.LASF47
+ 702 02a0 01       		.byte	0x1
+ 703 02a1 37       		.byte	0x37
+ 704 02a2 A4010000 		.4byte	0x1a4
+ 705 02a6 02       		.uleb128 0x2
+ 706 02a7 91       		.byte	0x91
+ 707 02a8 04       		.sleb128 4
+ 708 02a9 12       		.uleb128 0x12
+ 709 02aa 2B000000 		.4byte	.LASF41
+ 710 02ae 01       		.byte	0x1
+ 711 02af 38       		.byte	0x38
+ 712 02b0 92010000 		.4byte	0x192
+ 713 02b4 02       		.uleb128 0x2
+ 714 02b5 91       		.byte	0x91
+ 715 02b6 08       		.sleb128 8
+ 716 02b7 12       		.uleb128 0x12
+ 717 02b8 E3010000 		.4byte	.LASF48
+ 718 02bc 01       		.byte	0x1
+ 719 02bd 38       		.byte	0x38
+ 720 02be D5010000 		.4byte	0x1d5
+ 721 02c2 02       		.uleb128 0x2
+ 722 02c3 91       		.byte	0x91
+ 723 02c4 14       		.sleb128 20
+ 724 02c5 12       		.uleb128 0x12
+ 725 02c6 35000000 		.4byte	.LASF42
+ 726 02ca 01       		.byte	0x1
+ 727 02cb 38       		.byte	0x38
+ 728 02cc 52010000 		.4byte	0x152
+ 729 02d0 02       		.uleb128 0x2
+ 730 02d1 91       		.byte	0x91
+ 731 02d2 18       		.sleb128 24
+ 732 02d3 13       		.uleb128 0x13
+ 733 02d4 70747200 		.ascii	"ptr\000"
+ 734 02d8 01       		.byte	0x1
+ 735 02d9 3A       		.byte	0x3a
+ 736 02da D5010000 		.4byte	0x1d5
+ 737 02de B8000000 		.4byte	.LLST6
+ 738 02e2 16       		.uleb128 0x16
+ 739 02e3 FF030000 		.4byte	.LASF49
+ 740 02e7 01       		.byte	0x1
+ 741 02e8 3B       		.byte	0x3b
+ 742 02e9 26010000 		.4byte	0x126
+ 743 02ed DC000000 		.4byte	.LLST7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 17
+
+
+ 744 02f1 16       		.uleb128 0x16
+ 745 02f2 FE010000 		.4byte	.LASF50
+ 746 02f6 01       		.byte	0x1
+ 747 02f7 3C       		.byte	0x3c
+ 748 02f8 52010000 		.4byte	0x152
+ 749 02fc FA000000 		.4byte	.LLST8
+ 750 0300 13       		.uleb128 0x13
+ 751 0301 726300   		.ascii	"rc\000"
+ 752 0304 01       		.byte	0x1
+ 753 0305 3D       		.byte	0x3d
+ 754 0306 52010000 		.4byte	0x152
+ 755 030a 24010000 		.4byte	.LLST9
+ 756 030e 17       		.uleb128 0x17
+ 757 030f EA020000 		.4byte	.LASF53
+ 758 0313 01       		.byte	0x1
+ 759 0314 58       		.byte	0x58
+ 760 0315 84000000 		.4byte	.L5
+ 761 0319 18       		.uleb128 0x18
+ 762 031a 1E000000 		.4byte	.LVL11
+ 763 031e DB010000 		.4byte	0x1db
+ 764 0322 34030000 		.4byte	0x334
+ 765 0326 19       		.uleb128 0x19
+ 766 0327 01       		.uleb128 0x1
+ 767 0328 50       		.byte	0x50
+ 768 0329 02       		.uleb128 0x2
+ 769 032a 76       		.byte	0x76
+ 770 032b 00       		.sleb128 0
+ 771 032c 19       		.uleb128 0x19
+ 772 032d 02       		.uleb128 0x2
+ 773 032e 7D       		.byte	0x7d
+ 774 032f 00       		.sleb128 0
+ 775 0330 02       		.uleb128 0x2
+ 776 0331 74       		.byte	0x74
+ 777 0332 00       		.sleb128 0
+ 778 0333 00       		.byte	0
+ 779 0334 18       		.uleb128 0x18
+ 780 0335 24000000 		.4byte	.LVL13
+ 781 0339 F5050000 		.4byte	0x5f5
+ 782 033d 48030000 		.4byte	0x348
+ 783 0341 19       		.uleb128 0x19
+ 784 0342 01       		.uleb128 0x1
+ 785 0343 50       		.byte	0x50
+ 786 0344 02       		.uleb128 0x2
+ 787 0345 79       		.byte	0x79
+ 788 0346 00       		.sleb128 0
+ 789 0347 00       		.byte	0
+ 790 0348 18       		.uleb128 0x18
+ 791 0349 48000000 		.4byte	.LVL16
+ 792 034d 00060000 		.4byte	0x600
+ 793 0351 62030000 		.4byte	0x362
+ 794 0355 19       		.uleb128 0x19
+ 795 0356 01       		.uleb128 0x1
+ 796 0357 50       		.byte	0x50
+ 797 0358 02       		.uleb128 0x2
+ 798 0359 91       		.byte	0x91
+ 799 035a 5C       		.sleb128 -36
+ 800 035b 19       		.uleb128 0x19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 18
+
+
+ 801 035c 01       		.uleb128 0x1
+ 802 035d 51       		.byte	0x51
+ 803 035e 02       		.uleb128 0x2
+ 804 035f 75       		.byte	0x75
+ 805 0360 00       		.sleb128 0
+ 806 0361 00       		.byte	0
+ 807 0362 18       		.uleb128 0x18
+ 808 0363 50000000 		.4byte	.LVL17
+ 809 0367 0B060000 		.4byte	0x60b
+ 810 036b 76030000 		.4byte	0x376
+ 811 036f 19       		.uleb128 0x19
+ 812 0370 01       		.uleb128 0x1
+ 813 0371 51       		.byte	0x51
+ 814 0372 02       		.uleb128 0x2
+ 815 0373 79       		.byte	0x79
+ 816 0374 00       		.sleb128 0
+ 817 0375 00       		.byte	0
+ 818 0376 18       		.uleb128 0x18
+ 819 0377 60000000 		.4byte	.LVL18
+ 820 037b 16060000 		.4byte	0x616
+ 821 037f 8A030000 		.4byte	0x38a
+ 822 0383 19       		.uleb128 0x19
+ 823 0384 01       		.uleb128 0x1
+ 824 0385 50       		.byte	0x50
+ 825 0386 02       		.uleb128 0x2
+ 826 0387 91       		.byte	0x91
+ 827 0388 5C       		.sleb128 -36
+ 828 0389 00       		.byte	0
+ 829 038a 18       		.uleb128 0x18
+ 830 038b 6E000000 		.4byte	.LVL19
+ 831 038f 21060000 		.4byte	0x621
+ 832 0393 AA030000 		.4byte	0x3aa
+ 833 0397 19       		.uleb128 0x19
+ 834 0398 01       		.uleb128 0x1
+ 835 0399 50       		.byte	0x50
+ 836 039a 02       		.uleb128 0x2
+ 837 039b 91       		.byte	0x91
+ 838 039c 5C       		.sleb128 -36
+ 839 039d 19       		.uleb128 0x19
+ 840 039e 01       		.uleb128 0x1
+ 841 039f 51       		.byte	0x51
+ 842 03a0 08       		.uleb128 0x8
+ 843 03a1 91       		.byte	0x91
+ 844 03a2 04       		.sleb128 4
+ 845 03a3 94       		.byte	0x94
+ 846 03a4 02       		.byte	0x2
+ 847 03a5 0A       		.byte	0xa
+ 848 03a6 FFFF     		.2byte	0xffff
+ 849 03a8 1A       		.byte	0x1a
+ 850 03a9 00       		.byte	0
+ 851 03aa 1A       		.uleb128 0x1a
+ 852 03ab 78000000 		.4byte	.LVL20
+ 853 03af 2C060000 		.4byte	0x62c
+ 854 03b3 19       		.uleb128 0x19
+ 855 03b4 01       		.uleb128 0x1
+ 856 03b5 51       		.byte	0x51
+ 857 03b6 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 19
+
+
+ 858 03b7 91       		.byte	0x91
+ 859 03b8 14       		.sleb128 20
+ 860 03b9 06       		.byte	0x6
+ 861 03ba 19       		.uleb128 0x19
+ 862 03bb 01       		.uleb128 0x1
+ 863 03bc 52       		.byte	0x52
+ 864 03bd 02       		.uleb128 0x2
+ 865 03be 74       		.byte	0x74
+ 866 03bf 00       		.sleb128 0
+ 867 03c0 00       		.byte	0
+ 868 03c1 00       		.byte	0
+ 869 03c2 10       		.uleb128 0x10
+ 870 03c3 F0000000 		.4byte	.LASF51
+ 871 03c7 01       		.byte	0x1
+ 872 03c8 68       		.byte	0x68
+ 873 03c9 52010000 		.4byte	0x152
+ 874 03cd 00000000 		.4byte	.LFB3
+ 875 03d1 50000000 		.4byte	.LFE3-.LFB3
+ 876 03d5 01       		.uleb128 0x1
+ 877 03d6 9C       		.byte	0x9c
+ 878 03d7 A5040000 		.4byte	0x4a5
+ 879 03db 11       		.uleb128 0x11
+ 880 03dc 62756600 		.ascii	"buf\000"
+ 881 03e0 01       		.byte	0x1
+ 882 03e1 68       		.byte	0x68
+ 883 03e2 D5010000 		.4byte	0x1d5
+ 884 03e6 5A010000 		.4byte	.LLST10
+ 885 03ea 15       		.uleb128 0x15
+ 886 03eb E3020000 		.4byte	.LASF45
+ 887 03ef 01       		.byte	0x1
+ 888 03f0 68       		.byte	0x68
+ 889 03f1 52010000 		.4byte	0x152
+ 890 03f5 91010000 		.4byte	.LLST11
+ 891 03f9 15       		.uleb128 0x15
+ 892 03fa 8D010000 		.4byte	.LASF52
+ 893 03fe 01       		.byte	0x1
+ 894 03ff 68       		.byte	0x68
+ 895 0400 B4000000 		.4byte	0xb4
+ 896 0404 CB010000 		.4byte	.LLST12
+ 897 0408 11       		.uleb128 0x11
+ 898 0409 64757000 		.ascii	"dup\000"
+ 899 040d 01       		.byte	0x1
+ 900 040e 68       		.byte	0x68
+ 901 040f B4000000 		.4byte	0xb4
+ 902 0413 05020000 		.4byte	.LLST13
+ 903 0417 12       		.uleb128 0x12
+ 904 0418 AA010000 		.4byte	.LASF47
+ 905 041c 01       		.byte	0x1
+ 906 041d 68       		.byte	0x68
+ 907 041e A4010000 		.4byte	0x1a4
+ 908 0422 02       		.uleb128 0x2
+ 909 0423 91       		.byte	0x91
+ 910 0424 00       		.sleb128 0
+ 911 0425 16       		.uleb128 0x16
+ 912 0426 FF030000 		.4byte	.LASF49
+ 913 042a 01       		.byte	0x1
+ 914 042b 6A       		.byte	0x6a
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 20
+
+
+ 915 042c 26010000 		.4byte	0x126
+ 916 0430 3F020000 		.4byte	.LLST14
+ 917 0434 13       		.uleb128 0x13
+ 918 0435 726300   		.ascii	"rc\000"
+ 919 0438 01       		.byte	0x1
+ 920 0439 6B       		.byte	0x6b
+ 921 043a 52010000 		.4byte	0x152
+ 922 043e 5D020000 		.4byte	.LLST15
+ 923 0442 1B       		.uleb128 0x1b
+ 924 0443 70747200 		.ascii	"ptr\000"
+ 925 0447 01       		.byte	0x1
+ 926 0448 6C       		.byte	0x6c
+ 927 0449 D5010000 		.4byte	0x1d5
+ 928 044d 02       		.uleb128 0x2
+ 929 044e 91       		.byte	0x91
+ 930 044f 6C       		.sleb128 -20
+ 931 0450 17       		.uleb128 0x17
+ 932 0451 EA020000 		.4byte	.LASF53
+ 933 0455 01       		.byte	0x1
+ 934 0456 7C       		.byte	0x7c
+ 935 0457 4C000000 		.4byte	.L10
+ 936 045b 18       		.uleb128 0x18
+ 937 045c 2A000000 		.4byte	.LVL32
+ 938 0460 00060000 		.4byte	0x600
+ 939 0464 75040000 		.4byte	0x475
+ 940 0468 19       		.uleb128 0x19
+ 941 0469 01       		.uleb128 0x1
+ 942 046a 50       		.byte	0x50
+ 943 046b 02       		.uleb128 0x2
+ 944 046c 91       		.byte	0x91
+ 945 046d 6C       		.sleb128 -20
+ 946 046e 19       		.uleb128 0x19
+ 947 046f 01       		.uleb128 0x1
+ 948 0470 51       		.byte	0x51
+ 949 0471 02       		.uleb128 0x2
+ 950 0472 75       		.byte	0x75
+ 951 0473 00       		.sleb128 0
+ 952 0474 00       		.byte	0
+ 953 0475 18       		.uleb128 0x18
+ 954 0476 32000000 		.4byte	.LVL33
+ 955 047a 0B060000 		.4byte	0x60b
+ 956 047e 88040000 		.4byte	0x488
+ 957 0482 19       		.uleb128 0x19
+ 958 0483 01       		.uleb128 0x1
+ 959 0484 51       		.byte	0x51
+ 960 0485 01       		.uleb128 0x1
+ 961 0486 32       		.byte	0x32
+ 962 0487 00       		.byte	0
+ 963 0488 1A       		.uleb128 0x1a
+ 964 0489 42000000 		.4byte	.LVL34
+ 965 048d 21060000 		.4byte	0x621
+ 966 0491 19       		.uleb128 0x19
+ 967 0492 01       		.uleb128 0x1
+ 968 0493 50       		.byte	0x50
+ 969 0494 02       		.uleb128 0x2
+ 970 0495 91       		.byte	0x91
+ 971 0496 6C       		.sleb128 -20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 21
+
+
+ 972 0497 19       		.uleb128 0x19
+ 973 0498 01       		.uleb128 0x1
+ 974 0499 51       		.byte	0x51
+ 975 049a 08       		.uleb128 0x8
+ 976 049b 91       		.byte	0x91
+ 977 049c 00       		.sleb128 0
+ 978 049d 94       		.byte	0x94
+ 979 049e 02       		.byte	0x2
+ 980 049f 0A       		.byte	0xa
+ 981 04a0 FFFF     		.2byte	0xffff
+ 982 04a2 1A       		.byte	0x1a
+ 983 04a3 00       		.byte	0
+ 984 04a4 00       		.byte	0
+ 985 04a5 10       		.uleb128 0x10
+ 986 04a6 2E020000 		.4byte	.LASF54
+ 987 04aa 01       		.byte	0x1
+ 988 04ab 89       		.byte	0x89
+ 989 04ac 52010000 		.4byte	0x152
+ 990 04b0 00000000 		.4byte	.LFB4
+ 991 04b4 14000000 		.4byte	.LFE4-.LFB4
+ 992 04b8 01       		.uleb128 0x1
+ 993 04b9 9C       		.byte	0x9c
+ 994 04ba 0E050000 		.4byte	0x50e
+ 995 04be 11       		.uleb128 0x11
+ 996 04bf 62756600 		.ascii	"buf\000"
+ 997 04c3 01       		.byte	0x1
+ 998 04c4 89       		.byte	0x89
+ 999 04c5 D5010000 		.4byte	0x1d5
+ 1000 04c9 93020000 		.4byte	.LLST16
+ 1001 04cd 15       		.uleb128 0x15
+ 1002 04ce E3020000 		.4byte	.LASF45
+ 1003 04d2 01       		.byte	0x1
+ 1004 04d3 89       		.byte	0x89
+ 1005 04d4 52010000 		.4byte	0x152
+ 1006 04d8 B4020000 		.4byte	.LLST17
+ 1007 04dc 15       		.uleb128 0x15
+ 1008 04dd AA010000 		.4byte	.LASF47
+ 1009 04e1 01       		.byte	0x1
+ 1010 04e2 89       		.byte	0x89
+ 1011 04e3 A4010000 		.4byte	0x1a4
+ 1012 04e7 D5020000 		.4byte	.LLST18
+ 1013 04eb 1A       		.uleb128 0x1a
+ 1014 04ec 0E000000 		.4byte	.LVL40
+ 1015 04f0 C2030000 		.4byte	0x3c2
+ 1016 04f4 19       		.uleb128 0x19
+ 1017 04f5 01       		.uleb128 0x1
+ 1018 04f6 50       		.byte	0x50
+ 1019 04f7 03       		.uleb128 0x3
+ 1020 04f8 F3       		.byte	0xf3
+ 1021 04f9 01       		.uleb128 0x1
+ 1022 04fa 50       		.byte	0x50
+ 1023 04fb 19       		.uleb128 0x19
+ 1024 04fc 01       		.uleb128 0x1
+ 1025 04fd 51       		.byte	0x51
+ 1026 04fe 03       		.uleb128 0x3
+ 1027 04ff F3       		.byte	0xf3
+ 1028 0500 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 22
+
+
+ 1029 0501 51       		.byte	0x51
+ 1030 0502 19       		.uleb128 0x19
+ 1031 0503 01       		.uleb128 0x1
+ 1032 0504 52       		.byte	0x52
+ 1033 0505 01       		.uleb128 0x1
+ 1034 0506 34       		.byte	0x34
+ 1035 0507 19       		.uleb128 0x19
+ 1036 0508 01       		.uleb128 0x1
+ 1037 0509 53       		.byte	0x53
+ 1038 050a 01       		.uleb128 0x1
+ 1039 050b 30       		.byte	0x30
+ 1040 050c 00       		.byte	0
+ 1041 050d 00       		.byte	0
+ 1042 050e 10       		.uleb128 0x10
+ 1043 050f 70030000 		.4byte	.LASF55
+ 1044 0513 01       		.byte	0x1
+ 1045 0514 97       		.byte	0x97
+ 1046 0515 52010000 		.4byte	0x152
+ 1047 0519 00000000 		.4byte	.LFB5
+ 1048 051d 14000000 		.4byte	.LFE5-.LFB5
+ 1049 0521 01       		.uleb128 0x1
+ 1050 0522 9C       		.byte	0x9c
+ 1051 0523 81050000 		.4byte	0x581
+ 1052 0527 11       		.uleb128 0x11
+ 1053 0528 62756600 		.ascii	"buf\000"
+ 1054 052c 01       		.byte	0x1
+ 1055 052d 97       		.byte	0x97
+ 1056 052e D5010000 		.4byte	0x1d5
+ 1057 0532 F6020000 		.4byte	.LLST19
+ 1058 0536 15       		.uleb128 0x15
+ 1059 0537 E3020000 		.4byte	.LASF45
+ 1060 053b 01       		.byte	0x1
+ 1061 053c 97       		.byte	0x97
+ 1062 053d 52010000 		.4byte	0x152
+ 1063 0541 17030000 		.4byte	.LLST20
+ 1064 0545 11       		.uleb128 0x11
+ 1065 0546 64757000 		.ascii	"dup\000"
+ 1066 054a 01       		.byte	0x1
+ 1067 054b 97       		.byte	0x97
+ 1068 054c B4000000 		.4byte	0xb4
+ 1069 0550 38030000 		.4byte	.LLST21
+ 1070 0554 15       		.uleb128 0x15
+ 1071 0555 AA010000 		.4byte	.LASF47
+ 1072 0559 01       		.byte	0x1
+ 1073 055a 97       		.byte	0x97
+ 1074 055b A4010000 		.4byte	0x1a4
+ 1075 055f 59030000 		.4byte	.LLST22
+ 1076 0563 1A       		.uleb128 0x1a
+ 1077 0564 0E000000 		.4byte	.LVL44
+ 1078 0568 C2030000 		.4byte	0x3c2
+ 1079 056c 19       		.uleb128 0x19
+ 1080 056d 01       		.uleb128 0x1
+ 1081 056e 50       		.byte	0x50
+ 1082 056f 03       		.uleb128 0x3
+ 1083 0570 F3       		.byte	0xf3
+ 1084 0571 01       		.uleb128 0x1
+ 1085 0572 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 23
+
+
+ 1086 0573 19       		.uleb128 0x19
+ 1087 0574 01       		.uleb128 0x1
+ 1088 0575 51       		.byte	0x51
+ 1089 0576 03       		.uleb128 0x3
+ 1090 0577 F3       		.byte	0xf3
+ 1091 0578 01       		.uleb128 0x1
+ 1092 0579 51       		.byte	0x51
+ 1093 057a 19       		.uleb128 0x19
+ 1094 057b 01       		.uleb128 0x1
+ 1095 057c 52       		.byte	0x52
+ 1096 057d 01       		.uleb128 0x1
+ 1097 057e 36       		.byte	0x36
+ 1098 057f 00       		.byte	0
+ 1099 0580 00       		.byte	0
+ 1100 0581 10       		.uleb128 0x10
+ 1101 0582 D3000000 		.4byte	.LASF56
+ 1102 0586 01       		.byte	0x1
+ 1103 0587 A4       		.byte	0xa4
+ 1104 0588 52010000 		.4byte	0x152
+ 1105 058c 00000000 		.4byte	.LFB6
+ 1106 0590 14000000 		.4byte	.LFE6-.LFB6
+ 1107 0594 01       		.uleb128 0x1
+ 1108 0595 9C       		.byte	0x9c
+ 1109 0596 EA050000 		.4byte	0x5ea
+ 1110 059a 11       		.uleb128 0x11
+ 1111 059b 62756600 		.ascii	"buf\000"
+ 1112 059f 01       		.byte	0x1
+ 1113 05a0 A4       		.byte	0xa4
+ 1114 05a1 D5010000 		.4byte	0x1d5
+ 1115 05a5 7A030000 		.4byte	.LLST23
+ 1116 05a9 15       		.uleb128 0x15
+ 1117 05aa E3020000 		.4byte	.LASF45
+ 1118 05ae 01       		.byte	0x1
+ 1119 05af A4       		.byte	0xa4
+ 1120 05b0 52010000 		.4byte	0x152
+ 1121 05b4 9B030000 		.4byte	.LLST24
+ 1122 05b8 15       		.uleb128 0x15
+ 1123 05b9 AA010000 		.4byte	.LASF47
+ 1124 05bd 01       		.byte	0x1
+ 1125 05be A4       		.byte	0xa4
+ 1126 05bf A4010000 		.4byte	0x1a4
+ 1127 05c3 BC030000 		.4byte	.LLST25
+ 1128 05c7 1A       		.uleb128 0x1a
+ 1129 05c8 0E000000 		.4byte	.LVL47
+ 1130 05cc C2030000 		.4byte	0x3c2
+ 1131 05d0 19       		.uleb128 0x19
+ 1132 05d1 01       		.uleb128 0x1
+ 1133 05d2 50       		.byte	0x50
+ 1134 05d3 03       		.uleb128 0x3
+ 1135 05d4 F3       		.byte	0xf3
+ 1136 05d5 01       		.uleb128 0x1
+ 1137 05d6 50       		.byte	0x50
+ 1138 05d7 19       		.uleb128 0x19
+ 1139 05d8 01       		.uleb128 0x1
+ 1140 05d9 51       		.byte	0x51
+ 1141 05da 03       		.uleb128 0x3
+ 1142 05db F3       		.byte	0xf3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 24
+
+
+ 1143 05dc 01       		.uleb128 0x1
+ 1144 05dd 51       		.byte	0x51
+ 1145 05de 19       		.uleb128 0x19
+ 1146 05df 01       		.uleb128 0x1
+ 1147 05e0 52       		.byte	0x52
+ 1148 05e1 01       		.uleb128 0x1
+ 1149 05e2 37       		.byte	0x37
+ 1150 05e3 19       		.uleb128 0x19
+ 1151 05e4 01       		.uleb128 0x1
+ 1152 05e5 53       		.byte	0x53
+ 1153 05e6 01       		.uleb128 0x1
+ 1154 05e7 30       		.byte	0x30
+ 1155 05e8 00       		.byte	0
+ 1156 05e9 00       		.byte	0
+ 1157 05ea 1C       		.uleb128 0x1c
+ 1158 05eb D8010000 		.4byte	.LASF57
+ 1159 05ef D8010000 		.4byte	.LASF57
+ 1160 05f3 02       		.byte	0x2
+ 1161 05f4 59       		.byte	0x59
+ 1162 05f5 1C       		.uleb128 0x1c
+ 1163 05f6 1C000000 		.4byte	.LASF58
+ 1164 05fa 1C000000 		.4byte	.LASF58
+ 1165 05fe 02       		.byte	0x2
+ 1166 05ff 64       		.byte	0x64
+ 1167 0600 1C       		.uleb128 0x1c
+ 1168 0601 C3030000 		.4byte	.LASF59
+ 1169 0605 C3030000 		.4byte	.LASF59
+ 1170 0609 02       		.byte	0x2
+ 1171 060a 6D       		.byte	0x6d
+ 1172 060b 1C       		.uleb128 0x1c
+ 1173 060c 13010000 		.4byte	.LASF60
+ 1174 0610 13010000 		.4byte	.LASF60
+ 1175 0614 02       		.byte	0x2
+ 1176 0615 67       		.byte	0x67
+ 1177 0616 1C       		.uleb128 0x1c
+ 1178 0617 BC010000 		.4byte	.LASF61
+ 1179 061b BC010000 		.4byte	.LASF61
+ 1180 061f 02       		.byte	0x2
+ 1181 0620 71       		.byte	0x71
+ 1182 0621 1C       		.uleb128 0x1c
+ 1183 0622 BC000000 		.4byte	.LASF62
+ 1184 0626 BC000000 		.4byte	.LASF62
+ 1185 062a 02       		.byte	0x2
+ 1186 062b 6E       		.byte	0x6e
+ 1187 062c 1D       		.uleb128 0x1d
+ 1188 062d E9000000 		.4byte	.LASF66
+ 1189 0631 E9000000 		.4byte	.LASF66
+ 1190 0635 00       		.byte	0
+ 1191              		.section	.debug_abbrev,"",%progbits
+ 1192              	.Ldebug_abbrev0:
+ 1193 0000 01       		.uleb128 0x1
+ 1194 0001 11       		.uleb128 0x11
+ 1195 0002 01       		.byte	0x1
+ 1196 0003 25       		.uleb128 0x25
+ 1197 0004 0E       		.uleb128 0xe
+ 1198 0005 13       		.uleb128 0x13
+ 1199 0006 0B       		.uleb128 0xb
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 25
+
+
+ 1200 0007 03       		.uleb128 0x3
+ 1201 0008 0E       		.uleb128 0xe
+ 1202 0009 1B       		.uleb128 0x1b
+ 1203 000a 0E       		.uleb128 0xe
+ 1204 000b 55       		.uleb128 0x55
+ 1205 000c 17       		.uleb128 0x17
+ 1206 000d 11       		.uleb128 0x11
+ 1207 000e 01       		.uleb128 0x1
+ 1208 000f 10       		.uleb128 0x10
+ 1209 0010 17       		.uleb128 0x17
+ 1210 0011 00       		.byte	0
+ 1211 0012 00       		.byte	0
+ 1212 0013 02       		.uleb128 0x2
+ 1213 0014 04       		.uleb128 0x4
+ 1214 0015 01       		.byte	0x1
+ 1215 0016 03       		.uleb128 0x3
+ 1216 0017 0E       		.uleb128 0xe
+ 1217 0018 0B       		.uleb128 0xb
+ 1218 0019 0B       		.uleb128 0xb
+ 1219 001a 49       		.uleb128 0x49
+ 1220 001b 13       		.uleb128 0x13
+ 1221 001c 3A       		.uleb128 0x3a
+ 1222 001d 0B       		.uleb128 0xb
+ 1223 001e 3B       		.uleb128 0x3b
+ 1224 001f 0B       		.uleb128 0xb
+ 1225 0020 01       		.uleb128 0x1
+ 1226 0021 13       		.uleb128 0x13
+ 1227 0022 00       		.byte	0
+ 1228 0023 00       		.byte	0
+ 1229 0024 03       		.uleb128 0x3
+ 1230 0025 28       		.uleb128 0x28
+ 1231 0026 00       		.byte	0
+ 1232 0027 03       		.uleb128 0x3
+ 1233 0028 0E       		.uleb128 0xe
+ 1234 0029 1C       		.uleb128 0x1c
+ 1235 002a 0D       		.uleb128 0xd
+ 1236 002b 00       		.byte	0
+ 1237 002c 00       		.byte	0
+ 1238 002d 04       		.uleb128 0x4
+ 1239 002e 28       		.uleb128 0x28
+ 1240 002f 00       		.byte	0
+ 1241 0030 03       		.uleb128 0x3
+ 1242 0031 0E       		.uleb128 0xe
+ 1243 0032 1C       		.uleb128 0x1c
+ 1244 0033 0B       		.uleb128 0xb
+ 1245 0034 00       		.byte	0
+ 1246 0035 00       		.byte	0
+ 1247 0036 05       		.uleb128 0x5
+ 1248 0037 24       		.uleb128 0x24
+ 1249 0038 00       		.byte	0
+ 1250 0039 0B       		.uleb128 0xb
+ 1251 003a 0B       		.uleb128 0xb
+ 1252 003b 3E       		.uleb128 0x3e
+ 1253 003c 0B       		.uleb128 0xb
+ 1254 003d 03       		.uleb128 0x3
+ 1255 003e 0E       		.uleb128 0xe
+ 1256 003f 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 26
+
+
+ 1257 0040 00       		.byte	0
+ 1258 0041 06       		.uleb128 0x6
+ 1259 0042 13       		.uleb128 0x13
+ 1260 0043 01       		.byte	0x1
+ 1261 0044 0B       		.uleb128 0xb
+ 1262 0045 0B       		.uleb128 0xb
+ 1263 0046 3A       		.uleb128 0x3a
+ 1264 0047 0B       		.uleb128 0xb
+ 1265 0048 3B       		.uleb128 0x3b
+ 1266 0049 0B       		.uleb128 0xb
+ 1267 004a 01       		.uleb128 0x1
+ 1268 004b 13       		.uleb128 0x13
+ 1269 004c 00       		.byte	0
+ 1270 004d 00       		.byte	0
+ 1271 004e 07       		.uleb128 0x7
+ 1272 004f 0D       		.uleb128 0xd
+ 1273 0050 00       		.byte	0
+ 1274 0051 03       		.uleb128 0x3
+ 1275 0052 0E       		.uleb128 0xe
+ 1276 0053 3A       		.uleb128 0x3a
+ 1277 0054 0B       		.uleb128 0xb
+ 1278 0055 3B       		.uleb128 0x3b
+ 1279 0056 0B       		.uleb128 0xb
+ 1280 0057 49       		.uleb128 0x49
+ 1281 0058 13       		.uleb128 0x13
+ 1282 0059 0B       		.uleb128 0xb
+ 1283 005a 0B       		.uleb128 0xb
+ 1284 005b 0D       		.uleb128 0xd
+ 1285 005c 0B       		.uleb128 0xb
+ 1286 005d 0C       		.uleb128 0xc
+ 1287 005e 0B       		.uleb128 0xb
+ 1288 005f 38       		.uleb128 0x38
+ 1289 0060 0B       		.uleb128 0xb
+ 1290 0061 00       		.byte	0
+ 1291 0062 00       		.byte	0
+ 1292 0063 08       		.uleb128 0x8
+ 1293 0064 0D       		.uleb128 0xd
+ 1294 0065 00       		.byte	0
+ 1295 0066 03       		.uleb128 0x3
+ 1296 0067 08       		.uleb128 0x8
+ 1297 0068 3A       		.uleb128 0x3a
+ 1298 0069 0B       		.uleb128 0xb
+ 1299 006a 3B       		.uleb128 0x3b
+ 1300 006b 0B       		.uleb128 0xb
+ 1301 006c 49       		.uleb128 0x49
+ 1302 006d 13       		.uleb128 0x13
+ 1303 006e 0B       		.uleb128 0xb
+ 1304 006f 0B       		.uleb128 0xb
+ 1305 0070 0D       		.uleb128 0xd
+ 1306 0071 0B       		.uleb128 0xb
+ 1307 0072 0C       		.uleb128 0xc
+ 1308 0073 0B       		.uleb128 0xb
+ 1309 0074 38       		.uleb128 0x38
+ 1310 0075 0B       		.uleb128 0xb
+ 1311 0076 00       		.byte	0
+ 1312 0077 00       		.byte	0
+ 1313 0078 09       		.uleb128 0x9
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 27
+
+
+ 1314 0079 17       		.uleb128 0x17
+ 1315 007a 01       		.byte	0x1
+ 1316 007b 0B       		.uleb128 0xb
+ 1317 007c 0B       		.uleb128 0xb
+ 1318 007d 3A       		.uleb128 0x3a
+ 1319 007e 0B       		.uleb128 0xb
+ 1320 007f 3B       		.uleb128 0x3b
+ 1321 0080 0B       		.uleb128 0xb
+ 1322 0081 01       		.uleb128 0x1
+ 1323 0082 13       		.uleb128 0x13
+ 1324 0083 00       		.byte	0
+ 1325 0084 00       		.byte	0
+ 1326 0085 0A       		.uleb128 0xa
+ 1327 0086 0D       		.uleb128 0xd
+ 1328 0087 00       		.byte	0
+ 1329 0088 03       		.uleb128 0x3
+ 1330 0089 0E       		.uleb128 0xe
+ 1331 008a 3A       		.uleb128 0x3a
+ 1332 008b 0B       		.uleb128 0xb
+ 1333 008c 3B       		.uleb128 0x3b
+ 1334 008d 0B       		.uleb128 0xb
+ 1335 008e 49       		.uleb128 0x49
+ 1336 008f 13       		.uleb128 0x13
+ 1337 0090 00       		.byte	0
+ 1338 0091 00       		.byte	0
+ 1339 0092 0B       		.uleb128 0xb
+ 1340 0093 16       		.uleb128 0x16
+ 1341 0094 00       		.byte	0
+ 1342 0095 03       		.uleb128 0x3
+ 1343 0096 0E       		.uleb128 0xe
+ 1344 0097 3A       		.uleb128 0x3a
+ 1345 0098 0B       		.uleb128 0xb
+ 1346 0099 3B       		.uleb128 0x3b
+ 1347 009a 0B       		.uleb128 0xb
+ 1348 009b 49       		.uleb128 0x49
+ 1349 009c 13       		.uleb128 0x13
+ 1350 009d 00       		.byte	0
+ 1351 009e 00       		.byte	0
+ 1352 009f 0C       		.uleb128 0xc
+ 1353 00a0 0D       		.uleb128 0xd
+ 1354 00a1 00       		.byte	0
+ 1355 00a2 03       		.uleb128 0x3
+ 1356 00a3 08       		.uleb128 0x8
+ 1357 00a4 3A       		.uleb128 0x3a
+ 1358 00a5 0B       		.uleb128 0xb
+ 1359 00a6 3B       		.uleb128 0x3b
+ 1360 00a7 0B       		.uleb128 0xb
+ 1361 00a8 49       		.uleb128 0x49
+ 1362 00a9 13       		.uleb128 0x13
+ 1363 00aa 38       		.uleb128 0x38
+ 1364 00ab 0B       		.uleb128 0xb
+ 1365 00ac 00       		.byte	0
+ 1366 00ad 00       		.byte	0
+ 1367 00ae 0D       		.uleb128 0xd
+ 1368 00af 0D       		.uleb128 0xd
+ 1369 00b0 00       		.byte	0
+ 1370 00b1 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 28
+
+
+ 1371 00b2 0E       		.uleb128 0xe
+ 1372 00b3 3A       		.uleb128 0x3a
+ 1373 00b4 0B       		.uleb128 0xb
+ 1374 00b5 3B       		.uleb128 0x3b
+ 1375 00b6 0B       		.uleb128 0xb
+ 1376 00b7 49       		.uleb128 0x49
+ 1377 00b8 13       		.uleb128 0x13
+ 1378 00b9 38       		.uleb128 0x38
+ 1379 00ba 0B       		.uleb128 0xb
+ 1380 00bb 00       		.byte	0
+ 1381 00bc 00       		.byte	0
+ 1382 00bd 0E       		.uleb128 0xe
+ 1383 00be 24       		.uleb128 0x24
+ 1384 00bf 00       		.byte	0
+ 1385 00c0 0B       		.uleb128 0xb
+ 1386 00c1 0B       		.uleb128 0xb
+ 1387 00c2 3E       		.uleb128 0x3e
+ 1388 00c3 0B       		.uleb128 0xb
+ 1389 00c4 03       		.uleb128 0x3
+ 1390 00c5 08       		.uleb128 0x8
+ 1391 00c6 00       		.byte	0
+ 1392 00c7 00       		.byte	0
+ 1393 00c8 0F       		.uleb128 0xf
+ 1394 00c9 0F       		.uleb128 0xf
+ 1395 00ca 00       		.byte	0
+ 1396 00cb 0B       		.uleb128 0xb
+ 1397 00cc 0B       		.uleb128 0xb
+ 1398 00cd 49       		.uleb128 0x49
+ 1399 00ce 13       		.uleb128 0x13
+ 1400 00cf 00       		.byte	0
+ 1401 00d0 00       		.byte	0
+ 1402 00d1 10       		.uleb128 0x10
+ 1403 00d2 2E       		.uleb128 0x2e
+ 1404 00d3 01       		.byte	0x1
+ 1405 00d4 3F       		.uleb128 0x3f
+ 1406 00d5 19       		.uleb128 0x19
+ 1407 00d6 03       		.uleb128 0x3
+ 1408 00d7 0E       		.uleb128 0xe
+ 1409 00d8 3A       		.uleb128 0x3a
+ 1410 00d9 0B       		.uleb128 0xb
+ 1411 00da 3B       		.uleb128 0x3b
+ 1412 00db 0B       		.uleb128 0xb
+ 1413 00dc 27       		.uleb128 0x27
+ 1414 00dd 19       		.uleb128 0x19
+ 1415 00de 49       		.uleb128 0x49
+ 1416 00df 13       		.uleb128 0x13
+ 1417 00e0 11       		.uleb128 0x11
+ 1418 00e1 01       		.uleb128 0x1
+ 1419 00e2 12       		.uleb128 0x12
+ 1420 00e3 06       		.uleb128 0x6
+ 1421 00e4 40       		.uleb128 0x40
+ 1422 00e5 18       		.uleb128 0x18
+ 1423 00e6 9742     		.uleb128 0x2117
+ 1424 00e8 19       		.uleb128 0x19
+ 1425 00e9 01       		.uleb128 0x1
+ 1426 00ea 13       		.uleb128 0x13
+ 1427 00eb 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 29
+
+
+ 1428 00ec 00       		.byte	0
+ 1429 00ed 11       		.uleb128 0x11
+ 1430 00ee 05       		.uleb128 0x5
+ 1431 00ef 00       		.byte	0
+ 1432 00f0 03       		.uleb128 0x3
+ 1433 00f1 08       		.uleb128 0x8
+ 1434 00f2 3A       		.uleb128 0x3a
+ 1435 00f3 0B       		.uleb128 0xb
+ 1436 00f4 3B       		.uleb128 0x3b
+ 1437 00f5 0B       		.uleb128 0xb
+ 1438 00f6 49       		.uleb128 0x49
+ 1439 00f7 13       		.uleb128 0x13
+ 1440 00f8 02       		.uleb128 0x2
+ 1441 00f9 17       		.uleb128 0x17
+ 1442 00fa 00       		.byte	0
+ 1443 00fb 00       		.byte	0
+ 1444 00fc 12       		.uleb128 0x12
+ 1445 00fd 05       		.uleb128 0x5
+ 1446 00fe 00       		.byte	0
+ 1447 00ff 03       		.uleb128 0x3
+ 1448 0100 0E       		.uleb128 0xe
+ 1449 0101 3A       		.uleb128 0x3a
+ 1450 0102 0B       		.uleb128 0xb
+ 1451 0103 3B       		.uleb128 0x3b
+ 1452 0104 0B       		.uleb128 0xb
+ 1453 0105 49       		.uleb128 0x49
+ 1454 0106 13       		.uleb128 0x13
+ 1455 0107 02       		.uleb128 0x2
+ 1456 0108 18       		.uleb128 0x18
+ 1457 0109 00       		.byte	0
+ 1458 010a 00       		.byte	0
+ 1459 010b 13       		.uleb128 0x13
+ 1460 010c 34       		.uleb128 0x34
+ 1461 010d 00       		.byte	0
+ 1462 010e 03       		.uleb128 0x3
+ 1463 010f 08       		.uleb128 0x8
+ 1464 0110 3A       		.uleb128 0x3a
+ 1465 0111 0B       		.uleb128 0xb
+ 1466 0112 3B       		.uleb128 0x3b
+ 1467 0113 0B       		.uleb128 0xb
+ 1468 0114 49       		.uleb128 0x49
+ 1469 0115 13       		.uleb128 0x13
+ 1470 0116 02       		.uleb128 0x2
+ 1471 0117 17       		.uleb128 0x17
+ 1472 0118 00       		.byte	0
+ 1473 0119 00       		.byte	0
+ 1474 011a 14       		.uleb128 0x14
+ 1475 011b 898201   		.uleb128 0x4109
+ 1476 011e 00       		.byte	0
+ 1477 011f 11       		.uleb128 0x11
+ 1478 0120 01       		.uleb128 0x1
+ 1479 0121 31       		.uleb128 0x31
+ 1480 0122 13       		.uleb128 0x13
+ 1481 0123 00       		.byte	0
+ 1482 0124 00       		.byte	0
+ 1483 0125 15       		.uleb128 0x15
+ 1484 0126 05       		.uleb128 0x5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 30
+
+
+ 1485 0127 00       		.byte	0
+ 1486 0128 03       		.uleb128 0x3
+ 1487 0129 0E       		.uleb128 0xe
+ 1488 012a 3A       		.uleb128 0x3a
+ 1489 012b 0B       		.uleb128 0xb
+ 1490 012c 3B       		.uleb128 0x3b
+ 1491 012d 0B       		.uleb128 0xb
+ 1492 012e 49       		.uleb128 0x49
+ 1493 012f 13       		.uleb128 0x13
+ 1494 0130 02       		.uleb128 0x2
+ 1495 0131 17       		.uleb128 0x17
+ 1496 0132 00       		.byte	0
+ 1497 0133 00       		.byte	0
+ 1498 0134 16       		.uleb128 0x16
+ 1499 0135 34       		.uleb128 0x34
+ 1500 0136 00       		.byte	0
+ 1501 0137 03       		.uleb128 0x3
+ 1502 0138 0E       		.uleb128 0xe
+ 1503 0139 3A       		.uleb128 0x3a
+ 1504 013a 0B       		.uleb128 0xb
+ 1505 013b 3B       		.uleb128 0x3b
+ 1506 013c 0B       		.uleb128 0xb
+ 1507 013d 49       		.uleb128 0x49
+ 1508 013e 13       		.uleb128 0x13
+ 1509 013f 02       		.uleb128 0x2
+ 1510 0140 17       		.uleb128 0x17
+ 1511 0141 00       		.byte	0
+ 1512 0142 00       		.byte	0
+ 1513 0143 17       		.uleb128 0x17
+ 1514 0144 0A       		.uleb128 0xa
+ 1515 0145 00       		.byte	0
+ 1516 0146 03       		.uleb128 0x3
+ 1517 0147 0E       		.uleb128 0xe
+ 1518 0148 3A       		.uleb128 0x3a
+ 1519 0149 0B       		.uleb128 0xb
+ 1520 014a 3B       		.uleb128 0x3b
+ 1521 014b 0B       		.uleb128 0xb
+ 1522 014c 11       		.uleb128 0x11
+ 1523 014d 01       		.uleb128 0x1
+ 1524 014e 00       		.byte	0
+ 1525 014f 00       		.byte	0
+ 1526 0150 18       		.uleb128 0x18
+ 1527 0151 898201   		.uleb128 0x4109
+ 1528 0154 01       		.byte	0x1
+ 1529 0155 11       		.uleb128 0x11
+ 1530 0156 01       		.uleb128 0x1
+ 1531 0157 31       		.uleb128 0x31
+ 1532 0158 13       		.uleb128 0x13
+ 1533 0159 01       		.uleb128 0x1
+ 1534 015a 13       		.uleb128 0x13
+ 1535 015b 00       		.byte	0
+ 1536 015c 00       		.byte	0
+ 1537 015d 19       		.uleb128 0x19
+ 1538 015e 8A8201   		.uleb128 0x410a
+ 1539 0161 00       		.byte	0
+ 1540 0162 02       		.uleb128 0x2
+ 1541 0163 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 31
+
+
+ 1542 0164 9142     		.uleb128 0x2111
+ 1543 0166 18       		.uleb128 0x18
+ 1544 0167 00       		.byte	0
+ 1545 0168 00       		.byte	0
+ 1546 0169 1A       		.uleb128 0x1a
+ 1547 016a 898201   		.uleb128 0x4109
+ 1548 016d 01       		.byte	0x1
+ 1549 016e 11       		.uleb128 0x11
+ 1550 016f 01       		.uleb128 0x1
+ 1551 0170 31       		.uleb128 0x31
+ 1552 0171 13       		.uleb128 0x13
+ 1553 0172 00       		.byte	0
+ 1554 0173 00       		.byte	0
+ 1555 0174 1B       		.uleb128 0x1b
+ 1556 0175 34       		.uleb128 0x34
+ 1557 0176 00       		.byte	0
+ 1558 0177 03       		.uleb128 0x3
+ 1559 0178 08       		.uleb128 0x8
+ 1560 0179 3A       		.uleb128 0x3a
+ 1561 017a 0B       		.uleb128 0xb
+ 1562 017b 3B       		.uleb128 0x3b
+ 1563 017c 0B       		.uleb128 0xb
+ 1564 017d 49       		.uleb128 0x49
+ 1565 017e 13       		.uleb128 0x13
+ 1566 017f 02       		.uleb128 0x2
+ 1567 0180 18       		.uleb128 0x18
+ 1568 0181 00       		.byte	0
+ 1569 0182 00       		.byte	0
+ 1570 0183 1C       		.uleb128 0x1c
+ 1571 0184 2E       		.uleb128 0x2e
+ 1572 0185 00       		.byte	0
+ 1573 0186 3F       		.uleb128 0x3f
+ 1574 0187 19       		.uleb128 0x19
+ 1575 0188 3C       		.uleb128 0x3c
+ 1576 0189 19       		.uleb128 0x19
+ 1577 018a 6E       		.uleb128 0x6e
+ 1578 018b 0E       		.uleb128 0xe
+ 1579 018c 03       		.uleb128 0x3
+ 1580 018d 0E       		.uleb128 0xe
+ 1581 018e 3A       		.uleb128 0x3a
+ 1582 018f 0B       		.uleb128 0xb
+ 1583 0190 3B       		.uleb128 0x3b
+ 1584 0191 0B       		.uleb128 0xb
+ 1585 0192 00       		.byte	0
+ 1586 0193 00       		.byte	0
+ 1587 0194 1D       		.uleb128 0x1d
+ 1588 0195 2E       		.uleb128 0x2e
+ 1589 0196 00       		.byte	0
+ 1590 0197 3F       		.uleb128 0x3f
+ 1591 0198 19       		.uleb128 0x19
+ 1592 0199 3C       		.uleb128 0x3c
+ 1593 019a 19       		.uleb128 0x19
+ 1594 019b 6E       		.uleb128 0x6e
+ 1595 019c 0E       		.uleb128 0xe
+ 1596 019d 03       		.uleb128 0x3
+ 1597 019e 0E       		.uleb128 0xe
+ 1598 019f 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 32
+
+
+ 1599 01a0 00       		.byte	0
+ 1600 01a1 00       		.byte	0
+ 1601              		.section	.debug_loc,"",%progbits
+ 1602              	.Ldebug_loc0:
+ 1603              	.LLST0:
+ 1604 0000 00000000 		.4byte	.LVL0
+ 1605 0004 08000000 		.4byte	.LVL1
+ 1606 0008 0100     		.2byte	0x1
+ 1607 000a 50       		.byte	0x50
+ 1608 000b 08000000 		.4byte	.LVL1
+ 1609 000f 22000000 		.4byte	.LFE1
+ 1610 0013 0100     		.2byte	0x1
+ 1611 0015 54       		.byte	0x54
+ 1612 0016 00000000 		.4byte	0
+ 1613 001a 00000000 		.4byte	0
+ 1614              	.LLST1:
+ 1615 001e 0C000000 		.4byte	.LVL2
+ 1616 0022 18000000 		.4byte	.LVL4
+ 1617 0026 0200     		.2byte	0x2
+ 1618 0028 30       		.byte	0x30
+ 1619 0029 9F       		.byte	0x9f
+ 1620 002a 18000000 		.4byte	.LVL4
+ 1621 002e 22000000 		.4byte	.LFE1
+ 1622 0032 0100     		.2byte	0x1
+ 1623 0034 50       		.byte	0x50
+ 1624 0035 00000000 		.4byte	0
+ 1625 0039 00000000 		.4byte	0
+ 1626              	.LLST2:
+ 1627 003d 00000000 		.4byte	.LVL6
+ 1628 0041 1A000000 		.4byte	.LVL10
+ 1629 0045 0100     		.2byte	0x1
+ 1630 0047 50       		.byte	0x50
+ 1631 0048 1A000000 		.4byte	.LVL10
+ 1632 004c 8A000000 		.4byte	.LFE2
+ 1633 0050 0100     		.2byte	0x1
+ 1634 0052 57       		.byte	0x57
+ 1635 0053 00000000 		.4byte	0
+ 1636 0057 00000000 		.4byte	0
+ 1637              	.LLST3:
+ 1638 005b 00000000 		.4byte	.LVL6
+ 1639 005f 18000000 		.4byte	.LVL9
+ 1640 0063 0100     		.2byte	0x1
+ 1641 0065 51       		.byte	0x51
+ 1642 0066 18000000 		.4byte	.LVL9
+ 1643 006a 8A000000 		.4byte	.LFE2
+ 1644 006e 0100     		.2byte	0x1
+ 1645 0070 58       		.byte	0x58
+ 1646 0071 00000000 		.4byte	0
+ 1647 0075 00000000 		.4byte	0
+ 1648              	.LLST4:
+ 1649 0079 00000000 		.4byte	.LVL6
+ 1650 007d 18000000 		.4byte	.LVL9
+ 1651 0081 0100     		.2byte	0x1
+ 1652 0083 52       		.byte	0x52
+ 1653 0084 18000000 		.4byte	.LVL9
+ 1654 0088 8A000000 		.4byte	.LFE2
+ 1655 008c 0400     		.2byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 33
+
+
+ 1656 008e F3       		.byte	0xf3
+ 1657 008f 01       		.uleb128 0x1
+ 1658 0090 52       		.byte	0x52
+ 1659 0091 9F       		.byte	0x9f
+ 1660 0092 00000000 		.4byte	0
+ 1661 0096 00000000 		.4byte	0
+ 1662              	.LLST5:
+ 1663 009a 00000000 		.4byte	.LVL6
+ 1664 009e 16000000 		.4byte	.LVL8
+ 1665 00a2 0100     		.2byte	0x1
+ 1666 00a4 53       		.byte	0x53
+ 1667 00a5 16000000 		.4byte	.LVL8
+ 1668 00a9 8A000000 		.4byte	.LFE2
+ 1669 00ad 0100     		.2byte	0x1
+ 1670 00af 56       		.byte	0x56
+ 1671 00b0 00000000 		.4byte	0
+ 1672 00b4 00000000 		.4byte	0
+ 1673              	.LLST6:
+ 1674 00b8 7C000000 		.4byte	.LVL21
+ 1675 00bc 7E000000 		.4byte	.LVL22
+ 1676 00c0 0100     		.2byte	0x1
+ 1677 00c2 50       		.byte	0x50
+ 1678 00c3 7E000000 		.4byte	.LVL22
+ 1679 00c7 80000000 		.4byte	.LVL23
+ 1680 00cb 0700     		.2byte	0x7
+ 1681 00cd 91       		.byte	0x91
+ 1682 00ce 5C       		.sleb128 -36
+ 1683 00cf 06       		.byte	0x6
+ 1684 00d0 74       		.byte	0x74
+ 1685 00d1 00       		.sleb128 0
+ 1686 00d2 22       		.byte	0x22
+ 1687 00d3 9F       		.byte	0x9f
+ 1688 00d4 00000000 		.4byte	0
+ 1689 00d8 00000000 		.4byte	0
+ 1690              	.LLST7:
+ 1691 00dc 30000000 		.4byte	.LVL15
+ 1692 00e0 80000000 		.4byte	.LVL23
+ 1693 00e4 0100     		.2byte	0x1
+ 1694 00e6 55       		.byte	0x55
+ 1695 00e7 84000000 		.4byte	.LVL24
+ 1696 00eb 8A000000 		.4byte	.LFE2
+ 1697 00ef 0100     		.2byte	0x1
+ 1698 00f1 55       		.byte	0x55
+ 1699 00f2 00000000 		.4byte	0
+ 1700 00f6 00000000 		.4byte	0
+ 1701              	.LLST8:
+ 1702 00fa 12000000 		.4byte	.LVL7
+ 1703 00fe 20000000 		.4byte	.LVL12
+ 1704 0102 0200     		.2byte	0x2
+ 1705 0104 30       		.byte	0x30
+ 1706 0105 9F       		.byte	0x9f
+ 1707 0106 20000000 		.4byte	.LVL12
+ 1708 010a 23000000 		.4byte	.LVL13-1
+ 1709 010e 0100     		.2byte	0x1
+ 1710 0110 50       		.byte	0x50
+ 1711 0111 23000000 		.4byte	.LVL13-1
+ 1712 0115 8A000000 		.4byte	.LFE2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 34
+
+
+ 1713 0119 0100     		.2byte	0x1
+ 1714 011b 59       		.byte	0x59
+ 1715 011c 00000000 		.4byte	0
+ 1716 0120 00000000 		.4byte	0
+ 1717              	.LLST9:
+ 1718 0124 12000000 		.4byte	.LVL7
+ 1719 0128 7E000000 		.4byte	.LVL22
+ 1720 012c 0200     		.2byte	0x2
+ 1721 012e 30       		.byte	0x30
+ 1722 012f 9F       		.byte	0x9f
+ 1723 0130 7E000000 		.4byte	.LVL22
+ 1724 0134 80000000 		.4byte	.LVL23
+ 1725 0138 0100     		.2byte	0x1
+ 1726 013a 50       		.byte	0x50
+ 1727 013b 80000000 		.4byte	.LVL23
+ 1728 013f 84000000 		.4byte	.LVL24
+ 1729 0143 0200     		.2byte	0x2
+ 1730 0145 30       		.byte	0x30
+ 1731 0146 9F       		.byte	0x9f
+ 1732 0147 84000000 		.4byte	.LVL24
+ 1733 014b 8A000000 		.4byte	.LFE2
+ 1734 014f 0100     		.2byte	0x1
+ 1735 0151 50       		.byte	0x50
+ 1736 0152 00000000 		.4byte	0
+ 1737 0156 00000000 		.4byte	0
+ 1738              	.LLST10:
+ 1739 015a 00000000 		.4byte	.LVL25
+ 1740 015e 26000000 		.4byte	.LVL31
+ 1741 0162 0100     		.2byte	0x1
+ 1742 0164 50       		.byte	0x50
+ 1743 0165 26000000 		.4byte	.LVL31
+ 1744 0169 48000000 		.4byte	.LVL36
+ 1745 016d 0100     		.2byte	0x1
+ 1746 016f 54       		.byte	0x54
+ 1747 0170 48000000 		.4byte	.LVL36
+ 1748 0174 4C000000 		.4byte	.LVL37
+ 1749 0178 0100     		.2byte	0x1
+ 1750 017a 50       		.byte	0x50
+ 1751 017b 4C000000 		.4byte	.LVL37
+ 1752 017f 50000000 		.4byte	.LFE3
+ 1753 0183 0400     		.2byte	0x4
+ 1754 0185 F3       		.byte	0xf3
+ 1755 0186 01       		.uleb128 0x1
+ 1756 0187 50       		.byte	0x50
+ 1757 0188 9F       		.byte	0x9f
+ 1758 0189 00000000 		.4byte	0
+ 1759 018d 00000000 		.4byte	0
+ 1760              	.LLST11:
+ 1761 0191 00000000 		.4byte	.LVL25
+ 1762 0195 24000000 		.4byte	.LVL30
+ 1763 0199 0100     		.2byte	0x1
+ 1764 019b 51       		.byte	0x51
+ 1765 019c 24000000 		.4byte	.LVL30
+ 1766 01a0 48000000 		.4byte	.LVL36
+ 1767 01a4 0400     		.2byte	0x4
+ 1768 01a6 F3       		.byte	0xf3
+ 1769 01a7 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 35
+
+
+ 1770 01a8 51       		.byte	0x51
+ 1771 01a9 9F       		.byte	0x9f
+ 1772 01aa 48000000 		.4byte	.LVL36
+ 1773 01ae 4C000000 		.4byte	.LVL37
+ 1774 01b2 0100     		.2byte	0x1
+ 1775 01b4 51       		.byte	0x51
+ 1776 01b5 4C000000 		.4byte	.LVL37
+ 1777 01b9 50000000 		.4byte	.LFE3
+ 1778 01bd 0400     		.2byte	0x4
+ 1779 01bf F3       		.byte	0xf3
+ 1780 01c0 01       		.uleb128 0x1
+ 1781 01c1 51       		.byte	0x51
+ 1782 01c2 9F       		.byte	0x9f
+ 1783 01c3 00000000 		.4byte	0
+ 1784 01c7 00000000 		.4byte	0
+ 1785              	.LLST12:
+ 1786 01cb 00000000 		.4byte	.LVL25
+ 1787 01cf 1C000000 		.4byte	.LVL29
+ 1788 01d3 0100     		.2byte	0x1
+ 1789 01d5 52       		.byte	0x52
+ 1790 01d6 1C000000 		.4byte	.LVL29
+ 1791 01da 48000000 		.4byte	.LVL36
+ 1792 01de 0400     		.2byte	0x4
+ 1793 01e0 F3       		.byte	0xf3
+ 1794 01e1 01       		.uleb128 0x1
+ 1795 01e2 52       		.byte	0x52
+ 1796 01e3 9F       		.byte	0x9f
+ 1797 01e4 48000000 		.4byte	.LVL36
+ 1798 01e8 4C000000 		.4byte	.LVL37
+ 1799 01ec 0100     		.2byte	0x1
+ 1800 01ee 52       		.byte	0x52
+ 1801 01ef 4C000000 		.4byte	.LVL37
+ 1802 01f3 50000000 		.4byte	.LFE3
+ 1803 01f7 0400     		.2byte	0x4
+ 1804 01f9 F3       		.byte	0xf3
+ 1805 01fa 01       		.uleb128 0x1
+ 1806 01fb 52       		.byte	0x52
+ 1807 01fc 9F       		.byte	0x9f
+ 1808 01fd 00000000 		.4byte	0
+ 1809 0201 00000000 		.4byte	0
+ 1810              	.LLST13:
+ 1811 0205 00000000 		.4byte	.LVL25
+ 1812 0209 29000000 		.4byte	.LVL32-1
+ 1813 020d 0100     		.2byte	0x1
+ 1814 020f 53       		.byte	0x53
+ 1815 0210 29000000 		.4byte	.LVL32-1
+ 1816 0214 48000000 		.4byte	.LVL36
+ 1817 0218 0400     		.2byte	0x4
+ 1818 021a F3       		.byte	0xf3
+ 1819 021b 01       		.uleb128 0x1
+ 1820 021c 53       		.byte	0x53
+ 1821 021d 9F       		.byte	0x9f
+ 1822 021e 48000000 		.4byte	.LVL36
+ 1823 0222 4C000000 		.4byte	.LVL37
+ 1824 0226 0100     		.2byte	0x1
+ 1825 0228 53       		.byte	0x53
+ 1826 0229 4C000000 		.4byte	.LVL37
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 36
+
+
+ 1827 022d 50000000 		.4byte	.LFE3
+ 1828 0231 0400     		.2byte	0x4
+ 1829 0233 F3       		.byte	0xf3
+ 1830 0234 01       		.uleb128 0x1
+ 1831 0235 53       		.byte	0x53
+ 1832 0236 9F       		.byte	0x9f
+ 1833 0237 00000000 		.4byte	0
+ 1834 023b 00000000 		.4byte	0
+ 1835              	.LLST14:
+ 1836 023f 12000000 		.4byte	.LVL28
+ 1837 0243 48000000 		.4byte	.LVL36
+ 1838 0247 0100     		.2byte	0x1
+ 1839 0249 55       		.byte	0x55
+ 1840 024a 4C000000 		.4byte	.LVL37
+ 1841 024e 50000000 		.4byte	.LFE3
+ 1842 0252 0100     		.2byte	0x1
+ 1843 0254 55       		.byte	0x55
+ 1844 0255 00000000 		.4byte	0
+ 1845 0259 00000000 		.4byte	0
+ 1846              	.LLST15:
+ 1847 025d 04000000 		.4byte	.LVL26
+ 1848 0261 46000000 		.4byte	.LVL35
+ 1849 0265 0200     		.2byte	0x2
+ 1850 0267 30       		.byte	0x30
+ 1851 0268 9F       		.byte	0x9f
+ 1852 0269 46000000 		.4byte	.LVL35
+ 1853 026d 48000000 		.4byte	.LVL36
+ 1854 0271 0100     		.2byte	0x1
+ 1855 0273 50       		.byte	0x50
+ 1856 0274 48000000 		.4byte	.LVL36
+ 1857 0278 4C000000 		.4byte	.LVL37
+ 1858 027c 0200     		.2byte	0x2
+ 1859 027e 30       		.byte	0x30
+ 1860 027f 9F       		.byte	0x9f
+ 1861 0280 4C000000 		.4byte	.LVL37
+ 1862 0284 50000000 		.4byte	.LFE3
+ 1863 0288 0100     		.2byte	0x1
+ 1864 028a 50       		.byte	0x50
+ 1865 028b 00000000 		.4byte	0
+ 1866 028f 00000000 		.4byte	0
+ 1867              	.LLST16:
+ 1868 0293 00000000 		.4byte	.LVL38
+ 1869 0297 0D000000 		.4byte	.LVL40-1
+ 1870 029b 0100     		.2byte	0x1
+ 1871 029d 50       		.byte	0x50
+ 1872 029e 0D000000 		.4byte	.LVL40-1
+ 1873 02a2 14000000 		.4byte	.LFE4
+ 1874 02a6 0400     		.2byte	0x4
+ 1875 02a8 F3       		.byte	0xf3
+ 1876 02a9 01       		.uleb128 0x1
+ 1877 02aa 50       		.byte	0x50
+ 1878 02ab 9F       		.byte	0x9f
+ 1879 02ac 00000000 		.4byte	0
+ 1880 02b0 00000000 		.4byte	0
+ 1881              	.LLST17:
+ 1882 02b4 00000000 		.4byte	.LVL38
+ 1883 02b8 0D000000 		.4byte	.LVL40-1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 37
+
+
+ 1884 02bc 0100     		.2byte	0x1
+ 1885 02be 51       		.byte	0x51
+ 1886 02bf 0D000000 		.4byte	.LVL40-1
+ 1887 02c3 14000000 		.4byte	.LFE4
+ 1888 02c7 0400     		.2byte	0x4
+ 1889 02c9 F3       		.byte	0xf3
+ 1890 02ca 01       		.uleb128 0x1
+ 1891 02cb 51       		.byte	0x51
+ 1892 02cc 9F       		.byte	0x9f
+ 1893 02cd 00000000 		.4byte	0
+ 1894 02d1 00000000 		.4byte	0
+ 1895              	.LLST18:
+ 1896 02d5 00000000 		.4byte	.LVL38
+ 1897 02d9 0A000000 		.4byte	.LVL39
+ 1898 02dd 0100     		.2byte	0x1
+ 1899 02df 52       		.byte	0x52
+ 1900 02e0 0A000000 		.4byte	.LVL39
+ 1901 02e4 14000000 		.4byte	.LFE4
+ 1902 02e8 0400     		.2byte	0x4
+ 1903 02ea F3       		.byte	0xf3
+ 1904 02eb 01       		.uleb128 0x1
+ 1905 02ec 52       		.byte	0x52
+ 1906 02ed 9F       		.byte	0x9f
+ 1907 02ee 00000000 		.4byte	0
+ 1908 02f2 00000000 		.4byte	0
+ 1909              	.LLST19:
+ 1910 02f6 00000000 		.4byte	.LVL41
+ 1911 02fa 0D000000 		.4byte	.LVL44-1
+ 1912 02fe 0100     		.2byte	0x1
+ 1913 0300 50       		.byte	0x50
+ 1914 0301 0D000000 		.4byte	.LVL44-1
+ 1915 0305 14000000 		.4byte	.LFE5
+ 1916 0309 0400     		.2byte	0x4
+ 1917 030b F3       		.byte	0xf3
+ 1918 030c 01       		.uleb128 0x1
+ 1919 030d 50       		.byte	0x50
+ 1920 030e 9F       		.byte	0x9f
+ 1921 030f 00000000 		.4byte	0
+ 1922 0313 00000000 		.4byte	0
+ 1923              	.LLST20:
+ 1924 0317 00000000 		.4byte	.LVL41
+ 1925 031b 0D000000 		.4byte	.LVL44-1
+ 1926 031f 0100     		.2byte	0x1
+ 1927 0321 51       		.byte	0x51
+ 1928 0322 0D000000 		.4byte	.LVL44-1
+ 1929 0326 14000000 		.4byte	.LFE5
+ 1930 032a 0400     		.2byte	0x4
+ 1931 032c F3       		.byte	0xf3
+ 1932 032d 01       		.uleb128 0x1
+ 1933 032e 51       		.byte	0x51
+ 1934 032f 9F       		.byte	0x9f
+ 1935 0330 00000000 		.4byte	0
+ 1936 0334 00000000 		.4byte	0
+ 1937              	.LLST21:
+ 1938 0338 00000000 		.4byte	.LVL41
+ 1939 033c 0A000000 		.4byte	.LVL43
+ 1940 0340 0100     		.2byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 38
+
+
+ 1941 0342 52       		.byte	0x52
+ 1942 0343 0A000000 		.4byte	.LVL43
+ 1943 0347 14000000 		.4byte	.LFE5
+ 1944 034b 0400     		.2byte	0x4
+ 1945 034d F3       		.byte	0xf3
+ 1946 034e 01       		.uleb128 0x1
+ 1947 034f 52       		.byte	0x52
+ 1948 0350 9F       		.byte	0x9f
+ 1949 0351 00000000 		.4byte	0
+ 1950 0355 00000000 		.4byte	0
+ 1951              	.LLST22:
+ 1952 0359 00000000 		.4byte	.LVL41
+ 1953 035d 08000000 		.4byte	.LVL42
+ 1954 0361 0100     		.2byte	0x1
+ 1955 0363 53       		.byte	0x53
+ 1956 0364 08000000 		.4byte	.LVL42
+ 1957 0368 14000000 		.4byte	.LFE5
+ 1958 036c 0400     		.2byte	0x4
+ 1959 036e F3       		.byte	0xf3
+ 1960 036f 01       		.uleb128 0x1
+ 1961 0370 53       		.byte	0x53
+ 1962 0371 9F       		.byte	0x9f
+ 1963 0372 00000000 		.4byte	0
+ 1964 0376 00000000 		.4byte	0
+ 1965              	.LLST23:
+ 1966 037a 00000000 		.4byte	.LVL45
+ 1967 037e 0D000000 		.4byte	.LVL47-1
+ 1968 0382 0100     		.2byte	0x1
+ 1969 0384 50       		.byte	0x50
+ 1970 0385 0D000000 		.4byte	.LVL47-1
+ 1971 0389 14000000 		.4byte	.LFE6
+ 1972 038d 0400     		.2byte	0x4
+ 1973 038f F3       		.byte	0xf3
+ 1974 0390 01       		.uleb128 0x1
+ 1975 0391 50       		.byte	0x50
+ 1976 0392 9F       		.byte	0x9f
+ 1977 0393 00000000 		.4byte	0
+ 1978 0397 00000000 		.4byte	0
+ 1979              	.LLST24:
+ 1980 039b 00000000 		.4byte	.LVL45
+ 1981 039f 0D000000 		.4byte	.LVL47-1
+ 1982 03a3 0100     		.2byte	0x1
+ 1983 03a5 51       		.byte	0x51
+ 1984 03a6 0D000000 		.4byte	.LVL47-1
+ 1985 03aa 14000000 		.4byte	.LFE6
+ 1986 03ae 0400     		.2byte	0x4
+ 1987 03b0 F3       		.byte	0xf3
+ 1988 03b1 01       		.uleb128 0x1
+ 1989 03b2 51       		.byte	0x51
+ 1990 03b3 9F       		.byte	0x9f
+ 1991 03b4 00000000 		.4byte	0
+ 1992 03b8 00000000 		.4byte	0
+ 1993              	.LLST25:
+ 1994 03bc 00000000 		.4byte	.LVL45
+ 1995 03c0 0A000000 		.4byte	.LVL46
+ 1996 03c4 0100     		.2byte	0x1
+ 1997 03c6 52       		.byte	0x52
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 39
+
+
+ 1998 03c7 0A000000 		.4byte	.LVL46
+ 1999 03cb 14000000 		.4byte	.LFE6
+ 2000 03cf 0400     		.2byte	0x4
+ 2001 03d1 F3       		.byte	0xf3
+ 2002 03d2 01       		.uleb128 0x1
+ 2003 03d3 52       		.byte	0x52
+ 2004 03d4 9F       		.byte	0x9f
+ 2005 03d5 00000000 		.4byte	0
+ 2006 03d9 00000000 		.4byte	0
+ 2007              		.section	.debug_aranges,"",%progbits
+ 2008 0000 44000000 		.4byte	0x44
+ 2009 0004 0200     		.2byte	0x2
+ 2010 0006 00000000 		.4byte	.Ldebug_info0
+ 2011 000a 04       		.byte	0x4
+ 2012 000b 00       		.byte	0
+ 2013 000c 0000     		.2byte	0
+ 2014 000e 0000     		.2byte	0
+ 2015 0010 00000000 		.4byte	.LFB1
+ 2016 0014 22000000 		.4byte	.LFE1-.LFB1
+ 2017 0018 00000000 		.4byte	.LFB2
+ 2018 001c 8A000000 		.4byte	.LFE2-.LFB2
+ 2019 0020 00000000 		.4byte	.LFB3
+ 2020 0024 50000000 		.4byte	.LFE3-.LFB3
+ 2021 0028 00000000 		.4byte	.LFB4
+ 2022 002c 14000000 		.4byte	.LFE4-.LFB4
+ 2023 0030 00000000 		.4byte	.LFB5
+ 2024 0034 14000000 		.4byte	.LFE5-.LFB5
+ 2025 0038 00000000 		.4byte	.LFB6
+ 2026 003c 14000000 		.4byte	.LFE6-.LFB6
+ 2027 0040 00000000 		.4byte	0
+ 2028 0044 00000000 		.4byte	0
+ 2029              		.section	.debug_ranges,"",%progbits
+ 2030              	.Ldebug_ranges0:
+ 2031 0000 00000000 		.4byte	.LFB1
+ 2032 0004 22000000 		.4byte	.LFE1
+ 2033 0008 00000000 		.4byte	.LFB2
+ 2034 000c 8A000000 		.4byte	.LFE2
+ 2035 0010 00000000 		.4byte	.LFB3
+ 2036 0014 50000000 		.4byte	.LFE3
+ 2037 0018 00000000 		.4byte	.LFB4
+ 2038 001c 14000000 		.4byte	.LFE4
+ 2039 0020 00000000 		.4byte	.LFB5
+ 2040 0024 14000000 		.4byte	.LFE5
+ 2041 0028 00000000 		.4byte	.LFB6
+ 2042 002c 14000000 		.4byte	.LFE6
+ 2043 0030 00000000 		.4byte	0
+ 2044 0034 00000000 		.4byte	0
+ 2045              		.section	.debug_line,"",%progbits
+ 2046              	.Ldebug_line0:
+ 2047 0000 F5000000 		.section	.debug_str,"MS",%progbits,1
+ 2047      02006400 
+ 2047      00000201 
+ 2047      FB0E0D00 
+ 2047      01010101 
+ 2048              	.LASF0:
+ 2049 0000 4D515454 		.ascii	"MQTTPACKET_BUFFER_TOO_SHORT\000"
+ 2049      5041434B 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 40
+
+
+ 2049      45545F42 
+ 2049      55464645 
+ 2049      525F544F 
+ 2050              	.LASF58:
+ 2051 001c 4D515454 		.ascii	"MQTTPacket_len\000"
+ 2051      5061636B 
+ 2051      65745F6C 
+ 2051      656E00
+ 2052              	.LASF41:
+ 2053 002b 746F7069 		.ascii	"topicName\000"
+ 2053      634E616D 
+ 2053      6500
+ 2054              	.LASF42:
+ 2055 0035 7061796C 		.ascii	"payloadlen\000"
+ 2055      6F61646C 
+ 2055      656E00
+ 2056              	.LASF22:
+ 2057 0040 74797065 		.ascii	"type\000"
+ 2057      00
+ 2058              	.LASF44:
+ 2059 0045 4D515454 		.ascii	"MQTTSerialize_publish\000"
+ 2059      53657269 
+ 2059      616C697A 
+ 2059      655F7075 
+ 2059      626C6973 
+ 2060              	.LASF15:
+ 2061 005b 554E5355 		.ascii	"UNSUBACK\000"
+ 2061      4241434B 
+ 2061      00
+ 2062              	.LASF21:
+ 2063 0064 72657461 		.ascii	"retain\000"
+ 2063      696E00
+ 2064              	.LASF31:
+ 2065 006b 6C656E73 		.ascii	"lenstring\000"
+ 2065      7472696E 
+ 2065      6700
+ 2066              	.LASF39:
+ 2067 0075 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2067      206C6F6E 
+ 2067      6720756E 
+ 2067      7369676E 
+ 2067      65642069 
+ 2068              	.LASF1:
+ 2069 008c 4D515454 		.ascii	"MQTTPACKET_READ_ERROR\000"
+ 2069      5041434B 
+ 2069      45545F52 
+ 2069      4541445F 
+ 2069      4552524F 
+ 2070              	.LASF38:
+ 2071 00a2 6C6F6E67 		.ascii	"long long int\000"
+ 2071      206C6F6E 
+ 2071      6720696E 
+ 2071      7400
+ 2072              	.LASF19:
+ 2073 00b0 7369676E 		.ascii	"signed char\000"
+ 2073      65642063 
+ 2073      68617200 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 41
+
+
+ 2074              	.LASF62:
+ 2075 00bc 77726974 		.ascii	"writeInt\000"
+ 2075      65496E74 
+ 2075      00
+ 2076              	.LASF25:
+ 2077 00c5 62697473 		.ascii	"bits\000"
+ 2077      00
+ 2078              	.LASF36:
+ 2079 00ca 6C6F6E67 		.ascii	"long int\000"
+ 2079      20696E74 
+ 2079      00
+ 2080              	.LASF56:
+ 2081 00d3 4D515454 		.ascii	"MQTTSerialize_pubcomp\000"
+ 2081      53657269 
+ 2081      616C697A 
+ 2081      655F7075 
+ 2081      62636F6D 
+ 2082              	.LASF66:
+ 2083 00e9 6D656D63 		.ascii	"memcpy\000"
+ 2083      707900
+ 2084              	.LASF51:
+ 2085 00f0 4D515454 		.ascii	"MQTTSerialize_ack\000"
+ 2085      53657269 
+ 2085      616C697A 
+ 2085      655F6163 
+ 2085      6B00
+ 2086              	.LASF14:
+ 2087 0102 554E5355 		.ascii	"UNSUBSCRIBE\000"
+ 2087      42534352 
+ 2087      49424500 
+ 2088              	.LASF24:
+ 2089 010e 62797465 		.ascii	"byte\000"
+ 2089      00
+ 2090              	.LASF60:
+ 2091 0113 4D515454 		.ascii	"MQTTPacket_encode\000"
+ 2091      5061636B 
+ 2091      65745F65 
+ 2091      6E636F64 
+ 2091      6500
+ 2092              	.LASF4:
+ 2093 0125 6D736754 		.ascii	"msgTypes\000"
+ 2093      79706573 
+ 2093      00
+ 2094              	.LASF23:
+ 2095 012e 756E7369 		.ascii	"unsigned int\000"
+ 2095      676E6564 
+ 2095      20696E74 
+ 2095      00
+ 2096              	.LASF6:
+ 2097 013b 434F4E4E 		.ascii	"CONNACK\000"
+ 2097      41434B00 
+ 2098              	.LASF3:
+ 2099 0143 6572726F 		.ascii	"errors\000"
+ 2099      727300
+ 2100              	.LASF37:
+ 2101 014a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2101      20756E73 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 42
+
+
+ 2101      69676E65 
+ 2101      6420696E 
+ 2101      7400
+ 2102              	.LASF26:
+ 2103 015c 64617461 		.ascii	"data\000"
+ 2103      00
+ 2104              	.LASF34:
+ 2105 0161 73686F72 		.ascii	"short unsigned int\000"
+ 2105      7420756E 
+ 2105      7369676E 
+ 2105      65642069 
+ 2105      6E7400
+ 2106              	.LASF2:
+ 2107 0174 4D515454 		.ascii	"MQTTPACKET_READ_COMPLETE\000"
+ 2107      5041434B 
+ 2107      45545F52 
+ 2107      4541445F 
+ 2107      434F4D50 
+ 2108              	.LASF52:
+ 2109 018d 7061636B 		.ascii	"packettype\000"
+ 2109      65747479 
+ 2109      706500
+ 2110              	.LASF13:
+ 2111 0198 53554241 		.ascii	"SUBACK\000"
+ 2111      434B00
+ 2112              	.LASF32:
+ 2113 019f 4D515454 		.ascii	"MQTTString\000"
+ 2113      53747269 
+ 2113      6E6700
+ 2114              	.LASF47:
+ 2115 01aa 7061636B 		.ascii	"packetid\000"
+ 2115      65746964 
+ 2115      00
+ 2116              	.LASF33:
+ 2117 01b3 73697A65 		.ascii	"sizetype\000"
+ 2117      74797065 
+ 2117      00
+ 2118              	.LASF61:
+ 2119 01bc 77726974 		.ascii	"writeMQTTString\000"
+ 2119      654D5154 
+ 2119      54537472 
+ 2119      696E6700 
+ 2120              	.LASF40:
+ 2121 01cc 6C6F6E67 		.ascii	"long double\000"
+ 2121      20646F75 
+ 2121      626C6500 
+ 2122              	.LASF57:
+ 2123 01d8 4D515454 		.ascii	"MQTTstrlen\000"
+ 2123      7374726C 
+ 2123      656E00
+ 2124              	.LASF48:
+ 2125 01e3 7061796C 		.ascii	"payload\000"
+ 2125      6F616400 
+ 2126              	.LASF30:
+ 2127 01eb 63737472 		.ascii	"cstring\000"
+ 2127      696E6700 
+ 2128              	.LASF18:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 43
+
+
+ 2129 01f3 44495343 		.ascii	"DISCONNECT\000"
+ 2129      4F4E4E45 
+ 2129      435400
+ 2130              	.LASF50:
+ 2131 01fe 72656D5F 		.ascii	"rem_len\000"
+ 2131      6C656E00 
+ 2132              	.LASF17:
+ 2133 0206 50494E47 		.ascii	"PINGRESP\000"
+ 2133      52455350 
+ 2133      00
+ 2134              	.LASF5:
+ 2135 020f 434F4E4E 		.ascii	"CONNECT\000"
+ 2135      45435400 
+ 2136              	.LASF20:
+ 2137 0217 756E7369 		.ascii	"unsigned char\000"
+ 2137      676E6564 
+ 2137      20636861 
+ 2137      7200
+ 2138              	.LASF46:
+ 2139 0225 72657461 		.ascii	"retained\000"
+ 2139      696E6564 
+ 2139      00
+ 2140              	.LASF54:
+ 2141 022e 4D515454 		.ascii	"MQTTSerialize_puback\000"
+ 2141      53657269 
+ 2141      616C697A 
+ 2141      655F7075 
+ 2141      6261636B 
+ 2142              	.LASF35:
+ 2143 0243 73686F72 		.ascii	"short int\000"
+ 2143      7420696E 
+ 2143      7400
+ 2144              	.LASF7:
+ 2145 024d 5055424C 		.ascii	"PUBLISH\000"
+ 2145      49534800 
+ 2146              	.LASF63:
+ 2147 0255 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2147      43313120 
+ 2147      352E342E 
+ 2147      31203230 
+ 2147      31363036 
+ 2148 0288 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2148      20726576 
+ 2148      6973696F 
+ 2148      6E203233 
+ 2148      37373135 
+ 2149 02bb 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2149      66756E63 
+ 2149      74696F6E 
+ 2149      2D736563 
+ 2149      74696F6E 
+ 2150              	.LASF45:
+ 2151 02e3 6275666C 		.ascii	"buflen\000"
+ 2151      656E00
+ 2152              	.LASF53:
+ 2153 02ea 65786974 		.ascii	"exit\000"
+ 2153      00
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 44
+
+
+ 2154              	.LASF65:
+ 2155 02ef 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 2155      73657273 
+ 2155      5C457667 
+ 2155      656E7920 
+ 2155      4D657368 
+ 2156 031e 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 2156      746D705C 
+ 2156      5A756D6F 
+ 2156      5C5A756D 
+ 2156      6F426F74 
+ 2157              	.LASF28:
+ 2158 0339 4D515454 		.ascii	"MQTTHeader\000"
+ 2158      48656164 
+ 2158      657200
+ 2159              	.LASF29:
+ 2160 0344 4D515454 		.ascii	"MQTTLenString\000"
+ 2160      4C656E53 
+ 2160      7472696E 
+ 2160      6700
+ 2161              	.LASF12:
+ 2162 0352 53554253 		.ascii	"SUBSCRIBE\000"
+ 2162      43524942 
+ 2162      4500
+ 2163              	.LASF27:
+ 2164 035c 63686172 		.ascii	"char\000"
+ 2164      00
+ 2165              	.LASF8:
+ 2166 0361 50554241 		.ascii	"PUBACK\000"
+ 2166      434B00
+ 2167              	.LASF11:
+ 2168 0368 50554243 		.ascii	"PUBCOMP\000"
+ 2168      4F4D5000 
+ 2169              	.LASF55:
+ 2170 0370 4D515454 		.ascii	"MQTTSerialize_pubrel\000"
+ 2170      53657269 
+ 2170      616C697A 
+ 2170      655F7075 
+ 2170      6272656C 
+ 2171              	.LASF64:
+ 2172 0385 2E2E5C70 		.ascii	"..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTSeri"
+ 2172      61686F2E 
+ 2172      6D717474 
+ 2172      2E656D62 
+ 2172      65646465 
+ 2173 03b4 616C697A 		.ascii	"alizePublish.c\000"
+ 2173      65507562 
+ 2173      6C697368 
+ 2173      2E6300
+ 2174              	.LASF59:
+ 2175 03c3 77726974 		.ascii	"writeChar\000"
+ 2175      65436861 
+ 2175      7200
+ 2176              	.LASF43:
+ 2177 03cd 4D515454 		.ascii	"MQTTSerialize_publishLength\000"
+ 2177      53657269 
+ 2177      616C697A 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccaKuKks.s 			page 45
+
+
+ 2177      655F7075 
+ 2177      626C6973 
+ 2178              	.LASF9:
+ 2179 03e9 50554252 		.ascii	"PUBREC\000"
+ 2179      454300
+ 2180              	.LASF10:
+ 2181 03f0 50554252 		.ascii	"PUBREL\000"
+ 2181      454C00
+ 2182              	.LASF16:
+ 2183 03f7 50494E47 		.ascii	"PINGREQ\000"
+ 2183      52455100 
+ 2184              	.LASF49:
+ 2185 03ff 68656164 		.ascii	"header\000"
+ 2185      657200
+ 2186              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

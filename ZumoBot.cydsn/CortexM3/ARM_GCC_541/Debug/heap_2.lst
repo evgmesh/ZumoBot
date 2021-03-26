@@ -1,0 +1,2138 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"heap_2.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.prvHeapInit,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	prvHeapInit, %function
+  24              	prvHeapInit:
+  25              	.LFB72:
+  26              		.file 1 "..\\FreeRTOS\\Source\\portable\\MemMang\\heap_2.c"
+   1:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*
+   2:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * FreeRTOS Kernel V10.0.1
+   3:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+   5:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * the Software without restriction, including without limitation the rights to
+   8:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * subject to the following conditions:
+  11:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+  12:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * copies or substantial portions of the Software.
+  14:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+  15:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+  22:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * http://www.FreeRTOS.org
+  23:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * http://aws.amazon.com/freertos
+  24:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+  25:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * 1 tab == 4 spaces!
+  26:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  */
+  27:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  28:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*
+  29:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * A sample implementation of pvPortMalloc() and vPortFree() that permits
+  30:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * allocated blocks to be freed, but does not combine adjacent free blocks
+  31:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * into a single larger block (and so will fragment memory).  See heap_4.c for
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 2
+
+
+  32:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * an equivalent that does combine adjacent blocks into single larger blocks.
+  33:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  *
+  34:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * See heap_1.c, heap_3.c and heap_4.c for alternative implementations, and the
+  35:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * memory management pages of http://www.FreeRTOS.org for more information.
+  36:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  */
+  37:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #include <stdlib.h>
+  38:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  39:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Defining MPU_WRAPPERS_INCLUDED_FROM_API_FILE prevents task.h from redefining
+  40:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** all the API functions to use the MPU wrappers.  That should only be done when
+  41:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** task.h is included from an application file. */
+  42:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #define MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+  43:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  44:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #include "FreeRTOS.h"
+  45:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #include "task.h"
+  46:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  47:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #undef MPU_WRAPPERS_INCLUDED_FROM_API_FILE
+  48:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  49:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #if( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
+  50:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	#error This file must not be used if configSUPPORT_DYNAMIC_ALLOCATION is 0
+  51:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #endif
+  52:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  53:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* A few bytes might be lost to byte aligning the heap start address. */
+  54:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #define configADJUSTED_HEAP_SIZE	( configTOTAL_HEAP_SIZE - portBYTE_ALIGNMENT )
+  55:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  56:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*
+  57:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * Initialises the heap structures before their first use.
+  58:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  */
+  59:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static void prvHeapInit( void );
+  60:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  61:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Allocate the memory for the heap. */
+  62:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #if( configAPPLICATION_ALLOCATED_HEAP == 1 )
+  63:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* The application writer has already defined the array used for the RTOS
+  64:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	heap - probably so it can be placed in a special segment or address. */
+  65:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	extern uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+  66:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #else
+  67:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	static uint8_t ucHeap[ configTOTAL_HEAP_SIZE ];
+  68:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #endif /* configAPPLICATION_ALLOCATED_HEAP */
+  69:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  70:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  71:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Define the linked list structure.  This is used to link free blocks in order
+  72:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** of their size. */
+  73:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** typedef struct A_BLOCK_LINK
+  74:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+  75:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	struct A_BLOCK_LINK *pxNextFreeBlock;	/*<< The next free block in the list. */
+  76:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	size_t xBlockSize;						/*<< The size of the free block. */
+  77:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** } BlockLink_t;
+  78:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  79:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  80:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static const uint16_t heapSTRUCT_SIZE	= ( ( sizeof ( BlockLink_t ) + ( portBYTE_ALIGNMENT - 1 ) ) &
+  81:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #define heapMINIMUM_BLOCK_SIZE	( ( size_t ) ( heapSTRUCT_SIZE * 2 ) )
+  82:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  83:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Create a couple of list links to mark the start and end of the list. */
+  84:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static BlockLink_t xStart, xEnd;
+  85:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  86:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Keeps track of the number of free bytes remaining, but says nothing about
+  87:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** fragmentation. */
+  88:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static size_t xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 3
+
+
+  89:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  90:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* STATIC FUNCTIONS ARE DEFINED AS MACROS TO MINIMIZE THE FUNCTION CALL DEPTH. */
+  91:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+  92:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*
+  93:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * Insert a block into the list of free blocks - which is ordered by size of
+  94:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * the block.  Small blocks at the start of the list and large blocks at the end
+  95:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * of the list.
+  96:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  */
+  97:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** #define prvInsertBlockIntoFreeList( pxBlockToInsert )								\
+  98:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {																					\
+  99:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxIterator;															\
+ 100:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** size_t xBlockSize;																	\
+ 101:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 																					\
+ 102:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	xBlockSize = pxBlockToInsert->xBlockSize;										\
+ 103:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 																					\
+ 104:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* Iterate through the list until a block is found that has a larger size */	\
+ 105:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* than the block we are inserting. */											\
+ 106:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	for( pxIterator = &xStart; pxIterator->pxNextFreeBlock->xBlockSize < xBlockSize; pxIterator = pxIt
+ 107:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{																				\
+ 108:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		/* There is nothing to do here - just iterate to the correct position. */	\
+ 109:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}																				\
+ 110:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 																					\
+ 111:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* Update the list to include the block being inserted in the correct */		\
+ 112:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* position. */																	\
+ 113:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pxBlockToInsert->pxNextFreeBlock = pxIterator->pxNextFreeBlock;					\
+ 114:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pxIterator->pxNextFreeBlock = pxBlockToInsert;									\
+ 115:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** }
+ 116:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 117:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 118:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** void *pvPortMalloc( size_t xWantedSize )
+ 119:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+ 120:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
+ 121:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static BaseType_t xHeapHasBeenInitialised = pdFALSE;
+ 122:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** void *pvReturn = NULL;
+ 123:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 124:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	vTaskSuspendAll();
+ 125:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{
+ 126:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		/* If this is the first call to malloc then the heap will require
+ 127:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		initialisation to setup the list of free blocks. */
+ 128:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		if( xHeapHasBeenInitialised == pdFALSE )
+ 129:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 130:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			prvHeapInit();
+ 131:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xHeapHasBeenInitialised = pdTRUE;
+ 132:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ 133:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 134:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		/* The wanted size is increased so it can contain a BlockLink_t
+ 135:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		structure in addition to the requested amount of bytes. */
+ 136:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		if( xWantedSize > 0 )
+ 137:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 138:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xWantedSize += heapSTRUCT_SIZE;
+ 139:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 140:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			/* Ensure that blocks are always aligned to the required number of bytes. */
+ 141:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			if( ( xWantedSize & portBYTE_ALIGNMENT_MASK ) != 0 )
+ 142:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 143:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				/* Byte alignment required. */
+ 144:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
+ 145:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 4
+
+
+ 146:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ 147:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 148:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		if( ( xWantedSize > 0 ) && ( xWantedSize < configADJUSTED_HEAP_SIZE ) )
+ 149:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 150:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			/* Blocks are stored in byte order - traverse the list from the start
+ 151:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			(smallest) block until one of adequate size is found. */
+ 152:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			pxPreviousBlock = &xStart;
+ 153:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			pxBlock = xStart.pxNextFreeBlock;
+ 154:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
+ 155:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 156:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				pxPreviousBlock = pxBlock;
+ 157:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				pxBlock = pxBlock->pxNextFreeBlock;
+ 158:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ 159:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 160:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			/* If we found the end marker then a block of adequate size was not found. */
+ 161:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			if( pxBlock != &xEnd )
+ 162:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 163:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				/* Return the memory space - jumping over the BlockLink_t structure
+ 164:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				at its start. */
+ 165:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				pvReturn = ( void * ) ( ( ( uint8_t * ) pxPreviousBlock->pxNextFreeBlock ) + heapSTRUCT_SIZE );
+ 166:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 167:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				/* This block is being returned for use so must be taken out of the
+ 168:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				list of free blocks. */
+ 169:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				pxPreviousBlock->pxNextFreeBlock = pxBlock->pxNextFreeBlock;
+ 170:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 171:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				/* If the block is larger than required it can be split into two. */
+ 172:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				if( ( pxBlock->xBlockSize - xWantedSize ) > heapMINIMUM_BLOCK_SIZE )
+ 173:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				{
+ 174:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					/* This block is to be split into two.  Create a new block
+ 175:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					following the number of bytes requested. The void cast is
+ 176:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					used to prevent byte alignment warnings from the compiler. */
+ 177:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					pxNewBlockLink = ( void * ) ( ( ( uint8_t * ) pxBlock ) + xWantedSize );
+ 178:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 179:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					/* Calculate the sizes of two blocks split from the single
+ 180:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					block. */
+ 181:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					pxNewBlockLink->xBlockSize = pxBlock->xBlockSize - xWantedSize;
+ 182:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					pxBlock->xBlockSize = xWantedSize;
+ 183:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 184:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					/* Insert the new block into the list of free blocks. */
+ 185:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					prvInsertBlockIntoFreeList( ( pxNewBlockLink ) );
+ 186:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				}
+ 187:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 188:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				xFreeBytesRemaining -= pxBlock->xBlockSize;
+ 189:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ 190:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ 191:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 192:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		traceMALLOC( pvReturn, xWantedSize );
+ 193:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}
+ 194:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	( void ) xTaskResumeAll();
+ 195:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 196:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	#if( configUSE_MALLOC_FAILED_HOOK == 1 )
+ 197:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{
+ 198:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		if( pvReturn == NULL )
+ 199:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 200:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			extern void vApplicationMallocFailedHook( void );
+ 201:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			vApplicationMallocFailedHook();
+ 202:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 5
+
+
+ 203:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}
+ 204:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	#endif
+ 205:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 206:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	return pvReturn;
+ 207:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** }
+ 208:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 209:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 210:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** void vPortFree( void *pv )
+ 211:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+ 212:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** uint8_t *puc = ( uint8_t * ) pv;
+ 213:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxLink;
+ 214:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 215:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	if( pv != NULL )
+ 216:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{
+ 217:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		/* The memory being freed will have an BlockLink_t structure immediately
+ 218:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		before it. */
+ 219:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		puc -= heapSTRUCT_SIZE;
+ 220:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 221:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		/* This unexpected casting is to keep some compilers from issuing
+ 222:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		byte alignment warnings. */
+ 223:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		pxLink = ( void * ) puc;
+ 224:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 225:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		vTaskSuspendAll();
+ 226:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 227:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			/* Add this block to the list of free blocks. */
+ 228:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			prvInsertBlockIntoFreeList( ( ( BlockLink_t * ) pxLink ) );
+ 229:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xFreeBytesRemaining += pxLink->xBlockSize;
+ 230:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			traceFREE( pv, pxLink->xBlockSize );
+ 231:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ 232:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		( void ) xTaskResumeAll();
+ 233:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}
+ 234:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** }
+ 235:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 236:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 237:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** size_t xPortGetFreeHeapSize( void )
+ 238:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+ 239:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	return xFreeBytesRemaining;
+ 240:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** }
+ 241:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 242:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 243:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** void vPortInitialiseBlocks( void )
+ 244:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+ 245:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* This just exists to keep the linker quiet. */
+ 246:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** }
+ 247:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 248:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 249:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static void prvHeapInit( void )
+ 250:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** {
+  27              		.loc 1 250 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 251:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxFirstFreeBlock;
+ 252:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** uint8_t *pucAlignedHeap;
+ 253:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 254:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* Ensure the heap starts on a correctly aligned boundary. */
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 6
+
+
+ 255:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &ucHeap[ portBYTE_ALIGNMENT ] ) & ( ~
+  32              		.loc 1 255 0
+  33 0000 094A     		ldr	r2, .L2
+  34 0002 22F00702 		bic	r2, r2, #7
+  35              	.LVL0:
+ 256:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 257:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* xStart is used to hold a pointer to the first item in the list of free
+ 258:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	blocks.  The void cast is used to prevent compiler warnings. */
+ 259:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	xStart.pxNextFreeBlock = ( void * ) pucAlignedHeap;
+  36              		.loc 1 259 0
+  37 0006 094B     		ldr	r3, .L2+4
+  38 0008 C3F84028 		str	r2, [r3, #2112]
+ 260:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	xStart.xBlockSize = ( size_t ) 0;
+  39              		.loc 1 260 0
+  40 000c 0020     		movs	r0, #0
+  41 000e C3F84408 		str	r0, [r3, #2116]
+ 261:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 262:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* xEnd is used to mark the end of the list of free blocks. */
+ 263:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	xEnd.xBlockSize = configADJUSTED_HEAP_SIZE;
+  42              		.loc 1 263 0
+  43 0012 48F6F871 		movw	r1, #36856
+  44 0016 C3F84C18 		str	r1, [r3, #2124]
+ 264:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	xEnd.pxNextFreeBlock = NULL;
+  45              		.loc 1 264 0
+  46 001a C3F84808 		str	r0, [r3, #2120]
+  47              	.LVL1:
+ 265:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 266:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* To start with there is a single free block that is sized to take up the
+ 267:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	entire heap space. */
+ 268:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pxFirstFreeBlock = ( void * ) pucAlignedHeap;
+ 269:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pxFirstFreeBlock->xBlockSize = configADJUSTED_HEAP_SIZE;
+  48              		.loc 1 269 0
+  49 001e 5160     		str	r1, [r2, #4]
+ 270:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pxFirstFreeBlock->pxNextFreeBlock = &xEnd;
+  50              		.loc 1 270 0
+  51 0020 03F64803 		addw	r3, r3, #2120
+  52 0024 1360     		str	r3, [r2]
+  53 0026 7047     		bx	lr
+  54              	.L3:
+  55              		.align	2
+  56              	.L2:
+  57 0028 08000000 		.word	.LANCHOR0+8
+  58 002c C0870000 		.word	.LANCHOR1
+  59              		.cfi_endproc
+  60              	.LFE72:
+  61              		.size	prvHeapInit, .-prvHeapInit
+  62              		.section	.text.pvPortMalloc,"ax",%progbits
+  63              		.align	2
+  64              		.global	pvPortMalloc
+  65              		.thumb
+  66              		.thumb_func
+  67              		.type	pvPortMalloc, %function
+  68              	pvPortMalloc:
+  69              	.LFB68:
+ 119:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
+  70              		.loc 1 119 0
+  71              		.cfi_startproc
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 7
+
+
+  72              		@ args = 0, pretend = 0, frame = 0
+  73              		@ frame_needed = 0, uses_anonymous_args = 0
+  74              	.LVL2:
+  75 0000 70B5     		push	{r4, r5, r6, lr}
+  76              		.cfi_def_cfa_offset 16
+  77              		.cfi_offset 4, -16
+  78              		.cfi_offset 5, -12
+  79              		.cfi_offset 6, -8
+  80              		.cfi_offset 14, -4
+  81 0002 0446     		mov	r4, r0
+  82              	.LVL3:
+ 124:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{
+  83              		.loc 1 124 0
+  84 0004 FFF7FEFF 		bl	vTaskSuspendAll
+  85              	.LVL4:
+ 128:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+  86              		.loc 1 128 0
+  87 0008 264B     		ldr	r3, .L18
+  88 000a D3F85038 		ldr	r3, [r3, #2128]
+  89 000e 2BB9     		cbnz	r3, .L5
+ 130:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xHeapHasBeenInitialised = pdTRUE;
+  90              		.loc 1 130 0
+  91 0010 FFF7FEFF 		bl	prvHeapInit
+  92              	.LVL5:
+ 131:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+  93              		.loc 1 131 0
+  94 0014 0122     		movs	r2, #1
+  95 0016 234B     		ldr	r3, .L18
+  96 0018 C3F85028 		str	r2, [r3, #2128]
+  97              	.L5:
+ 136:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+  98              		.loc 1 136 0
+  99 001c 34B1     		cbz	r4, .L6
+ 138:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 100              		.loc 1 138 0
+ 101 001e 0834     		adds	r4, r4, #8
+ 102              	.LVL6:
+ 141:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 103              		.loc 1 141 0
+ 104 0020 14F0070F 		tst	r4, #7
+ 105 0024 02D0     		beq	.L6
+ 144:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ 106              		.loc 1 144 0
+ 107 0026 24F00704 		bic	r4, r4, #7
+ 108              	.LVL7:
+ 109 002a 0834     		adds	r4, r4, #8
+ 110              	.LVL8:
+ 111              	.L6:
+ 148:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 112              		.loc 1 148 0
+ 113 002c 621E     		subs	r2, r4, #1
+ 114 002e 48F6F673 		movw	r3, #36854
+ 115 0032 9A42     		cmp	r2, r3
+ 116 0034 2BD8     		bhi	.L13
+ 117              	.LVL9:
+ 153:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
+ 118              		.loc 1 153 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 8
+
+
+ 119 0036 1B49     		ldr	r1, .L18
+ 120 0038 D1F84038 		ldr	r3, [r1, #2112]
+ 121              	.LVL10:
+ 152:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			pxBlock = xStart.pxNextFreeBlock;
+ 122              		.loc 1 152 0
+ 123 003c 01F50461 		add	r1, r1, #2112
+ 154:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 124              		.loc 1 154 0
+ 125 0040 01E0     		b	.L9
+ 126              	.LVL11:
+ 127              	.L14:
+ 156:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				pxBlock = pxBlock->pxNextFreeBlock;
+ 128              		.loc 1 156 0
+ 129 0042 1946     		mov	r1, r3
+ 130              	.LVL12:
+ 157:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ 131              		.loc 1 157 0
+ 132 0044 1346     		mov	r3, r2
+ 133              	.LVL13:
+ 134              	.L9:
+ 154:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 135              		.loc 1 154 0
+ 136 0046 5A68     		ldr	r2, [r3, #4]
+ 137 0048 9442     		cmp	r4, r2
+ 138 004a 02D9     		bls	.L8
+ 154:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 139              		.loc 1 154 0 is_stmt 0 discriminator 1
+ 140 004c 1A68     		ldr	r2, [r3]
+ 141 004e 002A     		cmp	r2, #0
+ 142 0050 F7D1     		bne	.L14
+ 143              	.L8:
+ 161:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			{
+ 144              		.loc 1 161 0 is_stmt 1
+ 145 0052 154A     		ldr	r2, .L18+4
+ 146 0054 9342     		cmp	r3, r2
+ 147 0056 1CD0     		beq	.L15
+ 165:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 148              		.loc 1 165 0
+ 149 0058 0D68     		ldr	r5, [r1]
+ 150 005a 0835     		adds	r5, r5, #8
+ 151              	.LVL14:
+ 169:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 152              		.loc 1 169 0
+ 153 005c 1A68     		ldr	r2, [r3]
+ 154 005e 0A60     		str	r2, [r1]
+ 172:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				{
+ 155              		.loc 1 172 0
+ 156 0060 5A68     		ldr	r2, [r3, #4]
+ 157 0062 121B     		subs	r2, r2, r4
+ 158 0064 102A     		cmp	r2, #16
+ 159 0066 0CD9     		bls	.L10
+ 177:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 160              		.loc 1 177 0
+ 161 0068 1E19     		adds	r6, r3, r4
+ 162              	.LVL15:
+ 181:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					pxBlock->xBlockSize = xWantedSize;
+ 163              		.loc 1 181 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 9
+
+
+ 164 006a 7260     		str	r2, [r6, #4]
+ 182:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 165              		.loc 1 182 0
+ 166 006c 5C60     		str	r4, [r3, #4]
+ 167              	.LBB2:
+ 185:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				}
+ 168              		.loc 1 185 0
+ 169 006e 7468     		ldr	r4, [r6, #4]
+ 170              	.LVL16:
+ 171 0070 0E49     		ldr	r1, .L18+8
+ 172              	.LVL17:
+ 173 0072 00E0     		b	.L11
+ 174              	.LVL18:
+ 175              	.L16:
+ 176 0074 1146     		mov	r1, r2
+ 177              	.LVL19:
+ 178              	.L11:
+ 185:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				}
+ 179              		.loc 1 185 0 is_stmt 0 discriminator 1
+ 180 0076 0A68     		ldr	r2, [r1]
+ 181 0078 5068     		ldr	r0, [r2, #4]
+ 182 007a 8442     		cmp	r4, r0
+ 183 007c FAD8     		bhi	.L16
+ 185:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				}
+ 184              		.loc 1 185 0 discriminator 4
+ 185 007e 3260     		str	r2, [r6]
+ 186              	.LVL20:
+ 187 0080 0E60     		str	r6, [r1]
+ 188              	.LVL21:
+ 189              	.L10:
+ 190              	.LBE2:
+ 188:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
+ 191              		.loc 1 188 0 is_stmt 1
+ 192 0082 5968     		ldr	r1, [r3, #4]
+ 193 0084 0A4A     		ldr	r2, .L18+12
+ 194 0086 1368     		ldr	r3, [r2]
+ 195              	.LVL22:
+ 196 0088 5B1A     		subs	r3, r3, r1
+ 197 008a 1360     		str	r3, [r2]
+ 198 008c 02E0     		b	.L7
+ 199              	.LVL23:
+ 200              	.L13:
+ 122:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 201              		.loc 1 122 0
+ 202 008e 0025     		movs	r5, #0
+ 203 0090 00E0     		b	.L7
+ 204              	.LVL24:
+ 205              	.L15:
+ 206 0092 0025     		movs	r5, #0
+ 207              	.LVL25:
+ 208              	.L7:
+ 194:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 209              		.loc 1 194 0
+ 210 0094 FFF7FEFF 		bl	xTaskResumeAll
+ 211              	.LVL26:
+ 198:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 212              		.loc 1 198 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 10
+
+
+ 213 0098 0DB9     		cbnz	r5, .L12
+ 214              	.LBB3:
+ 201:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
+ 215              		.loc 1 201 0
+ 216 009a FFF7FEFF 		bl	vApplicationMallocFailedHook
+ 217              	.LVL27:
+ 218              	.L12:
+ 219              	.LBE3:
+ 207:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 220              		.loc 1 207 0
+ 221 009e 2846     		mov	r0, r5
+ 222 00a0 70BD     		pop	{r4, r5, r6, pc}
+ 223              	.LVL28:
+ 224              	.L19:
+ 225 00a2 00BF     		.align	2
+ 226              	.L18:
+ 227 00a4 C0870000 		.word	.LANCHOR1
+ 228 00a8 08900000 		.word	.LANCHOR1+2120
+ 229 00ac 00900000 		.word	.LANCHOR1+2112
+ 230 00b0 00000000 		.word	.LANCHOR2
+ 231              		.cfi_endproc
+ 232              	.LFE68:
+ 233              		.size	pvPortMalloc, .-pvPortMalloc
+ 234              		.section	.text.vPortFree,"ax",%progbits
+ 235              		.align	2
+ 236              		.global	vPortFree
+ 237              		.thumb
+ 238              		.thumb_func
+ 239              		.type	vPortFree, %function
+ 240              	vPortFree:
+ 241              	.LFB69:
+ 211:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** uint8_t *puc = ( uint8_t * ) pv;
+ 242              		.loc 1 211 0
+ 243              		.cfi_startproc
+ 244              		@ args = 0, pretend = 0, frame = 0
+ 245              		@ frame_needed = 0, uses_anonymous_args = 0
+ 246              	.LVL29:
+ 215:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	{
+ 247              		.loc 1 215 0
+ 248 0000 D0B1     		cbz	r0, .L25
+ 211:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** uint8_t *puc = ( uint8_t * ) pv;
+ 249              		.loc 1 211 0
+ 250 0002 70B5     		push	{r4, r5, r6, lr}
+ 251              		.cfi_def_cfa_offset 16
+ 252              		.cfi_offset 4, -16
+ 253              		.cfi_offset 5, -12
+ 254              		.cfi_offset 6, -8
+ 255              		.cfi_offset 14, -4
+ 256 0004 0546     		mov	r5, r0
+ 219:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
+ 257              		.loc 1 219 0
+ 258 0006 A0F10806 		sub	r6, r0, #8
+ 259              	.LVL30:
+ 225:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
+ 260              		.loc 1 225 0
+ 261 000a FFF7FEFF 		bl	vTaskSuspendAll
+ 262              	.LVL31:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 11
+
+
+ 263              	.LBB4:
+ 228:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xFreeBytesRemaining += pxLink->xBlockSize;
+ 264              		.loc 1 228 0
+ 265 000e 55F8044C 		ldr	r4, [r5, #-4]
+ 266              	.LVL32:
+ 267 0012 0A4A     		ldr	r2, .L26
+ 268 0014 00E0     		b	.L22
+ 269              	.LVL33:
+ 270              	.L23:
+ 271 0016 1A46     		mov	r2, r3
+ 272              	.LVL34:
+ 273              	.L22:
+ 228:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xFreeBytesRemaining += pxLink->xBlockSize;
+ 274              		.loc 1 228 0 is_stmt 0 discriminator 1
+ 275 0018 1368     		ldr	r3, [r2]
+ 276 001a 5968     		ldr	r1, [r3, #4]
+ 277 001c 8C42     		cmp	r4, r1
+ 278 001e FAD8     		bhi	.L23
+ 228:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			xFreeBytesRemaining += pxLink->xBlockSize;
+ 279              		.loc 1 228 0 discriminator 4
+ 280 0020 45F8083C 		str	r3, [r5, #-8]
+ 281 0024 1660     		str	r6, [r2]
+ 282              	.LBE4:
+ 229:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			traceFREE( pv, pxLink->xBlockSize );
+ 283              		.loc 1 229 0 is_stmt 1 discriminator 4
+ 284 0026 55F8043C 		ldr	r3, [r5, #-4]
+ 285 002a 054A     		ldr	r2, .L26+4
+ 286              	.LVL35:
+ 287 002c 1168     		ldr	r1, [r2]
+ 288 002e 0B44     		add	r3, r3, r1
+ 289 0030 1360     		str	r3, [r2]
+ 232:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}
+ 290              		.loc 1 232 0 discriminator 4
+ 291 0032 FFF7FEFF 		bl	xTaskResumeAll
+ 292              	.LVL36:
+ 293 0036 70BD     		pop	{r4, r5, r6, pc}
+ 294              	.LVL37:
+ 295              	.L25:
+ 296              		.cfi_def_cfa_offset 0
+ 297              		.cfi_restore 4
+ 298              		.cfi_restore 5
+ 299              		.cfi_restore 6
+ 300              		.cfi_restore 14
+ 301 0038 7047     		bx	lr
+ 302              	.L27:
+ 303 003a 00BF     		.align	2
+ 304              	.L26:
+ 305 003c 00900000 		.word	.LANCHOR1+2112
+ 306 0040 00000000 		.word	.LANCHOR2
+ 307              		.cfi_endproc
+ 308              	.LFE69:
+ 309              		.size	vPortFree, .-vPortFree
+ 310              		.section	.text.xPortGetFreeHeapSize,"ax",%progbits
+ 311              		.align	2
+ 312              		.global	xPortGetFreeHeapSize
+ 313              		.thumb
+ 314              		.thumb_func
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 12
+
+
+ 315              		.type	xPortGetFreeHeapSize, %function
+ 316              	xPortGetFreeHeapSize:
+ 317              	.LFB70:
+ 238:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	return xFreeBytesRemaining;
+ 318              		.loc 1 238 0
+ 319              		.cfi_startproc
+ 320              		@ args = 0, pretend = 0, frame = 0
+ 321              		@ frame_needed = 0, uses_anonymous_args = 0
+ 322              		@ link register save eliminated.
+ 240:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /*-----------------------------------------------------------*/
+ 323              		.loc 1 240 0
+ 324 0000 014B     		ldr	r3, .L29
+ 325 0002 1868     		ldr	r0, [r3]
+ 326 0004 7047     		bx	lr
+ 327              	.L30:
+ 328 0006 00BF     		.align	2
+ 329              	.L29:
+ 330 0008 00000000 		.word	.LANCHOR2
+ 331              		.cfi_endproc
+ 332              	.LFE70:
+ 333              		.size	xPortGetFreeHeapSize, .-xPortGetFreeHeapSize
+ 334              		.section	.text.vPortInitialiseBlocks,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	vPortInitialiseBlocks
+ 337              		.thumb
+ 338              		.thumb_func
+ 339              		.type	vPortInitialiseBlocks, %function
+ 340              	vPortInitialiseBlocks:
+ 341              	.LFB71:
+ 244:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* This just exists to keep the linker quiet. */
+ 342              		.loc 1 244 0
+ 343              		.cfi_startproc
+ 344              		@ args = 0, pretend = 0, frame = 0
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ 346              		@ link register save eliminated.
+ 347 0000 7047     		bx	lr
+ 348              		.cfi_endproc
+ 349              	.LFE71:
+ 350              		.size	vPortInitialiseBlocks, .-vPortInitialiseBlocks
+ 351 0002 00BF     		.data
+ 352              		.align	2
+ 353              		.set	.LANCHOR2,. + 0
+ 354              		.type	xFreeBytesRemaining, %object
+ 355              		.size	xFreeBytesRemaining, 4
+ 356              	xFreeBytesRemaining:
+ 357 0000 F88F0000 		.word	36856
+ 358              		.bss
+ 359              		.align	2
+ 360              		.set	.LANCHOR0,. + 0
+ 361              		.set	.LANCHOR1,. + 34752
+ 362              		.type	ucHeap, %object
+ 363              		.size	ucHeap, 36864
+ 364              	ucHeap:
+ 365 0000 00000000 		.space	36864
+ 365      00000000 
+ 365      00000000 
+ 365      00000000 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 13
+
+
+ 365      00000000 
+ 366              		.type	xStart, %object
+ 367              		.size	xStart, 8
+ 368              	xStart:
+ 369 9000 00000000 		.space	8
+ 369      00000000 
+ 370              		.type	xEnd, %object
+ 371              		.size	xEnd, 8
+ 372              	xEnd:
+ 373 9008 00000000 		.space	8
+ 373      00000000 
+ 374              		.type	xHeapHasBeenInitialised.7923, %object
+ 375              		.size	xHeapHasBeenInitialised.7923, 4
+ 376              	xHeapHasBeenInitialised.7923:
+ 377 9010 00000000 		.space	4
+ 378              		.text
+ 379              	.Letext0:
+ 380              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 381              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 382              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 383              		.file 5 "..\\FreeRTOS\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 384              		.file 6 "..\\FreeRTOS\\Source\\include/task.h"
+ 385              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 386              		.section	.debug_info,"",%progbits
+ 387              	.Ldebug_info0:
+ 388 0000 88030000 		.4byte	0x388
+ 389 0004 0400     		.2byte	0x4
+ 390 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 391 000a 04       		.byte	0x4
+ 392 000b 01       		.uleb128 0x1
+ 393 000c E9000000 		.4byte	.LASF45
+ 394 0010 0C       		.byte	0xc
+ 395 0011 44020000 		.4byte	.LASF46
+ 396 0015 50000000 		.4byte	.LASF47
+ 397 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 398 001d 00000000 		.4byte	0
+ 399 0021 00000000 		.4byte	.Ldebug_line0
+ 400 0025 02       		.uleb128 0x2
+ 401 0026 0A000000 		.4byte	.LASF4
+ 402 002a 02       		.byte	0x2
+ 403 002b D8       		.byte	0xd8
+ 404 002c 30000000 		.4byte	0x30
+ 405 0030 03       		.uleb128 0x3
+ 406 0031 04       		.byte	0x4
+ 407 0032 07       		.byte	0x7
+ 408 0033 37020000 		.4byte	.LASF0
+ 409 0037 04       		.uleb128 0x4
+ 410 0038 04       		.byte	0x4
+ 411 0039 05       		.byte	0x5
+ 412 003a 696E7400 		.ascii	"int\000"
+ 413 003e 03       		.uleb128 0x3
+ 414 003f 08       		.byte	0x8
+ 415 0040 05       		.byte	0x5
+ 416 0041 CA020000 		.4byte	.LASF1
+ 417 0045 03       		.uleb128 0x3
+ 418 0046 08       		.byte	0x8
+ 419 0047 04       		.byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 14
+
+
+ 420 0048 63030000 		.4byte	.LASF2
+ 421 004c 03       		.uleb128 0x3
+ 422 004d 01       		.byte	0x1
+ 423 004e 06       		.byte	0x6
+ 424 004f 6F030000 		.4byte	.LASF3
+ 425 0053 02       		.uleb128 0x2
+ 426 0054 00000000 		.4byte	.LASF5
+ 427 0058 03       		.byte	0x3
+ 428 0059 1D       		.byte	0x1d
+ 429 005a 5E000000 		.4byte	0x5e
+ 430 005e 03       		.uleb128 0x3
+ 431 005f 01       		.byte	0x1
+ 432 0060 08       		.byte	0x8
+ 433 0061 DB000000 		.4byte	.LASF6
+ 434 0065 03       		.uleb128 0x3
+ 435 0066 02       		.byte	0x2
+ 436 0067 05       		.byte	0x5
+ 437 0068 18030000 		.4byte	.LASF7
+ 438 006c 02       		.uleb128 0x2
+ 439 006d D1010000 		.4byte	.LASF8
+ 440 0071 03       		.byte	0x3
+ 441 0072 2B       		.byte	0x2b
+ 442 0073 77000000 		.4byte	0x77
+ 443 0077 03       		.uleb128 0x3
+ 444 0078 02       		.byte	0x2
+ 445 0079 07       		.byte	0x7
+ 446 007a 94010000 		.4byte	.LASF9
+ 447 007e 02       		.uleb128 0x2
+ 448 007f 21000000 		.4byte	.LASF10
+ 449 0083 03       		.byte	0x3
+ 450 0084 3F       		.byte	0x3f
+ 451 0085 89000000 		.4byte	0x89
+ 452 0089 03       		.uleb128 0x3
+ 453 008a 04       		.byte	0x4
+ 454 008b 05       		.byte	0x5
+ 455 008c 47000000 		.4byte	.LASF11
+ 456 0090 02       		.uleb128 0x2
+ 457 0091 F6010000 		.4byte	.LASF12
+ 458 0095 03       		.byte	0x3
+ 459 0096 41       		.byte	0x41
+ 460 0097 9B000000 		.4byte	0x9b
+ 461 009b 03       		.uleb128 0x3
+ 462 009c 04       		.byte	0x4
+ 463 009d 07       		.byte	0x7
+ 464 009e 82010000 		.4byte	.LASF13
+ 465 00a2 03       		.uleb128 0x3
+ 466 00a3 08       		.byte	0x8
+ 467 00a4 07       		.byte	0x7
+ 468 00a5 71020000 		.4byte	.LASF14
+ 469 00a9 03       		.uleb128 0x3
+ 470 00aa 04       		.byte	0x4
+ 471 00ab 07       		.byte	0x7
+ 472 00ac C1020000 		.4byte	.LASF15
+ 473 00b0 05       		.uleb128 0x5
+ 474 00b1 04       		.byte	0x4
+ 475 00b2 03       		.uleb128 0x3
+ 476 00b3 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 15
+
+
+ 477 00b4 08       		.byte	0x8
+ 478 00b5 E4020000 		.4byte	.LASF16
+ 479 00b9 02       		.uleb128 0x2
+ 480 00ba 88020000 		.4byte	.LASF17
+ 481 00be 04       		.byte	0x4
+ 482 00bf 18       		.byte	0x18
+ 483 00c0 53000000 		.4byte	0x53
+ 484 00c4 02       		.uleb128 0x2
+ 485 00c5 22030000 		.4byte	.LASF18
+ 486 00c9 04       		.byte	0x4
+ 487 00ca 24       		.byte	0x24
+ 488 00cb 6C000000 		.4byte	0x6c
+ 489 00cf 02       		.uleb128 0x2
+ 490 00d0 AD020000 		.4byte	.LASF19
+ 491 00d4 04       		.byte	0x4
+ 492 00d5 2C       		.byte	0x2c
+ 493 00d6 7E000000 		.4byte	0x7e
+ 494 00da 02       		.uleb128 0x2
+ 495 00db 4E030000 		.4byte	.LASF20
+ 496 00df 04       		.byte	0x4
+ 497 00e0 30       		.byte	0x30
+ 498 00e1 90000000 		.4byte	0x90
+ 499 00e5 03       		.uleb128 0x3
+ 500 00e6 04       		.byte	0x4
+ 501 00e7 04       		.byte	0x4
+ 502 00e8 D5000000 		.4byte	.LASF21
+ 503 00ec 03       		.uleb128 0x3
+ 504 00ed 08       		.byte	0x8
+ 505 00ee 04       		.byte	0x4
+ 506 00ef 9A000000 		.4byte	.LASF22
+ 507 00f3 02       		.uleb128 0x2
+ 508 00f4 8B030000 		.4byte	.LASF23
+ 509 00f8 05       		.byte	0x5
+ 510 00f9 38       		.byte	0x38
+ 511 00fa 89000000 		.4byte	0x89
+ 512 00fe 06       		.uleb128 0x6
+ 513 00ff 04       		.byte	0x4
+ 514 0100 B9000000 		.4byte	0xb9
+ 515 0104 07       		.uleb128 0x7
+ 516 0105 3A000000 		.4byte	.LASF48
+ 517 0109 08       		.byte	0x8
+ 518 010a 01       		.byte	0x1
+ 519 010b 49       		.byte	0x49
+ 520 010c 29010000 		.4byte	0x129
+ 521 0110 08       		.uleb128 0x8
+ 522 0111 7B030000 		.4byte	.LASF24
+ 523 0115 01       		.byte	0x1
+ 524 0116 4B       		.byte	0x4b
+ 525 0117 29010000 		.4byte	0x129
+ 526 011b 00       		.byte	0
+ 527 011c 08       		.uleb128 0x8
+ 528 011d 77010000 		.4byte	.LASF25
+ 529 0121 01       		.byte	0x1
+ 530 0122 4C       		.byte	0x4c
+ 531 0123 25000000 		.4byte	0x25
+ 532 0127 04       		.byte	0x4
+ 533 0128 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 16
+
+
+ 534 0129 06       		.uleb128 0x6
+ 535 012a 04       		.byte	0x4
+ 536 012b 04010000 		.4byte	0x104
+ 537 012f 02       		.uleb128 0x2
+ 538 0130 B5020000 		.4byte	.LASF26
+ 539 0134 01       		.byte	0x1
+ 540 0135 4D       		.byte	0x4d
+ 541 0136 04010000 		.4byte	0x104
+ 542 013a 09       		.uleb128 0x9
+ 543 013b 57030000 		.4byte	.LASF49
+ 544 013f 01       		.byte	0x1
+ 545 0140 F9       		.byte	0xf9
+ 546 0141 00000000 		.4byte	.LFB72
+ 547 0145 30000000 		.4byte	.LFE72-.LFB72
+ 548 0149 01       		.uleb128 0x1
+ 549 014a 9C       		.byte	0x9c
+ 550 014b 6A010000 		.4byte	0x16a
+ 551 014f 0A       		.uleb128 0xa
+ 552 0150 BD000000 		.4byte	.LASF27
+ 553 0154 01       		.byte	0x1
+ 554 0155 FB       		.byte	0xfb
+ 555 0156 6A010000 		.4byte	0x16a
+ 556 015a 01       		.uleb128 0x1
+ 557 015b 52       		.byte	0x52
+ 558 015c 0A       		.uleb128 0xa
+ 559 015d FE020000 		.4byte	.LASF28
+ 560 0161 01       		.byte	0x1
+ 561 0162 FC       		.byte	0xfc
+ 562 0163 FE000000 		.4byte	0xfe
+ 563 0167 01       		.uleb128 0x1
+ 564 0168 52       		.byte	0x52
+ 565 0169 00       		.byte	0
+ 566 016a 06       		.uleb128 0x6
+ 567 016b 04       		.byte	0x4
+ 568 016c 2F010000 		.4byte	0x12f
+ 569 0170 0B       		.uleb128 0xb
+ 570 0171 B0000000 		.4byte	.LASF50
+ 571 0175 01       		.byte	0x1
+ 572 0176 76       		.byte	0x76
+ 573 0177 B0000000 		.4byte	0xb0
+ 574 017b 00000000 		.4byte	.LFB68
+ 575 017f B4000000 		.4byte	.LFE68-.LFB68
+ 576 0183 01       		.uleb128 0x1
+ 577 0184 9C       		.byte	0x9c
+ 578 0185 4B020000 		.4byte	0x24b
+ 579 0189 0C       		.uleb128 0xc
+ 580 018a D8020000 		.4byte	.LASF35
+ 581 018e 01       		.byte	0x1
+ 582 018f 76       		.byte	0x76
+ 583 0190 25000000 		.4byte	0x25
+ 584 0194 00000000 		.4byte	.LLST0
+ 585 0198 0D       		.uleb128 0xd
+ 586 0199 A1000000 		.4byte	.LASF29
+ 587 019d 01       		.byte	0x1
+ 588 019e 78       		.byte	0x78
+ 589 019f 6A010000 		.4byte	0x16a
+ 590 01a3 50000000 		.4byte	.LLST1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 17
+
+
+ 591 01a7 0D       		.uleb128 0xd
+ 592 01a8 DC010000 		.4byte	.LASF30
+ 593 01ac 01       		.byte	0x1
+ 594 01ad 78       		.byte	0x78
+ 595 01ae 6A010000 		.4byte	0x16a
+ 596 01b2 6E000000 		.4byte	.LLST2
+ 597 01b6 0D       		.uleb128 0xd
+ 598 01b7 2B000000 		.4byte	.LASF31
+ 599 01bb 01       		.byte	0x1
+ 600 01bc 78       		.byte	0x78
+ 601 01bd 6A010000 		.4byte	0x16a
+ 602 01c1 A7000000 		.4byte	.LLST3
+ 603 01c5 0A       		.uleb128 0xa
+ 604 01c6 A7010000 		.4byte	.LASF32
+ 605 01ca 01       		.byte	0x1
+ 606 01cb 79       		.byte	0x79
+ 607 01cc F3000000 		.4byte	0xf3
+ 608 01d0 05       		.uleb128 0x5
+ 609 01d1 03       		.byte	0x3
+ 610 01d2 10900000 		.4byte	xHeapHasBeenInitialised.7923
+ 611 01d6 0D       		.uleb128 0xd
+ 612 01d7 01020000 		.4byte	.LASF33
+ 613 01db 01       		.byte	0x1
+ 614 01dc 7A       		.byte	0x7a
+ 615 01dd B0000000 		.4byte	0xb0
+ 616 01e1 BA000000 		.4byte	.LLST4
+ 617 01e5 0E       		.uleb128 0xe
+ 618 01e6 6E000000 		.4byte	.LBB2
+ 619 01ea 14000000 		.4byte	.LBE2-.LBB2
+ 620 01ee 11020000 		.4byte	0x211
+ 621 01f2 0D       		.uleb128 0xd
+ 622 01f3 0D030000 		.4byte	.LASF34
+ 623 01f7 01       		.byte	0x1
+ 624 01f8 B9       		.byte	0xb9
+ 625 01f9 6A010000 		.4byte	0x16a
+ 626 01fd FB000000 		.4byte	.LLST5
+ 627 0201 0D       		.uleb128 0xd
+ 628 0202 77010000 		.4byte	.LASF25
+ 629 0206 01       		.byte	0x1
+ 630 0207 B9       		.byte	0xb9
+ 631 0208 25000000 		.4byte	0x25
+ 632 020c 1E010000 		.4byte	.LLST6
+ 633 0210 00       		.byte	0
+ 634 0211 0E       		.uleb128 0xe
+ 635 0212 9A000000 		.4byte	.LBB3
+ 636 0216 04000000 		.4byte	.LBE3-.LBB3
+ 637 021a 2F020000 		.4byte	0x22f
+ 638 021e 0F       		.uleb128 0xf
+ 639 021f 90020000 		.4byte	.LASF42
+ 640 0223 01       		.byte	0x1
+ 641 0224 C8       		.byte	0xc8
+ 642 0225 10       		.uleb128 0x10
+ 643 0226 9E000000 		.4byte	.LVL27
+ 644 022a 68030000 		.4byte	0x368
+ 645 022e 00       		.byte	0
+ 646 022f 10       		.uleb128 0x10
+ 647 0230 08000000 		.4byte	.LVL4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 18
+
+
+ 648 0234 73030000 		.4byte	0x373
+ 649 0238 10       		.uleb128 0x10
+ 650 0239 14000000 		.4byte	.LVL5
+ 651 023d 3A010000 		.4byte	0x13a
+ 652 0241 10       		.uleb128 0x10
+ 653 0242 98000000 		.4byte	.LVL26
+ 654 0246 7F030000 		.4byte	0x37f
+ 655 024a 00       		.byte	0
+ 656 024b 11       		.uleb128 0x11
+ 657 024c EC010000 		.4byte	.LASF51
+ 658 0250 01       		.byte	0x1
+ 659 0251 D2       		.byte	0xd2
+ 660 0252 00000000 		.4byte	.LFB69
+ 661 0256 44000000 		.4byte	.LFE69-.LFB69
+ 662 025a 01       		.uleb128 0x1
+ 663 025b 9C       		.byte	0x9c
+ 664 025c CB020000 		.4byte	0x2cb
+ 665 0260 12       		.uleb128 0x12
+ 666 0261 707600   		.ascii	"pv\000"
+ 667 0264 01       		.byte	0x1
+ 668 0265 D2       		.byte	0xd2
+ 669 0266 B0000000 		.4byte	0xb0
+ 670 026a 31010000 		.4byte	.LLST7
+ 671 026e 13       		.uleb128 0x13
+ 672 026f 70756300 		.ascii	"puc\000"
+ 673 0273 01       		.byte	0x1
+ 674 0274 D4       		.byte	0xd4
+ 675 0275 FE000000 		.4byte	0xfe
+ 676 0279 5A010000 		.4byte	.LLST8
+ 677 027d 0D       		.uleb128 0xd
+ 678 027e A9000000 		.4byte	.LASF36
+ 679 0282 01       		.byte	0x1
+ 680 0283 D5       		.byte	0xd5
+ 681 0284 6A010000 		.4byte	0x16a
+ 682 0288 83010000 		.4byte	.LLST9
+ 683 028c 0E       		.uleb128 0xe
+ 684 028d 0E000000 		.4byte	.LBB4
+ 685 0291 18000000 		.4byte	.LBE4-.LBB4
+ 686 0295 B8020000 		.4byte	0x2b8
+ 687 0299 0D       		.uleb128 0xd
+ 688 029a 0D030000 		.4byte	.LASF34
+ 689 029e 01       		.byte	0x1
+ 690 029f E4       		.byte	0xe4
+ 691 02a0 6A010000 		.4byte	0x16a
+ 692 02a4 96010000 		.4byte	.LLST10
+ 693 02a8 0D       		.uleb128 0xd
+ 694 02a9 77010000 		.4byte	.LASF25
+ 695 02ad 01       		.byte	0x1
+ 696 02ae E4       		.byte	0xe4
+ 697 02af 25000000 		.4byte	0x25
+ 698 02b3 B9010000 		.4byte	.LLST11
+ 699 02b7 00       		.byte	0
+ 700 02b8 10       		.uleb128 0x10
+ 701 02b9 0E000000 		.4byte	.LVL31
+ 702 02bd 73030000 		.4byte	0x373
+ 703 02c1 10       		.uleb128 0x10
+ 704 02c2 36000000 		.4byte	.LVL36
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 19
+
+
+ 705 02c6 7F030000 		.4byte	0x37f
+ 706 02ca 00       		.byte	0
+ 707 02cb 14       		.uleb128 0x14
+ 708 02cc E9020000 		.4byte	.LASF52
+ 709 02d0 01       		.byte	0x1
+ 710 02d1 ED       		.byte	0xed
+ 711 02d2 25000000 		.4byte	0x25
+ 712 02d6 00000000 		.4byte	.LFB70
+ 713 02da 0C000000 		.4byte	.LFE70-.LFB70
+ 714 02de 01       		.uleb128 0x1
+ 715 02df 9C       		.byte	0x9c
+ 716 02e0 15       		.uleb128 0x15
+ 717 02e1 21020000 		.4byte	.LASF53
+ 718 02e5 01       		.byte	0x1
+ 719 02e6 F3       		.byte	0xf3
+ 720 02e7 00000000 		.4byte	.LFB71
+ 721 02eb 02000000 		.4byte	.LFE71-.LFB71
+ 722 02ef 01       		.uleb128 0x1
+ 723 02f0 9C       		.byte	0x9c
+ 724 02f1 16       		.uleb128 0x16
+ 725 02f2 B9000000 		.4byte	0xb9
+ 726 02f6 02030000 		.4byte	0x302
+ 727 02fa 17       		.uleb128 0x17
+ 728 02fb A9000000 		.4byte	0xa9
+ 729 02ff FF8F     		.2byte	0x8fff
+ 730 0301 00       		.byte	0
+ 731 0302 0A       		.uleb128 0xa
+ 732 0303 CE000000 		.4byte	.LASF37
+ 733 0307 01       		.byte	0x1
+ 734 0308 43       		.byte	0x43
+ 735 0309 F1020000 		.4byte	0x2f1
+ 736 030d 05       		.uleb128 0x5
+ 737 030e 03       		.byte	0x3
+ 738 030f 00000000 		.4byte	ucHeap
+ 739 0313 18       		.uleb128 0x18
+ 740 0314 0A020000 		.4byte	.LASF38
+ 741 0318 01       		.byte	0x1
+ 742 0319 50       		.byte	0x50
+ 743 031a 1F030000 		.4byte	0x31f
+ 744 031e 08       		.byte	0x8
+ 745 031f 19       		.uleb128 0x19
+ 746 0320 C4000000 		.4byte	0xc4
+ 747 0324 0A       		.uleb128 0xa
+ 748 0325 1A020000 		.4byte	.LASF39
+ 749 0329 01       		.byte	0x1
+ 750 032a 54       		.byte	0x54
+ 751 032b 2F010000 		.4byte	0x12f
+ 752 032f 05       		.uleb128 0x5
+ 753 0330 03       		.byte	0x3
+ 754 0331 00900000 		.4byte	xStart
+ 755 0335 0A       		.uleb128 0xa
+ 756 0336 CC010000 		.4byte	.LASF40
+ 757 033a 01       		.byte	0x1
+ 758 033b 54       		.byte	0x54
+ 759 033c 2F010000 		.4byte	0x12f
+ 760 0340 05       		.uleb128 0x5
+ 761 0341 03       		.byte	0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 20
+
+
+ 762 0342 08900000 		.4byte	xEnd
+ 763 0346 0A       		.uleb128 0xa
+ 764 0347 2B030000 		.4byte	.LASF41
+ 765 034b 01       		.byte	0x1
+ 766 034c 58       		.byte	0x58
+ 767 034d 25000000 		.4byte	0x25
+ 768 0351 05       		.uleb128 0x5
+ 769 0352 03       		.byte	0x3
+ 770 0353 00000000 		.4byte	xFreeBytesRemaining
+ 771 0357 1A       		.uleb128 0x1a
+ 772 0358 BF010000 		.4byte	.LASF54
+ 773 035c 07       		.byte	0x7
+ 774 035d 1207     		.2byte	0x712
+ 775 035f 63030000 		.4byte	0x363
+ 776 0363 1B       		.uleb128 0x1b
+ 777 0364 CF000000 		.4byte	0xcf
+ 778 0368 1C       		.uleb128 0x1c
+ 779 0369 90020000 		.4byte	.LASF42
+ 780 036d 90020000 		.4byte	.LASF42
+ 781 0371 01       		.byte	0x1
+ 782 0372 C8       		.byte	0xc8
+ 783 0373 1D       		.uleb128 0x1d
+ 784 0374 11000000 		.4byte	.LASF43
+ 785 0378 11000000 		.4byte	.LASF43
+ 786 037c 06       		.byte	0x6
+ 787 037d F904     		.2byte	0x4f9
+ 788 037f 1D       		.uleb128 0x1d
+ 789 0380 3F030000 		.4byte	.LASF44
+ 790 0384 3F030000 		.4byte	.LASF44
+ 791 0388 06       		.byte	0x6
+ 792 0389 2F05     		.2byte	0x52f
+ 793 038b 00       		.byte	0
+ 794              		.section	.debug_abbrev,"",%progbits
+ 795              	.Ldebug_abbrev0:
+ 796 0000 01       		.uleb128 0x1
+ 797 0001 11       		.uleb128 0x11
+ 798 0002 01       		.byte	0x1
+ 799 0003 25       		.uleb128 0x25
+ 800 0004 0E       		.uleb128 0xe
+ 801 0005 13       		.uleb128 0x13
+ 802 0006 0B       		.uleb128 0xb
+ 803 0007 03       		.uleb128 0x3
+ 804 0008 0E       		.uleb128 0xe
+ 805 0009 1B       		.uleb128 0x1b
+ 806 000a 0E       		.uleb128 0xe
+ 807 000b 55       		.uleb128 0x55
+ 808 000c 17       		.uleb128 0x17
+ 809 000d 11       		.uleb128 0x11
+ 810 000e 01       		.uleb128 0x1
+ 811 000f 10       		.uleb128 0x10
+ 812 0010 17       		.uleb128 0x17
+ 813 0011 00       		.byte	0
+ 814 0012 00       		.byte	0
+ 815 0013 02       		.uleb128 0x2
+ 816 0014 16       		.uleb128 0x16
+ 817 0015 00       		.byte	0
+ 818 0016 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 21
+
+
+ 819 0017 0E       		.uleb128 0xe
+ 820 0018 3A       		.uleb128 0x3a
+ 821 0019 0B       		.uleb128 0xb
+ 822 001a 3B       		.uleb128 0x3b
+ 823 001b 0B       		.uleb128 0xb
+ 824 001c 49       		.uleb128 0x49
+ 825 001d 13       		.uleb128 0x13
+ 826 001e 00       		.byte	0
+ 827 001f 00       		.byte	0
+ 828 0020 03       		.uleb128 0x3
+ 829 0021 24       		.uleb128 0x24
+ 830 0022 00       		.byte	0
+ 831 0023 0B       		.uleb128 0xb
+ 832 0024 0B       		.uleb128 0xb
+ 833 0025 3E       		.uleb128 0x3e
+ 834 0026 0B       		.uleb128 0xb
+ 835 0027 03       		.uleb128 0x3
+ 836 0028 0E       		.uleb128 0xe
+ 837 0029 00       		.byte	0
+ 838 002a 00       		.byte	0
+ 839 002b 04       		.uleb128 0x4
+ 840 002c 24       		.uleb128 0x24
+ 841 002d 00       		.byte	0
+ 842 002e 0B       		.uleb128 0xb
+ 843 002f 0B       		.uleb128 0xb
+ 844 0030 3E       		.uleb128 0x3e
+ 845 0031 0B       		.uleb128 0xb
+ 846 0032 03       		.uleb128 0x3
+ 847 0033 08       		.uleb128 0x8
+ 848 0034 00       		.byte	0
+ 849 0035 00       		.byte	0
+ 850 0036 05       		.uleb128 0x5
+ 851 0037 0F       		.uleb128 0xf
+ 852 0038 00       		.byte	0
+ 853 0039 0B       		.uleb128 0xb
+ 854 003a 0B       		.uleb128 0xb
+ 855 003b 00       		.byte	0
+ 856 003c 00       		.byte	0
+ 857 003d 06       		.uleb128 0x6
+ 858 003e 0F       		.uleb128 0xf
+ 859 003f 00       		.byte	0
+ 860 0040 0B       		.uleb128 0xb
+ 861 0041 0B       		.uleb128 0xb
+ 862 0042 49       		.uleb128 0x49
+ 863 0043 13       		.uleb128 0x13
+ 864 0044 00       		.byte	0
+ 865 0045 00       		.byte	0
+ 866 0046 07       		.uleb128 0x7
+ 867 0047 13       		.uleb128 0x13
+ 868 0048 01       		.byte	0x1
+ 869 0049 03       		.uleb128 0x3
+ 870 004a 0E       		.uleb128 0xe
+ 871 004b 0B       		.uleb128 0xb
+ 872 004c 0B       		.uleb128 0xb
+ 873 004d 3A       		.uleb128 0x3a
+ 874 004e 0B       		.uleb128 0xb
+ 875 004f 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 22
+
+
+ 876 0050 0B       		.uleb128 0xb
+ 877 0051 01       		.uleb128 0x1
+ 878 0052 13       		.uleb128 0x13
+ 879 0053 00       		.byte	0
+ 880 0054 00       		.byte	0
+ 881 0055 08       		.uleb128 0x8
+ 882 0056 0D       		.uleb128 0xd
+ 883 0057 00       		.byte	0
+ 884 0058 03       		.uleb128 0x3
+ 885 0059 0E       		.uleb128 0xe
+ 886 005a 3A       		.uleb128 0x3a
+ 887 005b 0B       		.uleb128 0xb
+ 888 005c 3B       		.uleb128 0x3b
+ 889 005d 0B       		.uleb128 0xb
+ 890 005e 49       		.uleb128 0x49
+ 891 005f 13       		.uleb128 0x13
+ 892 0060 38       		.uleb128 0x38
+ 893 0061 0B       		.uleb128 0xb
+ 894 0062 00       		.byte	0
+ 895 0063 00       		.byte	0
+ 896 0064 09       		.uleb128 0x9
+ 897 0065 2E       		.uleb128 0x2e
+ 898 0066 01       		.byte	0x1
+ 899 0067 03       		.uleb128 0x3
+ 900 0068 0E       		.uleb128 0xe
+ 901 0069 3A       		.uleb128 0x3a
+ 902 006a 0B       		.uleb128 0xb
+ 903 006b 3B       		.uleb128 0x3b
+ 904 006c 0B       		.uleb128 0xb
+ 905 006d 27       		.uleb128 0x27
+ 906 006e 19       		.uleb128 0x19
+ 907 006f 11       		.uleb128 0x11
+ 908 0070 01       		.uleb128 0x1
+ 909 0071 12       		.uleb128 0x12
+ 910 0072 06       		.uleb128 0x6
+ 911 0073 40       		.uleb128 0x40
+ 912 0074 18       		.uleb128 0x18
+ 913 0075 9742     		.uleb128 0x2117
+ 914 0077 19       		.uleb128 0x19
+ 915 0078 01       		.uleb128 0x1
+ 916 0079 13       		.uleb128 0x13
+ 917 007a 00       		.byte	0
+ 918 007b 00       		.byte	0
+ 919 007c 0A       		.uleb128 0xa
+ 920 007d 34       		.uleb128 0x34
+ 921 007e 00       		.byte	0
+ 922 007f 03       		.uleb128 0x3
+ 923 0080 0E       		.uleb128 0xe
+ 924 0081 3A       		.uleb128 0x3a
+ 925 0082 0B       		.uleb128 0xb
+ 926 0083 3B       		.uleb128 0x3b
+ 927 0084 0B       		.uleb128 0xb
+ 928 0085 49       		.uleb128 0x49
+ 929 0086 13       		.uleb128 0x13
+ 930 0087 02       		.uleb128 0x2
+ 931 0088 18       		.uleb128 0x18
+ 932 0089 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 23
+
+
+ 933 008a 00       		.byte	0
+ 934 008b 0B       		.uleb128 0xb
+ 935 008c 2E       		.uleb128 0x2e
+ 936 008d 01       		.byte	0x1
+ 937 008e 3F       		.uleb128 0x3f
+ 938 008f 19       		.uleb128 0x19
+ 939 0090 03       		.uleb128 0x3
+ 940 0091 0E       		.uleb128 0xe
+ 941 0092 3A       		.uleb128 0x3a
+ 942 0093 0B       		.uleb128 0xb
+ 943 0094 3B       		.uleb128 0x3b
+ 944 0095 0B       		.uleb128 0xb
+ 945 0096 27       		.uleb128 0x27
+ 946 0097 19       		.uleb128 0x19
+ 947 0098 49       		.uleb128 0x49
+ 948 0099 13       		.uleb128 0x13
+ 949 009a 11       		.uleb128 0x11
+ 950 009b 01       		.uleb128 0x1
+ 951 009c 12       		.uleb128 0x12
+ 952 009d 06       		.uleb128 0x6
+ 953 009e 40       		.uleb128 0x40
+ 954 009f 18       		.uleb128 0x18
+ 955 00a0 9742     		.uleb128 0x2117
+ 956 00a2 19       		.uleb128 0x19
+ 957 00a3 01       		.uleb128 0x1
+ 958 00a4 13       		.uleb128 0x13
+ 959 00a5 00       		.byte	0
+ 960 00a6 00       		.byte	0
+ 961 00a7 0C       		.uleb128 0xc
+ 962 00a8 05       		.uleb128 0x5
+ 963 00a9 00       		.byte	0
+ 964 00aa 03       		.uleb128 0x3
+ 965 00ab 0E       		.uleb128 0xe
+ 966 00ac 3A       		.uleb128 0x3a
+ 967 00ad 0B       		.uleb128 0xb
+ 968 00ae 3B       		.uleb128 0x3b
+ 969 00af 0B       		.uleb128 0xb
+ 970 00b0 49       		.uleb128 0x49
+ 971 00b1 13       		.uleb128 0x13
+ 972 00b2 02       		.uleb128 0x2
+ 973 00b3 17       		.uleb128 0x17
+ 974 00b4 00       		.byte	0
+ 975 00b5 00       		.byte	0
+ 976 00b6 0D       		.uleb128 0xd
+ 977 00b7 34       		.uleb128 0x34
+ 978 00b8 00       		.byte	0
+ 979 00b9 03       		.uleb128 0x3
+ 980 00ba 0E       		.uleb128 0xe
+ 981 00bb 3A       		.uleb128 0x3a
+ 982 00bc 0B       		.uleb128 0xb
+ 983 00bd 3B       		.uleb128 0x3b
+ 984 00be 0B       		.uleb128 0xb
+ 985 00bf 49       		.uleb128 0x49
+ 986 00c0 13       		.uleb128 0x13
+ 987 00c1 02       		.uleb128 0x2
+ 988 00c2 17       		.uleb128 0x17
+ 989 00c3 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 24
+
+
+ 990 00c4 00       		.byte	0
+ 991 00c5 0E       		.uleb128 0xe
+ 992 00c6 0B       		.uleb128 0xb
+ 993 00c7 01       		.byte	0x1
+ 994 00c8 11       		.uleb128 0x11
+ 995 00c9 01       		.uleb128 0x1
+ 996 00ca 12       		.uleb128 0x12
+ 997 00cb 06       		.uleb128 0x6
+ 998 00cc 01       		.uleb128 0x1
+ 999 00cd 13       		.uleb128 0x13
+ 1000 00ce 00       		.byte	0
+ 1001 00cf 00       		.byte	0
+ 1002 00d0 0F       		.uleb128 0xf
+ 1003 00d1 2E       		.uleb128 0x2e
+ 1004 00d2 00       		.byte	0
+ 1005 00d3 3F       		.uleb128 0x3f
+ 1006 00d4 19       		.uleb128 0x19
+ 1007 00d5 03       		.uleb128 0x3
+ 1008 00d6 0E       		.uleb128 0xe
+ 1009 00d7 3A       		.uleb128 0x3a
+ 1010 00d8 0B       		.uleb128 0xb
+ 1011 00d9 3B       		.uleb128 0x3b
+ 1012 00da 0B       		.uleb128 0xb
+ 1013 00db 27       		.uleb128 0x27
+ 1014 00dc 19       		.uleb128 0x19
+ 1015 00dd 3C       		.uleb128 0x3c
+ 1016 00de 19       		.uleb128 0x19
+ 1017 00df 00       		.byte	0
+ 1018 00e0 00       		.byte	0
+ 1019 00e1 10       		.uleb128 0x10
+ 1020 00e2 898201   		.uleb128 0x4109
+ 1021 00e5 00       		.byte	0
+ 1022 00e6 11       		.uleb128 0x11
+ 1023 00e7 01       		.uleb128 0x1
+ 1024 00e8 31       		.uleb128 0x31
+ 1025 00e9 13       		.uleb128 0x13
+ 1026 00ea 00       		.byte	0
+ 1027 00eb 00       		.byte	0
+ 1028 00ec 11       		.uleb128 0x11
+ 1029 00ed 2E       		.uleb128 0x2e
+ 1030 00ee 01       		.byte	0x1
+ 1031 00ef 3F       		.uleb128 0x3f
+ 1032 00f0 19       		.uleb128 0x19
+ 1033 00f1 03       		.uleb128 0x3
+ 1034 00f2 0E       		.uleb128 0xe
+ 1035 00f3 3A       		.uleb128 0x3a
+ 1036 00f4 0B       		.uleb128 0xb
+ 1037 00f5 3B       		.uleb128 0x3b
+ 1038 00f6 0B       		.uleb128 0xb
+ 1039 00f7 27       		.uleb128 0x27
+ 1040 00f8 19       		.uleb128 0x19
+ 1041 00f9 11       		.uleb128 0x11
+ 1042 00fa 01       		.uleb128 0x1
+ 1043 00fb 12       		.uleb128 0x12
+ 1044 00fc 06       		.uleb128 0x6
+ 1045 00fd 40       		.uleb128 0x40
+ 1046 00fe 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 25
+
+
+ 1047 00ff 9742     		.uleb128 0x2117
+ 1048 0101 19       		.uleb128 0x19
+ 1049 0102 01       		.uleb128 0x1
+ 1050 0103 13       		.uleb128 0x13
+ 1051 0104 00       		.byte	0
+ 1052 0105 00       		.byte	0
+ 1053 0106 12       		.uleb128 0x12
+ 1054 0107 05       		.uleb128 0x5
+ 1055 0108 00       		.byte	0
+ 1056 0109 03       		.uleb128 0x3
+ 1057 010a 08       		.uleb128 0x8
+ 1058 010b 3A       		.uleb128 0x3a
+ 1059 010c 0B       		.uleb128 0xb
+ 1060 010d 3B       		.uleb128 0x3b
+ 1061 010e 0B       		.uleb128 0xb
+ 1062 010f 49       		.uleb128 0x49
+ 1063 0110 13       		.uleb128 0x13
+ 1064 0111 02       		.uleb128 0x2
+ 1065 0112 17       		.uleb128 0x17
+ 1066 0113 00       		.byte	0
+ 1067 0114 00       		.byte	0
+ 1068 0115 13       		.uleb128 0x13
+ 1069 0116 34       		.uleb128 0x34
+ 1070 0117 00       		.byte	0
+ 1071 0118 03       		.uleb128 0x3
+ 1072 0119 08       		.uleb128 0x8
+ 1073 011a 3A       		.uleb128 0x3a
+ 1074 011b 0B       		.uleb128 0xb
+ 1075 011c 3B       		.uleb128 0x3b
+ 1076 011d 0B       		.uleb128 0xb
+ 1077 011e 49       		.uleb128 0x49
+ 1078 011f 13       		.uleb128 0x13
+ 1079 0120 02       		.uleb128 0x2
+ 1080 0121 17       		.uleb128 0x17
+ 1081 0122 00       		.byte	0
+ 1082 0123 00       		.byte	0
+ 1083 0124 14       		.uleb128 0x14
+ 1084 0125 2E       		.uleb128 0x2e
+ 1085 0126 00       		.byte	0
+ 1086 0127 3F       		.uleb128 0x3f
+ 1087 0128 19       		.uleb128 0x19
+ 1088 0129 03       		.uleb128 0x3
+ 1089 012a 0E       		.uleb128 0xe
+ 1090 012b 3A       		.uleb128 0x3a
+ 1091 012c 0B       		.uleb128 0xb
+ 1092 012d 3B       		.uleb128 0x3b
+ 1093 012e 0B       		.uleb128 0xb
+ 1094 012f 27       		.uleb128 0x27
+ 1095 0130 19       		.uleb128 0x19
+ 1096 0131 49       		.uleb128 0x49
+ 1097 0132 13       		.uleb128 0x13
+ 1098 0133 11       		.uleb128 0x11
+ 1099 0134 01       		.uleb128 0x1
+ 1100 0135 12       		.uleb128 0x12
+ 1101 0136 06       		.uleb128 0x6
+ 1102 0137 40       		.uleb128 0x40
+ 1103 0138 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 26
+
+
+ 1104 0139 9742     		.uleb128 0x2117
+ 1105 013b 19       		.uleb128 0x19
+ 1106 013c 00       		.byte	0
+ 1107 013d 00       		.byte	0
+ 1108 013e 15       		.uleb128 0x15
+ 1109 013f 2E       		.uleb128 0x2e
+ 1110 0140 00       		.byte	0
+ 1111 0141 3F       		.uleb128 0x3f
+ 1112 0142 19       		.uleb128 0x19
+ 1113 0143 03       		.uleb128 0x3
+ 1114 0144 0E       		.uleb128 0xe
+ 1115 0145 3A       		.uleb128 0x3a
+ 1116 0146 0B       		.uleb128 0xb
+ 1117 0147 3B       		.uleb128 0x3b
+ 1118 0148 0B       		.uleb128 0xb
+ 1119 0149 27       		.uleb128 0x27
+ 1120 014a 19       		.uleb128 0x19
+ 1121 014b 11       		.uleb128 0x11
+ 1122 014c 01       		.uleb128 0x1
+ 1123 014d 12       		.uleb128 0x12
+ 1124 014e 06       		.uleb128 0x6
+ 1125 014f 40       		.uleb128 0x40
+ 1126 0150 18       		.uleb128 0x18
+ 1127 0151 9742     		.uleb128 0x2117
+ 1128 0153 19       		.uleb128 0x19
+ 1129 0154 00       		.byte	0
+ 1130 0155 00       		.byte	0
+ 1131 0156 16       		.uleb128 0x16
+ 1132 0157 01       		.uleb128 0x1
+ 1133 0158 01       		.byte	0x1
+ 1134 0159 49       		.uleb128 0x49
+ 1135 015a 13       		.uleb128 0x13
+ 1136 015b 01       		.uleb128 0x1
+ 1137 015c 13       		.uleb128 0x13
+ 1138 015d 00       		.byte	0
+ 1139 015e 00       		.byte	0
+ 1140 015f 17       		.uleb128 0x17
+ 1141 0160 21       		.uleb128 0x21
+ 1142 0161 00       		.byte	0
+ 1143 0162 49       		.uleb128 0x49
+ 1144 0163 13       		.uleb128 0x13
+ 1145 0164 2F       		.uleb128 0x2f
+ 1146 0165 05       		.uleb128 0x5
+ 1147 0166 00       		.byte	0
+ 1148 0167 00       		.byte	0
+ 1149 0168 18       		.uleb128 0x18
+ 1150 0169 34       		.uleb128 0x34
+ 1151 016a 00       		.byte	0
+ 1152 016b 03       		.uleb128 0x3
+ 1153 016c 0E       		.uleb128 0xe
+ 1154 016d 3A       		.uleb128 0x3a
+ 1155 016e 0B       		.uleb128 0xb
+ 1156 016f 3B       		.uleb128 0x3b
+ 1157 0170 0B       		.uleb128 0xb
+ 1158 0171 49       		.uleb128 0x49
+ 1159 0172 13       		.uleb128 0x13
+ 1160 0173 1C       		.uleb128 0x1c
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 27
+
+
+ 1161 0174 0B       		.uleb128 0xb
+ 1162 0175 00       		.byte	0
+ 1163 0176 00       		.byte	0
+ 1164 0177 19       		.uleb128 0x19
+ 1165 0178 26       		.uleb128 0x26
+ 1166 0179 00       		.byte	0
+ 1167 017a 49       		.uleb128 0x49
+ 1168 017b 13       		.uleb128 0x13
+ 1169 017c 00       		.byte	0
+ 1170 017d 00       		.byte	0
+ 1171 017e 1A       		.uleb128 0x1a
+ 1172 017f 34       		.uleb128 0x34
+ 1173 0180 00       		.byte	0
+ 1174 0181 03       		.uleb128 0x3
+ 1175 0182 0E       		.uleb128 0xe
+ 1176 0183 3A       		.uleb128 0x3a
+ 1177 0184 0B       		.uleb128 0xb
+ 1178 0185 3B       		.uleb128 0x3b
+ 1179 0186 05       		.uleb128 0x5
+ 1180 0187 49       		.uleb128 0x49
+ 1181 0188 13       		.uleb128 0x13
+ 1182 0189 3F       		.uleb128 0x3f
+ 1183 018a 19       		.uleb128 0x19
+ 1184 018b 3C       		.uleb128 0x3c
+ 1185 018c 19       		.uleb128 0x19
+ 1186 018d 00       		.byte	0
+ 1187 018e 00       		.byte	0
+ 1188 018f 1B       		.uleb128 0x1b
+ 1189 0190 35       		.uleb128 0x35
+ 1190 0191 00       		.byte	0
+ 1191 0192 49       		.uleb128 0x49
+ 1192 0193 13       		.uleb128 0x13
+ 1193 0194 00       		.byte	0
+ 1194 0195 00       		.byte	0
+ 1195 0196 1C       		.uleb128 0x1c
+ 1196 0197 2E       		.uleb128 0x2e
+ 1197 0198 00       		.byte	0
+ 1198 0199 3F       		.uleb128 0x3f
+ 1199 019a 19       		.uleb128 0x19
+ 1200 019b 3C       		.uleb128 0x3c
+ 1201 019c 19       		.uleb128 0x19
+ 1202 019d 6E       		.uleb128 0x6e
+ 1203 019e 0E       		.uleb128 0xe
+ 1204 019f 03       		.uleb128 0x3
+ 1205 01a0 0E       		.uleb128 0xe
+ 1206 01a1 3A       		.uleb128 0x3a
+ 1207 01a2 0B       		.uleb128 0xb
+ 1208 01a3 3B       		.uleb128 0x3b
+ 1209 01a4 0B       		.uleb128 0xb
+ 1210 01a5 00       		.byte	0
+ 1211 01a6 00       		.byte	0
+ 1212 01a7 1D       		.uleb128 0x1d
+ 1213 01a8 2E       		.uleb128 0x2e
+ 1214 01a9 00       		.byte	0
+ 1215 01aa 3F       		.uleb128 0x3f
+ 1216 01ab 19       		.uleb128 0x19
+ 1217 01ac 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 28
+
+
+ 1218 01ad 19       		.uleb128 0x19
+ 1219 01ae 6E       		.uleb128 0x6e
+ 1220 01af 0E       		.uleb128 0xe
+ 1221 01b0 03       		.uleb128 0x3
+ 1222 01b1 0E       		.uleb128 0xe
+ 1223 01b2 3A       		.uleb128 0x3a
+ 1224 01b3 0B       		.uleb128 0xb
+ 1225 01b4 3B       		.uleb128 0x3b
+ 1226 01b5 05       		.uleb128 0x5
+ 1227 01b6 00       		.byte	0
+ 1228 01b7 00       		.byte	0
+ 1229 01b8 00       		.byte	0
+ 1230              		.section	.debug_loc,"",%progbits
+ 1231              	.Ldebug_loc0:
+ 1232              	.LLST0:
+ 1233 0000 00000000 		.4byte	.LVL2
+ 1234 0004 07000000 		.4byte	.LVL4-1
+ 1235 0008 0100     		.2byte	0x1
+ 1236 000a 50       		.byte	0x50
+ 1237 000b 07000000 		.4byte	.LVL4-1
+ 1238 000f 2A000000 		.4byte	.LVL7
+ 1239 0013 0100     		.2byte	0x1
+ 1240 0015 54       		.byte	0x54
+ 1241 0016 2A000000 		.4byte	.LVL7
+ 1242 001a 2C000000 		.4byte	.LVL8
+ 1243 001e 0600     		.2byte	0x6
+ 1244 0020 F3       		.byte	0xf3
+ 1245 0021 01       		.uleb128 0x1
+ 1246 0022 50       		.byte	0x50
+ 1247 0023 23       		.byte	0x23
+ 1248 0024 08       		.uleb128 0x8
+ 1249 0025 9F       		.byte	0x9f
+ 1250 0026 2C000000 		.4byte	.LVL8
+ 1251 002a 70000000 		.4byte	.LVL16
+ 1252 002e 0100     		.2byte	0x1
+ 1253 0030 54       		.byte	0x54
+ 1254 0031 70000000 		.4byte	.LVL16
+ 1255 0035 80000000 		.4byte	.LVL20
+ 1256 0039 0200     		.2byte	0x2
+ 1257 003b 73       		.byte	0x73
+ 1258 003c 04       		.sleb128 4
+ 1259 003d 8E000000 		.4byte	.LVL23
+ 1260 0041 94000000 		.4byte	.LVL25
+ 1261 0045 0100     		.2byte	0x1
+ 1262 0047 54       		.byte	0x54
+ 1263 0048 00000000 		.4byte	0
+ 1264 004c 00000000 		.4byte	0
+ 1265              	.LLST1:
+ 1266 0050 3C000000 		.4byte	.LVL10
+ 1267 0054 88000000 		.4byte	.LVL22
+ 1268 0058 0100     		.2byte	0x1
+ 1269 005a 53       		.byte	0x53
+ 1270 005b 92000000 		.4byte	.LVL24
+ 1271 005f 94000000 		.4byte	.LVL25
+ 1272 0063 0100     		.2byte	0x1
+ 1273 0065 53       		.byte	0x53
+ 1274 0066 00000000 		.4byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 29
+
+
+ 1275 006a 00000000 		.4byte	0
+ 1276              	.LLST2:
+ 1277 006e 36000000 		.4byte	.LVL9
+ 1278 0072 42000000 		.4byte	.LVL11
+ 1279 0076 0600     		.2byte	0x6
+ 1280 0078 03       		.byte	0x3
+ 1281 0079 00900000 		.4byte	xStart
+ 1282 007d 9F       		.byte	0x9f
+ 1283 007e 42000000 		.4byte	.LVL11
+ 1284 0082 44000000 		.4byte	.LVL12
+ 1285 0086 0100     		.2byte	0x1
+ 1286 0088 51       		.byte	0x51
+ 1287 0089 46000000 		.4byte	.LVL13
+ 1288 008d 72000000 		.4byte	.LVL17
+ 1289 0091 0100     		.2byte	0x1
+ 1290 0093 51       		.byte	0x51
+ 1291 0094 92000000 		.4byte	.LVL24
+ 1292 0098 94000000 		.4byte	.LVL25
+ 1293 009c 0100     		.2byte	0x1
+ 1294 009e 51       		.byte	0x51
+ 1295 009f 00000000 		.4byte	0
+ 1296 00a3 00000000 		.4byte	0
+ 1297              	.LLST3:
+ 1298 00a7 6A000000 		.4byte	.LVL15
+ 1299 00ab 82000000 		.4byte	.LVL21
+ 1300 00af 0100     		.2byte	0x1
+ 1301 00b1 56       		.byte	0x56
+ 1302 00b2 00000000 		.4byte	0
+ 1303 00b6 00000000 		.4byte	0
+ 1304              	.LLST4:
+ 1305 00ba 04000000 		.4byte	.LVL3
+ 1306 00be 5C000000 		.4byte	.LVL14
+ 1307 00c2 0200     		.2byte	0x2
+ 1308 00c4 30       		.byte	0x30
+ 1309 00c5 9F       		.byte	0x9f
+ 1310 00c6 5C000000 		.4byte	.LVL14
+ 1311 00ca 8E000000 		.4byte	.LVL23
+ 1312 00ce 0100     		.2byte	0x1
+ 1313 00d0 55       		.byte	0x55
+ 1314 00d1 8E000000 		.4byte	.LVL23
+ 1315 00d5 94000000 		.4byte	.LVL25
+ 1316 00d9 0200     		.2byte	0x2
+ 1317 00db 30       		.byte	0x30
+ 1318 00dc 9F       		.byte	0x9f
+ 1319 00dd 94000000 		.4byte	.LVL25
+ 1320 00e1 A2000000 		.4byte	.LVL28
+ 1321 00e5 0100     		.2byte	0x1
+ 1322 00e7 55       		.byte	0x55
+ 1323 00e8 A2000000 		.4byte	.LVL28
+ 1324 00ec B4000000 		.4byte	.LFE68
+ 1325 00f0 0100     		.2byte	0x1
+ 1326 00f2 50       		.byte	0x50
+ 1327 00f3 00000000 		.4byte	0
+ 1328 00f7 00000000 		.4byte	0
+ 1329              	.LLST5:
+ 1330 00fb 70000000 		.4byte	.LVL16
+ 1331 00ff 74000000 		.4byte	.LVL18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 30
+
+
+ 1332 0103 0600     		.2byte	0x6
+ 1333 0105 03       		.byte	0x3
+ 1334 0106 00900000 		.4byte	xStart
+ 1335 010a 9F       		.byte	0x9f
+ 1336 010b 74000000 		.4byte	.LVL18
+ 1337 010f 82000000 		.4byte	.LVL21
+ 1338 0113 0100     		.2byte	0x1
+ 1339 0115 51       		.byte	0x51
+ 1340 0116 00000000 		.4byte	0
+ 1341 011a 00000000 		.4byte	0
+ 1342              	.LLST6:
+ 1343 011e 70000000 		.4byte	.LVL16
+ 1344 0122 82000000 		.4byte	.LVL21
+ 1345 0126 0100     		.2byte	0x1
+ 1346 0128 54       		.byte	0x54
+ 1347 0129 00000000 		.4byte	0
+ 1348 012d 00000000 		.4byte	0
+ 1349              	.LLST7:
+ 1350 0131 00000000 		.4byte	.LVL29
+ 1351 0135 0D000000 		.4byte	.LVL31-1
+ 1352 0139 0100     		.2byte	0x1
+ 1353 013b 50       		.byte	0x50
+ 1354 013c 0D000000 		.4byte	.LVL31-1
+ 1355 0140 38000000 		.4byte	.LVL37
+ 1356 0144 0100     		.2byte	0x1
+ 1357 0146 55       		.byte	0x55
+ 1358 0147 38000000 		.4byte	.LVL37
+ 1359 014b 44000000 		.4byte	.LFE69
+ 1360 014f 0100     		.2byte	0x1
+ 1361 0151 50       		.byte	0x50
+ 1362 0152 00000000 		.4byte	0
+ 1363 0156 00000000 		.4byte	0
+ 1364              	.LLST8:
+ 1365 015a 00000000 		.4byte	.LVL29
+ 1366 015e 0A000000 		.4byte	.LVL30
+ 1367 0162 0100     		.2byte	0x1
+ 1368 0164 50       		.byte	0x50
+ 1369 0165 0A000000 		.4byte	.LVL30
+ 1370 0169 38000000 		.4byte	.LVL37
+ 1371 016d 0100     		.2byte	0x1
+ 1372 016f 56       		.byte	0x56
+ 1373 0170 38000000 		.4byte	.LVL37
+ 1374 0174 44000000 		.4byte	.LFE69
+ 1375 0178 0100     		.2byte	0x1
+ 1376 017a 50       		.byte	0x50
+ 1377 017b 00000000 		.4byte	0
+ 1378 017f 00000000 		.4byte	0
+ 1379              	.LLST9:
+ 1380 0183 0A000000 		.4byte	.LVL30
+ 1381 0187 38000000 		.4byte	.LVL37
+ 1382 018b 0100     		.2byte	0x1
+ 1383 018d 56       		.byte	0x56
+ 1384 018e 00000000 		.4byte	0
+ 1385 0192 00000000 		.4byte	0
+ 1386              	.LLST10:
+ 1387 0196 12000000 		.4byte	.LVL32
+ 1388 019a 16000000 		.4byte	.LVL33
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 31
+
+
+ 1389 019e 0600     		.2byte	0x6
+ 1390 01a0 03       		.byte	0x3
+ 1391 01a1 00900000 		.4byte	xStart
+ 1392 01a5 9F       		.byte	0x9f
+ 1393 01a6 16000000 		.4byte	.LVL33
+ 1394 01aa 2C000000 		.4byte	.LVL35
+ 1395 01ae 0100     		.2byte	0x1
+ 1396 01b0 52       		.byte	0x52
+ 1397 01b1 00000000 		.4byte	0
+ 1398 01b5 00000000 		.4byte	0
+ 1399              	.LLST11:
+ 1400 01b9 12000000 		.4byte	.LVL32
+ 1401 01bd 38000000 		.4byte	.LVL37
+ 1402 01c1 0100     		.2byte	0x1
+ 1403 01c3 54       		.byte	0x54
+ 1404 01c4 00000000 		.4byte	0
+ 1405 01c8 00000000 		.4byte	0
+ 1406              		.section	.debug_aranges,"",%progbits
+ 1407 0000 3C000000 		.4byte	0x3c
+ 1408 0004 0200     		.2byte	0x2
+ 1409 0006 00000000 		.4byte	.Ldebug_info0
+ 1410 000a 04       		.byte	0x4
+ 1411 000b 00       		.byte	0
+ 1412 000c 0000     		.2byte	0
+ 1413 000e 0000     		.2byte	0
+ 1414 0010 00000000 		.4byte	.LFB72
+ 1415 0014 30000000 		.4byte	.LFE72-.LFB72
+ 1416 0018 00000000 		.4byte	.LFB68
+ 1417 001c B4000000 		.4byte	.LFE68-.LFB68
+ 1418 0020 00000000 		.4byte	.LFB69
+ 1419 0024 44000000 		.4byte	.LFE69-.LFB69
+ 1420 0028 00000000 		.4byte	.LFB70
+ 1421 002c 0C000000 		.4byte	.LFE70-.LFB70
+ 1422 0030 00000000 		.4byte	.LFB71
+ 1423 0034 02000000 		.4byte	.LFE71-.LFB71
+ 1424 0038 00000000 		.4byte	0
+ 1425 003c 00000000 		.4byte	0
+ 1426              		.section	.debug_ranges,"",%progbits
+ 1427              	.Ldebug_ranges0:
+ 1428 0000 00000000 		.4byte	.LFB72
+ 1429 0004 30000000 		.4byte	.LFE72
+ 1430 0008 00000000 		.4byte	.LFB68
+ 1431 000c B4000000 		.4byte	.LFE68
+ 1432 0010 00000000 		.4byte	.LFB69
+ 1433 0014 44000000 		.4byte	.LFE69
+ 1434 0018 00000000 		.4byte	.LFB70
+ 1435 001c 0C000000 		.4byte	.LFE70
+ 1436 0020 00000000 		.4byte	.LFB71
+ 1437 0024 02000000 		.4byte	.LFE71
+ 1438 0028 00000000 		.4byte	0
+ 1439 002c 00000000 		.4byte	0
+ 1440              		.section	.debug_line,"",%progbits
+ 1441              	.Ldebug_line0:
+ 1442 0000 F2020000 		.section	.debug_str,"MS",%progbits,1
+ 1442      02004302 
+ 1442      00000201 
+ 1442      FB0E0D00 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 32
+
+
+ 1442      01010101 
+ 1443              	.LASF5:
+ 1444 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 1444      6E74385F 
+ 1444      7400
+ 1445              	.LASF4:
+ 1446 000a 73697A65 		.ascii	"size_t\000"
+ 1446      5F7400
+ 1447              	.LASF43:
+ 1448 0011 76546173 		.ascii	"vTaskSuspendAll\000"
+ 1448      6B537573 
+ 1448      70656E64 
+ 1448      416C6C00 
+ 1449              	.LASF10:
+ 1450 0021 5F5F696E 		.ascii	"__int32_t\000"
+ 1450      7433325F 
+ 1450      7400
+ 1451              	.LASF31:
+ 1452 002b 70784E65 		.ascii	"pxNewBlockLink\000"
+ 1452      77426C6F 
+ 1452      636B4C69 
+ 1452      6E6B00
+ 1453              	.LASF48:
+ 1454 003a 415F424C 		.ascii	"A_BLOCK_LINK\000"
+ 1454      4F434B5F 
+ 1454      4C494E4B 
+ 1454      00
+ 1455              	.LASF11:
+ 1456 0047 6C6F6E67 		.ascii	"long int\000"
+ 1456      20696E74 
+ 1456      00
+ 1457              	.LASF47:
+ 1458 0050 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 1458      73657273 
+ 1458      5C457667 
+ 1458      656E7920 
+ 1458      4D657368 
+ 1459 007f 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 1459      746D705C 
+ 1459      5A756D6F 
+ 1459      5C5A756D 
+ 1459      6F426F74 
+ 1460              	.LASF22:
+ 1461 009a 646F7562 		.ascii	"double\000"
+ 1461      6C6500
+ 1462              	.LASF29:
+ 1463 00a1 7078426C 		.ascii	"pxBlock\000"
+ 1463      6F636B00 
+ 1464              	.LASF36:
+ 1465 00a9 70784C69 		.ascii	"pxLink\000"
+ 1465      6E6B00
+ 1466              	.LASF50:
+ 1467 00b0 7076506F 		.ascii	"pvPortMalloc\000"
+ 1467      72744D61 
+ 1467      6C6C6F63 
+ 1467      00
+ 1468              	.LASF27:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 33
+
+
+ 1469 00bd 70784669 		.ascii	"pxFirstFreeBlock\000"
+ 1469      72737446 
+ 1469      72656542 
+ 1469      6C6F636B 
+ 1469      00
+ 1470              	.LASF37:
+ 1471 00ce 75634865 		.ascii	"ucHeap\000"
+ 1471      617000
+ 1472              	.LASF21:
+ 1473 00d5 666C6F61 		.ascii	"float\000"
+ 1473      7400
+ 1474              	.LASF6:
+ 1475 00db 756E7369 		.ascii	"unsigned char\000"
+ 1475      676E6564 
+ 1475      20636861 
+ 1475      7200
+ 1476              	.LASF45:
+ 1477 00e9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1477      43313120 
+ 1477      352E342E 
+ 1477      31203230 
+ 1477      31363036 
+ 1478 011c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1478      20726576 
+ 1478      6973696F 
+ 1478      6E203233 
+ 1478      37373135 
+ 1479 014f 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1479      66756E63 
+ 1479      74696F6E 
+ 1479      2D736563 
+ 1479      74696F6E 
+ 1480              	.LASF25:
+ 1481 0177 78426C6F 		.ascii	"xBlockSize\000"
+ 1481      636B5369 
+ 1481      7A6500
+ 1482              	.LASF13:
+ 1483 0182 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1483      20756E73 
+ 1483      69676E65 
+ 1483      6420696E 
+ 1483      7400
+ 1484              	.LASF9:
+ 1485 0194 73686F72 		.ascii	"short unsigned int\000"
+ 1485      7420756E 
+ 1485      7369676E 
+ 1485      65642069 
+ 1485      6E7400
+ 1486              	.LASF32:
+ 1487 01a7 78486561 		.ascii	"xHeapHasBeenInitialised\000"
+ 1487      70486173 
+ 1487      4265656E 
+ 1487      496E6974 
+ 1487      69616C69 
+ 1488              	.LASF54:
+ 1489 01bf 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1489      52784275 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 34
+
+
+ 1489      66666572 
+ 1489      00
+ 1490              	.LASF40:
+ 1491 01cc 78456E64 		.ascii	"xEnd\000"
+ 1491      00
+ 1492              	.LASF8:
+ 1493 01d1 5F5F7569 		.ascii	"__uint16_t\000"
+ 1493      6E743136 
+ 1493      5F7400
+ 1494              	.LASF30:
+ 1495 01dc 70785072 		.ascii	"pxPreviousBlock\000"
+ 1495      6576696F 
+ 1495      7573426C 
+ 1495      6F636B00 
+ 1496              	.LASF51:
+ 1497 01ec 76506F72 		.ascii	"vPortFree\000"
+ 1497      74467265 
+ 1497      6500
+ 1498              	.LASF12:
+ 1499 01f6 5F5F7569 		.ascii	"__uint32_t\000"
+ 1499      6E743332 
+ 1499      5F7400
+ 1500              	.LASF33:
+ 1501 0201 70765265 		.ascii	"pvReturn\000"
+ 1501      7475726E 
+ 1501      00
+ 1502              	.LASF38:
+ 1503 020a 68656170 		.ascii	"heapSTRUCT_SIZE\000"
+ 1503      53545255 
+ 1503      43545F53 
+ 1503      495A4500 
+ 1504              	.LASF39:
+ 1505 021a 78537461 		.ascii	"xStart\000"
+ 1505      727400
+ 1506              	.LASF53:
+ 1507 0221 76506F72 		.ascii	"vPortInitialiseBlocks\000"
+ 1507      74496E69 
+ 1507      7469616C 
+ 1507      69736542 
+ 1507      6C6F636B 
+ 1508              	.LASF0:
+ 1509 0237 756E7369 		.ascii	"unsigned int\000"
+ 1509      676E6564 
+ 1509      20696E74 
+ 1509      00
+ 1510              	.LASF46:
+ 1511 0244 2E2E5C46 		.ascii	"..\\FreeRTOS\\Source\\portable\\MemMang\\heap_2.c\000"
+ 1511      72656552 
+ 1511      544F535C 
+ 1511      536F7572 
+ 1511      63655C70 
+ 1512              	.LASF14:
+ 1513 0271 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1513      206C6F6E 
+ 1513      6720756E 
+ 1513      7369676E 
+ 1513      65642069 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 35
+
+
+ 1514              	.LASF17:
+ 1515 0288 75696E74 		.ascii	"uint8_t\000"
+ 1515      385F7400 
+ 1516              	.LASF42:
+ 1517 0290 76417070 		.ascii	"vApplicationMallocFailedHook\000"
+ 1517      6C696361 
+ 1517      74696F6E 
+ 1517      4D616C6C 
+ 1517      6F634661 
+ 1518              	.LASF19:
+ 1519 02ad 696E7433 		.ascii	"int32_t\000"
+ 1519      325F7400 
+ 1520              	.LASF26:
+ 1521 02b5 426C6F63 		.ascii	"BlockLink_t\000"
+ 1521      6B4C696E 
+ 1521      6B5F7400 
+ 1522              	.LASF15:
+ 1523 02c1 73697A65 		.ascii	"sizetype\000"
+ 1523      74797065 
+ 1523      00
+ 1524              	.LASF1:
+ 1525 02ca 6C6F6E67 		.ascii	"long long int\000"
+ 1525      206C6F6E 
+ 1525      6720696E 
+ 1525      7400
+ 1526              	.LASF35:
+ 1527 02d8 7857616E 		.ascii	"xWantedSize\000"
+ 1527      74656453 
+ 1527      697A6500 
+ 1528              	.LASF16:
+ 1529 02e4 63686172 		.ascii	"char\000"
+ 1529      00
+ 1530              	.LASF52:
+ 1531 02e9 78506F72 		.ascii	"xPortGetFreeHeapSize\000"
+ 1531      74476574 
+ 1531      46726565 
+ 1531      48656170 
+ 1531      53697A65 
+ 1532              	.LASF28:
+ 1533 02fe 70756341 		.ascii	"pucAlignedHeap\000"
+ 1533      6C69676E 
+ 1533      65644865 
+ 1533      617000
+ 1534              	.LASF34:
+ 1535 030d 70784974 		.ascii	"pxIterator\000"
+ 1535      65726174 
+ 1535      6F7200
+ 1536              	.LASF7:
+ 1537 0318 73686F72 		.ascii	"short int\000"
+ 1537      7420696E 
+ 1537      7400
+ 1538              	.LASF18:
+ 1539 0322 75696E74 		.ascii	"uint16_t\000"
+ 1539      31365F74 
+ 1539      00
+ 1540              	.LASF41:
+ 1541 032b 78467265 		.ascii	"xFreeBytesRemaining\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccvqEHxi.s 			page 36
+
+
+ 1541      65427974 
+ 1541      65735265 
+ 1541      6D61696E 
+ 1541      696E6700 
+ 1542              	.LASF44:
+ 1543 033f 78546173 		.ascii	"xTaskResumeAll\000"
+ 1543      6B526573 
+ 1543      756D6541 
+ 1543      6C6C00
+ 1544              	.LASF20:
+ 1545 034e 75696E74 		.ascii	"uint32_t\000"
+ 1545      33325F74 
+ 1545      00
+ 1546              	.LASF49:
+ 1547 0357 70727648 		.ascii	"prvHeapInit\000"
+ 1547      65617049 
+ 1547      6E697400 
+ 1548              	.LASF2:
+ 1549 0363 6C6F6E67 		.ascii	"long double\000"
+ 1549      20646F75 
+ 1549      626C6500 
+ 1550              	.LASF3:
+ 1551 036f 7369676E 		.ascii	"signed char\000"
+ 1551      65642063 
+ 1551      68617200 
+ 1552              	.LASF24:
+ 1553 037b 70784E65 		.ascii	"pxNextFreeBlock\000"
+ 1553      78744672 
+ 1553      6565426C 
+ 1553      6F636B00 
+ 1554              	.LASF23:
+ 1555 038b 42617365 		.ascii	"BaseType_t\000"
+ 1555      54797065 
+ 1555      5F7400
+ 1556              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

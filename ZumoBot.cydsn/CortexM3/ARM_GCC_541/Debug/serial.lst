@@ -1,0 +1,2735 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"serial.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.vUartRxISR,"ax",%progbits
+  20              		.align	2
+  21              		.global	vUartRxISR
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	vUartRxISR, %function
+  25              	vUartRxISR:
+  26              	.LFB74:
+  27              		.file 1 "ZumoLibrary\\serial.c"
+   1:ZumoLibrary/serial.c **** /*
+   2:ZumoLibrary/serial.c ****  * FreeRTOS Kernel V10.0.1
+   3:ZumoLibrary/serial.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:ZumoLibrary/serial.c ****  *
+   5:ZumoLibrary/serial.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:ZumoLibrary/serial.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:ZumoLibrary/serial.c ****  * the Software without restriction, including without limitation the rights to
+   8:ZumoLibrary/serial.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:ZumoLibrary/serial.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:ZumoLibrary/serial.c ****  * subject to the following conditions:
+  11:ZumoLibrary/serial.c ****  *
+  12:ZumoLibrary/serial.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:ZumoLibrary/serial.c ****  * copies or substantial portions of the Software.
+  14:ZumoLibrary/serial.c ****  *
+  15:ZumoLibrary/serial.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:ZumoLibrary/serial.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:ZumoLibrary/serial.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:ZumoLibrary/serial.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:ZumoLibrary/serial.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:ZumoLibrary/serial.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:ZumoLibrary/serial.c ****  *
+  22:ZumoLibrary/serial.c ****  * http://www.FreeRTOS.org
+  23:ZumoLibrary/serial.c ****  * http://aws.amazon.com/freertos
+  24:ZumoLibrary/serial.c ****  *
+  25:ZumoLibrary/serial.c ****  * 1 tab == 4 spaces!
+  26:ZumoLibrary/serial.c ****  */
+  27:ZumoLibrary/serial.c **** 
+  28:ZumoLibrary/serial.c **** #include <project.h>
+  29:ZumoLibrary/serial.c **** #include "FreeRTOS.h"
+  30:ZumoLibrary/serial.c **** #include "queue.h"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 2
+
+
+  31:ZumoLibrary/serial.c **** #include "task.h"
+  32:ZumoLibrary/serial.c **** #include "semphr.h"
+  33:ZumoLibrary/serial.c **** #include "serial.h"
+  34:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  35:ZumoLibrary/serial.c **** 
+  36:ZumoLibrary/serial.c **** #define serialSTRING_DELAY_TICKS		( portMAX_DELAY )
+  37:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  38:ZumoLibrary/serial.c **** 
+  39:ZumoLibrary/serial.c **** CY_ISR_PROTO( vUartRxISR );
+  40:ZumoLibrary/serial.c **** CY_ISR_PROTO( vUartTxISR );
+  41:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  42:ZumoLibrary/serial.c **** 
+  43:ZumoLibrary/serial.c **** static QueueHandle_t xSerialTxQueue = NULL;
+  44:ZumoLibrary/serial.c **** static QueueHandle_t xSerialRxQueue = NULL;
+  45:ZumoLibrary/serial.c **** static SemaphoreHandle_t xSerialRxEvent = NULL;
+  46:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  47:ZumoLibrary/serial.c **** 
+  48:ZumoLibrary/serial.c **** xComPortHandle xSerialPortInitMinimal( unsigned long ulWantedBaud, unsigned portBASE_TYPE uxQueueLe
+  49:ZumoLibrary/serial.c **** {
+  50:ZumoLibrary/serial.c ****     (void) ulWantedBaud;
+  51:ZumoLibrary/serial.c ****     /* Create rx event semaphore */
+  52:ZumoLibrary/serial.c ****     xSerialRxEvent = xSemaphoreCreateBinary();
+  53:ZumoLibrary/serial.c ****     
+  54:ZumoLibrary/serial.c ****     /* seems that occasionally receiver gets in a weird state if received data is available when in
+  55:ZumoLibrary/serial.c ****     while(UART_2_ReadRxStatus() & UART_2_RX_STS_FIFO_NOTEMPTY) UART_2_ReadRxData();
+  56:ZumoLibrary/serial.c **** 
+  57:ZumoLibrary/serial.c ****     /* Configure Rx. */
+  58:ZumoLibrary/serial.c **** 	xSerialRxQueue = xQueueCreate( uxQueueLength, sizeof( signed char ) );	
+  59:ZumoLibrary/serial.c **** 	isr_U2_RX_ClearPending();
+  60:ZumoLibrary/serial.c **** 	isr_U2_RX_StartEx(vUartRxISR);
+  61:ZumoLibrary/serial.c **** 
+  62:ZumoLibrary/serial.c **** 	/* Configure Tx */
+  63:ZumoLibrary/serial.c **** #if 1    
+  64:ZumoLibrary/serial.c **** 	xSerialTxQueue = xQueueCreate( uxQueueLength, sizeof( signed char ) );
+  65:ZumoLibrary/serial.c **** 	isr_U2_TX_ClearPending() ;
+  66:ZumoLibrary/serial.c **** 	isr_U2_TX_StartEx(vUartTxISR);
+  67:ZumoLibrary/serial.c ****     
+  68:ZumoLibrary/serial.c **** 	/* Clear the interrupt modes for the Tx for the time being. */
+  69:ZumoLibrary/serial.c **** 	UART_2_SetTxInterruptMode( 0 );
+  70:ZumoLibrary/serial.c **** #endif
+  71:ZumoLibrary/serial.c **** 	/* Both configured successfully. */
+  72:ZumoLibrary/serial.c **** 	return ( xComPortHandle )( xSerialTxQueue && xSerialRxQueue );
+  73:ZumoLibrary/serial.c **** }
+  74:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  75:ZumoLibrary/serial.c **** 
+  76:ZumoLibrary/serial.c **** void vSerialPutString( xComPortHandle pxPort, const signed char * const pcString, unsigned short us
+  77:ZumoLibrary/serial.c **** {
+  78:ZumoLibrary/serial.c ****     (void) pxPort;
+  79:ZumoLibrary/serial.c ****     unsigned short usIndex = 0;
+  80:ZumoLibrary/serial.c **** 
+  81:ZumoLibrary/serial.c **** 	for( usIndex = 0; usIndex < usStringLength; usIndex++ )
+  82:ZumoLibrary/serial.c **** 	{
+  83:ZumoLibrary/serial.c **** 		/* Check for pre-mature end of line. */
+  84:ZumoLibrary/serial.c **** 		if( '\0' == pcString[ usIndex ] )
+  85:ZumoLibrary/serial.c **** 		{
+  86:ZumoLibrary/serial.c **** 			break;
+  87:ZumoLibrary/serial.c **** 		}
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 3
+
+
+  88:ZumoLibrary/serial.c **** 		
+  89:ZumoLibrary/serial.c **** 		/* Send out, one character at a time. */
+  90:ZumoLibrary/serial.c **** 		if( pdTRUE != xSerialPutChar( NULL, pcString[ usIndex ], serialSTRING_DELAY_TICKS ) )
+  91:ZumoLibrary/serial.c **** 		{
+  92:ZumoLibrary/serial.c **** 			/* Failed to send, this will be picked up in the receive comtest task. */
+  93:ZumoLibrary/serial.c **** 		}
+  94:ZumoLibrary/serial.c **** 	}
+  95:ZumoLibrary/serial.c **** }
+  96:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+  97:ZumoLibrary/serial.c **** 
+  98:ZumoLibrary/serial.c **** signed portBASE_TYPE xSerialGetChar( xComPortHandle pxPort, signed char *pcRxedChar, TickType_t xBl
+  99:ZumoLibrary/serial.c **** {
+ 100:ZumoLibrary/serial.c ****     (void) pxPort;
+ 101:ZumoLibrary/serial.c ****     portBASE_TYPE xReturn = pdFALSE;
+ 102:ZumoLibrary/serial.c **** 
+ 103:ZumoLibrary/serial.c **** 	if( pdTRUE == xQueueReceive( xSerialRxQueue, pcRxedChar, xBlockTime ) )
+ 104:ZumoLibrary/serial.c **** 	{
+ 105:ZumoLibrary/serial.c **** 		/* Picked up a character. */
+ 106:ZumoLibrary/serial.c **** 		xReturn = pdTRUE;
+ 107:ZumoLibrary/serial.c **** 	}
+ 108:ZumoLibrary/serial.c **** 	return xReturn;
+ 109:ZumoLibrary/serial.c **** }
+ 110:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 111:ZumoLibrary/serial.c **** 
+ 112:ZumoLibrary/serial.c **** signed portBASE_TYPE xSerialPutChar( xComPortHandle pxPort, signed char cOutChar, TickType_t xBlock
+ 113:ZumoLibrary/serial.c **** {
+ 114:ZumoLibrary/serial.c ****     (void) pxPort;
+ 115:ZumoLibrary/serial.c ****     portBASE_TYPE xReturn = pdFALSE;
+ 116:ZumoLibrary/serial.c **** 
+ 117:ZumoLibrary/serial.c **** 	/* The ISR is processing characters is so just add to the end of the queue. */
+ 118:ZumoLibrary/serial.c **** 	if( pdTRUE == xQueueSend( xSerialTxQueue, &cOutChar, xBlockTime ) )
+ 119:ZumoLibrary/serial.c **** 	{	
+ 120:ZumoLibrary/serial.c **** 		xReturn = pdTRUE;
+ 121:ZumoLibrary/serial.c **** 	}
+ 122:ZumoLibrary/serial.c **** 	else
+ 123:ZumoLibrary/serial.c **** 	{
+ 124:ZumoLibrary/serial.c **** 		/* The queue is probably full. */
+ 125:ZumoLibrary/serial.c **** 		xReturn = pdFALSE;
+ 126:ZumoLibrary/serial.c **** 	}
+ 127:ZumoLibrary/serial.c **** 
+ 128:ZumoLibrary/serial.c **** 	/* Make sure that the interrupt will fire in the case where:
+ 129:ZumoLibrary/serial.c **** 	    Currently sending so the Tx Complete will fire.
+ 130:ZumoLibrary/serial.c **** 	    Not sending so the Empty will fire.	*/
+ 131:ZumoLibrary/serial.c **** 	taskENTER_CRITICAL();
+ 132:ZumoLibrary/serial.c **** 		UART_2_SetTxInterruptMode( UART_2_TX_STS_COMPLETE | UART_2_TX_STS_FIFO_EMPTY );
+ 133:ZumoLibrary/serial.c **** 	taskEXIT_CRITICAL();
+ 134:ZumoLibrary/serial.c **** 	
+ 135:ZumoLibrary/serial.c **** 	return xReturn;
+ 136:ZumoLibrary/serial.c **** }
+ 137:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 138:ZumoLibrary/serial.c **** 
+ 139:ZumoLibrary/serial.c **** signed portBASE_TYPE xSerialWaitForRxEvent( xComPortHandle pxPort, TickType_t xBlockTime )
+ 140:ZumoLibrary/serial.c **** {
+ 141:ZumoLibrary/serial.c ****     (void) pxPort;
+ 142:ZumoLibrary/serial.c ****     portBASE_TYPE xReturn = pdFALSE;
+ 143:ZumoLibrary/serial.c **** 
+ 144:ZumoLibrary/serial.c **** 	if( pdTRUE == xSemaphoreTake( xSerialRxEvent, xBlockTime ) )
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 4
+
+
+ 145:ZumoLibrary/serial.c **** 	{
+ 146:ZumoLibrary/serial.c **** 		/* Got an event. */
+ 147:ZumoLibrary/serial.c **** 		xReturn = pdTRUE;
+ 148:ZumoLibrary/serial.c **** 	}
+ 149:ZumoLibrary/serial.c **** 	return xReturn;
+ 150:ZumoLibrary/serial.c **** }
+ 151:ZumoLibrary/serial.c **** 
+ 152:ZumoLibrary/serial.c **** signed portBASE_TYPE xSerialRxWaiting(  xComPortHandle pxPort ) 
+ 153:ZumoLibrary/serial.c **** {
+ 154:ZumoLibrary/serial.c ****     (void) pxPort;
+ 155:ZumoLibrary/serial.c ****     return uxQueueMessagesWaiting(xSerialRxQueue);
+ 156:ZumoLibrary/serial.c **** }
+ 157:ZumoLibrary/serial.c **** 
+ 158:ZumoLibrary/serial.c **** //void dc(char c); // for debugging
+ 159:ZumoLibrary/serial.c **** 
+ 160:ZumoLibrary/serial.c **** CY_ISR(vUartRxISR)
+ 161:ZumoLibrary/serial.c **** {
+  28              		.loc 1 161 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  36 0002 82B0     		sub	sp, sp, #8
+  37              		.cfi_def_cfa_offset 16
+ 162:ZumoLibrary/serial.c **** BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+  38              		.loc 1 162 0
+  39 0004 0023     		movs	r3, #0
+  40 0006 0193     		str	r3, [sp, #4]
+ 163:ZumoLibrary/serial.c **** volatile unsigned char ucStatus = 0;
+  41              		.loc 1 163 0
+  42 0008 8DF80330 		strb	r3, [sp, #3]
+ 164:ZumoLibrary/serial.c **** signed char cInChar = 0;
+  43              		.loc 1 164 0
+  44 000c 8DF80230 		strb	r3, [sp, #2]
+ 165:ZumoLibrary/serial.c **** 
+ 166:ZumoLibrary/serial.c **** 	/* Read the status to acknowledge. */
+ 167:ZumoLibrary/serial.c **** 	ucStatus = UART_2_ReadRxStatus();
+  45              		.loc 1 167 0
+  46 0010 FFF7FEFF 		bl	UART_2_ReadRxStatus
+  47              	.LVL0:
+  48 0014 8DF80300 		strb	r0, [sp, #3]
+ 168:ZumoLibrary/serial.c **** 
+ 169:ZumoLibrary/serial.c **** 	/* Only interested in a character being received. */
+ 170:ZumoLibrary/serial.c **** 	if( 0 != ( ucStatus & UART_2_RX_STS_FIFO_NOTEMPTY ) )
+  49              		.loc 1 170 0
+  50 0018 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+  51 001c 13F0200F 		tst	r3, #32
+  52 0020 0FD0     		beq	.L2
+ 171:ZumoLibrary/serial.c **** 	{
+ 172:ZumoLibrary/serial.c **** 		/* Get the character. */
+ 173:ZumoLibrary/serial.c **** 		cInChar = UART_2_ReadRxData();
+  53              		.loc 1 173 0
+  54 0022 FFF7FEFF 		bl	UART_2_ReadRxData
+  55              	.LVL1:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 5
+
+
+  56 0026 8DF80200 		strb	r0, [sp, #2]
+ 174:ZumoLibrary/serial.c **** 		/* Try to deliver the character. */
+ 175:ZumoLibrary/serial.c **** 		if( pdTRUE != xQueueSendFromISR( xSerialRxQueue, &cInChar, &xHigherPriorityTaskWoken ) )
+  57              		.loc 1 175 0
+  58 002a 0C4C     		ldr	r4, .L5
+  59 002c 0023     		movs	r3, #0
+  60 002e 01AA     		add	r2, sp, #4
+  61 0030 0DF10201 		add	r1, sp, #2
+  62 0034 2068     		ldr	r0, [r4]
+  63 0036 FFF7FEFF 		bl	xQueueGenericSendFromISR
+  64              	.LVL2:
+ 176:ZumoLibrary/serial.c **** 		{
+ 177:ZumoLibrary/serial.c **** 			/* Run out of space. */
+ 178:ZumoLibrary/serial.c **** 		}
+ 179:ZumoLibrary/serial.c ****         xSemaphoreGiveFromISR( xSerialRxEvent, &xHigherPriorityTaskWoken); // signal receive event
+  65              		.loc 1 179 0
+  66 003a 01A9     		add	r1, sp, #4
+  67 003c 6068     		ldr	r0, [r4, #4]
+  68 003e FFF7FEFF 		bl	xQueueGiveFromISR
+  69              	.LVL3:
+  70              	.L2:
+ 180:ZumoLibrary/serial.c **** 	}
+ 181:ZumoLibrary/serial.c **** 
+ 182:ZumoLibrary/serial.c **** 	/* If we delivered the character then a context switch might be required.
+ 183:ZumoLibrary/serial.c **** 	xHigherPriorityTaskWoken was set to pdFALSE on interrupt entry.  If calling 
+ 184:ZumoLibrary/serial.c **** 	xQueueSendFromISR() caused a task to unblock, and the unblocked task has
+ 185:ZumoLibrary/serial.c **** 	a priority equal to or higher than the currently running task (the task this
+ 186:ZumoLibrary/serial.c **** 	ISR interrupted), then xHigherPriorityTaskWoken will have been set to pdTRUE and
+ 187:ZumoLibrary/serial.c **** 	portEND_SWITCHING_ISR() will request a context switch to the newly unblocked
+ 188:ZumoLibrary/serial.c **** 	task. */
+ 189:ZumoLibrary/serial.c **** 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+  71              		.loc 1 189 0
+  72 0042 019B     		ldr	r3, [sp, #4]
+  73 0044 3BB1     		cbz	r3, .L1
+  74              		.loc 1 189 0 is_stmt 0 discriminator 1
+  75 0046 4FF08052 		mov	r2, #268435456
+  76 004a 054B     		ldr	r3, .L5+4
+  77 004c 1A60     		str	r2, [r3]
+  78              		.syntax unified
+  79              	@ 189 "ZumoLibrary\serial.c" 1
+  80 004e BFF34F8F 		dsb
+  81              	@ 0 "" 2
+  82              	@ 189 "ZumoLibrary\serial.c" 1
+  83 0052 BFF36F8F 		isb
+  84              	@ 0 "" 2
+  85              		.thumb
+  86              		.syntax unified
+  87              	.L1:
+ 190:ZumoLibrary/serial.c **** }
+  88              		.loc 1 190 0 is_stmt 1
+  89 0056 02B0     		add	sp, sp, #8
+  90              		.cfi_def_cfa_offset 8
+  91              		@ sp needed
+  92 0058 10BD     		pop	{r4, pc}
+  93              	.L6:
+  94 005a 00BF     		.align	2
+  95              	.L5:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 6
+
+
+  96 005c 00000000 		.word	.LANCHOR0
+  97 0060 04ED00E0 		.word	-536810236
+  98              		.cfi_endproc
+  99              	.LFE74:
+ 100              		.size	vUartRxISR, .-vUartRxISR
+ 101              		.section	.text.vUartTxISR,"ax",%progbits
+ 102              		.align	2
+ 103              		.global	vUartTxISR
+ 104              		.thumb
+ 105              		.thumb_func
+ 106              		.type	vUartTxISR, %function
+ 107              	vUartTxISR:
+ 108              	.LFB75:
+ 191:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 192:ZumoLibrary/serial.c **** 
+ 193:ZumoLibrary/serial.c **** CY_ISR(vUartTxISR)
+ 194:ZumoLibrary/serial.c **** {
+ 109              		.loc 1 194 0
+ 110              		.cfi_startproc
+ 111              		@ args = 0, pretend = 0, frame = 8
+ 112              		@ frame_needed = 0, uses_anonymous_args = 0
+ 113 0000 00B5     		push	{lr}
+ 114              		.cfi_def_cfa_offset 4
+ 115              		.cfi_offset 14, -4
+ 116 0002 83B0     		sub	sp, sp, #12
+ 117              		.cfi_def_cfa_offset 16
+ 195:ZumoLibrary/serial.c **** BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+ 118              		.loc 1 195 0
+ 119 0004 0023     		movs	r3, #0
+ 120 0006 0193     		str	r3, [sp, #4]
+ 196:ZumoLibrary/serial.c **** volatile unsigned char ucStatus = 0;
+ 121              		.loc 1 196 0
+ 122 0008 8DF80330 		strb	r3, [sp, #3]
+ 197:ZumoLibrary/serial.c **** signed char cOutChar = 0;
+ 123              		.loc 1 197 0
+ 124 000c 8DF80230 		strb	r3, [sp, #2]
+ 198:ZumoLibrary/serial.c **** 
+ 199:ZumoLibrary/serial.c **** 	/* Read the status to acknowledge. */
+ 200:ZumoLibrary/serial.c **** 	ucStatus = UART_2_ReadTxStatus();
+ 125              		.loc 1 200 0
+ 126 0010 FFF7FEFF 		bl	UART_2_ReadTxStatus
+ 127              	.LVL4:
+ 128 0014 8DF80300 		strb	r0, [sp, #3]
+ 201:ZumoLibrary/serial.c **** 	
+ 202:ZumoLibrary/serial.c **** 	/* Check to see whether this is a genuine interrupt. */
+ 203:ZumoLibrary/serial.c **** 	if( 0 != ( ucStatus & UART_2_TX_STS_FIFO_EMPTY ) )
+ 129              		.loc 1 203 0
+ 130 0018 9DF80330 		ldrb	r3, [sp, #3]	@ zero_extendqisi2
+ 131 001c 13F0020F 		tst	r3, #2
+ 132 0020 15D0     		beq	.L8
+ 133              	.L10:
+ 204:ZumoLibrary/serial.c **** 	{	
+ 205:ZumoLibrary/serial.c **** 		do {
+ 206:ZumoLibrary/serial.c **** 			if( pdTRUE == xQueueReceiveFromISR( xSerialTxQueue, &cOutChar, &xHigherPriorityTaskWoken ) )
+ 134              		.loc 1 206 0
+ 135 0022 01AA     		add	r2, sp, #4
+ 136 0024 0DF10201 		add	r1, sp, #2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 7
+
+
+ 137 0028 0F4B     		ldr	r3, .L13
+ 138 002a 9868     		ldr	r0, [r3, #8]
+ 139 002c FFF7FEFF 		bl	xQueueReceiveFromISR
+ 140              	.LVL5:
+ 141 0030 0128     		cmp	r0, #1
+ 142 0032 09D1     		bne	.L9
+ 207:ZumoLibrary/serial.c **** 			{
+ 208:ZumoLibrary/serial.c **** 				/* Send the next character. */
+ 209:ZumoLibrary/serial.c **** 				UART_2_PutChar( cOutChar );			
+ 143              		.loc 1 209 0
+ 144 0034 9DF80200 		ldrb	r0, [sp, #2]	@ zero_extendqisi2
+ 145 0038 FFF7FEFF 		bl	UART_2_PutChar
+ 146              	.LVL6:
+ 210:ZumoLibrary/serial.c **** 			}
+ 211:ZumoLibrary/serial.c **** 			else
+ 212:ZumoLibrary/serial.c **** 			{
+ 213:ZumoLibrary/serial.c **** 				/* There is no work left so disable the interrupt until the application 
+ 214:ZumoLibrary/serial.c **** 				puts more into the queue. */
+ 215:ZumoLibrary/serial.c **** 				UART_2_SetTxInterruptMode( 0 );
+ 216:ZumoLibrary/serial.c ****                 break;
+ 217:ZumoLibrary/serial.c **** 			}
+ 218:ZumoLibrary/serial.c **** 		}while((UART_2_ReadTxStatus() & UART_2_TX_STS_FIFO_FULL) == 0);
+ 147              		.loc 1 218 0
+ 148 003c FFF7FEFF 		bl	UART_2_ReadTxStatus
+ 149              	.LVL7:
+ 150 0040 10F0040F 		tst	r0, #4
+ 151 0044 EDD0     		beq	.L10
+ 152 0046 02E0     		b	.L8
+ 153              	.L9:
+ 215:ZumoLibrary/serial.c ****                 break;
+ 154              		.loc 1 215 0
+ 155 0048 0020     		movs	r0, #0
+ 156 004a FFF7FEFF 		bl	UART_2_SetTxInterruptMode
+ 157              	.LVL8:
+ 158              	.L8:
+ 219:ZumoLibrary/serial.c **** 	}
+ 220:ZumoLibrary/serial.c **** 
+ 221:ZumoLibrary/serial.c **** 	/* If we delivered the character then a context switch might be required.
+ 222:ZumoLibrary/serial.c **** 	xHigherPriorityTaskWoken was set to pdFALSE on interrupt entry.  If calling 
+ 223:ZumoLibrary/serial.c **** 	xQueueSendFromISR() caused a task to unblock, and the unblocked task has
+ 224:ZumoLibrary/serial.c **** 	a priority equal to or higher than the currently running task (the task this
+ 225:ZumoLibrary/serial.c **** 	ISR interrupted), then xHigherPriorityTaskWoken will have been set to pdTRUE and
+ 226:ZumoLibrary/serial.c **** 	portEND_SWITCHING_ISR() will request a context switch to the newly unblocked
+ 227:ZumoLibrary/serial.c **** 	task. */
+ 228:ZumoLibrary/serial.c **** 	portEND_SWITCHING_ISR( xHigherPriorityTaskWoken );
+ 159              		.loc 1 228 0
+ 160 004e 019B     		ldr	r3, [sp, #4]
+ 161 0050 3BB1     		cbz	r3, .L7
+ 162              		.loc 1 228 0 is_stmt 0 discriminator 1
+ 163 0052 4FF08052 		mov	r2, #268435456
+ 164 0056 054B     		ldr	r3, .L13+4
+ 165 0058 1A60     		str	r2, [r3]
+ 166              		.syntax unified
+ 167              	@ 228 "ZumoLibrary\serial.c" 1
+ 168 005a BFF34F8F 		dsb
+ 169              	@ 0 "" 2
+ 170              	@ 228 "ZumoLibrary\serial.c" 1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 8
+
+
+ 171 005e BFF36F8F 		isb
+ 172              	@ 0 "" 2
+ 173              		.thumb
+ 174              		.syntax unified
+ 175              	.L7:
+ 229:ZumoLibrary/serial.c **** }
+ 176              		.loc 1 229 0 is_stmt 1
+ 177 0062 03B0     		add	sp, sp, #12
+ 178              		.cfi_def_cfa_offset 4
+ 179              		@ sp needed
+ 180 0064 5DF804FB 		ldr	pc, [sp], #4
+ 181              	.L14:
+ 182              		.align	2
+ 183              	.L13:
+ 184 0068 00000000 		.word	.LANCHOR0
+ 185 006c 04ED00E0 		.word	-536810236
+ 186              		.cfi_endproc
+ 187              	.LFE75:
+ 188              		.size	vUartTxISR, .-vUartTxISR
+ 189              		.section	.text.xSerialPortInitMinimal,"ax",%progbits
+ 190              		.align	2
+ 191              		.global	xSerialPortInitMinimal
+ 192              		.thumb
+ 193              		.thumb_func
+ 194              		.type	xSerialPortInitMinimal, %function
+ 195              	xSerialPortInitMinimal:
+ 196              	.LFB68:
+  49:ZumoLibrary/serial.c ****     (void) ulWantedBaud;
+ 197              		.loc 1 49 0
+ 198              		.cfi_startproc
+ 199              		@ args = 0, pretend = 0, frame = 0
+ 200              		@ frame_needed = 0, uses_anonymous_args = 0
+ 201              	.LVL9:
+ 202 0000 38B5     		push	{r3, r4, r5, lr}
+ 203              		.cfi_def_cfa_offset 16
+ 204              		.cfi_offset 3, -16
+ 205              		.cfi_offset 4, -12
+ 206              		.cfi_offset 5, -8
+ 207              		.cfi_offset 14, -4
+ 208 0002 0D46     		mov	r5, r1
+  52:ZumoLibrary/serial.c ****     
+ 209              		.loc 1 52 0
+ 210 0004 0322     		movs	r2, #3
+ 211 0006 0021     		movs	r1, #0
+ 212              	.LVL10:
+ 213 0008 0120     		movs	r0, #1
+ 214              	.LVL11:
+ 215 000a FFF7FEFF 		bl	xQueueGenericCreate
+ 216              	.LVL12:
+ 217 000e 174B     		ldr	r3, .L22
+ 218 0010 5860     		str	r0, [r3, #4]
+  55:ZumoLibrary/serial.c **** 
+ 219              		.loc 1 55 0
+ 220 0012 01E0     		b	.L16
+ 221              	.L17:
+  55:ZumoLibrary/serial.c **** 
+ 222              		.loc 1 55 0 is_stmt 0 discriminator 2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 9
+
+
+ 223 0014 FFF7FEFF 		bl	UART_2_ReadRxData
+ 224              	.LVL13:
+ 225              	.L16:
+  55:ZumoLibrary/serial.c **** 
+ 226              		.loc 1 55 0 discriminator 1
+ 227 0018 FFF7FEFF 		bl	UART_2_ReadRxStatus
+ 228              	.LVL14:
+ 229 001c 10F0200F 		tst	r0, #32
+ 230 0020 F8D1     		bne	.L17
+  58:ZumoLibrary/serial.c **** 	isr_U2_RX_ClearPending();
+ 231              		.loc 1 58 0 is_stmt 1
+ 232 0022 0022     		movs	r2, #0
+ 233 0024 0121     		movs	r1, #1
+ 234 0026 2846     		mov	r0, r5
+ 235 0028 FFF7FEFF 		bl	xQueueGenericCreate
+ 236              	.LVL15:
+ 237 002c 0F4C     		ldr	r4, .L22
+ 238 002e 2060     		str	r0, [r4]
+  59:ZumoLibrary/serial.c **** 	isr_U2_RX_StartEx(vUartRxISR);
+ 239              		.loc 1 59 0
+ 240 0030 FFF7FEFF 		bl	isr_U2_RX_ClearPending
+ 241              	.LVL16:
+  60:ZumoLibrary/serial.c **** 
+ 242              		.loc 1 60 0
+ 243 0034 0E48     		ldr	r0, .L22+4
+ 244 0036 FFF7FEFF 		bl	isr_U2_RX_StartEx
+ 245              	.LVL17:
+  64:ZumoLibrary/serial.c **** 	isr_U2_TX_ClearPending() ;
+ 246              		.loc 1 64 0
+ 247 003a 0022     		movs	r2, #0
+ 248 003c 0121     		movs	r1, #1
+ 249 003e 2846     		mov	r0, r5
+ 250 0040 FFF7FEFF 		bl	xQueueGenericCreate
+ 251              	.LVL18:
+ 252 0044 A060     		str	r0, [r4, #8]
+  65:ZumoLibrary/serial.c **** 	isr_U2_TX_StartEx(vUartTxISR);
+ 253              		.loc 1 65 0
+ 254 0046 FFF7FEFF 		bl	isr_U2_TX_ClearPending
+ 255              	.LVL19:
+  66:ZumoLibrary/serial.c ****     
+ 256              		.loc 1 66 0
+ 257 004a 0A48     		ldr	r0, .L22+8
+ 258 004c FFF7FEFF 		bl	isr_U2_TX_StartEx
+ 259              	.LVL20:
+  69:ZumoLibrary/serial.c **** #endif
+ 260              		.loc 1 69 0
+ 261 0050 0020     		movs	r0, #0
+ 262 0052 FFF7FEFF 		bl	UART_2_SetTxInterruptMode
+ 263              	.LVL21:
+  72:ZumoLibrary/serial.c **** }
+ 264              		.loc 1 72 0
+ 265 0056 A368     		ldr	r3, [r4, #8]
+ 266 0058 1BB1     		cbz	r3, .L19
+  72:ZumoLibrary/serial.c **** }
+ 267              		.loc 1 72 0 is_stmt 0 discriminator 1
+ 268 005a 2368     		ldr	r3, [r4]
+ 269 005c 1BB9     		cbnz	r3, .L20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 10
+
+
+  72:ZumoLibrary/serial.c **** }
+ 270              		.loc 1 72 0
+ 271 005e 0020     		movs	r0, #0
+ 272 0060 38BD     		pop	{r3, r4, r5, pc}
+ 273              	.LVL22:
+ 274              	.L19:
+ 275 0062 0020     		movs	r0, #0
+ 276 0064 38BD     		pop	{r3, r4, r5, pc}
+ 277              	.LVL23:
+ 278              	.L20:
+ 279 0066 0120     		movs	r0, #1
+  73:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 280              		.loc 1 73 0 is_stmt 1
+ 281 0068 38BD     		pop	{r3, r4, r5, pc}
+ 282              	.LVL24:
+ 283              	.L23:
+ 284 006a 00BF     		.align	2
+ 285              	.L22:
+ 286 006c 00000000 		.word	.LANCHOR0
+ 287 0070 00000000 		.word	vUartRxISR
+ 288 0074 00000000 		.word	vUartTxISR
+ 289              		.cfi_endproc
+ 290              	.LFE68:
+ 291              		.size	xSerialPortInitMinimal, .-xSerialPortInitMinimal
+ 292              		.section	.text.xSerialGetChar,"ax",%progbits
+ 293              		.align	2
+ 294              		.global	xSerialGetChar
+ 295              		.thumb
+ 296              		.thumb_func
+ 297              		.type	xSerialGetChar, %function
+ 298              	xSerialGetChar:
+ 299              	.LFB70:
+  99:ZumoLibrary/serial.c ****     (void) pxPort;
+ 300              		.loc 1 99 0
+ 301              		.cfi_startproc
+ 302              		@ args = 0, pretend = 0, frame = 0
+ 303              		@ frame_needed = 0, uses_anonymous_args = 0
+ 304              	.LVL25:
+ 305 0000 08B5     		push	{r3, lr}
+ 306              		.cfi_def_cfa_offset 8
+ 307              		.cfi_offset 3, -8
+ 308              		.cfi_offset 14, -4
+ 309              	.LVL26:
+ 103:ZumoLibrary/serial.c **** 	{
+ 310              		.loc 1 103 0
+ 311 0002 054B     		ldr	r3, .L28
+ 312 0004 1868     		ldr	r0, [r3]
+ 313              	.LVL27:
+ 314 0006 FFF7FEFF 		bl	xQueueReceive
+ 315              	.LVL28:
+ 316 000a 0128     		cmp	r0, #1
+ 317 000c 01D0     		beq	.L26
+ 101:ZumoLibrary/serial.c **** 
+ 318              		.loc 1 101 0
+ 319 000e 0020     		movs	r0, #0
+ 320 0010 08BD     		pop	{r3, pc}
+ 321              	.L26:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 11
+
+
+ 106:ZumoLibrary/serial.c **** 	}
+ 322              		.loc 1 106 0
+ 323 0012 0120     		movs	r0, #1
+ 324              	.LVL29:
+ 109:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 325              		.loc 1 109 0
+ 326 0014 08BD     		pop	{r3, pc}
+ 327              	.L29:
+ 328 0016 00BF     		.align	2
+ 329              	.L28:
+ 330 0018 00000000 		.word	.LANCHOR0
+ 331              		.cfi_endproc
+ 332              	.LFE70:
+ 333              		.size	xSerialGetChar, .-xSerialGetChar
+ 334              		.section	.text.xSerialPutChar,"ax",%progbits
+ 335              		.align	2
+ 336              		.global	xSerialPutChar
+ 337              		.thumb
+ 338              		.thumb_func
+ 339              		.type	xSerialPutChar, %function
+ 340              	xSerialPutChar:
+ 341              	.LFB71:
+ 113:ZumoLibrary/serial.c ****     (void) pxPort;
+ 342              		.loc 1 113 0
+ 343              		.cfi_startproc
+ 344              		@ args = 0, pretend = 0, frame = 8
+ 345              		@ frame_needed = 0, uses_anonymous_args = 0
+ 346              	.LVL30:
+ 347 0000 10B5     		push	{r4, lr}
+ 348              		.cfi_def_cfa_offset 8
+ 349              		.cfi_offset 4, -8
+ 350              		.cfi_offset 14, -4
+ 351 0002 82B0     		sub	sp, sp, #8
+ 352              		.cfi_def_cfa_offset 16
+ 353 0004 02A8     		add	r0, sp, #8
+ 354              	.LVL31:
+ 355 0006 00F8011D 		strb	r1, [r0, #-1]!
+ 356              	.LVL32:
+ 118:ZumoLibrary/serial.c **** 	{	
+ 357              		.loc 1 118 0
+ 358 000a 0023     		movs	r3, #0
+ 359 000c 0146     		mov	r1, r0
+ 360              	.LVL33:
+ 361 000e 0948     		ldr	r0, .L34
+ 362              	.LVL34:
+ 363 0010 8068     		ldr	r0, [r0, #8]
+ 364 0012 FFF7FEFF 		bl	xQueueGenericSend
+ 365              	.LVL35:
+ 366 0016 0128     		cmp	r0, #1
+ 367 0018 01D1     		bne	.L32
+ 120:ZumoLibrary/serial.c **** 	}
+ 368              		.loc 1 120 0
+ 369 001a 0124     		movs	r4, #1
+ 370 001c 00E0     		b	.L31
+ 371              	.L32:
+ 125:ZumoLibrary/serial.c **** 	}
+ 372              		.loc 1 125 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 12
+
+
+ 373 001e 0024     		movs	r4, #0
+ 374              	.L31:
+ 375              	.LVL36:
+ 131:ZumoLibrary/serial.c **** 		UART_2_SetTxInterruptMode( UART_2_TX_STS_COMPLETE | UART_2_TX_STS_FIFO_EMPTY );
+ 376              		.loc 1 131 0
+ 377 0020 FFF7FEFF 		bl	vPortEnterCritical
+ 378              	.LVL37:
+ 132:ZumoLibrary/serial.c **** 	taskEXIT_CRITICAL();
+ 379              		.loc 1 132 0
+ 380 0024 0320     		movs	r0, #3
+ 381 0026 FFF7FEFF 		bl	UART_2_SetTxInterruptMode
+ 382              	.LVL38:
+ 133:ZumoLibrary/serial.c **** 	
+ 383              		.loc 1 133 0
+ 384 002a FFF7FEFF 		bl	vPortExitCritical
+ 385              	.LVL39:
+ 136:ZumoLibrary/serial.c **** /*---------------------------------------------------------------------------*/
+ 386              		.loc 1 136 0
+ 387 002e 2046     		mov	r0, r4
+ 388 0030 02B0     		add	sp, sp, #8
+ 389              		.cfi_def_cfa_offset 8
+ 390              	.LVL40:
+ 391              		@ sp needed
+ 392 0032 10BD     		pop	{r4, pc}
+ 393              	.LVL41:
+ 394              	.L35:
+ 395              		.align	2
+ 396              	.L34:
+ 397 0034 00000000 		.word	.LANCHOR0
+ 398              		.cfi_endproc
+ 399              	.LFE71:
+ 400              		.size	xSerialPutChar, .-xSerialPutChar
+ 401              		.section	.text.vSerialPutString,"ax",%progbits
+ 402              		.align	2
+ 403              		.global	vSerialPutString
+ 404              		.thumb
+ 405              		.thumb_func
+ 406              		.type	vSerialPutString, %function
+ 407              	vSerialPutString:
+ 408              	.LFB69:
+  77:ZumoLibrary/serial.c ****     (void) pxPort;
+ 409              		.loc 1 77 0
+ 410              		.cfi_startproc
+ 411              		@ args = 0, pretend = 0, frame = 0
+ 412              		@ frame_needed = 0, uses_anonymous_args = 0
+ 413              	.LVL42:
+ 414 0000 70B5     		push	{r4, r5, r6, lr}
+ 415              		.cfi_def_cfa_offset 16
+ 416              		.cfi_offset 4, -16
+ 417              		.cfi_offset 5, -12
+ 418              		.cfi_offset 6, -8
+ 419              		.cfi_offset 14, -4
+ 420 0002 0E46     		mov	r6, r1
+ 421 0004 1546     		mov	r5, r2
+ 422              	.LVL43:
+  81:ZumoLibrary/serial.c **** 	{
+ 423              		.loc 1 81 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 13
+
+
+ 424 0006 0024     		movs	r4, #0
+ 425 0008 08E0     		b	.L37
+ 426              	.LVL44:
+ 427              	.L39:
+  84:ZumoLibrary/serial.c **** 		{
+ 428              		.loc 1 84 0
+ 429 000a 3157     		ldrsb	r1, [r6, r4]
+ 430 000c 41B1     		cbz	r1, .L36
+  90:ZumoLibrary/serial.c **** 		{
+ 431              		.loc 1 90 0
+ 432 000e 4FF0FF32 		mov	r2, #-1
+ 433 0012 0020     		movs	r0, #0
+ 434 0014 FFF7FEFF 		bl	xSerialPutChar
+ 435              	.LVL45:
+  81:ZumoLibrary/serial.c **** 	{
+ 436              		.loc 1 81 0
+ 437 0018 0134     		adds	r4, r4, #1
+ 438              	.LVL46:
+ 439 001a A4B2     		uxth	r4, r4
+ 440              	.LVL47:
+ 441              	.L37:
+  81:ZumoLibrary/serial.c **** 	{
+ 442              		.loc 1 81 0 is_stmt 0 discriminator 1
+ 443 001c AC42     		cmp	r4, r5
+ 444 001e F4D3     		bcc	.L39
+ 445              	.L36:
+ 446 0020 70BD     		pop	{r4, r5, r6, pc}
+ 447              		.cfi_endproc
+ 448              	.LFE69:
+ 449              		.size	vSerialPutString, .-vSerialPutString
+ 450              		.section	.text.xSerialWaitForRxEvent,"ax",%progbits
+ 451              		.align	2
+ 452              		.global	xSerialWaitForRxEvent
+ 453              		.thumb
+ 454              		.thumb_func
+ 455              		.type	xSerialWaitForRxEvent, %function
+ 456              	xSerialWaitForRxEvent:
+ 457              	.LFB72:
+ 140:ZumoLibrary/serial.c ****     (void) pxPort;
+ 458              		.loc 1 140 0 is_stmt 1
+ 459              		.cfi_startproc
+ 460              		@ args = 0, pretend = 0, frame = 0
+ 461              		@ frame_needed = 0, uses_anonymous_args = 0
+ 462              	.LVL48:
+ 463 0000 08B5     		push	{r3, lr}
+ 464              		.cfi_def_cfa_offset 8
+ 465              		.cfi_offset 3, -8
+ 466              		.cfi_offset 14, -4
+ 467              	.LVL49:
+ 144:ZumoLibrary/serial.c **** 	{
+ 468              		.loc 1 144 0
+ 469 0002 054B     		ldr	r3, .L45
+ 470 0004 5868     		ldr	r0, [r3, #4]
+ 471              	.LVL50:
+ 472 0006 FFF7FEFF 		bl	xQueueSemaphoreTake
+ 473              	.LVL51:
+ 474 000a 0128     		cmp	r0, #1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 14
+
+
+ 475 000c 01D0     		beq	.L43
+ 142:ZumoLibrary/serial.c **** 
+ 476              		.loc 1 142 0
+ 477 000e 0020     		movs	r0, #0
+ 478 0010 08BD     		pop	{r3, pc}
+ 479              	.L43:
+ 147:ZumoLibrary/serial.c **** 	}
+ 480              		.loc 1 147 0
+ 481 0012 0120     		movs	r0, #1
+ 482              	.LVL52:
+ 150:ZumoLibrary/serial.c **** 
+ 483              		.loc 1 150 0
+ 484 0014 08BD     		pop	{r3, pc}
+ 485              	.L46:
+ 486 0016 00BF     		.align	2
+ 487              	.L45:
+ 488 0018 00000000 		.word	.LANCHOR0
+ 489              		.cfi_endproc
+ 490              	.LFE72:
+ 491              		.size	xSerialWaitForRxEvent, .-xSerialWaitForRxEvent
+ 492              		.section	.text.xSerialRxWaiting,"ax",%progbits
+ 493              		.align	2
+ 494              		.global	xSerialRxWaiting
+ 495              		.thumb
+ 496              		.thumb_func
+ 497              		.type	xSerialRxWaiting, %function
+ 498              	xSerialRxWaiting:
+ 499              	.LFB73:
+ 153:ZumoLibrary/serial.c ****     (void) pxPort;
+ 500              		.loc 1 153 0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 0
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              	.LVL53:
+ 505 0000 08B5     		push	{r3, lr}
+ 506              		.cfi_def_cfa_offset 8
+ 507              		.cfi_offset 3, -8
+ 508              		.cfi_offset 14, -4
+ 155:ZumoLibrary/serial.c **** }
+ 509              		.loc 1 155 0
+ 510 0002 024B     		ldr	r3, .L49
+ 511 0004 1868     		ldr	r0, [r3]
+ 512              	.LVL54:
+ 513 0006 FFF7FEFF 		bl	uxQueueMessagesWaiting
+ 514              	.LVL55:
+ 156:ZumoLibrary/serial.c **** 
+ 515              		.loc 1 156 0
+ 516 000a 08BD     		pop	{r3, pc}
+ 517              	.L50:
+ 518              		.align	2
+ 519              	.L49:
+ 520 000c 00000000 		.word	.LANCHOR0
+ 521              		.cfi_endproc
+ 522              	.LFE73:
+ 523              		.size	xSerialRxWaiting, .-xSerialRxWaiting
+ 524              		.bss
+ 525              		.align	2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 15
+
+
+ 526              		.set	.LANCHOR0,. + 0
+ 527              		.type	xSerialRxQueue, %object
+ 528              		.size	xSerialRxQueue, 4
+ 529              	xSerialRxQueue:
+ 530 0000 00000000 		.space	4
+ 531              		.type	xSerialRxEvent, %object
+ 532              		.size	xSerialRxEvent, 4
+ 533              	xSerialRxEvent:
+ 534 0004 00000000 		.space	4
+ 535              		.type	xSerialTxQueue, %object
+ 536              		.size	xSerialTxQueue, 4
+ 537              	xSerialTxQueue:
+ 538 0008 00000000 		.space	4
+ 539              		.text
+ 540              	.Letext0:
+ 541              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 542              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 543              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 544              		.file 5 "..\\FreeRTOS\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 545              		.file 6 "..\\FreeRTOS\\Source\\include/queue.h"
+ 546              		.file 7 "..\\FreeRTOS\\Source\\include/semphr.h"
+ 547              		.file 8 "ZumoLibrary\\serial.h"
+ 548              		.file 9 "Generated_Source\\PSoC5/UART_2.h"
+ 549              		.file 10 "Generated_Source\\PSoC5/isr_U2_RX.h"
+ 550              		.file 11 "Generated_Source\\PSoC5/isr_U2_TX.h"
+ 551              		.file 12 "Generated_Source\\PSoC5/core_cm3.h"
+ 552              		.section	.debug_info,"",%progbits
+ 553              	.Ldebug_info0:
+ 554 0000 46060000 		.4byte	0x646
+ 555 0004 0400     		.2byte	0x4
+ 556 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 557 000a 04       		.byte	0x4
+ 558 000b 01       		.uleb128 0x1
+ 559 000c 2F040000 		.4byte	.LASF70
+ 560 0010 0C       		.byte	0xc
+ 561 0011 7D030000 		.4byte	.LASF71
+ 562 0015 53000000 		.4byte	.LASF72
+ 563 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 564 001d 00000000 		.4byte	0
+ 565 0021 00000000 		.4byte	.Ldebug_line0
+ 566 0025 02       		.uleb128 0x2
+ 567 0026 01       		.byte	0x1
+ 568 0027 06       		.byte	0x6
+ 569 0028 59020000 		.4byte	.LASF0
+ 570 002c 03       		.uleb128 0x3
+ 571 002d D7040000 		.4byte	.LASF4
+ 572 0031 02       		.byte	0x2
+ 573 0032 1D       		.byte	0x1d
+ 574 0033 37000000 		.4byte	0x37
+ 575 0037 02       		.uleb128 0x2
+ 576 0038 01       		.byte	0x1
+ 577 0039 08       		.byte	0x8
+ 578 003a 12020000 		.4byte	.LASF1
+ 579 003e 02       		.uleb128 0x2
+ 580 003f 02       		.byte	0x2
+ 581 0040 05       		.byte	0x5
+ 582 0041 0F010000 		.4byte	.LASF2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 16
+
+
+ 583 0045 02       		.uleb128 0x2
+ 584 0046 02       		.byte	0x2
+ 585 0047 07       		.byte	0x7
+ 586 0048 45030000 		.4byte	.LASF3
+ 587 004c 03       		.uleb128 0x3
+ 588 004d C2030000 		.4byte	.LASF5
+ 589 0051 02       		.byte	0x2
+ 590 0052 3F       		.byte	0x3f
+ 591 0053 57000000 		.4byte	0x57
+ 592 0057 02       		.uleb128 0x2
+ 593 0058 04       		.byte	0x4
+ 594 0059 05       		.byte	0x5
+ 595 005a 86010000 		.4byte	.LASF6
+ 596 005e 03       		.uleb128 0x3
+ 597 005f DE000000 		.4byte	.LASF7
+ 598 0063 02       		.byte	0x2
+ 599 0064 41       		.byte	0x41
+ 600 0065 69000000 		.4byte	0x69
+ 601 0069 02       		.uleb128 0x2
+ 602 006a 04       		.byte	0x4
+ 603 006b 07       		.byte	0x7
+ 604 006c A4030000 		.4byte	.LASF8
+ 605 0070 02       		.uleb128 0x2
+ 606 0071 08       		.byte	0x8
+ 607 0072 05       		.byte	0x5
+ 608 0073 69010000 		.4byte	.LASF9
+ 609 0077 02       		.uleb128 0x2
+ 610 0078 08       		.byte	0x8
+ 611 0079 07       		.byte	0x7
+ 612 007a 6D020000 		.4byte	.LASF10
+ 613 007e 04       		.uleb128 0x4
+ 614 007f 04       		.byte	0x4
+ 615 0080 05       		.byte	0x5
+ 616 0081 696E7400 		.ascii	"int\000"
+ 617 0085 02       		.uleb128 0x2
+ 618 0086 04       		.byte	0x4
+ 619 0087 07       		.byte	0x7
+ 620 0088 A6020000 		.4byte	.LASF11
+ 621 008c 03       		.uleb128 0x3
+ 622 008d 2B010000 		.4byte	.LASF12
+ 623 0091 03       		.byte	0x3
+ 624 0092 18       		.byte	0x18
+ 625 0093 2C000000 		.4byte	0x2c
+ 626 0097 03       		.uleb128 0x3
+ 627 0098 65020000 		.4byte	.LASF13
+ 628 009c 03       		.byte	0x3
+ 629 009d 2C       		.byte	0x2c
+ 630 009e 4C000000 		.4byte	0x4c
+ 631 00a2 03       		.uleb128 0x3
+ 632 00a3 9D020000 		.4byte	.LASF14
+ 633 00a7 03       		.byte	0x3
+ 634 00a8 30       		.byte	0x30
+ 635 00a9 5E000000 		.4byte	0x5e
+ 636 00ad 05       		.uleb128 0x5
+ 637 00ae 77030000 		.4byte	.LASF15
+ 638 00b2 04       		.byte	0x4
+ 639 00b3 E401     		.2byte	0x1e4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 17
+
+
+ 640 00b5 37000000 		.4byte	0x37
+ 641 00b9 02       		.uleb128 0x2
+ 642 00ba 04       		.byte	0x4
+ 643 00bb 04       		.byte	0x4
+ 644 00bc 63010000 		.4byte	.LASF16
+ 645 00c0 02       		.uleb128 0x2
+ 646 00c1 08       		.byte	0x8
+ 647 00c2 04       		.byte	0x4
+ 648 00c3 0E040000 		.4byte	.LASF17
+ 649 00c7 02       		.uleb128 0x2
+ 650 00c8 01       		.byte	0x1
+ 651 00c9 08       		.byte	0x8
+ 652 00ca 0C030000 		.4byte	.LASF18
+ 653 00ce 02       		.uleb128 0x2
+ 654 00cf 08       		.byte	0x8
+ 655 00d0 04       		.byte	0x4
+ 656 00d1 D2000000 		.4byte	.LASF19
+ 657 00d5 02       		.uleb128 0x2
+ 658 00d6 04       		.byte	0x4
+ 659 00d7 07       		.byte	0x7
+ 660 00d8 C0000000 		.4byte	.LASF20
+ 661 00dc 06       		.uleb128 0x6
+ 662 00dd 04       		.byte	0x4
+ 663 00de 03       		.uleb128 0x3
+ 664 00df 8F010000 		.4byte	.LASF21
+ 665 00e3 05       		.byte	0x5
+ 666 00e4 38       		.byte	0x38
+ 667 00e5 57000000 		.4byte	0x57
+ 668 00e9 03       		.uleb128 0x3
+ 669 00ea B6030000 		.4byte	.LASF22
+ 670 00ee 05       		.byte	0x5
+ 671 00ef 39       		.byte	0x39
+ 672 00f0 69000000 		.4byte	0x69
+ 673 00f4 03       		.uleb128 0x3
+ 674 00f5 CA010000 		.4byte	.LASF23
+ 675 00f9 05       		.byte	0x5
+ 676 00fa 3F       		.byte	0x3f
+ 677 00fb A2000000 		.4byte	0xa2
+ 678 00ff 03       		.uleb128 0x3
+ 679 0100 EE030000 		.4byte	.LASF24
+ 680 0104 06       		.byte	0x6
+ 681 0105 2E       		.byte	0x2e
+ 682 0106 DC000000 		.4byte	0xdc
+ 683 010a 03       		.uleb128 0x3
+ 684 010b F8010000 		.4byte	.LASF25
+ 685 010f 07       		.byte	0x7
+ 686 0110 25       		.byte	0x25
+ 687 0111 FF000000 		.4byte	0xff
+ 688 0115 03       		.uleb128 0x3
+ 689 0116 D5010000 		.4byte	.LASF26
+ 690 011a 08       		.byte	0x8
+ 691 011b 21       		.byte	0x21
+ 692 011c DC000000 		.4byte	0xdc
+ 693 0120 07       		.uleb128 0x7
+ 694 0121 BD040000 		.4byte	.LASF30
+ 695 0125 01       		.byte	0x1
+ 696 0126 A0       		.byte	0xa0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 18
+
+
+ 697 0127 00000000 		.4byte	.LFB74
+ 698 012b 64000000 		.4byte	.LFE74-.LFB74
+ 699 012f 01       		.uleb128 0x1
+ 700 0130 9C       		.byte	0x9c
+ 701 0131 A1010000 		.4byte	0x1a1
+ 702 0135 08       		.uleb128 0x8
+ 703 0136 84020000 		.4byte	.LASF27
+ 704 013a 01       		.byte	0x1
+ 705 013b A2       		.byte	0xa2
+ 706 013c DE000000 		.4byte	0xde
+ 707 0140 02       		.uleb128 0x2
+ 708 0141 91       		.byte	0x91
+ 709 0142 74       		.sleb128 -12
+ 710 0143 08       		.uleb128 0x8
+ 711 0144 48010000 		.4byte	.LASF28
+ 712 0148 01       		.byte	0x1
+ 713 0149 A3       		.byte	0xa3
+ 714 014a A1010000 		.4byte	0x1a1
+ 715 014e 02       		.uleb128 0x2
+ 716 014f 91       		.byte	0x91
+ 717 0150 73       		.sleb128 -13
+ 718 0151 08       		.uleb128 0x8
+ 719 0152 0A020000 		.4byte	.LASF29
+ 720 0156 01       		.byte	0x1
+ 721 0157 A4       		.byte	0xa4
+ 722 0158 25000000 		.4byte	0x25
+ 723 015c 02       		.uleb128 0x2
+ 724 015d 91       		.byte	0x91
+ 725 015e 72       		.sleb128 -14
+ 726 015f 09       		.uleb128 0x9
+ 727 0160 14000000 		.4byte	.LVL0
+ 728 0164 70050000 		.4byte	0x570
+ 729 0168 09       		.uleb128 0x9
+ 730 0169 26000000 		.4byte	.LVL1
+ 731 016d 7B050000 		.4byte	0x57b
+ 732 0171 0A       		.uleb128 0xa
+ 733 0172 3A000000 		.4byte	.LVL2
+ 734 0176 86050000 		.4byte	0x586
+ 735 017a 90010000 		.4byte	0x190
+ 736 017e 0B       		.uleb128 0xb
+ 737 017f 01       		.uleb128 0x1
+ 738 0180 51       		.byte	0x51
+ 739 0181 02       		.uleb128 0x2
+ 740 0182 91       		.byte	0x91
+ 741 0183 72       		.sleb128 -14
+ 742 0184 0B       		.uleb128 0xb
+ 743 0185 01       		.uleb128 0x1
+ 744 0186 52       		.byte	0x52
+ 745 0187 02       		.uleb128 0x2
+ 746 0188 91       		.byte	0x91
+ 747 0189 74       		.sleb128 -12
+ 748 018a 0B       		.uleb128 0xb
+ 749 018b 01       		.uleb128 0x1
+ 750 018c 53       		.byte	0x53
+ 751 018d 01       		.uleb128 0x1
+ 752 018e 30       		.byte	0x30
+ 753 018f 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 19
+
+
+ 754 0190 0C       		.uleb128 0xc
+ 755 0191 42000000 		.4byte	.LVL3
+ 756 0195 92050000 		.4byte	0x592
+ 757 0199 0B       		.uleb128 0xb
+ 758 019a 01       		.uleb128 0x1
+ 759 019b 51       		.byte	0x51
+ 760 019c 02       		.uleb128 0x2
+ 761 019d 91       		.byte	0x91
+ 762 019e 74       		.sleb128 -12
+ 763 019f 00       		.byte	0
+ 764 01a0 00       		.byte	0
+ 765 01a1 0D       		.uleb128 0xd
+ 766 01a2 37000000 		.4byte	0x37
+ 767 01a6 07       		.uleb128 0x7
+ 768 01a7 11030000 		.4byte	.LASF31
+ 769 01ab 01       		.byte	0x1
+ 770 01ac C1       		.byte	0xc1
+ 771 01ad 00000000 		.4byte	.LFB75
+ 772 01b1 70000000 		.4byte	.LFE75-.LFB75
+ 773 01b5 01       		.uleb128 0x1
+ 774 01b6 9C       		.byte	0x9c
+ 775 01b7 2A020000 		.4byte	0x22a
+ 776 01bb 08       		.uleb128 0x8
+ 777 01bc 84020000 		.4byte	.LASF27
+ 778 01c0 01       		.byte	0x1
+ 779 01c1 C3       		.byte	0xc3
+ 780 01c2 DE000000 		.4byte	0xde
+ 781 01c6 02       		.uleb128 0x2
+ 782 01c7 91       		.byte	0x91
+ 783 01c8 74       		.sleb128 -12
+ 784 01c9 08       		.uleb128 0x8
+ 785 01ca 48010000 		.4byte	.LASF28
+ 786 01ce 01       		.byte	0x1
+ 787 01cf C4       		.byte	0xc4
+ 788 01d0 A1010000 		.4byte	0x1a1
+ 789 01d4 02       		.uleb128 0x2
+ 790 01d5 91       		.byte	0x91
+ 791 01d6 73       		.sleb128 -13
+ 792 01d7 08       		.uleb128 0x8
+ 793 01d8 C9000000 		.4byte	.LASF32
+ 794 01dc 01       		.byte	0x1
+ 795 01dd C5       		.byte	0xc5
+ 796 01de 25000000 		.4byte	0x25
+ 797 01e2 02       		.uleb128 0x2
+ 798 01e3 91       		.byte	0x91
+ 799 01e4 72       		.sleb128 -14
+ 800 01e5 09       		.uleb128 0x9
+ 801 01e6 14000000 		.4byte	.LVL4
+ 802 01ea 9E050000 		.4byte	0x59e
+ 803 01ee 0A       		.uleb128 0xa
+ 804 01ef 30000000 		.4byte	.LVL5
+ 805 01f3 A9050000 		.4byte	0x5a9
+ 806 01f7 08020000 		.4byte	0x208
+ 807 01fb 0B       		.uleb128 0xb
+ 808 01fc 01       		.uleb128 0x1
+ 809 01fd 51       		.byte	0x51
+ 810 01fe 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 20
+
+
+ 811 01ff 91       		.byte	0x91
+ 812 0200 72       		.sleb128 -14
+ 813 0201 0B       		.uleb128 0xb
+ 814 0202 01       		.uleb128 0x1
+ 815 0203 52       		.byte	0x52
+ 816 0204 02       		.uleb128 0x2
+ 817 0205 91       		.byte	0x91
+ 818 0206 74       		.sleb128 -12
+ 819 0207 00       		.byte	0
+ 820 0208 09       		.uleb128 0x9
+ 821 0209 3C000000 		.4byte	.LVL6
+ 822 020d B5050000 		.4byte	0x5b5
+ 823 0211 09       		.uleb128 0x9
+ 824 0212 40000000 		.4byte	.LVL7
+ 825 0216 9E050000 		.4byte	0x59e
+ 826 021a 0C       		.uleb128 0xc
+ 827 021b 4E000000 		.4byte	.LVL8
+ 828 021f C0050000 		.4byte	0x5c0
+ 829 0223 0B       		.uleb128 0xb
+ 830 0224 01       		.uleb128 0x1
+ 831 0225 50       		.byte	0x50
+ 832 0226 01       		.uleb128 0x1
+ 833 0227 30       		.byte	0x30
+ 834 0228 00       		.byte	0
+ 835 0229 00       		.byte	0
+ 836 022a 0E       		.uleb128 0xe
+ 837 022b 00000000 		.4byte	.LASF35
+ 838 022f 01       		.byte	0x1
+ 839 0230 30       		.byte	0x30
+ 840 0231 15010000 		.4byte	0x115
+ 841 0235 00000000 		.4byte	.LFB68
+ 842 0239 78000000 		.4byte	.LFE68-.LFB68
+ 843 023d 01       		.uleb128 0x1
+ 844 023e 9C       		.byte	0x9c
+ 845 023f 1C030000 		.4byte	0x31c
+ 846 0243 0F       		.uleb128 0xf
+ 847 0244 15040000 		.4byte	.LASF33
+ 848 0248 01       		.byte	0x1
+ 849 0249 30       		.byte	0x30
+ 850 024a 69000000 		.4byte	0x69
+ 851 024e 00000000 		.4byte	.LLST0
+ 852 0252 0F       		.uleb128 0xf
+ 853 0253 D2020000 		.4byte	.LASF34
+ 854 0257 01       		.byte	0x1
+ 855 0258 30       		.byte	0x30
+ 856 0259 69000000 		.4byte	0x69
+ 857 025d 21000000 		.4byte	.LLST1
+ 858 0261 0A       		.uleb128 0xa
+ 859 0262 0E000000 		.4byte	.LVL12
+ 860 0266 CB050000 		.4byte	0x5cb
+ 861 026a 7E020000 		.4byte	0x27e
+ 862 026e 0B       		.uleb128 0xb
+ 863 026f 01       		.uleb128 0x1
+ 864 0270 50       		.byte	0x50
+ 865 0271 01       		.uleb128 0x1
+ 866 0272 31       		.byte	0x31
+ 867 0273 0B       		.uleb128 0xb
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 21
+
+
+ 868 0274 01       		.uleb128 0x1
+ 869 0275 51       		.byte	0x51
+ 870 0276 01       		.uleb128 0x1
+ 871 0277 30       		.byte	0x30
+ 872 0278 0B       		.uleb128 0xb
+ 873 0279 01       		.uleb128 0x1
+ 874 027a 52       		.byte	0x52
+ 875 027b 01       		.uleb128 0x1
+ 876 027c 33       		.byte	0x33
+ 877 027d 00       		.byte	0
+ 878 027e 09       		.uleb128 0x9
+ 879 027f 18000000 		.4byte	.LVL13
+ 880 0283 7B050000 		.4byte	0x57b
+ 881 0287 09       		.uleb128 0x9
+ 882 0288 1C000000 		.4byte	.LVL14
+ 883 028c 70050000 		.4byte	0x570
+ 884 0290 0A       		.uleb128 0xa
+ 885 0291 2C000000 		.4byte	.LVL15
+ 886 0295 CB050000 		.4byte	0x5cb
+ 887 0299 AE020000 		.4byte	0x2ae
+ 888 029d 0B       		.uleb128 0xb
+ 889 029e 01       		.uleb128 0x1
+ 890 029f 50       		.byte	0x50
+ 891 02a0 02       		.uleb128 0x2
+ 892 02a1 75       		.byte	0x75
+ 893 02a2 00       		.sleb128 0
+ 894 02a3 0B       		.uleb128 0xb
+ 895 02a4 01       		.uleb128 0x1
+ 896 02a5 51       		.byte	0x51
+ 897 02a6 01       		.uleb128 0x1
+ 898 02a7 31       		.byte	0x31
+ 899 02a8 0B       		.uleb128 0xb
+ 900 02a9 01       		.uleb128 0x1
+ 901 02aa 52       		.byte	0x52
+ 902 02ab 01       		.uleb128 0x1
+ 903 02ac 30       		.byte	0x30
+ 904 02ad 00       		.byte	0
+ 905 02ae 09       		.uleb128 0x9
+ 906 02af 34000000 		.4byte	.LVL16
+ 907 02b3 D7050000 		.4byte	0x5d7
+ 908 02b7 0A       		.uleb128 0xa
+ 909 02b8 3A000000 		.4byte	.LVL17
+ 910 02bc E2050000 		.4byte	0x5e2
+ 911 02c0 CE020000 		.4byte	0x2ce
+ 912 02c4 0B       		.uleb128 0xb
+ 913 02c5 01       		.uleb128 0x1
+ 914 02c6 50       		.byte	0x50
+ 915 02c7 05       		.uleb128 0x5
+ 916 02c8 03       		.byte	0x3
+ 917 02c9 00000000 		.4byte	vUartRxISR
+ 918 02cd 00       		.byte	0
+ 919 02ce 0A       		.uleb128 0xa
+ 920 02cf 44000000 		.4byte	.LVL18
+ 921 02d3 CB050000 		.4byte	0x5cb
+ 922 02d7 EC020000 		.4byte	0x2ec
+ 923 02db 0B       		.uleb128 0xb
+ 924 02dc 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 22
+
+
+ 925 02dd 50       		.byte	0x50
+ 926 02de 02       		.uleb128 0x2
+ 927 02df 75       		.byte	0x75
+ 928 02e0 00       		.sleb128 0
+ 929 02e1 0B       		.uleb128 0xb
+ 930 02e2 01       		.uleb128 0x1
+ 931 02e3 51       		.byte	0x51
+ 932 02e4 01       		.uleb128 0x1
+ 933 02e5 31       		.byte	0x31
+ 934 02e6 0B       		.uleb128 0xb
+ 935 02e7 01       		.uleb128 0x1
+ 936 02e8 52       		.byte	0x52
+ 937 02e9 01       		.uleb128 0x1
+ 938 02ea 30       		.byte	0x30
+ 939 02eb 00       		.byte	0
+ 940 02ec 09       		.uleb128 0x9
+ 941 02ed 4A000000 		.4byte	.LVL19
+ 942 02f1 ED050000 		.4byte	0x5ed
+ 943 02f5 0A       		.uleb128 0xa
+ 944 02f6 50000000 		.4byte	.LVL20
+ 945 02fa F8050000 		.4byte	0x5f8
+ 946 02fe 0C030000 		.4byte	0x30c
+ 947 0302 0B       		.uleb128 0xb
+ 948 0303 01       		.uleb128 0x1
+ 949 0304 50       		.byte	0x50
+ 950 0305 05       		.uleb128 0x5
+ 951 0306 03       		.byte	0x3
+ 952 0307 00000000 		.4byte	vUartTxISR
+ 953 030b 00       		.byte	0
+ 954 030c 0C       		.uleb128 0xc
+ 955 030d 56000000 		.4byte	.LVL21
+ 956 0311 C0050000 		.4byte	0x5c0
+ 957 0315 0B       		.uleb128 0xb
+ 958 0316 01       		.uleb128 0x1
+ 959 0317 50       		.byte	0x50
+ 960 0318 01       		.uleb128 0x1
+ 961 0319 30       		.byte	0x30
+ 962 031a 00       		.byte	0
+ 963 031b 00       		.byte	0
+ 964 031c 0E       		.uleb128 0xe
+ 965 031d 00010000 		.4byte	.LASF36
+ 966 0321 01       		.byte	0x1
+ 967 0322 62       		.byte	0x62
+ 968 0323 57000000 		.4byte	0x57
+ 969 0327 00000000 		.4byte	.LFB70
+ 970 032b 1C000000 		.4byte	.LFE70-.LFB70
+ 971 032f 01       		.uleb128 0x1
+ 972 0330 9C       		.byte	0x9c
+ 973 0331 8A030000 		.4byte	0x38a
+ 974 0335 0F       		.uleb128 0xf
+ 975 0336 B4010000 		.4byte	.LASF37
+ 976 033a 01       		.byte	0x1
+ 977 033b 62       		.byte	0x62
+ 978 033c 15010000 		.4byte	0x115
+ 979 0340 4D000000 		.4byte	.LLST2
+ 980 0344 0F       		.uleb128 0xf
+ 981 0345 E3030000 		.4byte	.LASF38
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 23
+
+
+ 982 0349 01       		.byte	0x1
+ 983 034a 62       		.byte	0x62
+ 984 034b 8A030000 		.4byte	0x38a
+ 985 034f 6E000000 		.4byte	.LLST3
+ 986 0353 0F       		.uleb128 0xf
+ 987 0354 C7020000 		.4byte	.LASF39
+ 988 0358 01       		.byte	0x1
+ 989 0359 62       		.byte	0x62
+ 990 035a F4000000 		.4byte	0xf4
+ 991 035e 8F000000 		.4byte	.LLST4
+ 992 0362 10       		.uleb128 0x10
+ 993 0363 DB030000 		.4byte	.LASF40
+ 994 0367 01       		.byte	0x1
+ 995 0368 65       		.byte	0x65
+ 996 0369 57000000 		.4byte	0x57
+ 997 036d B0000000 		.4byte	.LLST5
+ 998 0371 0C       		.uleb128 0xc
+ 999 0372 0A000000 		.4byte	.LVL28
+ 1000 0376 03060000 		.4byte	0x603
+ 1001 037a 0B       		.uleb128 0xb
+ 1002 037b 01       		.uleb128 0x1
+ 1003 037c 51       		.byte	0x51
+ 1004 037d 03       		.uleb128 0x3
+ 1005 037e F3       		.byte	0xf3
+ 1006 037f 01       		.uleb128 0x1
+ 1007 0380 51       		.byte	0x51
+ 1008 0381 0B       		.uleb128 0xb
+ 1009 0382 01       		.uleb128 0x1
+ 1010 0383 52       		.byte	0x52
+ 1011 0384 03       		.uleb128 0x3
+ 1012 0385 F3       		.byte	0xf3
+ 1013 0386 01       		.uleb128 0x1
+ 1014 0387 52       		.byte	0x52
+ 1015 0388 00       		.byte	0
+ 1016 0389 00       		.byte	0
+ 1017 038a 11       		.uleb128 0x11
+ 1018 038b 04       		.byte	0x4
+ 1019 038c 25000000 		.4byte	0x25
+ 1020 0390 0E       		.uleb128 0xe
+ 1021 0391 C8040000 		.4byte	.LASF41
+ 1022 0395 01       		.byte	0x1
+ 1023 0396 70       		.byte	0x70
+ 1024 0397 57000000 		.4byte	0x57
+ 1025 039b 00000000 		.4byte	.LFB71
+ 1026 039f 38000000 		.4byte	.LFE71-.LFB71
+ 1027 03a3 01       		.uleb128 0x1
+ 1028 03a4 9C       		.byte	0x9c
+ 1029 03a5 2B040000 		.4byte	0x42b
+ 1030 03a9 0F       		.uleb128 0xf
+ 1031 03aa B4010000 		.4byte	.LASF37
+ 1032 03ae 01       		.byte	0x1
+ 1033 03af 70       		.byte	0x70
+ 1034 03b0 15010000 		.4byte	0x115
+ 1035 03b4 CF000000 		.4byte	.LLST6
+ 1036 03b8 0F       		.uleb128 0xf
+ 1037 03b9 C9000000 		.4byte	.LASF32
+ 1038 03bd 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 24
+
+
+ 1039 03be 70       		.byte	0x70
+ 1040 03bf 25000000 		.4byte	0x25
+ 1041 03c3 F0000000 		.4byte	.LLST7
+ 1042 03c7 0F       		.uleb128 0xf
+ 1043 03c8 C7020000 		.4byte	.LASF39
+ 1044 03cc 01       		.byte	0x1
+ 1045 03cd 70       		.byte	0x70
+ 1046 03ce F4000000 		.4byte	0xf4
+ 1047 03d2 3F010000 		.4byte	.LLST8
+ 1048 03d6 10       		.uleb128 0x10
+ 1049 03d7 DB030000 		.4byte	.LASF40
+ 1050 03db 01       		.byte	0x1
+ 1051 03dc 73       		.byte	0x73
+ 1052 03dd 57000000 		.4byte	0x57
+ 1053 03e1 60010000 		.4byte	.LLST9
+ 1054 03e5 0A       		.uleb128 0xa
+ 1055 03e6 16000000 		.4byte	.LVL35
+ 1056 03ea 0F060000 		.4byte	0x60f
+ 1057 03ee 05040000 		.4byte	0x405
+ 1058 03f2 0B       		.uleb128 0xb
+ 1059 03f3 01       		.uleb128 0x1
+ 1060 03f4 51       		.byte	0x51
+ 1061 03f5 02       		.uleb128 0x2
+ 1062 03f6 91       		.byte	0x91
+ 1063 03f7 77       		.sleb128 -9
+ 1064 03f8 0B       		.uleb128 0xb
+ 1065 03f9 01       		.uleb128 0x1
+ 1066 03fa 52       		.byte	0x52
+ 1067 03fb 03       		.uleb128 0x3
+ 1068 03fc F3       		.byte	0xf3
+ 1069 03fd 01       		.uleb128 0x1
+ 1070 03fe 52       		.byte	0x52
+ 1071 03ff 0B       		.uleb128 0xb
+ 1072 0400 01       		.uleb128 0x1
+ 1073 0401 53       		.byte	0x53
+ 1074 0402 01       		.uleb128 0x1
+ 1075 0403 30       		.byte	0x30
+ 1076 0404 00       		.byte	0
+ 1077 0405 09       		.uleb128 0x9
+ 1078 0406 24000000 		.4byte	.LVL37
+ 1079 040a 1B060000 		.4byte	0x61b
+ 1080 040e 0A       		.uleb128 0xa
+ 1081 040f 2A000000 		.4byte	.LVL38
+ 1082 0413 C0050000 		.4byte	0x5c0
+ 1083 0417 21040000 		.4byte	0x421
+ 1084 041b 0B       		.uleb128 0xb
+ 1085 041c 01       		.uleb128 0x1
+ 1086 041d 50       		.byte	0x50
+ 1087 041e 01       		.uleb128 0x1
+ 1088 041f 33       		.byte	0x33
+ 1089 0420 00       		.byte	0
+ 1090 0421 09       		.uleb128 0x9
+ 1091 0422 2E000000 		.4byte	.LVL39
+ 1092 0426 26060000 		.4byte	0x626
+ 1093 042a 00       		.byte	0
+ 1094 042b 07       		.uleb128 0x7
+ 1095 042c 20020000 		.4byte	.LASF42
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 25
+
+
+ 1096 0430 01       		.byte	0x1
+ 1097 0431 4C       		.byte	0x4c
+ 1098 0432 00000000 		.4byte	.LFB69
+ 1099 0436 22000000 		.4byte	.LFE69-.LFB69
+ 1100 043a 01       		.uleb128 0x1
+ 1101 043b 9C       		.byte	0x9c
+ 1102 043c 92040000 		.4byte	0x492
+ 1103 0440 0F       		.uleb128 0xf
+ 1104 0441 B4010000 		.4byte	.LASF37
+ 1105 0445 01       		.byte	0x1
+ 1106 0446 4C       		.byte	0x4c
+ 1107 0447 15010000 		.4byte	0x115
+ 1108 044b 8A010000 		.4byte	.LLST10
+ 1109 044f 0F       		.uleb128 0xf
+ 1110 0450 4A000000 		.4byte	.LASF43
+ 1111 0454 01       		.byte	0x1
+ 1112 0455 4C       		.byte	0x4c
+ 1113 0456 9D040000 		.4byte	0x49d
+ 1114 045a AB010000 		.4byte	.LLST11
+ 1115 045e 0F       		.uleb128 0xf
+ 1116 045f E1040000 		.4byte	.LASF44
+ 1117 0463 01       		.byte	0x1
+ 1118 0464 4C       		.byte	0x4c
+ 1119 0465 45000000 		.4byte	0x45
+ 1120 0469 C9010000 		.4byte	.LLST12
+ 1121 046d 10       		.uleb128 0x10
+ 1122 046e 58030000 		.4byte	.LASF45
+ 1123 0472 01       		.byte	0x1
+ 1124 0473 4F       		.byte	0x4f
+ 1125 0474 45000000 		.4byte	0x45
+ 1126 0478 EA010000 		.4byte	.LLST13
+ 1127 047c 0C       		.uleb128 0xc
+ 1128 047d 18000000 		.4byte	.LVL45
+ 1129 0481 90030000 		.4byte	0x390
+ 1130 0485 0B       		.uleb128 0xb
+ 1131 0486 01       		.uleb128 0x1
+ 1132 0487 50       		.byte	0x50
+ 1133 0488 01       		.uleb128 0x1
+ 1134 0489 30       		.byte	0x30
+ 1135 048a 0B       		.uleb128 0xb
+ 1136 048b 01       		.uleb128 0x1
+ 1137 048c 52       		.byte	0x52
+ 1138 048d 02       		.uleb128 0x2
+ 1139 048e 09       		.byte	0x9
+ 1140 048f FF       		.byte	0xff
+ 1141 0490 00       		.byte	0
+ 1142 0491 00       		.byte	0
+ 1143 0492 11       		.uleb128 0x11
+ 1144 0493 04       		.byte	0x4
+ 1145 0494 98040000 		.4byte	0x498
+ 1146 0498 12       		.uleb128 0x12
+ 1147 0499 25000000 		.4byte	0x25
+ 1148 049d 12       		.uleb128 0x12
+ 1149 049e 92040000 		.4byte	0x492
+ 1150 04a2 0E       		.uleb128 0xe
+ 1151 04a3 25000000 		.4byte	.LASF46
+ 1152 04a7 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 26
+
+
+ 1153 04a8 8B       		.byte	0x8b
+ 1154 04a9 57000000 		.4byte	0x57
+ 1155 04ad 00000000 		.4byte	.LFB72
+ 1156 04b1 1C000000 		.4byte	.LFE72-.LFB72
+ 1157 04b5 01       		.uleb128 0x1
+ 1158 04b6 9C       		.byte	0x9c
+ 1159 04b7 FA040000 		.4byte	0x4fa
+ 1160 04bb 0F       		.uleb128 0xf
+ 1161 04bc B4010000 		.4byte	.LASF37
+ 1162 04c0 01       		.byte	0x1
+ 1163 04c1 8B       		.byte	0x8b
+ 1164 04c2 15010000 		.4byte	0x115
+ 1165 04c6 14020000 		.4byte	.LLST14
+ 1166 04ca 0F       		.uleb128 0xf
+ 1167 04cb C7020000 		.4byte	.LASF39
+ 1168 04cf 01       		.byte	0x1
+ 1169 04d0 8B       		.byte	0x8b
+ 1170 04d1 F4000000 		.4byte	0xf4
+ 1171 04d5 35020000 		.4byte	.LLST15
+ 1172 04d9 10       		.uleb128 0x10
+ 1173 04da DB030000 		.4byte	.LASF40
+ 1174 04de 01       		.byte	0x1
+ 1175 04df 8E       		.byte	0x8e
+ 1176 04e0 57000000 		.4byte	0x57
+ 1177 04e4 56020000 		.4byte	.LLST16
+ 1178 04e8 0C       		.uleb128 0xc
+ 1179 04e9 0A000000 		.4byte	.LVL51
+ 1180 04ed 31060000 		.4byte	0x631
+ 1181 04f1 0B       		.uleb128 0xb
+ 1182 04f2 01       		.uleb128 0x1
+ 1183 04f3 51       		.byte	0x51
+ 1184 04f4 03       		.uleb128 0x3
+ 1185 04f5 F3       		.byte	0xf3
+ 1186 04f6 01       		.uleb128 0x1
+ 1187 04f7 51       		.byte	0x51
+ 1188 04f8 00       		.byte	0
+ 1189 04f9 00       		.byte	0
+ 1190 04fa 0E       		.uleb128 0xe
+ 1191 04fb AF000000 		.4byte	.LASF47
+ 1192 04ff 01       		.byte	0x1
+ 1193 0500 98       		.byte	0x98
+ 1194 0501 57000000 		.4byte	0x57
+ 1195 0505 00000000 		.4byte	.LFB73
+ 1196 0509 10000000 		.4byte	.LFE73-.LFB73
+ 1197 050d 01       		.uleb128 0x1
+ 1198 050e 9C       		.byte	0x9c
+ 1199 050f 2C050000 		.4byte	0x52c
+ 1200 0513 0F       		.uleb128 0xf
+ 1201 0514 B4010000 		.4byte	.LASF37
+ 1202 0518 01       		.byte	0x1
+ 1203 0519 98       		.byte	0x98
+ 1204 051a 15010000 		.4byte	0x115
+ 1205 051e 75020000 		.4byte	.LLST17
+ 1206 0522 09       		.uleb128 0x9
+ 1207 0523 0A000000 		.4byte	.LVL55
+ 1208 0527 3D060000 		.4byte	0x63d
+ 1209 052b 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 27
+
+
+ 1210 052c 08       		.uleb128 0x8
+ 1211 052d BB010000 		.4byte	.LASF48
+ 1212 0531 01       		.byte	0x1
+ 1213 0532 2B       		.byte	0x2b
+ 1214 0533 FF000000 		.4byte	0xff
+ 1215 0537 05       		.uleb128 0x5
+ 1216 0538 03       		.byte	0x3
+ 1217 0539 08000000 		.4byte	xSerialTxQueue
+ 1218 053d 08       		.uleb128 0x8
+ 1219 053e CC030000 		.4byte	.LASF49
+ 1220 0542 01       		.byte	0x1
+ 1221 0543 2C       		.byte	0x2c
+ 1222 0544 FF000000 		.4byte	0xff
+ 1223 0548 05       		.uleb128 0x5
+ 1224 0549 03       		.byte	0x3
+ 1225 054a 00000000 		.4byte	xSerialRxQueue
+ 1226 054e 08       		.uleb128 0x8
+ 1227 054f 3B000000 		.4byte	.LASF50
+ 1228 0553 01       		.byte	0x1
+ 1229 0554 2D       		.byte	0x2d
+ 1230 0555 0A010000 		.4byte	0x10a
+ 1231 0559 05       		.uleb128 0x5
+ 1232 055a 03       		.byte	0x3
+ 1233 055b 04000000 		.4byte	xSerialRxEvent
+ 1234 055f 13       		.uleb128 0x13
+ 1235 0560 22040000 		.4byte	.LASF73
+ 1236 0564 0C       		.byte	0xc
+ 1237 0565 1207     		.2byte	0x712
+ 1238 0567 6B050000 		.4byte	0x56b
+ 1239 056b 0D       		.uleb128 0xd
+ 1240 056c 97000000 		.4byte	0x97
+ 1241 0570 14       		.uleb128 0x14
+ 1242 0571 45020000 		.4byte	.LASF51
+ 1243 0575 45020000 		.4byte	.LASF51
+ 1244 0579 09       		.byte	0x9
+ 1245 057a 70       		.byte	0x70
+ 1246 057b 14       		.uleb128 0x14
+ 1247 057c 19010000 		.4byte	.LASF52
+ 1248 0580 19010000 		.4byte	.LASF52
+ 1249 0584 09       		.byte	0x9
+ 1250 0585 6F       		.byte	0x6f
+ 1251 0586 15       		.uleb128 0x15
+ 1252 0587 F3020000 		.4byte	.LASF53
+ 1253 058b F3020000 		.4byte	.LASF53
+ 1254 058f 06       		.byte	0x6
+ 1255 0590 0D05     		.2byte	0x50d
+ 1256 0592 15       		.uleb128 0x15
+ 1257 0593 1C030000 		.4byte	.LASF54
+ 1258 0597 1C030000 		.4byte	.LASF54
+ 1259 059b 06       		.byte	0x6
+ 1260 059c 0E05     		.2byte	0x50e
+ 1261 059e 14       		.uleb128 0x14
+ 1262 059f 31020000 		.4byte	.LASF55
+ 1263 05a3 31020000 		.4byte	.LASF55
+ 1264 05a7 09       		.byte	0x9
+ 1265 05a8 89       		.byte	0x89
+ 1266 05a9 15       		.uleb128 0x15
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 28
+
+
+ 1267 05aa 33010000 		.4byte	.LASF56
+ 1268 05ae 33010000 		.4byte	.LASF56
+ 1269 05b2 06       		.byte	0x6
+ 1270 05b3 6705     		.2byte	0x567
+ 1271 05b5 14       		.uleb128 0x14
+ 1272 05b6 77010000 		.4byte	.LASF57
+ 1273 05ba 77010000 		.4byte	.LASF57
+ 1274 05be 09       		.byte	0x9
+ 1275 05bf 8A       		.byte	0x8a
+ 1276 05c0 14       		.uleb128 0x14
+ 1277 05c1 9A010000 		.4byte	.LASF58
+ 1278 05c5 9A010000 		.4byte	.LASF58
+ 1279 05c9 09       		.byte	0x9
+ 1280 05ca 87       		.byte	0x87
+ 1281 05cb 15       		.uleb128 0x15
+ 1282 05cc E4010000 		.4byte	.LASF59
+ 1283 05d0 E4010000 		.4byte	.LASF59
+ 1284 05d4 06       		.byte	0x6
+ 1285 05d5 D605     		.2byte	0x5d6
+ 1286 05d7 14       		.uleb128 0x14
+ 1287 05d8 2E030000 		.4byte	.LASF60
+ 1288 05dc 2E030000 		.4byte	.LASF60
+ 1289 05e0 0A       		.byte	0xa
+ 1290 05e1 28       		.byte	0x28
+ 1291 05e2 14       		.uleb128 0x14
+ 1292 05e3 9D000000 		.4byte	.LASF61
+ 1293 05e7 9D000000 		.4byte	.LASF61
+ 1294 05eb 0A       		.byte	0xa
+ 1295 05ec 18       		.byte	0x18
+ 1296 05ed 14       		.uleb128 0x14
+ 1297 05ee 60030000 		.4byte	.LASF62
+ 1298 05f2 60030000 		.4byte	.LASF62
+ 1299 05f6 0B       		.byte	0xb
+ 1300 05f7 28       		.byte	0x28
+ 1301 05f8 14       		.uleb128 0x14
+ 1302 05f9 FC030000 		.4byte	.LASF63
+ 1303 05fd FC030000 		.4byte	.LASF63
+ 1304 0601 0B       		.byte	0xb
+ 1305 0602 18       		.byte	0x18
+ 1306 0603 15       		.uleb128 0x15
+ 1307 0604 17000000 		.4byte	.LASF64
+ 1308 0608 17000000 		.4byte	.LASF64
+ 1309 060c 06       		.byte	0x6
+ 1310 060d 6203     		.2byte	0x362
+ 1311 060f 15       		.uleb128 0x15
+ 1312 0610 51010000 		.4byte	.LASF65
+ 1313 0614 51010000 		.4byte	.LASF65
+ 1314 0618 06       		.byte	0x6
+ 1315 0619 8802     		.2byte	0x288
+ 1316 061b 14       		.uleb128 0x14
+ 1317 061c E0020000 		.4byte	.LASF66
+ 1318 0620 E0020000 		.4byte	.LASF66
+ 1319 0624 05       		.byte	0x5
+ 1320 0625 61       		.byte	0x61
+ 1321 0626 14       		.uleb128 0x14
+ 1322 0627 92030000 		.4byte	.LASF67
+ 1323 062b 92030000 		.4byte	.LASF67
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 29
+
+
+ 1324 062f 05       		.byte	0x5
+ 1325 0630 62       		.byte	0x62
+ 1326 0631 15       		.uleb128 0x15
+ 1327 0632 B3020000 		.4byte	.LASF68
+ 1328 0636 B3020000 		.4byte	.LASF68
+ 1329 063a 06       		.byte	0x6
+ 1330 063b 8805     		.2byte	0x588
+ 1331 063d 15       		.uleb128 0x15
+ 1332 063e E9000000 		.4byte	.LASF69
+ 1333 0642 E9000000 		.4byte	.LASF69
+ 1334 0646 06       		.byte	0x6
+ 1335 0647 7103     		.2byte	0x371
+ 1336 0649 00       		.byte	0
+ 1337              		.section	.debug_abbrev,"",%progbits
+ 1338              	.Ldebug_abbrev0:
+ 1339 0000 01       		.uleb128 0x1
+ 1340 0001 11       		.uleb128 0x11
+ 1341 0002 01       		.byte	0x1
+ 1342 0003 25       		.uleb128 0x25
+ 1343 0004 0E       		.uleb128 0xe
+ 1344 0005 13       		.uleb128 0x13
+ 1345 0006 0B       		.uleb128 0xb
+ 1346 0007 03       		.uleb128 0x3
+ 1347 0008 0E       		.uleb128 0xe
+ 1348 0009 1B       		.uleb128 0x1b
+ 1349 000a 0E       		.uleb128 0xe
+ 1350 000b 55       		.uleb128 0x55
+ 1351 000c 17       		.uleb128 0x17
+ 1352 000d 11       		.uleb128 0x11
+ 1353 000e 01       		.uleb128 0x1
+ 1354 000f 10       		.uleb128 0x10
+ 1355 0010 17       		.uleb128 0x17
+ 1356 0011 00       		.byte	0
+ 1357 0012 00       		.byte	0
+ 1358 0013 02       		.uleb128 0x2
+ 1359 0014 24       		.uleb128 0x24
+ 1360 0015 00       		.byte	0
+ 1361 0016 0B       		.uleb128 0xb
+ 1362 0017 0B       		.uleb128 0xb
+ 1363 0018 3E       		.uleb128 0x3e
+ 1364 0019 0B       		.uleb128 0xb
+ 1365 001a 03       		.uleb128 0x3
+ 1366 001b 0E       		.uleb128 0xe
+ 1367 001c 00       		.byte	0
+ 1368 001d 00       		.byte	0
+ 1369 001e 03       		.uleb128 0x3
+ 1370 001f 16       		.uleb128 0x16
+ 1371 0020 00       		.byte	0
+ 1372 0021 03       		.uleb128 0x3
+ 1373 0022 0E       		.uleb128 0xe
+ 1374 0023 3A       		.uleb128 0x3a
+ 1375 0024 0B       		.uleb128 0xb
+ 1376 0025 3B       		.uleb128 0x3b
+ 1377 0026 0B       		.uleb128 0xb
+ 1378 0027 49       		.uleb128 0x49
+ 1379 0028 13       		.uleb128 0x13
+ 1380 0029 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 30
+
+
+ 1381 002a 00       		.byte	0
+ 1382 002b 04       		.uleb128 0x4
+ 1383 002c 24       		.uleb128 0x24
+ 1384 002d 00       		.byte	0
+ 1385 002e 0B       		.uleb128 0xb
+ 1386 002f 0B       		.uleb128 0xb
+ 1387 0030 3E       		.uleb128 0x3e
+ 1388 0031 0B       		.uleb128 0xb
+ 1389 0032 03       		.uleb128 0x3
+ 1390 0033 08       		.uleb128 0x8
+ 1391 0034 00       		.byte	0
+ 1392 0035 00       		.byte	0
+ 1393 0036 05       		.uleb128 0x5
+ 1394 0037 16       		.uleb128 0x16
+ 1395 0038 00       		.byte	0
+ 1396 0039 03       		.uleb128 0x3
+ 1397 003a 0E       		.uleb128 0xe
+ 1398 003b 3A       		.uleb128 0x3a
+ 1399 003c 0B       		.uleb128 0xb
+ 1400 003d 3B       		.uleb128 0x3b
+ 1401 003e 05       		.uleb128 0x5
+ 1402 003f 49       		.uleb128 0x49
+ 1403 0040 13       		.uleb128 0x13
+ 1404 0041 00       		.byte	0
+ 1405 0042 00       		.byte	0
+ 1406 0043 06       		.uleb128 0x6
+ 1407 0044 0F       		.uleb128 0xf
+ 1408 0045 00       		.byte	0
+ 1409 0046 0B       		.uleb128 0xb
+ 1410 0047 0B       		.uleb128 0xb
+ 1411 0048 00       		.byte	0
+ 1412 0049 00       		.byte	0
+ 1413 004a 07       		.uleb128 0x7
+ 1414 004b 2E       		.uleb128 0x2e
+ 1415 004c 01       		.byte	0x1
+ 1416 004d 3F       		.uleb128 0x3f
+ 1417 004e 19       		.uleb128 0x19
+ 1418 004f 03       		.uleb128 0x3
+ 1419 0050 0E       		.uleb128 0xe
+ 1420 0051 3A       		.uleb128 0x3a
+ 1421 0052 0B       		.uleb128 0xb
+ 1422 0053 3B       		.uleb128 0x3b
+ 1423 0054 0B       		.uleb128 0xb
+ 1424 0055 27       		.uleb128 0x27
+ 1425 0056 19       		.uleb128 0x19
+ 1426 0057 11       		.uleb128 0x11
+ 1427 0058 01       		.uleb128 0x1
+ 1428 0059 12       		.uleb128 0x12
+ 1429 005a 06       		.uleb128 0x6
+ 1430 005b 40       		.uleb128 0x40
+ 1431 005c 18       		.uleb128 0x18
+ 1432 005d 9742     		.uleb128 0x2117
+ 1433 005f 19       		.uleb128 0x19
+ 1434 0060 01       		.uleb128 0x1
+ 1435 0061 13       		.uleb128 0x13
+ 1436 0062 00       		.byte	0
+ 1437 0063 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 31
+
+
+ 1438 0064 08       		.uleb128 0x8
+ 1439 0065 34       		.uleb128 0x34
+ 1440 0066 00       		.byte	0
+ 1441 0067 03       		.uleb128 0x3
+ 1442 0068 0E       		.uleb128 0xe
+ 1443 0069 3A       		.uleb128 0x3a
+ 1444 006a 0B       		.uleb128 0xb
+ 1445 006b 3B       		.uleb128 0x3b
+ 1446 006c 0B       		.uleb128 0xb
+ 1447 006d 49       		.uleb128 0x49
+ 1448 006e 13       		.uleb128 0x13
+ 1449 006f 02       		.uleb128 0x2
+ 1450 0070 18       		.uleb128 0x18
+ 1451 0071 00       		.byte	0
+ 1452 0072 00       		.byte	0
+ 1453 0073 09       		.uleb128 0x9
+ 1454 0074 898201   		.uleb128 0x4109
+ 1455 0077 00       		.byte	0
+ 1456 0078 11       		.uleb128 0x11
+ 1457 0079 01       		.uleb128 0x1
+ 1458 007a 31       		.uleb128 0x31
+ 1459 007b 13       		.uleb128 0x13
+ 1460 007c 00       		.byte	0
+ 1461 007d 00       		.byte	0
+ 1462 007e 0A       		.uleb128 0xa
+ 1463 007f 898201   		.uleb128 0x4109
+ 1464 0082 01       		.byte	0x1
+ 1465 0083 11       		.uleb128 0x11
+ 1466 0084 01       		.uleb128 0x1
+ 1467 0085 31       		.uleb128 0x31
+ 1468 0086 13       		.uleb128 0x13
+ 1469 0087 01       		.uleb128 0x1
+ 1470 0088 13       		.uleb128 0x13
+ 1471 0089 00       		.byte	0
+ 1472 008a 00       		.byte	0
+ 1473 008b 0B       		.uleb128 0xb
+ 1474 008c 8A8201   		.uleb128 0x410a
+ 1475 008f 00       		.byte	0
+ 1476 0090 02       		.uleb128 0x2
+ 1477 0091 18       		.uleb128 0x18
+ 1478 0092 9142     		.uleb128 0x2111
+ 1479 0094 18       		.uleb128 0x18
+ 1480 0095 00       		.byte	0
+ 1481 0096 00       		.byte	0
+ 1482 0097 0C       		.uleb128 0xc
+ 1483 0098 898201   		.uleb128 0x4109
+ 1484 009b 01       		.byte	0x1
+ 1485 009c 11       		.uleb128 0x11
+ 1486 009d 01       		.uleb128 0x1
+ 1487 009e 31       		.uleb128 0x31
+ 1488 009f 13       		.uleb128 0x13
+ 1489 00a0 00       		.byte	0
+ 1490 00a1 00       		.byte	0
+ 1491 00a2 0D       		.uleb128 0xd
+ 1492 00a3 35       		.uleb128 0x35
+ 1493 00a4 00       		.byte	0
+ 1494 00a5 49       		.uleb128 0x49
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 32
+
+
+ 1495 00a6 13       		.uleb128 0x13
+ 1496 00a7 00       		.byte	0
+ 1497 00a8 00       		.byte	0
+ 1498 00a9 0E       		.uleb128 0xe
+ 1499 00aa 2E       		.uleb128 0x2e
+ 1500 00ab 01       		.byte	0x1
+ 1501 00ac 3F       		.uleb128 0x3f
+ 1502 00ad 19       		.uleb128 0x19
+ 1503 00ae 03       		.uleb128 0x3
+ 1504 00af 0E       		.uleb128 0xe
+ 1505 00b0 3A       		.uleb128 0x3a
+ 1506 00b1 0B       		.uleb128 0xb
+ 1507 00b2 3B       		.uleb128 0x3b
+ 1508 00b3 0B       		.uleb128 0xb
+ 1509 00b4 27       		.uleb128 0x27
+ 1510 00b5 19       		.uleb128 0x19
+ 1511 00b6 49       		.uleb128 0x49
+ 1512 00b7 13       		.uleb128 0x13
+ 1513 00b8 11       		.uleb128 0x11
+ 1514 00b9 01       		.uleb128 0x1
+ 1515 00ba 12       		.uleb128 0x12
+ 1516 00bb 06       		.uleb128 0x6
+ 1517 00bc 40       		.uleb128 0x40
+ 1518 00bd 18       		.uleb128 0x18
+ 1519 00be 9742     		.uleb128 0x2117
+ 1520 00c0 19       		.uleb128 0x19
+ 1521 00c1 01       		.uleb128 0x1
+ 1522 00c2 13       		.uleb128 0x13
+ 1523 00c3 00       		.byte	0
+ 1524 00c4 00       		.byte	0
+ 1525 00c5 0F       		.uleb128 0xf
+ 1526 00c6 05       		.uleb128 0x5
+ 1527 00c7 00       		.byte	0
+ 1528 00c8 03       		.uleb128 0x3
+ 1529 00c9 0E       		.uleb128 0xe
+ 1530 00ca 3A       		.uleb128 0x3a
+ 1531 00cb 0B       		.uleb128 0xb
+ 1532 00cc 3B       		.uleb128 0x3b
+ 1533 00cd 0B       		.uleb128 0xb
+ 1534 00ce 49       		.uleb128 0x49
+ 1535 00cf 13       		.uleb128 0x13
+ 1536 00d0 02       		.uleb128 0x2
+ 1537 00d1 17       		.uleb128 0x17
+ 1538 00d2 00       		.byte	0
+ 1539 00d3 00       		.byte	0
+ 1540 00d4 10       		.uleb128 0x10
+ 1541 00d5 34       		.uleb128 0x34
+ 1542 00d6 00       		.byte	0
+ 1543 00d7 03       		.uleb128 0x3
+ 1544 00d8 0E       		.uleb128 0xe
+ 1545 00d9 3A       		.uleb128 0x3a
+ 1546 00da 0B       		.uleb128 0xb
+ 1547 00db 3B       		.uleb128 0x3b
+ 1548 00dc 0B       		.uleb128 0xb
+ 1549 00dd 49       		.uleb128 0x49
+ 1550 00de 13       		.uleb128 0x13
+ 1551 00df 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 33
+
+
+ 1552 00e0 17       		.uleb128 0x17
+ 1553 00e1 00       		.byte	0
+ 1554 00e2 00       		.byte	0
+ 1555 00e3 11       		.uleb128 0x11
+ 1556 00e4 0F       		.uleb128 0xf
+ 1557 00e5 00       		.byte	0
+ 1558 00e6 0B       		.uleb128 0xb
+ 1559 00e7 0B       		.uleb128 0xb
+ 1560 00e8 49       		.uleb128 0x49
+ 1561 00e9 13       		.uleb128 0x13
+ 1562 00ea 00       		.byte	0
+ 1563 00eb 00       		.byte	0
+ 1564 00ec 12       		.uleb128 0x12
+ 1565 00ed 26       		.uleb128 0x26
+ 1566 00ee 00       		.byte	0
+ 1567 00ef 49       		.uleb128 0x49
+ 1568 00f0 13       		.uleb128 0x13
+ 1569 00f1 00       		.byte	0
+ 1570 00f2 00       		.byte	0
+ 1571 00f3 13       		.uleb128 0x13
+ 1572 00f4 34       		.uleb128 0x34
+ 1573 00f5 00       		.byte	0
+ 1574 00f6 03       		.uleb128 0x3
+ 1575 00f7 0E       		.uleb128 0xe
+ 1576 00f8 3A       		.uleb128 0x3a
+ 1577 00f9 0B       		.uleb128 0xb
+ 1578 00fa 3B       		.uleb128 0x3b
+ 1579 00fb 05       		.uleb128 0x5
+ 1580 00fc 49       		.uleb128 0x49
+ 1581 00fd 13       		.uleb128 0x13
+ 1582 00fe 3F       		.uleb128 0x3f
+ 1583 00ff 19       		.uleb128 0x19
+ 1584 0100 3C       		.uleb128 0x3c
+ 1585 0101 19       		.uleb128 0x19
+ 1586 0102 00       		.byte	0
+ 1587 0103 00       		.byte	0
+ 1588 0104 14       		.uleb128 0x14
+ 1589 0105 2E       		.uleb128 0x2e
+ 1590 0106 00       		.byte	0
+ 1591 0107 3F       		.uleb128 0x3f
+ 1592 0108 19       		.uleb128 0x19
+ 1593 0109 3C       		.uleb128 0x3c
+ 1594 010a 19       		.uleb128 0x19
+ 1595 010b 6E       		.uleb128 0x6e
+ 1596 010c 0E       		.uleb128 0xe
+ 1597 010d 03       		.uleb128 0x3
+ 1598 010e 0E       		.uleb128 0xe
+ 1599 010f 3A       		.uleb128 0x3a
+ 1600 0110 0B       		.uleb128 0xb
+ 1601 0111 3B       		.uleb128 0x3b
+ 1602 0112 0B       		.uleb128 0xb
+ 1603 0113 00       		.byte	0
+ 1604 0114 00       		.byte	0
+ 1605 0115 15       		.uleb128 0x15
+ 1606 0116 2E       		.uleb128 0x2e
+ 1607 0117 00       		.byte	0
+ 1608 0118 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 34
+
+
+ 1609 0119 19       		.uleb128 0x19
+ 1610 011a 3C       		.uleb128 0x3c
+ 1611 011b 19       		.uleb128 0x19
+ 1612 011c 6E       		.uleb128 0x6e
+ 1613 011d 0E       		.uleb128 0xe
+ 1614 011e 03       		.uleb128 0x3
+ 1615 011f 0E       		.uleb128 0xe
+ 1616 0120 3A       		.uleb128 0x3a
+ 1617 0121 0B       		.uleb128 0xb
+ 1618 0122 3B       		.uleb128 0x3b
+ 1619 0123 05       		.uleb128 0x5
+ 1620 0124 00       		.byte	0
+ 1621 0125 00       		.byte	0
+ 1622 0126 00       		.byte	0
+ 1623              		.section	.debug_loc,"",%progbits
+ 1624              	.Ldebug_loc0:
+ 1625              	.LLST0:
+ 1626 0000 00000000 		.4byte	.LVL9
+ 1627 0004 0A000000 		.4byte	.LVL11
+ 1628 0008 0100     		.2byte	0x1
+ 1629 000a 50       		.byte	0x50
+ 1630 000b 0A000000 		.4byte	.LVL11
+ 1631 000f 78000000 		.4byte	.LFE68
+ 1632 0013 0400     		.2byte	0x4
+ 1633 0015 F3       		.byte	0xf3
+ 1634 0016 01       		.uleb128 0x1
+ 1635 0017 50       		.byte	0x50
+ 1636 0018 9F       		.byte	0x9f
+ 1637 0019 00000000 		.4byte	0
+ 1638 001d 00000000 		.4byte	0
+ 1639              	.LLST1:
+ 1640 0021 00000000 		.4byte	.LVL9
+ 1641 0025 08000000 		.4byte	.LVL10
+ 1642 0029 0100     		.2byte	0x1
+ 1643 002b 51       		.byte	0x51
+ 1644 002c 08000000 		.4byte	.LVL10
+ 1645 0030 6A000000 		.4byte	.LVL24
+ 1646 0034 0100     		.2byte	0x1
+ 1647 0036 55       		.byte	0x55
+ 1648 0037 6A000000 		.4byte	.LVL24
+ 1649 003b 78000000 		.4byte	.LFE68
+ 1650 003f 0400     		.2byte	0x4
+ 1651 0041 F3       		.byte	0xf3
+ 1652 0042 01       		.uleb128 0x1
+ 1653 0043 51       		.byte	0x51
+ 1654 0044 9F       		.byte	0x9f
+ 1655 0045 00000000 		.4byte	0
+ 1656 0049 00000000 		.4byte	0
+ 1657              	.LLST2:
+ 1658 004d 00000000 		.4byte	.LVL25
+ 1659 0051 06000000 		.4byte	.LVL27
+ 1660 0055 0100     		.2byte	0x1
+ 1661 0057 50       		.byte	0x50
+ 1662 0058 06000000 		.4byte	.LVL27
+ 1663 005c 1C000000 		.4byte	.LFE70
+ 1664 0060 0400     		.2byte	0x4
+ 1665 0062 F3       		.byte	0xf3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 35
+
+
+ 1666 0063 01       		.uleb128 0x1
+ 1667 0064 50       		.byte	0x50
+ 1668 0065 9F       		.byte	0x9f
+ 1669 0066 00000000 		.4byte	0
+ 1670 006a 00000000 		.4byte	0
+ 1671              	.LLST3:
+ 1672 006e 00000000 		.4byte	.LVL25
+ 1673 0072 09000000 		.4byte	.LVL28-1
+ 1674 0076 0100     		.2byte	0x1
+ 1675 0078 51       		.byte	0x51
+ 1676 0079 09000000 		.4byte	.LVL28-1
+ 1677 007d 1C000000 		.4byte	.LFE70
+ 1678 0081 0400     		.2byte	0x4
+ 1679 0083 F3       		.byte	0xf3
+ 1680 0084 01       		.uleb128 0x1
+ 1681 0085 51       		.byte	0x51
+ 1682 0086 9F       		.byte	0x9f
+ 1683 0087 00000000 		.4byte	0
+ 1684 008b 00000000 		.4byte	0
+ 1685              	.LLST4:
+ 1686 008f 00000000 		.4byte	.LVL25
+ 1687 0093 09000000 		.4byte	.LVL28-1
+ 1688 0097 0100     		.2byte	0x1
+ 1689 0099 52       		.byte	0x52
+ 1690 009a 09000000 		.4byte	.LVL28-1
+ 1691 009e 1C000000 		.4byte	.LFE70
+ 1692 00a2 0400     		.2byte	0x4
+ 1693 00a4 F3       		.byte	0xf3
+ 1694 00a5 01       		.uleb128 0x1
+ 1695 00a6 52       		.byte	0x52
+ 1696 00a7 9F       		.byte	0x9f
+ 1697 00a8 00000000 		.4byte	0
+ 1698 00ac 00000000 		.4byte	0
+ 1699              	.LLST5:
+ 1700 00b0 02000000 		.4byte	.LVL26
+ 1701 00b4 14000000 		.4byte	.LVL29
+ 1702 00b8 0200     		.2byte	0x2
+ 1703 00ba 30       		.byte	0x30
+ 1704 00bb 9F       		.byte	0x9f
+ 1705 00bc 14000000 		.4byte	.LVL29
+ 1706 00c0 1C000000 		.4byte	.LFE70
+ 1707 00c4 0100     		.2byte	0x1
+ 1708 00c6 50       		.byte	0x50
+ 1709 00c7 00000000 		.4byte	0
+ 1710 00cb 00000000 		.4byte	0
+ 1711              	.LLST6:
+ 1712 00cf 00000000 		.4byte	.LVL30
+ 1713 00d3 06000000 		.4byte	.LVL31
+ 1714 00d7 0100     		.2byte	0x1
+ 1715 00d9 50       		.byte	0x50
+ 1716 00da 06000000 		.4byte	.LVL31
+ 1717 00de 38000000 		.4byte	.LFE71
+ 1718 00e2 0400     		.2byte	0x4
+ 1719 00e4 F3       		.byte	0xf3
+ 1720 00e5 01       		.uleb128 0x1
+ 1721 00e6 50       		.byte	0x50
+ 1722 00e7 9F       		.byte	0x9f
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 36
+
+
+ 1723 00e8 00000000 		.4byte	0
+ 1724 00ec 00000000 		.4byte	0
+ 1725              	.LLST7:
+ 1726 00f0 00000000 		.4byte	.LVL30
+ 1727 00f4 0E000000 		.4byte	.LVL33
+ 1728 00f8 0100     		.2byte	0x1
+ 1729 00fa 51       		.byte	0x51
+ 1730 00fb 0E000000 		.4byte	.LVL33
+ 1731 00ff 10000000 		.4byte	.LVL34
+ 1732 0103 0200     		.2byte	0x2
+ 1733 0105 70       		.byte	0x70
+ 1734 0106 00       		.sleb128 0
+ 1735 0107 10000000 		.4byte	.LVL34
+ 1736 010b 15000000 		.4byte	.LVL35-1
+ 1737 010f 0200     		.2byte	0x2
+ 1738 0111 71       		.byte	0x71
+ 1739 0112 00       		.sleb128 0
+ 1740 0113 15000000 		.4byte	.LVL35-1
+ 1741 0117 32000000 		.4byte	.LVL40
+ 1742 011b 0200     		.2byte	0x2
+ 1743 011d 91       		.byte	0x91
+ 1744 011e 77       		.sleb128 -9
+ 1745 011f 32000000 		.4byte	.LVL40
+ 1746 0123 34000000 		.4byte	.LVL41
+ 1747 0127 0200     		.2byte	0x2
+ 1748 0129 7D       		.byte	0x7d
+ 1749 012a 7F       		.sleb128 -1
+ 1750 012b 34000000 		.4byte	.LVL41
+ 1751 012f 38000000 		.4byte	.LFE71
+ 1752 0133 0200     		.2byte	0x2
+ 1753 0135 7D       		.byte	0x7d
+ 1754 0136 77       		.sleb128 -9
+ 1755 0137 00000000 		.4byte	0
+ 1756 013b 00000000 		.4byte	0
+ 1757              	.LLST8:
+ 1758 013f 00000000 		.4byte	.LVL30
+ 1759 0143 15000000 		.4byte	.LVL35-1
+ 1760 0147 0100     		.2byte	0x1
+ 1761 0149 52       		.byte	0x52
+ 1762 014a 15000000 		.4byte	.LVL35-1
+ 1763 014e 38000000 		.4byte	.LFE71
+ 1764 0152 0400     		.2byte	0x4
+ 1765 0154 F3       		.byte	0xf3
+ 1766 0155 01       		.uleb128 0x1
+ 1767 0156 52       		.byte	0x52
+ 1768 0157 9F       		.byte	0x9f
+ 1769 0158 00000000 		.4byte	0
+ 1770 015c 00000000 		.4byte	0
+ 1771              	.LLST9:
+ 1772 0160 0A000000 		.4byte	.LVL32
+ 1773 0164 20000000 		.4byte	.LVL36
+ 1774 0168 0200     		.2byte	0x2
+ 1775 016a 30       		.byte	0x30
+ 1776 016b 9F       		.byte	0x9f
+ 1777 016c 20000000 		.4byte	.LVL36
+ 1778 0170 34000000 		.4byte	.LVL41
+ 1779 0174 0100     		.2byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 37
+
+
+ 1780 0176 54       		.byte	0x54
+ 1781 0177 34000000 		.4byte	.LVL41
+ 1782 017b 38000000 		.4byte	.LFE71
+ 1783 017f 0100     		.2byte	0x1
+ 1784 0181 50       		.byte	0x50
+ 1785 0182 00000000 		.4byte	0
+ 1786 0186 00000000 		.4byte	0
+ 1787              	.LLST10:
+ 1788 018a 00000000 		.4byte	.LVL42
+ 1789 018e 0A000000 		.4byte	.LVL44
+ 1790 0192 0100     		.2byte	0x1
+ 1791 0194 50       		.byte	0x50
+ 1792 0195 0A000000 		.4byte	.LVL44
+ 1793 0199 22000000 		.4byte	.LFE69
+ 1794 019d 0400     		.2byte	0x4
+ 1795 019f F3       		.byte	0xf3
+ 1796 01a0 01       		.uleb128 0x1
+ 1797 01a1 50       		.byte	0x50
+ 1798 01a2 9F       		.byte	0x9f
+ 1799 01a3 00000000 		.4byte	0
+ 1800 01a7 00000000 		.4byte	0
+ 1801              	.LLST11:
+ 1802 01ab 00000000 		.4byte	.LVL42
+ 1803 01af 0A000000 		.4byte	.LVL44
+ 1804 01b3 0100     		.2byte	0x1
+ 1805 01b5 51       		.byte	0x51
+ 1806 01b6 0A000000 		.4byte	.LVL44
+ 1807 01ba 22000000 		.4byte	.LFE69
+ 1808 01be 0100     		.2byte	0x1
+ 1809 01c0 56       		.byte	0x56
+ 1810 01c1 00000000 		.4byte	0
+ 1811 01c5 00000000 		.4byte	0
+ 1812              	.LLST12:
+ 1813 01c9 00000000 		.4byte	.LVL42
+ 1814 01cd 0A000000 		.4byte	.LVL44
+ 1815 01d1 0100     		.2byte	0x1
+ 1816 01d3 52       		.byte	0x52
+ 1817 01d4 0A000000 		.4byte	.LVL44
+ 1818 01d8 22000000 		.4byte	.LFE69
+ 1819 01dc 0400     		.2byte	0x4
+ 1820 01de F3       		.byte	0xf3
+ 1821 01df 01       		.uleb128 0x1
+ 1822 01e0 52       		.byte	0x52
+ 1823 01e1 9F       		.byte	0x9f
+ 1824 01e2 00000000 		.4byte	0
+ 1825 01e6 00000000 		.4byte	0
+ 1826              	.LLST13:
+ 1827 01ea 06000000 		.4byte	.LVL43
+ 1828 01ee 0A000000 		.4byte	.LVL44
+ 1829 01f2 0200     		.2byte	0x2
+ 1830 01f4 30       		.byte	0x30
+ 1831 01f5 9F       		.byte	0x9f
+ 1832 01f6 0A000000 		.4byte	.LVL44
+ 1833 01fa 1A000000 		.4byte	.LVL46
+ 1834 01fe 0100     		.2byte	0x1
+ 1835 0200 54       		.byte	0x54
+ 1836 0201 1C000000 		.4byte	.LVL47
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 38
+
+
+ 1837 0205 22000000 		.4byte	.LFE69
+ 1838 0209 0100     		.2byte	0x1
+ 1839 020b 54       		.byte	0x54
+ 1840 020c 00000000 		.4byte	0
+ 1841 0210 00000000 		.4byte	0
+ 1842              	.LLST14:
+ 1843 0214 00000000 		.4byte	.LVL48
+ 1844 0218 06000000 		.4byte	.LVL50
+ 1845 021c 0100     		.2byte	0x1
+ 1846 021e 50       		.byte	0x50
+ 1847 021f 06000000 		.4byte	.LVL50
+ 1848 0223 1C000000 		.4byte	.LFE72
+ 1849 0227 0400     		.2byte	0x4
+ 1850 0229 F3       		.byte	0xf3
+ 1851 022a 01       		.uleb128 0x1
+ 1852 022b 50       		.byte	0x50
+ 1853 022c 9F       		.byte	0x9f
+ 1854 022d 00000000 		.4byte	0
+ 1855 0231 00000000 		.4byte	0
+ 1856              	.LLST15:
+ 1857 0235 00000000 		.4byte	.LVL48
+ 1858 0239 09000000 		.4byte	.LVL51-1
+ 1859 023d 0100     		.2byte	0x1
+ 1860 023f 51       		.byte	0x51
+ 1861 0240 09000000 		.4byte	.LVL51-1
+ 1862 0244 1C000000 		.4byte	.LFE72
+ 1863 0248 0400     		.2byte	0x4
+ 1864 024a F3       		.byte	0xf3
+ 1865 024b 01       		.uleb128 0x1
+ 1866 024c 51       		.byte	0x51
+ 1867 024d 9F       		.byte	0x9f
+ 1868 024e 00000000 		.4byte	0
+ 1869 0252 00000000 		.4byte	0
+ 1870              	.LLST16:
+ 1871 0256 02000000 		.4byte	.LVL49
+ 1872 025a 14000000 		.4byte	.LVL52
+ 1873 025e 0200     		.2byte	0x2
+ 1874 0260 30       		.byte	0x30
+ 1875 0261 9F       		.byte	0x9f
+ 1876 0262 14000000 		.4byte	.LVL52
+ 1877 0266 1C000000 		.4byte	.LFE72
+ 1878 026a 0100     		.2byte	0x1
+ 1879 026c 50       		.byte	0x50
+ 1880 026d 00000000 		.4byte	0
+ 1881 0271 00000000 		.4byte	0
+ 1882              	.LLST17:
+ 1883 0275 00000000 		.4byte	.LVL53
+ 1884 0279 06000000 		.4byte	.LVL54
+ 1885 027d 0100     		.2byte	0x1
+ 1886 027f 50       		.byte	0x50
+ 1887 0280 06000000 		.4byte	.LVL54
+ 1888 0284 10000000 		.4byte	.LFE73
+ 1889 0288 0400     		.2byte	0x4
+ 1890 028a F3       		.byte	0xf3
+ 1891 028b 01       		.uleb128 0x1
+ 1892 028c 50       		.byte	0x50
+ 1893 028d 9F       		.byte	0x9f
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 39
+
+
+ 1894 028e 00000000 		.4byte	0
+ 1895 0292 00000000 		.4byte	0
+ 1896              		.section	.debug_aranges,"",%progbits
+ 1897 0000 54000000 		.4byte	0x54
+ 1898 0004 0200     		.2byte	0x2
+ 1899 0006 00000000 		.4byte	.Ldebug_info0
+ 1900 000a 04       		.byte	0x4
+ 1901 000b 00       		.byte	0
+ 1902 000c 0000     		.2byte	0
+ 1903 000e 0000     		.2byte	0
+ 1904 0010 00000000 		.4byte	.LFB74
+ 1905 0014 64000000 		.4byte	.LFE74-.LFB74
+ 1906 0018 00000000 		.4byte	.LFB75
+ 1907 001c 70000000 		.4byte	.LFE75-.LFB75
+ 1908 0020 00000000 		.4byte	.LFB68
+ 1909 0024 78000000 		.4byte	.LFE68-.LFB68
+ 1910 0028 00000000 		.4byte	.LFB70
+ 1911 002c 1C000000 		.4byte	.LFE70-.LFB70
+ 1912 0030 00000000 		.4byte	.LFB71
+ 1913 0034 38000000 		.4byte	.LFE71-.LFB71
+ 1914 0038 00000000 		.4byte	.LFB69
+ 1915 003c 22000000 		.4byte	.LFE69-.LFB69
+ 1916 0040 00000000 		.4byte	.LFB72
+ 1917 0044 1C000000 		.4byte	.LFE72-.LFB72
+ 1918 0048 00000000 		.4byte	.LFB73
+ 1919 004c 10000000 		.4byte	.LFE73-.LFB73
+ 1920 0050 00000000 		.4byte	0
+ 1921 0054 00000000 		.4byte	0
+ 1922              		.section	.debug_ranges,"",%progbits
+ 1923              	.Ldebug_ranges0:
+ 1924 0000 00000000 		.4byte	.LFB74
+ 1925 0004 64000000 		.4byte	.LFE74
+ 1926 0008 00000000 		.4byte	.LFB75
+ 1927 000c 70000000 		.4byte	.LFE75
+ 1928 0010 00000000 		.4byte	.LFB68
+ 1929 0014 78000000 		.4byte	.LFE68
+ 1930 0018 00000000 		.4byte	.LFB70
+ 1931 001c 1C000000 		.4byte	.LFE70
+ 1932 0020 00000000 		.4byte	.LFB71
+ 1933 0024 38000000 		.4byte	.LFE71
+ 1934 0028 00000000 		.4byte	.LFB69
+ 1935 002c 22000000 		.4byte	.LFE69
+ 1936 0030 00000000 		.4byte	.LFB72
+ 1937 0034 1C000000 		.4byte	.LFE72
+ 1938 0038 00000000 		.4byte	.LFB73
+ 1939 003c 10000000 		.4byte	.LFE73
+ 1940 0040 00000000 		.4byte	0
+ 1941 0044 00000000 		.4byte	0
+ 1942              		.section	.debug_line,"",%progbits
+ 1943              	.Ldebug_line0:
+ 1944 0000 E3020000 		.section	.debug_str,"MS",%progbits,1
+ 1944      0200F901 
+ 1944      00000201 
+ 1944      FB0E0D00 
+ 1944      01010101 
+ 1945              	.LASF35:
+ 1946 0000 78536572 		.ascii	"xSerialPortInitMinimal\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 40
+
+
+ 1946      69616C50 
+ 1946      6F727449 
+ 1946      6E69744D 
+ 1946      696E696D 
+ 1947              	.LASF64:
+ 1948 0017 78517565 		.ascii	"xQueueReceive\000"
+ 1948      75655265 
+ 1948      63656976 
+ 1948      6500
+ 1949              	.LASF46:
+ 1950 0025 78536572 		.ascii	"xSerialWaitForRxEvent\000"
+ 1950      69616C57 
+ 1950      61697446 
+ 1950      6F725278 
+ 1950      4576656E 
+ 1951              	.LASF50:
+ 1952 003b 78536572 		.ascii	"xSerialRxEvent\000"
+ 1952      69616C52 
+ 1952      78457665 
+ 1952      6E7400
+ 1953              	.LASF43:
+ 1954 004a 70635374 		.ascii	"pcString\000"
+ 1954      72696E67 
+ 1954      00
+ 1955              	.LASF72:
+ 1956 0053 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 1956      73657273 
+ 1956      5C457667 
+ 1956      656E7920 
+ 1956      4D657368 
+ 1957 0082 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 1957      746D705C 
+ 1957      5A756D6F 
+ 1957      5C5A756D 
+ 1957      6F426F74 
+ 1958              	.LASF61:
+ 1959 009d 6973725F 		.ascii	"isr_U2_RX_StartEx\000"
+ 1959      55325F52 
+ 1959      585F5374 
+ 1959      61727445 
+ 1959      7800
+ 1960              	.LASF47:
+ 1961 00af 78536572 		.ascii	"xSerialRxWaiting\000"
+ 1961      69616C52 
+ 1961      78576169 
+ 1961      74696E67 
+ 1961      00
+ 1962              	.LASF20:
+ 1963 00c0 73697A65 		.ascii	"sizetype\000"
+ 1963      74797065 
+ 1963      00
+ 1964              	.LASF32:
+ 1965 00c9 634F7574 		.ascii	"cOutChar\000"
+ 1965      43686172 
+ 1965      00
+ 1966              	.LASF19:
+ 1967 00d2 6C6F6E67 		.ascii	"long double\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 41
+
+
+ 1967      20646F75 
+ 1967      626C6500 
+ 1968              	.LASF7:
+ 1969 00de 5F5F7569 		.ascii	"__uint32_t\000"
+ 1969      6E743332 
+ 1969      5F7400
+ 1970              	.LASF69:
+ 1971 00e9 75785175 		.ascii	"uxQueueMessagesWaiting\000"
+ 1971      6575654D 
+ 1971      65737361 
+ 1971      67657357 
+ 1971      61697469 
+ 1972              	.LASF36:
+ 1973 0100 78536572 		.ascii	"xSerialGetChar\000"
+ 1973      69616C47 
+ 1973      65744368 
+ 1973      617200
+ 1974              	.LASF2:
+ 1975 010f 73686F72 		.ascii	"short int\000"
+ 1975      7420696E 
+ 1975      7400
+ 1976              	.LASF52:
+ 1977 0119 55415254 		.ascii	"UART_2_ReadRxData\000"
+ 1977      5F325F52 
+ 1977      65616452 
+ 1977      78446174 
+ 1977      6100
+ 1978              	.LASF12:
+ 1979 012b 75696E74 		.ascii	"uint8_t\000"
+ 1979      385F7400 
+ 1980              	.LASF56:
+ 1981 0133 78517565 		.ascii	"xQueueReceiveFromISR\000"
+ 1981      75655265 
+ 1981      63656976 
+ 1981      6546726F 
+ 1981      6D495352 
+ 1982              	.LASF28:
+ 1983 0148 75635374 		.ascii	"ucStatus\000"
+ 1983      61747573 
+ 1983      00
+ 1984              	.LASF65:
+ 1985 0151 78517565 		.ascii	"xQueueGenericSend\000"
+ 1985      75654765 
+ 1985      6E657269 
+ 1985      6353656E 
+ 1985      6400
+ 1986              	.LASF16:
+ 1987 0163 666C6F61 		.ascii	"float\000"
+ 1987      7400
+ 1988              	.LASF9:
+ 1989 0169 6C6F6E67 		.ascii	"long long int\000"
+ 1989      206C6F6E 
+ 1989      6720696E 
+ 1989      7400
+ 1990              	.LASF57:
+ 1991 0177 55415254 		.ascii	"UART_2_PutChar\000"
+ 1991      5F325F50 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 42
+
+
+ 1991      75744368 
+ 1991      617200
+ 1992              	.LASF6:
+ 1993 0186 6C6F6E67 		.ascii	"long int\000"
+ 1993      20696E74 
+ 1993      00
+ 1994              	.LASF21:
+ 1995 018f 42617365 		.ascii	"BaseType_t\000"
+ 1995      54797065 
+ 1995      5F7400
+ 1996              	.LASF58:
+ 1997 019a 55415254 		.ascii	"UART_2_SetTxInterruptMode\000"
+ 1997      5F325F53 
+ 1997      65745478 
+ 1997      496E7465 
+ 1997      72727570 
+ 1998              	.LASF37:
+ 1999 01b4 7078506F 		.ascii	"pxPort\000"
+ 1999      727400
+ 2000              	.LASF48:
+ 2001 01bb 78536572 		.ascii	"xSerialTxQueue\000"
+ 2001      69616C54 
+ 2001      78517565 
+ 2001      756500
+ 2002              	.LASF23:
+ 2003 01ca 5469636B 		.ascii	"TickType_t\000"
+ 2003      54797065 
+ 2003      5F7400
+ 2004              	.LASF26:
+ 2005 01d5 78436F6D 		.ascii	"xComPortHandle\000"
+ 2005      506F7274 
+ 2005      48616E64 
+ 2005      6C6500
+ 2006              	.LASF59:
+ 2007 01e4 78517565 		.ascii	"xQueueGenericCreate\000"
+ 2007      75654765 
+ 2007      6E657269 
+ 2007      63437265 
+ 2007      61746500 
+ 2008              	.LASF25:
+ 2009 01f8 53656D61 		.ascii	"SemaphoreHandle_t\000"
+ 2009      70686F72 
+ 2009      6548616E 
+ 2009      646C655F 
+ 2009      7400
+ 2010              	.LASF29:
+ 2011 020a 63496E43 		.ascii	"cInChar\000"
+ 2011      68617200 
+ 2012              	.LASF1:
+ 2013 0212 756E7369 		.ascii	"unsigned char\000"
+ 2013      676E6564 
+ 2013      20636861 
+ 2013      7200
+ 2014              	.LASF42:
+ 2015 0220 76536572 		.ascii	"vSerialPutString\000"
+ 2015      69616C50 
+ 2015      75745374 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 43
+
+
+ 2015      72696E67 
+ 2015      00
+ 2016              	.LASF55:
+ 2017 0231 55415254 		.ascii	"UART_2_ReadTxStatus\000"
+ 2017      5F325F52 
+ 2017      65616454 
+ 2017      78537461 
+ 2017      74757300 
+ 2018              	.LASF51:
+ 2019 0245 55415254 		.ascii	"UART_2_ReadRxStatus\000"
+ 2019      5F325F52 
+ 2019      65616452 
+ 2019      78537461 
+ 2019      74757300 
+ 2020              	.LASF0:
+ 2021 0259 7369676E 		.ascii	"signed char\000"
+ 2021      65642063 
+ 2021      68617200 
+ 2022              	.LASF13:
+ 2023 0265 696E7433 		.ascii	"int32_t\000"
+ 2023      325F7400 
+ 2024              	.LASF10:
+ 2025 026d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2025      206C6F6E 
+ 2025      6720756E 
+ 2025      7369676E 
+ 2025      65642069 
+ 2026              	.LASF27:
+ 2027 0284 78486967 		.ascii	"xHigherPriorityTaskWoken\000"
+ 2027      68657250 
+ 2027      72696F72 
+ 2027      69747954 
+ 2027      61736B57 
+ 2028              	.LASF14:
+ 2029 029d 75696E74 		.ascii	"uint32_t\000"
+ 2029      33325F74 
+ 2029      00
+ 2030              	.LASF11:
+ 2031 02a6 756E7369 		.ascii	"unsigned int\000"
+ 2031      676E6564 
+ 2031      20696E74 
+ 2031      00
+ 2032              	.LASF68:
+ 2033 02b3 78517565 		.ascii	"xQueueSemaphoreTake\000"
+ 2033      75655365 
+ 2033      6D617068 
+ 2033      6F726554 
+ 2033      616B6500 
+ 2034              	.LASF39:
+ 2035 02c7 78426C6F 		.ascii	"xBlockTime\000"
+ 2035      636B5469 
+ 2035      6D6500
+ 2036              	.LASF34:
+ 2037 02d2 75785175 		.ascii	"uxQueueLength\000"
+ 2037      6575654C 
+ 2037      656E6774 
+ 2037      6800
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 44
+
+
+ 2038              	.LASF66:
+ 2039 02e0 76506F72 		.ascii	"vPortEnterCritical\000"
+ 2039      74456E74 
+ 2039      65724372 
+ 2039      69746963 
+ 2039      616C00
+ 2040              	.LASF53:
+ 2041 02f3 78517565 		.ascii	"xQueueGenericSendFromISR\000"
+ 2041      75654765 
+ 2041      6E657269 
+ 2041      6353656E 
+ 2041      6446726F 
+ 2042              	.LASF18:
+ 2043 030c 63686172 		.ascii	"char\000"
+ 2043      00
+ 2044              	.LASF31:
+ 2045 0311 76556172 		.ascii	"vUartTxISR\000"
+ 2045      74547849 
+ 2045      535200
+ 2046              	.LASF54:
+ 2047 031c 78517565 		.ascii	"xQueueGiveFromISR\000"
+ 2047      75654769 
+ 2047      76654672 
+ 2047      6F6D4953 
+ 2047      5200
+ 2048              	.LASF60:
+ 2049 032e 6973725F 		.ascii	"isr_U2_RX_ClearPending\000"
+ 2049      55325F52 
+ 2049      585F436C 
+ 2049      65617250 
+ 2049      656E6469 
+ 2050              	.LASF3:
+ 2051 0345 73686F72 		.ascii	"short unsigned int\000"
+ 2051      7420756E 
+ 2051      7369676E 
+ 2051      65642069 
+ 2051      6E7400
+ 2052              	.LASF45:
+ 2053 0358 7573496E 		.ascii	"usIndex\000"
+ 2053      64657800 
+ 2054              	.LASF62:
+ 2055 0360 6973725F 		.ascii	"isr_U2_TX_ClearPending\000"
+ 2055      55325F54 
+ 2055      585F436C 
+ 2055      65617250 
+ 2055      656E6469 
+ 2056              	.LASF15:
+ 2057 0377 75696E74 		.ascii	"uint8\000"
+ 2057      3800
+ 2058              	.LASF71:
+ 2059 037d 5A756D6F 		.ascii	"ZumoLibrary\\serial.c\000"
+ 2059      4C696272 
+ 2059      6172795C 
+ 2059      73657269 
+ 2059      616C2E63 
+ 2060              	.LASF67:
+ 2061 0392 76506F72 		.ascii	"vPortExitCritical\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 45
+
+
+ 2061      74457869 
+ 2061      74437269 
+ 2061      74696361 
+ 2061      6C00
+ 2062              	.LASF8:
+ 2063 03a4 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2063      20756E73 
+ 2063      69676E65 
+ 2063      6420696E 
+ 2063      7400
+ 2064              	.LASF22:
+ 2065 03b6 55426173 		.ascii	"UBaseType_t\000"
+ 2065      65547970 
+ 2065      655F7400 
+ 2066              	.LASF5:
+ 2067 03c2 5F5F696E 		.ascii	"__int32_t\000"
+ 2067      7433325F 
+ 2067      7400
+ 2068              	.LASF49:
+ 2069 03cc 78536572 		.ascii	"xSerialRxQueue\000"
+ 2069      69616C52 
+ 2069      78517565 
+ 2069      756500
+ 2070              	.LASF40:
+ 2071 03db 78526574 		.ascii	"xReturn\000"
+ 2071      75726E00 
+ 2072              	.LASF38:
+ 2073 03e3 70635278 		.ascii	"pcRxedChar\000"
+ 2073      65644368 
+ 2073      617200
+ 2074              	.LASF24:
+ 2075 03ee 51756575 		.ascii	"QueueHandle_t\000"
+ 2075      6548616E 
+ 2075      646C655F 
+ 2075      7400
+ 2076              	.LASF63:
+ 2077 03fc 6973725F 		.ascii	"isr_U2_TX_StartEx\000"
+ 2077      55325F54 
+ 2077      585F5374 
+ 2077      61727445 
+ 2077      7800
+ 2078              	.LASF17:
+ 2079 040e 646F7562 		.ascii	"double\000"
+ 2079      6C6500
+ 2080              	.LASF33:
+ 2081 0415 756C5761 		.ascii	"ulWantedBaud\000"
+ 2081      6E746564 
+ 2081      42617564 
+ 2081      00
+ 2082              	.LASF73:
+ 2083 0422 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2083      52784275 
+ 2083      66666572 
+ 2083      00
+ 2084              	.LASF70:
+ 2085 042f 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2085      43313120 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cczMdm7I.s 			page 46
+
+
+ 2085      352E342E 
+ 2085      31203230 
+ 2085      31363036 
+ 2086 0462 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2086      20726576 
+ 2086      6973696F 
+ 2086      6E203233 
+ 2086      37373135 
+ 2087 0495 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2087      66756E63 
+ 2087      74696F6E 
+ 2087      2D736563 
+ 2087      74696F6E 
+ 2088              	.LASF30:
+ 2089 04bd 76556172 		.ascii	"vUartRxISR\000"
+ 2089      74527849 
+ 2089      535200
+ 2090              	.LASF41:
+ 2091 04c8 78536572 		.ascii	"xSerialPutChar\000"
+ 2091      69616C50 
+ 2091      75744368 
+ 2091      617200
+ 2092              	.LASF4:
+ 2093 04d7 5F5F7569 		.ascii	"__uint8_t\000"
+ 2093      6E74385F 
+ 2093      7400
+ 2094              	.LASF44:
+ 2095 04e1 75735374 		.ascii	"usStringLength\000"
+ 2095      72696E67 
+ 2095      4C656E67 
+ 2095      746800
+ 2096              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

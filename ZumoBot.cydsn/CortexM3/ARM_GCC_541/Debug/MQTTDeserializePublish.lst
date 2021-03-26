@@ -1,0 +1,1893 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"MQTTDeserializePublish.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MQTTDeserialize_publish,"ax",%progbits
+  20              		.align	2
+  21              		.global	MQTTDeserialize_publish
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	MQTTDeserialize_publish, %function
+  25              	MQTTDeserialize_publish:
+  26              	.LFB1:
+  27              		.file 1 "..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTDeserializePublish.c"
+   1:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** /*******************************************************************************
+   2:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * Copyright (c) 2014 IBM Corp.
+   3:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *
+   4:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * All rights reserved. This program and the accompanying materials
+   5:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * are made available under the terms of the Eclipse Public License v1.0
+   6:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * and Eclipse Distribution License v1.0 which accompany this distribution.
+   7:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *
+   8:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * The Eclipse Public License is available at
+   9:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *    http://www.eclipse.org/legal/epl-v10.html
+  10:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * and the Eclipse Distribution License is available at
+  11:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *   http://www.eclipse.org/org/documents/edl-v10.php.
+  12:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *
+  13:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  * Contributors:
+  14:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *    Ian Craggs - initial API and implementation and/or initial documentation
+  15:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****  *******************************************************************************/
+  16:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  17:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** #include "StackTrace.h"
+  18:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** #include "MQTTPacket.h"
+  19:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** #include <string.h>
+  20:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  21:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** #define min(a, b) ((a < b) ? 1 : 0)
+  22:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  23:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** /**
+  24:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * Deserializes the supplied (wire) buffer into publish data
+  25:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param dup returned integer - the MQTT dup flag
+  26:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param qos returned integer - the MQTT QoS value
+  27:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param retained returned integer - the MQTT retained flag
+  28:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param packetid returned integer - the MQTT packet identifier
+  29:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param topicName returned MQTTString - the MQTT topic in the publish
+  30:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param payload returned byte buffer - the MQTT publish payload
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 2
+
+
+  31:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param payloadlen returned integer - the length of the MQTT payload
+  32:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param buf the raw buffer data, of the correct length determined by the remaining length field
+  33:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param buflen the length in bytes of the data in the supplied buffer
+  34:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @return error code.  1 is success
+  35:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   */
+  36:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** int MQTTDeserialize_publish(unsigned char* dup, int* qos, unsigned char* retained, unsigned short* 
+  37:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		unsigned char** payload, int* payloadlen, unsigned char* buf, int buflen)
+  38:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** {
+  28              		.loc 1 38 0
+  29              		.cfi_startproc
+  30              		@ args = 20, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  34              		.cfi_def_cfa_offset 20
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 83B0     		sub	sp, sp, #12
+  41              		.cfi_def_cfa_offset 32
+  42 0004 0746     		mov	r7, r0
+  43 0006 0D46     		mov	r5, r1
+  44 0008 1446     		mov	r4, r2
+  45 000a 1E46     		mov	r6, r3
+  39:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	MQTTHeader header = {0};
+  40:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	unsigned char* curdata = buf;
+  46              		.loc 1 40 0
+  47 000c 0B9B     		ldr	r3, [sp, #44]
+  48              	.LVL1:
+  49 000e 0193     		str	r3, [sp, #4]
+  50              	.LVL2:
+  41:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	unsigned char* enddata = NULL;
+  42:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	int rc = 0;
+  43:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	int mylen = 0;
+  51              		.loc 1 43 0
+  52 0010 0023     		movs	r3, #0
+  53 0012 0093     		str	r3, [sp]
+  44:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  45:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	FUNC_ENTRY;
+  46:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	header.byte = readChar(&curdata);
+  54              		.loc 1 46 0
+  55 0014 01A8     		add	r0, sp, #4
+  56              	.LVL3:
+  57 0016 FFF7FEFF 		bl	readChar
+  58              	.LVL4:
+  59 001a 0023     		movs	r3, #0
+  60              	.LVL5:
+  61 001c 60F30703 		bfi	r3, r0, #0, #8
+  62              	.LVL6:
+  47:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	if (header.bits.type != PUBLISH)
+  63              		.loc 1 47 0
+  64 0020 03F0F002 		and	r2, r3, #240
+  65 0024 302A     		cmp	r2, #48
+  66 0026 2BD1     		bne	.L4
+  48:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		goto exit;
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 3
+
+
+  49:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*dup = header.bits.dup;
+  67              		.loc 1 49 0
+  68 0028 C3F3C002 		ubfx	r2, r3, #3, #1
+  69 002c 3A70     		strb	r2, [r7]
+  50:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*qos = header.bits.qos;
+  70              		.loc 1 50 0
+  71 002e C3F34102 		ubfx	r2, r3, #1, #2
+  72 0032 2A60     		str	r2, [r5]
+  51:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*retained = header.bits.retain;
+  73              		.loc 1 51 0
+  74 0034 C3F30003 		ubfx	r3, r3, #0, #1
+  75              	.LVL7:
+  76 0038 2370     		strb	r3, [r4]
+  52:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  53:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	curdata += (rc = MQTTPacket_decodeBuf(curdata, &mylen)); /* read remaining length */
+  77              		.loc 1 53 0
+  78 003a 6946     		mov	r1, sp
+  79 003c 0198     		ldr	r0, [sp, #4]
+  80 003e FFF7FEFF 		bl	MQTTPacket_decodeBuf
+  81              	.LVL8:
+  82 0042 0446     		mov	r4, r0
+  83              	.LVL9:
+  84 0044 019F     		ldr	r7, [sp, #4]
+  85              	.LVL10:
+  86 0046 0744     		add	r7, r7, r0
+  87 0048 0197     		str	r7, [sp, #4]
+  54:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	enddata = curdata + mylen;
+  88              		.loc 1 54 0
+  89 004a 009B     		ldr	r3, [sp]
+  90 004c 1F44     		add	r7, r7, r3
+  91              	.LVL11:
+  55:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  56:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	if (!readMQTTLenString(topicName, &curdata, enddata) ||
+  92              		.loc 1 56 0
+  93 004e 3A46     		mov	r2, r7
+  94 0050 01A9     		add	r1, sp, #4
+  95 0052 0898     		ldr	r0, [sp, #32]
+  96              	.LVL12:
+  97 0054 FFF7FEFF 		bl	readMQTTLenString
+  98              	.LVL13:
+  99 0058 98B1     		cbz	r0, .L2
+  57:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		enddata - curdata < 0) /* do we have enough data to read the protocol version byte? */
+ 100              		.loc 1 57 0 discriminator 1
+ 101 005a 019B     		ldr	r3, [sp, #4]
+ 102 005c FB1A     		subs	r3, r7, r3
+  56:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		enddata - curdata < 0) /* do we have enough data to read the protocol version byte? */
+ 103              		.loc 1 56 0 discriminator 1
+ 104 005e 002B     		cmp	r3, #0
+ 105 0060 0FDB     		blt	.L2
+  58:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		goto exit;
+  59:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  60:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	if (*qos > 0)
+ 106              		.loc 1 60 0
+ 107 0062 2B68     		ldr	r3, [r5]
+ 108 0064 002B     		cmp	r3, #0
+ 109 0066 03DD     		ble	.L3
+  61:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		*packetid = readInt(&curdata);
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 4
+
+
+ 110              		.loc 1 61 0
+ 111 0068 01A8     		add	r0, sp, #4
+ 112 006a FFF7FEFF 		bl	readInt
+ 113              	.LVL14:
+ 114 006e 3080     		strh	r0, [r6]	@ movhi
+ 115              	.L3:
+  62:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  63:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*payloadlen = enddata - curdata;
+ 116              		.loc 1 63 0
+ 117 0070 019B     		ldr	r3, [sp, #4]
+ 118 0072 FF1A     		subs	r7, r7, r3
+ 119              	.LVL15:
+ 120 0074 0A9A     		ldr	r2, [sp, #40]
+ 121 0076 1760     		str	r7, [r2]
+  64:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*payload = curdata;
+ 122              		.loc 1 64 0
+ 123 0078 099A     		ldr	r2, [sp, #36]
+ 124 007a 1360     		str	r3, [r2]
+ 125              	.LVL16:
+  65:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	rc = 1;
+ 126              		.loc 1 65 0
+ 127 007c 0124     		movs	r4, #1
+ 128 007e 00E0     		b	.L2
+ 129              	.LVL17:
+ 130              	.L4:
+  42:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	int mylen = 0;
+ 131              		.loc 1 42 0
+ 132 0080 0024     		movs	r4, #0
+ 133              	.LVL18:
+ 134              	.L2:
+  66:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** exit:
+  67:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	FUNC_EXIT_RC(rc);
+  68:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	return rc;
+  69:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** }
+ 135              		.loc 1 69 0
+ 136 0082 2046     		mov	r0, r4
+ 137 0084 03B0     		add	sp, sp, #12
+ 138              		.cfi_def_cfa_offset 20
+ 139              		@ sp needed
+ 140 0086 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 141              		.cfi_endproc
+ 142              	.LFE1:
+ 143              		.size	MQTTDeserialize_publish, .-MQTTDeserialize_publish
+ 144              		.section	.text.MQTTDeserialize_ack,"ax",%progbits
+ 145              		.align	2
+ 146              		.global	MQTTDeserialize_ack
+ 147              		.thumb
+ 148              		.thumb_func
+ 149              		.type	MQTTDeserialize_ack, %function
+ 150              	MQTTDeserialize_ack:
+ 151              	.LFB2:
+  70:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  71:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  72:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  73:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** /**
+  74:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * Deserializes the supplied (wire) buffer into an ack
+  75:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param packettype returned integer - the MQTT packet type
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 5
+
+
+  76:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param dup returned integer - the MQTT dup flag
+  77:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param packetid returned integer - the MQTT packet identifier
+  78:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param buf the raw buffer data, of the correct length determined by the remaining length field
+  79:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @param buflen the length in bytes of the data in the supplied buffer
+  80:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   * @return error code.  1 is success, 0 is failure
+  81:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c ****   */
+  82:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** int MQTTDeserialize_ack(unsigned char* packettype, unsigned char* dup, unsigned short* packetid, un
+  83:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** {
+ 152              		.loc 1 83 0
+ 153              		.cfi_startproc
+ 154              		@ args = 4, pretend = 0, frame = 8
+ 155              		@ frame_needed = 0, uses_anonymous_args = 0
+ 156              	.LVL19:
+ 157 0000 70B5     		push	{r4, r5, r6, lr}
+ 158              		.cfi_def_cfa_offset 16
+ 159              		.cfi_offset 4, -16
+ 160              		.cfi_offset 5, -12
+ 161              		.cfi_offset 6, -8
+ 162              		.cfi_offset 14, -4
+ 163 0002 82B0     		sub	sp, sp, #8
+ 164              		.cfi_def_cfa_offset 24
+ 165 0004 0546     		mov	r5, r0
+ 166 0006 0E46     		mov	r6, r1
+ 167 0008 1446     		mov	r4, r2
+  84:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	MQTTHeader header = {0};
+  85:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	unsigned char* curdata = buf;
+ 168              		.loc 1 85 0
+ 169 000a 02A8     		add	r0, sp, #8
+ 170              	.LVL20:
+ 171 000c 40F8043D 		str	r3, [r0, #-4]!
+ 172              	.LVL21:
+  86:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	unsigned char* enddata = NULL;
+  87:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	int rc = 0;
+  88:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	int mylen;
+  89:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  90:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	FUNC_ENTRY;
+  91:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	header.byte = readChar(&curdata);
+ 173              		.loc 1 91 0
+ 174 0010 FFF7FEFF 		bl	readChar
+ 175              	.LVL22:
+ 176 0014 0023     		movs	r3, #0
+ 177              	.LVL23:
+ 178 0016 60F30703 		bfi	r3, r0, #0, #8
+ 179              	.LVL24:
+  92:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*dup = header.bits.dup;
+ 180              		.loc 1 92 0
+ 181 001a C3F3C002 		ubfx	r2, r3, #3, #1
+ 182 001e 3270     		strb	r2, [r6]
+  93:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*packettype = header.bits.type;
+ 183              		.loc 1 93 0
+ 184 0020 C3F30313 		ubfx	r3, r3, #4, #4
+ 185              	.LVL25:
+ 186 0024 2B70     		strb	r3, [r5]
+  94:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  95:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	curdata += (rc = MQTTPacket_decodeBuf(curdata, &mylen)); /* read remaining length */
+ 187              		.loc 1 95 0
+ 188 0026 6946     		mov	r1, sp
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 6
+
+
+ 189 0028 0198     		ldr	r0, [sp, #4]
+ 190 002a FFF7FEFF 		bl	MQTTPacket_decodeBuf
+ 191              	.LVL26:
+ 192 002e 019B     		ldr	r3, [sp, #4]
+ 193 0030 0344     		add	r3, r3, r0
+ 194 0032 0193     		str	r3, [sp, #4]
+  96:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	enddata = curdata + mylen;
+ 195              		.loc 1 96 0
+ 196 0034 009B     		ldr	r3, [sp]
+ 197              	.LVL27:
+  97:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+  98:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	if (enddata - curdata < 2)
+ 198              		.loc 1 98 0
+ 199 0036 012B     		cmp	r3, #1
+ 200 0038 04DD     		ble	.L7
+  99:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 		goto exit;
+ 100:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	*packetid = readInt(&curdata);
+ 201              		.loc 1 100 0
+ 202 003a 01A8     		add	r0, sp, #4
+ 203              	.LVL28:
+ 204 003c FFF7FEFF 		bl	readInt
+ 205              	.LVL29:
+ 206 0040 2080     		strh	r0, [r4]	@ movhi
+ 207              	.LVL30:
+ 101:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 
+ 102:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	rc = 1;
+ 208              		.loc 1 102 0
+ 209 0042 0120     		movs	r0, #1
+ 210              	.LVL31:
+ 211              	.L7:
+ 103:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** exit:
+ 104:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	FUNC_EXIT_RC(rc);
+ 105:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** 	return rc;
+ 106:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTDeserializePublish.c **** }
+ 212              		.loc 1 106 0
+ 213 0044 02B0     		add	sp, sp, #8
+ 214              		.cfi_def_cfa_offset 16
+ 215              		@ sp needed
+ 216 0046 70BD     		pop	{r4, r5, r6, pc}
+ 217              		.cfi_endproc
+ 218              	.LFE2:
+ 219              		.size	MQTTDeserialize_ack, .-MQTTDeserialize_ack
+ 220              		.text
+ 221              	.Letext0:
+ 222              		.file 2 "..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTPacket.h"
+ 223              		.section	.debug_info,"",%progbits
+ 224              	.Ldebug_info0:
+ 225 0000 30040000 		.4byte	0x430
+ 226 0004 0400     		.2byte	0x4
+ 227 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 228 000a 04       		.byte	0x4
+ 229 000b 01       		.uleb128 0x1
+ 230 000c 0D020000 		.4byte	.LASF54
+ 231 0010 0C       		.byte	0xc
+ 232 0011 49010000 		.4byte	.LASF55
+ 233 0015 A7020000 		.4byte	.LASF56
+ 234 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 7
+
+
+ 235 001d 00000000 		.4byte	0
+ 236 0021 00000000 		.4byte	.Ldebug_line0
+ 237 0025 02       		.uleb128 0x2
+ 238 0026 01       		.byte	0x1
+ 239 0027 06       		.byte	0x6
+ 240 0028 8B000000 		.4byte	.LASF0
+ 241 002c 02       		.uleb128 0x2
+ 242 002d 01       		.byte	0x1
+ 243 002e 08       		.byte	0x8
+ 244 002f E4010000 		.4byte	.LASF1
+ 245 0033 02       		.uleb128 0x2
+ 246 0034 02       		.byte	0x2
+ 247 0035 05       		.byte	0x5
+ 248 0036 FB010000 		.4byte	.LASF2
+ 249 003a 02       		.uleb128 0x2
+ 250 003b 02       		.byte	0x2
+ 251 003c 07       		.byte	0x7
+ 252 003d FC000000 		.4byte	.LASF3
+ 253 0041 02       		.uleb128 0x2
+ 254 0042 04       		.byte	0x4
+ 255 0043 05       		.byte	0x5
+ 256 0044 A5000000 		.4byte	.LASF4
+ 257 0048 02       		.uleb128 0x2
+ 258 0049 04       		.byte	0x4
+ 259 004a 07       		.byte	0x7
+ 260 004b DD000000 		.4byte	.LASF5
+ 261 004f 02       		.uleb128 0x2
+ 262 0050 08       		.byte	0x8
+ 263 0051 05       		.byte	0x5
+ 264 0052 7D000000 		.4byte	.LASF6
+ 265 0056 02       		.uleb128 0x2
+ 266 0057 08       		.byte	0x8
+ 267 0058 07       		.byte	0x7
+ 268 0059 66000000 		.4byte	.LASF7
+ 269 005d 03       		.uleb128 0x3
+ 270 005e 04       		.byte	0x4
+ 271 005f 05       		.byte	0x5
+ 272 0060 696E7400 		.ascii	"int\000"
+ 273 0064 02       		.uleb128 0x2
+ 274 0065 04       		.byte	0x4
+ 275 0066 07       		.byte	0x7
+ 276 0067 C8000000 		.4byte	.LASF8
+ 277 006b 02       		.uleb128 0x2
+ 278 006c 08       		.byte	0x8
+ 279 006d 04       		.byte	0x4
+ 280 006e 89010000 		.4byte	.LASF9
+ 281 0072 02       		.uleb128 0x2
+ 282 0073 04       		.byte	0x4
+ 283 0074 07       		.byte	0x7
+ 284 0075 28030000 		.4byte	.LASF10
+ 285 0079 04       		.uleb128 0x4
+ 286 007a 04       		.byte	0x4
+ 287 007b 2C000000 		.4byte	0x2c
+ 288 007f 04       		.uleb128 0x4
+ 289 0080 04       		.byte	0x4
+ 290 0081 85000000 		.4byte	0x85
+ 291 0085 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 8
+
+
+ 292 0086 01       		.byte	0x1
+ 293 0087 08       		.byte	0x8
+ 294 0088 14030000 		.4byte	.LASF11
+ 295 008c 05       		.uleb128 0x5
+ 296 008d BF000000 		.4byte	.LASF57
+ 297 0091 01       		.byte	0x1
+ 298 0092 2C000000 		.4byte	0x2c
+ 299 0096 02       		.byte	0x2
+ 300 0097 2B       		.byte	0x2b
+ 301 0098 F1000000 		.4byte	0xf1
+ 302 009c 06       		.uleb128 0x6
+ 303 009d DC010000 		.4byte	.LASF12
+ 304 00a1 01       		.byte	0x1
+ 305 00a2 06       		.uleb128 0x6
+ 306 00a3 D5000000 		.4byte	.LASF13
+ 307 00a7 02       		.byte	0x2
+ 308 00a8 06       		.uleb128 0x6
+ 309 00a9 05020000 		.4byte	.LASF14
+ 310 00ad 03       		.byte	0x3
+ 311 00ae 06       		.uleb128 0x6
+ 312 00af 19030000 		.4byte	.LASF15
+ 313 00b3 04       		.byte	0x4
+ 314 00b4 06       		.uleb128 0x6
+ 315 00b5 31030000 		.4byte	.LASF16
+ 316 00b9 05       		.byte	0x5
+ 317 00ba 06       		.uleb128 0x6
+ 318 00bb 38030000 		.4byte	.LASF17
+ 319 00bf 06       		.byte	0x6
+ 320 00c0 06       		.uleb128 0x6
+ 321 00c1 20030000 		.4byte	.LASF18
+ 322 00c5 07       		.byte	0x7
+ 323 00c6 06       		.uleb128 0x6
+ 324 00c7 0A030000 		.4byte	.LASF19
+ 325 00cb 08       		.byte	0x8
+ 326 00cc 06       		.uleb128 0x6
+ 327 00cd 1A010000 		.4byte	.LASF20
+ 328 00d1 09       		.byte	0x9
+ 329 00d2 06       		.uleb128 0x6
+ 330 00d3 AE000000 		.4byte	.LASF21
+ 331 00d7 0A       		.byte	0xa
+ 332 00d8 06       		.uleb128 0x6
+ 333 00d9 4C000000 		.4byte	.LASF22
+ 334 00dd 0B       		.byte	0xb
+ 335 00de 06       		.uleb128 0x6
+ 336 00df 3F030000 		.4byte	.LASF23
+ 337 00e3 0C       		.byte	0xc
+ 338 00e4 06       		.uleb128 0x6
+ 339 00e5 D3010000 		.4byte	.LASF24
+ 340 00e9 0D       		.byte	0xd
+ 341 00ea 06       		.uleb128 0x6
+ 342 00eb A5010000 		.4byte	.LASF25
+ 343 00ef 0E       		.byte	0xe
+ 344 00f0 00       		.byte	0
+ 345 00f1 07       		.uleb128 0x7
+ 346 00f2 04       		.byte	0x4
+ 347 00f3 02       		.byte	0x2
+ 348 00f4 41       		.byte	0x41
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 9
+
+
+ 349 00f5 36010000 		.4byte	0x136
+ 350 00f9 08       		.uleb128 0x8
+ 351 00fa 55000000 		.4byte	.LASF26
+ 352 00fe 02       		.byte	0x2
+ 353 00ff 43       		.byte	0x43
+ 354 0100 64000000 		.4byte	0x64
+ 355 0104 04       		.byte	0x4
+ 356 0105 01       		.byte	0x1
+ 357 0106 1F       		.byte	0x1f
+ 358 0107 00       		.byte	0
+ 359 0108 09       		.uleb128 0x9
+ 360 0109 716F7300 		.ascii	"qos\000"
+ 361 010d 02       		.byte	0x2
+ 362 010e 44       		.byte	0x44
+ 363 010f 64000000 		.4byte	0x64
+ 364 0113 04       		.byte	0x4
+ 365 0114 02       		.byte	0x2
+ 366 0115 1D       		.byte	0x1d
+ 367 0116 00       		.byte	0
+ 368 0117 09       		.uleb128 0x9
+ 369 0118 64757000 		.ascii	"dup\000"
+ 370 011c 02       		.byte	0x2
+ 371 011d 45       		.byte	0x45
+ 372 011e 64000000 		.4byte	0x64
+ 373 0122 04       		.byte	0x4
+ 374 0123 01       		.byte	0x1
+ 375 0124 1C       		.byte	0x1c
+ 376 0125 00       		.byte	0
+ 377 0126 08       		.uleb128 0x8
+ 378 0127 35000000 		.4byte	.LASF27
+ 379 012b 02       		.byte	0x2
+ 380 012c 46       		.byte	0x46
+ 381 012d 64000000 		.4byte	0x64
+ 382 0131 04       		.byte	0x4
+ 383 0132 04       		.byte	0x4
+ 384 0133 18       		.byte	0x18
+ 385 0134 00       		.byte	0
+ 386 0135 00       		.byte	0
+ 387 0136 0A       		.uleb128 0xa
+ 388 0137 04       		.byte	0x4
+ 389 0138 02       		.byte	0x2
+ 390 0139 35       		.byte	0x35
+ 391 013a 55010000 		.4byte	0x155
+ 392 013e 0B       		.uleb128 0xb
+ 393 013f BA000000 		.4byte	.LASF28
+ 394 0143 02       		.byte	0x2
+ 395 0144 37       		.byte	0x37
+ 396 0145 2C000000 		.4byte	0x2c
+ 397 0149 0B       		.uleb128 0xb
+ 398 014a A0000000 		.4byte	.LASF29
+ 399 014e 02       		.byte	0x2
+ 400 014f 47       		.byte	0x47
+ 401 0150 F1000000 		.4byte	0xf1
+ 402 0154 00       		.byte	0
+ 403 0155 0C       		.uleb128 0xc
+ 404 0156 F1020000 		.4byte	.LASF31
+ 405 015a 02       		.byte	0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 10
+
+
+ 406 015b 49       		.byte	0x49
+ 407 015c 36010000 		.4byte	0x136
+ 408 0160 07       		.uleb128 0x7
+ 409 0161 08       		.byte	0x8
+ 410 0162 02       		.byte	0x2
+ 411 0163 4B       		.byte	0x4b
+ 412 0164 81010000 		.4byte	0x181
+ 413 0168 0D       		.uleb128 0xd
+ 414 0169 6C656E00 		.ascii	"len\000"
+ 415 016d 02       		.byte	0x2
+ 416 016e 4D       		.byte	0x4d
+ 417 016f 5D000000 		.4byte	0x5d
+ 418 0173 00       		.byte	0
+ 419 0174 0E       		.uleb128 0xe
+ 420 0175 F7000000 		.4byte	.LASF30
+ 421 0179 02       		.byte	0x2
+ 422 017a 4E       		.byte	0x4e
+ 423 017b 7F000000 		.4byte	0x7f
+ 424 017f 04       		.byte	0x4
+ 425 0180 00       		.byte	0
+ 426 0181 0C       		.uleb128 0xc
+ 427 0182 FC020000 		.4byte	.LASF32
+ 428 0186 02       		.byte	0x2
+ 429 0187 4F       		.byte	0x4f
+ 430 0188 60010000 		.4byte	0x160
+ 431 018c 07       		.uleb128 0x7
+ 432 018d 0C       		.byte	0xc
+ 433 018e 02       		.byte	0x2
+ 434 018f 51       		.byte	0x51
+ 435 0190 AD010000 		.4byte	0x1ad
+ 436 0194 0E       		.uleb128 0xe
+ 437 0195 9D010000 		.4byte	.LASF33
+ 438 0199 02       		.byte	0x2
+ 439 019a 53       		.byte	0x53
+ 440 019b 7F000000 		.4byte	0x7f
+ 441 019f 00       		.byte	0
+ 442 01a0 0E       		.uleb128 0xe
+ 443 01a1 5C000000 		.4byte	.LASF34
+ 444 01a5 02       		.byte	0x2
+ 445 01a6 54       		.byte	0x54
+ 446 01a7 81010000 		.4byte	0x181
+ 447 01ab 04       		.byte	0x4
+ 448 01ac 00       		.byte	0
+ 449 01ad 0C       		.uleb128 0xc
+ 450 01ae 35010000 		.4byte	.LASF35
+ 451 01b2 02       		.byte	0x2
+ 452 01b3 55       		.byte	0x55
+ 453 01b4 8C010000 		.4byte	0x18c
+ 454 01b8 0F       		.uleb128 0xf
+ 455 01b9 00000000 		.4byte	.LASF46
+ 456 01bd 01       		.byte	0x1
+ 457 01be 24       		.byte	0x24
+ 458 01bf 5D000000 		.4byte	0x5d
+ 459 01c3 00000000 		.4byte	.LFB1
+ 460 01c7 88000000 		.4byte	.LFE1-.LFB1
+ 461 01cb 01       		.uleb128 0x1
+ 462 01cc 9C       		.byte	0x9c
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 11
+
+
+ 463 01cd 00030000 		.4byte	0x300
+ 464 01d1 10       		.uleb128 0x10
+ 465 01d2 64757000 		.ascii	"dup\000"
+ 466 01d6 01       		.byte	0x1
+ 467 01d7 24       		.byte	0x24
+ 468 01d8 79000000 		.4byte	0x79
+ 469 01dc 00000000 		.4byte	.LLST0
+ 470 01e0 10       		.uleb128 0x10
+ 471 01e1 716F7300 		.ascii	"qos\000"
+ 472 01e5 01       		.byte	0x1
+ 473 01e6 24       		.byte	0x24
+ 474 01e7 00030000 		.4byte	0x300
+ 475 01eb 45000000 		.4byte	.LLST1
+ 476 01ef 11       		.uleb128 0x11
+ 477 01f0 F2010000 		.4byte	.LASF36
+ 478 01f4 01       		.byte	0x1
+ 479 01f5 24       		.byte	0x24
+ 480 01f6 79000000 		.4byte	0x79
+ 481 01fa 63000000 		.4byte	.LLST2
+ 482 01fe 11       		.uleb128 0x11
+ 483 01ff 40010000 		.4byte	.LASF37
+ 484 0203 01       		.byte	0x1
+ 485 0204 24       		.byte	0x24
+ 486 0205 06030000 		.4byte	0x306
+ 487 0209 A8000000 		.4byte	.LLST3
+ 488 020d 12       		.uleb128 0x12
+ 489 020e 18000000 		.4byte	.LASF38
+ 490 0212 01       		.byte	0x1
+ 491 0213 24       		.byte	0x24
+ 492 0214 0C030000 		.4byte	0x30c
+ 493 0218 02       		.uleb128 0x2
+ 494 0219 91       		.byte	0x91
+ 495 021a 00       		.sleb128 0
+ 496 021b 12       		.uleb128 0x12
+ 497 021c 95010000 		.4byte	.LASF39
+ 498 0220 01       		.byte	0x1
+ 499 0221 25       		.byte	0x25
+ 500 0222 12030000 		.4byte	0x312
+ 501 0226 02       		.uleb128 0x2
+ 502 0227 91       		.byte	0x91
+ 503 0228 04       		.sleb128 4
+ 504 0229 12       		.uleb128 0x12
+ 505 022a 2A000000 		.4byte	.LASF40
+ 506 022e 01       		.byte	0x1
+ 507 022f 25       		.byte	0x25
+ 508 0230 00030000 		.4byte	0x300
+ 509 0234 02       		.uleb128 0x2
+ 510 0235 91       		.byte	0x91
+ 511 0236 08       		.sleb128 8
+ 512 0237 13       		.uleb128 0x13
+ 513 0238 62756600 		.ascii	"buf\000"
+ 514 023c 01       		.byte	0x1
+ 515 023d 25       		.byte	0x25
+ 516 023e 79000000 		.4byte	0x79
+ 517 0242 02       		.uleb128 0x2
+ 518 0243 91       		.byte	0x91
+ 519 0244 0C       		.sleb128 12
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 12
+
+
+ 520 0245 12       		.uleb128 0x12
+ 521 0246 9B020000 		.4byte	.LASF41
+ 522 024a 01       		.byte	0x1
+ 523 024b 25       		.byte	0x25
+ 524 024c 5D000000 		.4byte	0x5d
+ 525 0250 02       		.uleb128 0x2
+ 526 0251 91       		.byte	0x91
+ 527 0252 10       		.sleb128 16
+ 528 0253 14       		.uleb128 0x14
+ 529 0254 47030000 		.4byte	.LASF42
+ 530 0258 01       		.byte	0x1
+ 531 0259 27       		.byte	0x27
+ 532 025a 55010000 		.4byte	0x155
+ 533 025e C6000000 		.4byte	.LLST4
+ 534 0262 15       		.uleb128 0x15
+ 535 0263 C5010000 		.4byte	.LASF43
+ 536 0267 01       		.byte	0x1
+ 537 0268 28       		.byte	0x28
+ 538 0269 79000000 		.4byte	0x79
+ 539 026d 02       		.uleb128 0x2
+ 540 026e 91       		.byte	0x91
+ 541 026f 64       		.sleb128 -28
+ 542 0270 14       		.uleb128 0x14
+ 543 0271 EF000000 		.4byte	.LASF44
+ 544 0275 01       		.byte	0x1
+ 545 0276 29       		.byte	0x29
+ 546 0277 79000000 		.4byte	0x79
+ 547 027b E4000000 		.4byte	.LLST5
+ 548 027f 16       		.uleb128 0x16
+ 549 0280 726300   		.ascii	"rc\000"
+ 550 0283 01       		.byte	0x1
+ 551 0284 2A       		.byte	0x2a
+ 552 0285 5D000000 		.4byte	0x5d
+ 553 0289 0F010000 		.4byte	.LLST6
+ 554 028d 15       		.uleb128 0x15
+ 555 028e CD010000 		.4byte	.LASF45
+ 556 0292 01       		.byte	0x1
+ 557 0293 2B       		.byte	0x2b
+ 558 0294 5D000000 		.4byte	0x5d
+ 559 0298 02       		.uleb128 0x2
+ 560 0299 91       		.byte	0x91
+ 561 029a 60       		.sleb128 -32
+ 562 029b 17       		.uleb128 0x17
+ 563 029c A2020000 		.4byte	.LASF49
+ 564 02a0 01       		.byte	0x1
+ 565 02a1 42       		.byte	0x42
+ 566 02a2 82000000 		.4byte	.L2
+ 567 02a6 18       		.uleb128 0x18
+ 568 02a7 1A000000 		.4byte	.LVL4
+ 569 02ab 07040000 		.4byte	0x407
+ 570 02af BA020000 		.4byte	0x2ba
+ 571 02b3 19       		.uleb128 0x19
+ 572 02b4 01       		.uleb128 0x1
+ 573 02b5 50       		.byte	0x50
+ 574 02b6 02       		.uleb128 0x2
+ 575 02b7 91       		.byte	0x91
+ 576 02b8 64       		.sleb128 -28
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 13
+
+
+ 577 02b9 00       		.byte	0
+ 578 02ba 18       		.uleb128 0x18
+ 579 02bb 42000000 		.4byte	.LVL8
+ 580 02bf 12040000 		.4byte	0x412
+ 581 02c3 CE020000 		.4byte	0x2ce
+ 582 02c7 19       		.uleb128 0x19
+ 583 02c8 01       		.uleb128 0x1
+ 584 02c9 51       		.byte	0x51
+ 585 02ca 02       		.uleb128 0x2
+ 586 02cb 7D       		.byte	0x7d
+ 587 02cc 00       		.sleb128 0
+ 588 02cd 00       		.byte	0
+ 589 02ce 18       		.uleb128 0x18
+ 590 02cf 58000000 		.4byte	.LVL13
+ 591 02d3 1D040000 		.4byte	0x41d
+ 592 02d7 EF020000 		.4byte	0x2ef
+ 593 02db 19       		.uleb128 0x19
+ 594 02dc 01       		.uleb128 0x1
+ 595 02dd 50       		.byte	0x50
+ 596 02de 03       		.uleb128 0x3
+ 597 02df 91       		.byte	0x91
+ 598 02e0 00       		.sleb128 0
+ 599 02e1 06       		.byte	0x6
+ 600 02e2 19       		.uleb128 0x19
+ 601 02e3 01       		.uleb128 0x1
+ 602 02e4 51       		.byte	0x51
+ 603 02e5 02       		.uleb128 0x2
+ 604 02e6 91       		.byte	0x91
+ 605 02e7 64       		.sleb128 -28
+ 606 02e8 19       		.uleb128 0x19
+ 607 02e9 01       		.uleb128 0x1
+ 608 02ea 52       		.byte	0x52
+ 609 02eb 02       		.uleb128 0x2
+ 610 02ec 77       		.byte	0x77
+ 611 02ed 00       		.sleb128 0
+ 612 02ee 00       		.byte	0
+ 613 02ef 1A       		.uleb128 0x1a
+ 614 02f0 6E000000 		.4byte	.LVL14
+ 615 02f4 28040000 		.4byte	0x428
+ 616 02f8 19       		.uleb128 0x19
+ 617 02f9 01       		.uleb128 0x1
+ 618 02fa 50       		.byte	0x50
+ 619 02fb 02       		.uleb128 0x2
+ 620 02fc 91       		.byte	0x91
+ 621 02fd 64       		.sleb128 -28
+ 622 02fe 00       		.byte	0
+ 623 02ff 00       		.byte	0
+ 624 0300 04       		.uleb128 0x4
+ 625 0301 04       		.byte	0x4
+ 626 0302 5D000000 		.4byte	0x5d
+ 627 0306 04       		.uleb128 0x4
+ 628 0307 04       		.byte	0x4
+ 629 0308 3A000000 		.4byte	0x3a
+ 630 030c 04       		.uleb128 0x4
+ 631 030d 04       		.byte	0x4
+ 632 030e AD010000 		.4byte	0x1ad
+ 633 0312 04       		.uleb128 0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 14
+
+
+ 634 0313 04       		.byte	0x4
+ 635 0314 79000000 		.4byte	0x79
+ 636 0318 0F       		.uleb128 0xf
+ 637 0319 21010000 		.4byte	.LASF47
+ 638 031d 01       		.byte	0x1
+ 639 031e 52       		.byte	0x52
+ 640 031f 5D000000 		.4byte	0x5d
+ 641 0323 00000000 		.4byte	.LFB2
+ 642 0327 48000000 		.4byte	.LFE2-.LFB2
+ 643 032b 01       		.uleb128 0x1
+ 644 032c 9C       		.byte	0x9c
+ 645 032d 07040000 		.4byte	0x407
+ 646 0331 11       		.uleb128 0x11
+ 647 0332 0F010000 		.4byte	.LASF48
+ 648 0336 01       		.byte	0x1
+ 649 0337 52       		.byte	0x52
+ 650 0338 79000000 		.4byte	0x79
+ 651 033c 5C010000 		.4byte	.LLST7
+ 652 0340 10       		.uleb128 0x10
+ 653 0341 64757000 		.ascii	"dup\000"
+ 654 0345 01       		.byte	0x1
+ 655 0346 52       		.byte	0x52
+ 656 0347 79000000 		.4byte	0x79
+ 657 034b 7A010000 		.4byte	.LLST8
+ 658 034f 11       		.uleb128 0x11
+ 659 0350 40010000 		.4byte	.LASF37
+ 660 0354 01       		.byte	0x1
+ 661 0355 52       		.byte	0x52
+ 662 0356 06030000 		.4byte	0x306
+ 663 035a 98010000 		.4byte	.LLST9
+ 664 035e 10       		.uleb128 0x10
+ 665 035f 62756600 		.ascii	"buf\000"
+ 666 0363 01       		.byte	0x1
+ 667 0364 52       		.byte	0x52
+ 668 0365 79000000 		.4byte	0x79
+ 669 0369 B6010000 		.4byte	.LLST10
+ 670 036d 12       		.uleb128 0x12
+ 671 036e 9B020000 		.4byte	.LASF41
+ 672 0372 01       		.byte	0x1
+ 673 0373 52       		.byte	0x52
+ 674 0374 5D000000 		.4byte	0x5d
+ 675 0378 02       		.uleb128 0x2
+ 676 0379 91       		.byte	0x91
+ 677 037a 00       		.sleb128 0
+ 678 037b 14       		.uleb128 0x14
+ 679 037c 47030000 		.4byte	.LASF42
+ 680 0380 01       		.byte	0x1
+ 681 0381 54       		.byte	0x54
+ 682 0382 55010000 		.4byte	0x155
+ 683 0386 D7010000 		.4byte	.LLST11
+ 684 038a 15       		.uleb128 0x15
+ 685 038b C5010000 		.4byte	.LASF43
+ 686 038f 01       		.byte	0x1
+ 687 0390 55       		.byte	0x55
+ 688 0391 79000000 		.4byte	0x79
+ 689 0395 02       		.uleb128 0x2
+ 690 0396 91       		.byte	0x91
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 15
+
+
+ 691 0397 6C       		.sleb128 -20
+ 692 0398 14       		.uleb128 0x14
+ 693 0399 EF000000 		.4byte	.LASF44
+ 694 039d 01       		.byte	0x1
+ 695 039e 56       		.byte	0x56
+ 696 039f 79000000 		.4byte	0x79
+ 697 03a3 EA010000 		.4byte	.LLST12
+ 698 03a7 16       		.uleb128 0x16
+ 699 03a8 726300   		.ascii	"rc\000"
+ 700 03ab 01       		.byte	0x1
+ 701 03ac 57       		.byte	0x57
+ 702 03ad 5D000000 		.4byte	0x5d
+ 703 03b1 20020000 		.4byte	.LLST13
+ 704 03b5 15       		.uleb128 0x15
+ 705 03b6 CD010000 		.4byte	.LASF45
+ 706 03ba 01       		.byte	0x1
+ 707 03bb 58       		.byte	0x58
+ 708 03bc 5D000000 		.4byte	0x5d
+ 709 03c0 02       		.uleb128 0x2
+ 710 03c1 91       		.byte	0x91
+ 711 03c2 68       		.sleb128 -24
+ 712 03c3 17       		.uleb128 0x17
+ 713 03c4 A2020000 		.4byte	.LASF49
+ 714 03c8 01       		.byte	0x1
+ 715 03c9 67       		.byte	0x67
+ 716 03ca 44000000 		.4byte	.L7
+ 717 03ce 18       		.uleb128 0x18
+ 718 03cf 14000000 		.4byte	.LVL22
+ 719 03d3 07040000 		.4byte	0x407
+ 720 03d7 E2030000 		.4byte	0x3e2
+ 721 03db 19       		.uleb128 0x19
+ 722 03dc 01       		.uleb128 0x1
+ 723 03dd 50       		.byte	0x50
+ 724 03de 02       		.uleb128 0x2
+ 725 03df 91       		.byte	0x91
+ 726 03e0 6C       		.sleb128 -20
+ 727 03e1 00       		.byte	0
+ 728 03e2 18       		.uleb128 0x18
+ 729 03e3 2E000000 		.4byte	.LVL26
+ 730 03e7 12040000 		.4byte	0x412
+ 731 03eb F6030000 		.4byte	0x3f6
+ 732 03ef 19       		.uleb128 0x19
+ 733 03f0 01       		.uleb128 0x1
+ 734 03f1 51       		.byte	0x51
+ 735 03f2 02       		.uleb128 0x2
+ 736 03f3 7D       		.byte	0x7d
+ 737 03f4 00       		.sleb128 0
+ 738 03f5 00       		.byte	0
+ 739 03f6 1A       		.uleb128 0x1a
+ 740 03f7 40000000 		.4byte	.LVL29
+ 741 03fb 28040000 		.4byte	0x428
+ 742 03ff 19       		.uleb128 0x19
+ 743 0400 01       		.uleb128 0x1
+ 744 0401 50       		.byte	0x50
+ 745 0402 02       		.uleb128 0x2
+ 746 0403 91       		.byte	0x91
+ 747 0404 6C       		.sleb128 -20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 16
+
+
+ 748 0405 00       		.byte	0
+ 749 0406 00       		.byte	0
+ 750 0407 1B       		.uleb128 0x1b
+ 751 0408 97000000 		.4byte	.LASF50
+ 752 040c 97000000 		.4byte	.LASF50
+ 753 0410 02       		.byte	0x2
+ 754 0411 6C       		.byte	0x6c
+ 755 0412 1B       		.uleb128 0x1b
+ 756 0413 B0010000 		.4byte	.LASF51
+ 757 0417 B0010000 		.4byte	.LASF51
+ 758 041b 02       		.byte	0x2
+ 759 041c 69       		.byte	0x69
+ 760 041d 1B       		.uleb128 0x1b
+ 761 041e 3A000000 		.4byte	.LASF52
+ 762 0422 3A000000 		.4byte	.LASF52
+ 763 0426 02       		.byte	0x2
+ 764 0427 6F       		.byte	0x6f
+ 765 0428 1B       		.uleb128 0x1b
+ 766 0429 22000000 		.4byte	.LASF53
+ 767 042d 22000000 		.4byte	.LASF53
+ 768 0431 02       		.byte	0x2
+ 769 0432 6B       		.byte	0x6b
+ 770 0433 00       		.byte	0
+ 771              		.section	.debug_abbrev,"",%progbits
+ 772              	.Ldebug_abbrev0:
+ 773 0000 01       		.uleb128 0x1
+ 774 0001 11       		.uleb128 0x11
+ 775 0002 01       		.byte	0x1
+ 776 0003 25       		.uleb128 0x25
+ 777 0004 0E       		.uleb128 0xe
+ 778 0005 13       		.uleb128 0x13
+ 779 0006 0B       		.uleb128 0xb
+ 780 0007 03       		.uleb128 0x3
+ 781 0008 0E       		.uleb128 0xe
+ 782 0009 1B       		.uleb128 0x1b
+ 783 000a 0E       		.uleb128 0xe
+ 784 000b 55       		.uleb128 0x55
+ 785 000c 17       		.uleb128 0x17
+ 786 000d 11       		.uleb128 0x11
+ 787 000e 01       		.uleb128 0x1
+ 788 000f 10       		.uleb128 0x10
+ 789 0010 17       		.uleb128 0x17
+ 790 0011 00       		.byte	0
+ 791 0012 00       		.byte	0
+ 792 0013 02       		.uleb128 0x2
+ 793 0014 24       		.uleb128 0x24
+ 794 0015 00       		.byte	0
+ 795 0016 0B       		.uleb128 0xb
+ 796 0017 0B       		.uleb128 0xb
+ 797 0018 3E       		.uleb128 0x3e
+ 798 0019 0B       		.uleb128 0xb
+ 799 001a 03       		.uleb128 0x3
+ 800 001b 0E       		.uleb128 0xe
+ 801 001c 00       		.byte	0
+ 802 001d 00       		.byte	0
+ 803 001e 03       		.uleb128 0x3
+ 804 001f 24       		.uleb128 0x24
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 17
+
+
+ 805 0020 00       		.byte	0
+ 806 0021 0B       		.uleb128 0xb
+ 807 0022 0B       		.uleb128 0xb
+ 808 0023 3E       		.uleb128 0x3e
+ 809 0024 0B       		.uleb128 0xb
+ 810 0025 03       		.uleb128 0x3
+ 811 0026 08       		.uleb128 0x8
+ 812 0027 00       		.byte	0
+ 813 0028 00       		.byte	0
+ 814 0029 04       		.uleb128 0x4
+ 815 002a 0F       		.uleb128 0xf
+ 816 002b 00       		.byte	0
+ 817 002c 0B       		.uleb128 0xb
+ 818 002d 0B       		.uleb128 0xb
+ 819 002e 49       		.uleb128 0x49
+ 820 002f 13       		.uleb128 0x13
+ 821 0030 00       		.byte	0
+ 822 0031 00       		.byte	0
+ 823 0032 05       		.uleb128 0x5
+ 824 0033 04       		.uleb128 0x4
+ 825 0034 01       		.byte	0x1
+ 826 0035 03       		.uleb128 0x3
+ 827 0036 0E       		.uleb128 0xe
+ 828 0037 0B       		.uleb128 0xb
+ 829 0038 0B       		.uleb128 0xb
+ 830 0039 49       		.uleb128 0x49
+ 831 003a 13       		.uleb128 0x13
+ 832 003b 3A       		.uleb128 0x3a
+ 833 003c 0B       		.uleb128 0xb
+ 834 003d 3B       		.uleb128 0x3b
+ 835 003e 0B       		.uleb128 0xb
+ 836 003f 01       		.uleb128 0x1
+ 837 0040 13       		.uleb128 0x13
+ 838 0041 00       		.byte	0
+ 839 0042 00       		.byte	0
+ 840 0043 06       		.uleb128 0x6
+ 841 0044 28       		.uleb128 0x28
+ 842 0045 00       		.byte	0
+ 843 0046 03       		.uleb128 0x3
+ 844 0047 0E       		.uleb128 0xe
+ 845 0048 1C       		.uleb128 0x1c
+ 846 0049 0B       		.uleb128 0xb
+ 847 004a 00       		.byte	0
+ 848 004b 00       		.byte	0
+ 849 004c 07       		.uleb128 0x7
+ 850 004d 13       		.uleb128 0x13
+ 851 004e 01       		.byte	0x1
+ 852 004f 0B       		.uleb128 0xb
+ 853 0050 0B       		.uleb128 0xb
+ 854 0051 3A       		.uleb128 0x3a
+ 855 0052 0B       		.uleb128 0xb
+ 856 0053 3B       		.uleb128 0x3b
+ 857 0054 0B       		.uleb128 0xb
+ 858 0055 01       		.uleb128 0x1
+ 859 0056 13       		.uleb128 0x13
+ 860 0057 00       		.byte	0
+ 861 0058 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 18
+
+
+ 862 0059 08       		.uleb128 0x8
+ 863 005a 0D       		.uleb128 0xd
+ 864 005b 00       		.byte	0
+ 865 005c 03       		.uleb128 0x3
+ 866 005d 0E       		.uleb128 0xe
+ 867 005e 3A       		.uleb128 0x3a
+ 868 005f 0B       		.uleb128 0xb
+ 869 0060 3B       		.uleb128 0x3b
+ 870 0061 0B       		.uleb128 0xb
+ 871 0062 49       		.uleb128 0x49
+ 872 0063 13       		.uleb128 0x13
+ 873 0064 0B       		.uleb128 0xb
+ 874 0065 0B       		.uleb128 0xb
+ 875 0066 0D       		.uleb128 0xd
+ 876 0067 0B       		.uleb128 0xb
+ 877 0068 0C       		.uleb128 0xc
+ 878 0069 0B       		.uleb128 0xb
+ 879 006a 38       		.uleb128 0x38
+ 880 006b 0B       		.uleb128 0xb
+ 881 006c 00       		.byte	0
+ 882 006d 00       		.byte	0
+ 883 006e 09       		.uleb128 0x9
+ 884 006f 0D       		.uleb128 0xd
+ 885 0070 00       		.byte	0
+ 886 0071 03       		.uleb128 0x3
+ 887 0072 08       		.uleb128 0x8
+ 888 0073 3A       		.uleb128 0x3a
+ 889 0074 0B       		.uleb128 0xb
+ 890 0075 3B       		.uleb128 0x3b
+ 891 0076 0B       		.uleb128 0xb
+ 892 0077 49       		.uleb128 0x49
+ 893 0078 13       		.uleb128 0x13
+ 894 0079 0B       		.uleb128 0xb
+ 895 007a 0B       		.uleb128 0xb
+ 896 007b 0D       		.uleb128 0xd
+ 897 007c 0B       		.uleb128 0xb
+ 898 007d 0C       		.uleb128 0xc
+ 899 007e 0B       		.uleb128 0xb
+ 900 007f 38       		.uleb128 0x38
+ 901 0080 0B       		.uleb128 0xb
+ 902 0081 00       		.byte	0
+ 903 0082 00       		.byte	0
+ 904 0083 0A       		.uleb128 0xa
+ 905 0084 17       		.uleb128 0x17
+ 906 0085 01       		.byte	0x1
+ 907 0086 0B       		.uleb128 0xb
+ 908 0087 0B       		.uleb128 0xb
+ 909 0088 3A       		.uleb128 0x3a
+ 910 0089 0B       		.uleb128 0xb
+ 911 008a 3B       		.uleb128 0x3b
+ 912 008b 0B       		.uleb128 0xb
+ 913 008c 01       		.uleb128 0x1
+ 914 008d 13       		.uleb128 0x13
+ 915 008e 00       		.byte	0
+ 916 008f 00       		.byte	0
+ 917 0090 0B       		.uleb128 0xb
+ 918 0091 0D       		.uleb128 0xd
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 19
+
+
+ 919 0092 00       		.byte	0
+ 920 0093 03       		.uleb128 0x3
+ 921 0094 0E       		.uleb128 0xe
+ 922 0095 3A       		.uleb128 0x3a
+ 923 0096 0B       		.uleb128 0xb
+ 924 0097 3B       		.uleb128 0x3b
+ 925 0098 0B       		.uleb128 0xb
+ 926 0099 49       		.uleb128 0x49
+ 927 009a 13       		.uleb128 0x13
+ 928 009b 00       		.byte	0
+ 929 009c 00       		.byte	0
+ 930 009d 0C       		.uleb128 0xc
+ 931 009e 16       		.uleb128 0x16
+ 932 009f 00       		.byte	0
+ 933 00a0 03       		.uleb128 0x3
+ 934 00a1 0E       		.uleb128 0xe
+ 935 00a2 3A       		.uleb128 0x3a
+ 936 00a3 0B       		.uleb128 0xb
+ 937 00a4 3B       		.uleb128 0x3b
+ 938 00a5 0B       		.uleb128 0xb
+ 939 00a6 49       		.uleb128 0x49
+ 940 00a7 13       		.uleb128 0x13
+ 941 00a8 00       		.byte	0
+ 942 00a9 00       		.byte	0
+ 943 00aa 0D       		.uleb128 0xd
+ 944 00ab 0D       		.uleb128 0xd
+ 945 00ac 00       		.byte	0
+ 946 00ad 03       		.uleb128 0x3
+ 947 00ae 08       		.uleb128 0x8
+ 948 00af 3A       		.uleb128 0x3a
+ 949 00b0 0B       		.uleb128 0xb
+ 950 00b1 3B       		.uleb128 0x3b
+ 951 00b2 0B       		.uleb128 0xb
+ 952 00b3 49       		.uleb128 0x49
+ 953 00b4 13       		.uleb128 0x13
+ 954 00b5 38       		.uleb128 0x38
+ 955 00b6 0B       		.uleb128 0xb
+ 956 00b7 00       		.byte	0
+ 957 00b8 00       		.byte	0
+ 958 00b9 0E       		.uleb128 0xe
+ 959 00ba 0D       		.uleb128 0xd
+ 960 00bb 00       		.byte	0
+ 961 00bc 03       		.uleb128 0x3
+ 962 00bd 0E       		.uleb128 0xe
+ 963 00be 3A       		.uleb128 0x3a
+ 964 00bf 0B       		.uleb128 0xb
+ 965 00c0 3B       		.uleb128 0x3b
+ 966 00c1 0B       		.uleb128 0xb
+ 967 00c2 49       		.uleb128 0x49
+ 968 00c3 13       		.uleb128 0x13
+ 969 00c4 38       		.uleb128 0x38
+ 970 00c5 0B       		.uleb128 0xb
+ 971 00c6 00       		.byte	0
+ 972 00c7 00       		.byte	0
+ 973 00c8 0F       		.uleb128 0xf
+ 974 00c9 2E       		.uleb128 0x2e
+ 975 00ca 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 20
+
+
+ 976 00cb 3F       		.uleb128 0x3f
+ 977 00cc 19       		.uleb128 0x19
+ 978 00cd 03       		.uleb128 0x3
+ 979 00ce 0E       		.uleb128 0xe
+ 980 00cf 3A       		.uleb128 0x3a
+ 981 00d0 0B       		.uleb128 0xb
+ 982 00d1 3B       		.uleb128 0x3b
+ 983 00d2 0B       		.uleb128 0xb
+ 984 00d3 27       		.uleb128 0x27
+ 985 00d4 19       		.uleb128 0x19
+ 986 00d5 49       		.uleb128 0x49
+ 987 00d6 13       		.uleb128 0x13
+ 988 00d7 11       		.uleb128 0x11
+ 989 00d8 01       		.uleb128 0x1
+ 990 00d9 12       		.uleb128 0x12
+ 991 00da 06       		.uleb128 0x6
+ 992 00db 40       		.uleb128 0x40
+ 993 00dc 18       		.uleb128 0x18
+ 994 00dd 9742     		.uleb128 0x2117
+ 995 00df 19       		.uleb128 0x19
+ 996 00e0 01       		.uleb128 0x1
+ 997 00e1 13       		.uleb128 0x13
+ 998 00e2 00       		.byte	0
+ 999 00e3 00       		.byte	0
+ 1000 00e4 10       		.uleb128 0x10
+ 1001 00e5 05       		.uleb128 0x5
+ 1002 00e6 00       		.byte	0
+ 1003 00e7 03       		.uleb128 0x3
+ 1004 00e8 08       		.uleb128 0x8
+ 1005 00e9 3A       		.uleb128 0x3a
+ 1006 00ea 0B       		.uleb128 0xb
+ 1007 00eb 3B       		.uleb128 0x3b
+ 1008 00ec 0B       		.uleb128 0xb
+ 1009 00ed 49       		.uleb128 0x49
+ 1010 00ee 13       		.uleb128 0x13
+ 1011 00ef 02       		.uleb128 0x2
+ 1012 00f0 17       		.uleb128 0x17
+ 1013 00f1 00       		.byte	0
+ 1014 00f2 00       		.byte	0
+ 1015 00f3 11       		.uleb128 0x11
+ 1016 00f4 05       		.uleb128 0x5
+ 1017 00f5 00       		.byte	0
+ 1018 00f6 03       		.uleb128 0x3
+ 1019 00f7 0E       		.uleb128 0xe
+ 1020 00f8 3A       		.uleb128 0x3a
+ 1021 00f9 0B       		.uleb128 0xb
+ 1022 00fa 3B       		.uleb128 0x3b
+ 1023 00fb 0B       		.uleb128 0xb
+ 1024 00fc 49       		.uleb128 0x49
+ 1025 00fd 13       		.uleb128 0x13
+ 1026 00fe 02       		.uleb128 0x2
+ 1027 00ff 17       		.uleb128 0x17
+ 1028 0100 00       		.byte	0
+ 1029 0101 00       		.byte	0
+ 1030 0102 12       		.uleb128 0x12
+ 1031 0103 05       		.uleb128 0x5
+ 1032 0104 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 21
+
+
+ 1033 0105 03       		.uleb128 0x3
+ 1034 0106 0E       		.uleb128 0xe
+ 1035 0107 3A       		.uleb128 0x3a
+ 1036 0108 0B       		.uleb128 0xb
+ 1037 0109 3B       		.uleb128 0x3b
+ 1038 010a 0B       		.uleb128 0xb
+ 1039 010b 49       		.uleb128 0x49
+ 1040 010c 13       		.uleb128 0x13
+ 1041 010d 02       		.uleb128 0x2
+ 1042 010e 18       		.uleb128 0x18
+ 1043 010f 00       		.byte	0
+ 1044 0110 00       		.byte	0
+ 1045 0111 13       		.uleb128 0x13
+ 1046 0112 05       		.uleb128 0x5
+ 1047 0113 00       		.byte	0
+ 1048 0114 03       		.uleb128 0x3
+ 1049 0115 08       		.uleb128 0x8
+ 1050 0116 3A       		.uleb128 0x3a
+ 1051 0117 0B       		.uleb128 0xb
+ 1052 0118 3B       		.uleb128 0x3b
+ 1053 0119 0B       		.uleb128 0xb
+ 1054 011a 49       		.uleb128 0x49
+ 1055 011b 13       		.uleb128 0x13
+ 1056 011c 02       		.uleb128 0x2
+ 1057 011d 18       		.uleb128 0x18
+ 1058 011e 00       		.byte	0
+ 1059 011f 00       		.byte	0
+ 1060 0120 14       		.uleb128 0x14
+ 1061 0121 34       		.uleb128 0x34
+ 1062 0122 00       		.byte	0
+ 1063 0123 03       		.uleb128 0x3
+ 1064 0124 0E       		.uleb128 0xe
+ 1065 0125 3A       		.uleb128 0x3a
+ 1066 0126 0B       		.uleb128 0xb
+ 1067 0127 3B       		.uleb128 0x3b
+ 1068 0128 0B       		.uleb128 0xb
+ 1069 0129 49       		.uleb128 0x49
+ 1070 012a 13       		.uleb128 0x13
+ 1071 012b 02       		.uleb128 0x2
+ 1072 012c 17       		.uleb128 0x17
+ 1073 012d 00       		.byte	0
+ 1074 012e 00       		.byte	0
+ 1075 012f 15       		.uleb128 0x15
+ 1076 0130 34       		.uleb128 0x34
+ 1077 0131 00       		.byte	0
+ 1078 0132 03       		.uleb128 0x3
+ 1079 0133 0E       		.uleb128 0xe
+ 1080 0134 3A       		.uleb128 0x3a
+ 1081 0135 0B       		.uleb128 0xb
+ 1082 0136 3B       		.uleb128 0x3b
+ 1083 0137 0B       		.uleb128 0xb
+ 1084 0138 49       		.uleb128 0x49
+ 1085 0139 13       		.uleb128 0x13
+ 1086 013a 02       		.uleb128 0x2
+ 1087 013b 18       		.uleb128 0x18
+ 1088 013c 00       		.byte	0
+ 1089 013d 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 22
+
+
+ 1090 013e 16       		.uleb128 0x16
+ 1091 013f 34       		.uleb128 0x34
+ 1092 0140 00       		.byte	0
+ 1093 0141 03       		.uleb128 0x3
+ 1094 0142 08       		.uleb128 0x8
+ 1095 0143 3A       		.uleb128 0x3a
+ 1096 0144 0B       		.uleb128 0xb
+ 1097 0145 3B       		.uleb128 0x3b
+ 1098 0146 0B       		.uleb128 0xb
+ 1099 0147 49       		.uleb128 0x49
+ 1100 0148 13       		.uleb128 0x13
+ 1101 0149 02       		.uleb128 0x2
+ 1102 014a 17       		.uleb128 0x17
+ 1103 014b 00       		.byte	0
+ 1104 014c 00       		.byte	0
+ 1105 014d 17       		.uleb128 0x17
+ 1106 014e 0A       		.uleb128 0xa
+ 1107 014f 00       		.byte	0
+ 1108 0150 03       		.uleb128 0x3
+ 1109 0151 0E       		.uleb128 0xe
+ 1110 0152 3A       		.uleb128 0x3a
+ 1111 0153 0B       		.uleb128 0xb
+ 1112 0154 3B       		.uleb128 0x3b
+ 1113 0155 0B       		.uleb128 0xb
+ 1114 0156 11       		.uleb128 0x11
+ 1115 0157 01       		.uleb128 0x1
+ 1116 0158 00       		.byte	0
+ 1117 0159 00       		.byte	0
+ 1118 015a 18       		.uleb128 0x18
+ 1119 015b 898201   		.uleb128 0x4109
+ 1120 015e 01       		.byte	0x1
+ 1121 015f 11       		.uleb128 0x11
+ 1122 0160 01       		.uleb128 0x1
+ 1123 0161 31       		.uleb128 0x31
+ 1124 0162 13       		.uleb128 0x13
+ 1125 0163 01       		.uleb128 0x1
+ 1126 0164 13       		.uleb128 0x13
+ 1127 0165 00       		.byte	0
+ 1128 0166 00       		.byte	0
+ 1129 0167 19       		.uleb128 0x19
+ 1130 0168 8A8201   		.uleb128 0x410a
+ 1131 016b 00       		.byte	0
+ 1132 016c 02       		.uleb128 0x2
+ 1133 016d 18       		.uleb128 0x18
+ 1134 016e 9142     		.uleb128 0x2111
+ 1135 0170 18       		.uleb128 0x18
+ 1136 0171 00       		.byte	0
+ 1137 0172 00       		.byte	0
+ 1138 0173 1A       		.uleb128 0x1a
+ 1139 0174 898201   		.uleb128 0x4109
+ 1140 0177 01       		.byte	0x1
+ 1141 0178 11       		.uleb128 0x11
+ 1142 0179 01       		.uleb128 0x1
+ 1143 017a 31       		.uleb128 0x31
+ 1144 017b 13       		.uleb128 0x13
+ 1145 017c 00       		.byte	0
+ 1146 017d 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 23
+
+
+ 1147 017e 1B       		.uleb128 0x1b
+ 1148 017f 2E       		.uleb128 0x2e
+ 1149 0180 00       		.byte	0
+ 1150 0181 3F       		.uleb128 0x3f
+ 1151 0182 19       		.uleb128 0x19
+ 1152 0183 3C       		.uleb128 0x3c
+ 1153 0184 19       		.uleb128 0x19
+ 1154 0185 6E       		.uleb128 0x6e
+ 1155 0186 0E       		.uleb128 0xe
+ 1156 0187 03       		.uleb128 0x3
+ 1157 0188 0E       		.uleb128 0xe
+ 1158 0189 3A       		.uleb128 0x3a
+ 1159 018a 0B       		.uleb128 0xb
+ 1160 018b 3B       		.uleb128 0x3b
+ 1161 018c 0B       		.uleb128 0xb
+ 1162 018d 00       		.byte	0
+ 1163 018e 00       		.byte	0
+ 1164 018f 00       		.byte	0
+ 1165              		.section	.debug_loc,"",%progbits
+ 1166              	.Ldebug_loc0:
+ 1167              	.LLST0:
+ 1168 0000 00000000 		.4byte	.LVL0
+ 1169 0004 16000000 		.4byte	.LVL3
+ 1170 0008 0100     		.2byte	0x1
+ 1171 000a 50       		.byte	0x50
+ 1172 000b 16000000 		.4byte	.LVL3
+ 1173 000f 46000000 		.4byte	.LVL10
+ 1174 0013 0100     		.2byte	0x1
+ 1175 0015 57       		.byte	0x57
+ 1176 0016 46000000 		.4byte	.LVL10
+ 1177 001a 80000000 		.4byte	.LVL17
+ 1178 001e 0400     		.2byte	0x4
+ 1179 0020 F3       		.byte	0xf3
+ 1180 0021 01       		.uleb128 0x1
+ 1181 0022 50       		.byte	0x50
+ 1182 0023 9F       		.byte	0x9f
+ 1183 0024 80000000 		.4byte	.LVL17
+ 1184 0028 82000000 		.4byte	.LVL18
+ 1185 002c 0100     		.2byte	0x1
+ 1186 002e 57       		.byte	0x57
+ 1187 002f 82000000 		.4byte	.LVL18
+ 1188 0033 88000000 		.4byte	.LFE1
+ 1189 0037 0400     		.2byte	0x4
+ 1190 0039 F3       		.byte	0xf3
+ 1191 003a 01       		.uleb128 0x1
+ 1192 003b 50       		.byte	0x50
+ 1193 003c 9F       		.byte	0x9f
+ 1194 003d 00000000 		.4byte	0
+ 1195 0041 00000000 		.4byte	0
+ 1196              	.LLST1:
+ 1197 0045 00000000 		.4byte	.LVL0
+ 1198 0049 19000000 		.4byte	.LVL4-1
+ 1199 004d 0100     		.2byte	0x1
+ 1200 004f 51       		.byte	0x51
+ 1201 0050 19000000 		.4byte	.LVL4-1
+ 1202 0054 88000000 		.4byte	.LFE1
+ 1203 0058 0100     		.2byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 24
+
+
+ 1204 005a 55       		.byte	0x55
+ 1205 005b 00000000 		.4byte	0
+ 1206 005f 00000000 		.4byte	0
+ 1207              	.LLST2:
+ 1208 0063 00000000 		.4byte	.LVL0
+ 1209 0067 19000000 		.4byte	.LVL4-1
+ 1210 006b 0100     		.2byte	0x1
+ 1211 006d 52       		.byte	0x52
+ 1212 006e 19000000 		.4byte	.LVL4-1
+ 1213 0072 44000000 		.4byte	.LVL9
+ 1214 0076 0100     		.2byte	0x1
+ 1215 0078 54       		.byte	0x54
+ 1216 0079 44000000 		.4byte	.LVL9
+ 1217 007d 80000000 		.4byte	.LVL17
+ 1218 0081 0400     		.2byte	0x4
+ 1219 0083 F3       		.byte	0xf3
+ 1220 0084 01       		.uleb128 0x1
+ 1221 0085 52       		.byte	0x52
+ 1222 0086 9F       		.byte	0x9f
+ 1223 0087 80000000 		.4byte	.LVL17
+ 1224 008b 82000000 		.4byte	.LVL18
+ 1225 008f 0100     		.2byte	0x1
+ 1226 0091 54       		.byte	0x54
+ 1227 0092 82000000 		.4byte	.LVL18
+ 1228 0096 88000000 		.4byte	.LFE1
+ 1229 009a 0400     		.2byte	0x4
+ 1230 009c F3       		.byte	0xf3
+ 1231 009d 01       		.uleb128 0x1
+ 1232 009e 52       		.byte	0x52
+ 1233 009f 9F       		.byte	0x9f
+ 1234 00a0 00000000 		.4byte	0
+ 1235 00a4 00000000 		.4byte	0
+ 1236              	.LLST3:
+ 1237 00a8 00000000 		.4byte	.LVL0
+ 1238 00ac 0E000000 		.4byte	.LVL1
+ 1239 00b0 0100     		.2byte	0x1
+ 1240 00b2 53       		.byte	0x53
+ 1241 00b3 0E000000 		.4byte	.LVL1
+ 1242 00b7 88000000 		.4byte	.LFE1
+ 1243 00bb 0100     		.2byte	0x1
+ 1244 00bd 56       		.byte	0x56
+ 1245 00be 00000000 		.4byte	0
+ 1246 00c2 00000000 		.4byte	0
+ 1247              	.LLST4:
+ 1248 00c6 20000000 		.4byte	.LVL6
+ 1249 00ca 38000000 		.4byte	.LVL7
+ 1250 00ce 0100     		.2byte	0x1
+ 1251 00d0 53       		.byte	0x53
+ 1252 00d1 80000000 		.4byte	.LVL17
+ 1253 00d5 88000000 		.4byte	.LFE1
+ 1254 00d9 0100     		.2byte	0x1
+ 1255 00db 53       		.byte	0x53
+ 1256 00dc 00000000 		.4byte	0
+ 1257 00e0 00000000 		.4byte	0
+ 1258              	.LLST5:
+ 1259 00e4 10000000 		.4byte	.LVL2
+ 1260 00e8 4E000000 		.4byte	.LVL11
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 25
+
+
+ 1261 00ec 0200     		.2byte	0x2
+ 1262 00ee 30       		.byte	0x30
+ 1263 00ef 9F       		.byte	0x9f
+ 1264 00f0 4E000000 		.4byte	.LVL11
+ 1265 00f4 74000000 		.4byte	.LVL15
+ 1266 00f8 0100     		.2byte	0x1
+ 1267 00fa 57       		.byte	0x57
+ 1268 00fb 80000000 		.4byte	.LVL17
+ 1269 00ff 82000000 		.4byte	.LVL18
+ 1270 0103 0200     		.2byte	0x2
+ 1271 0105 30       		.byte	0x30
+ 1272 0106 9F       		.byte	0x9f
+ 1273 0107 00000000 		.4byte	0
+ 1274 010b 00000000 		.4byte	0
+ 1275              	.LLST6:
+ 1276 010f 10000000 		.4byte	.LVL2
+ 1277 0113 44000000 		.4byte	.LVL9
+ 1278 0117 0200     		.2byte	0x2
+ 1279 0119 30       		.byte	0x30
+ 1280 011a 9F       		.byte	0x9f
+ 1281 011b 44000000 		.4byte	.LVL9
+ 1282 011f 54000000 		.4byte	.LVL12
+ 1283 0123 0100     		.2byte	0x1
+ 1284 0125 50       		.byte	0x50
+ 1285 0126 54000000 		.4byte	.LVL12
+ 1286 012a 7C000000 		.4byte	.LVL16
+ 1287 012e 0100     		.2byte	0x1
+ 1288 0130 54       		.byte	0x54
+ 1289 0131 7C000000 		.4byte	.LVL16
+ 1290 0135 80000000 		.4byte	.LVL17
+ 1291 0139 0200     		.2byte	0x2
+ 1292 013b 31       		.byte	0x31
+ 1293 013c 9F       		.byte	0x9f
+ 1294 013d 80000000 		.4byte	.LVL17
+ 1295 0141 82000000 		.4byte	.LVL18
+ 1296 0145 0200     		.2byte	0x2
+ 1297 0147 30       		.byte	0x30
+ 1298 0148 9F       		.byte	0x9f
+ 1299 0149 82000000 		.4byte	.LVL18
+ 1300 014d 88000000 		.4byte	.LFE1
+ 1301 0151 0100     		.2byte	0x1
+ 1302 0153 54       		.byte	0x54
+ 1303 0154 00000000 		.4byte	0
+ 1304 0158 00000000 		.4byte	0
+ 1305              	.LLST7:
+ 1306 015c 00000000 		.4byte	.LVL19
+ 1307 0160 0C000000 		.4byte	.LVL20
+ 1308 0164 0100     		.2byte	0x1
+ 1309 0166 50       		.byte	0x50
+ 1310 0167 0C000000 		.4byte	.LVL20
+ 1311 016b 48000000 		.4byte	.LFE2
+ 1312 016f 0100     		.2byte	0x1
+ 1313 0171 55       		.byte	0x55
+ 1314 0172 00000000 		.4byte	0
+ 1315 0176 00000000 		.4byte	0
+ 1316              	.LLST8:
+ 1317 017a 00000000 		.4byte	.LVL19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 26
+
+
+ 1318 017e 13000000 		.4byte	.LVL22-1
+ 1319 0182 0100     		.2byte	0x1
+ 1320 0184 51       		.byte	0x51
+ 1321 0185 13000000 		.4byte	.LVL22-1
+ 1322 0189 48000000 		.4byte	.LFE2
+ 1323 018d 0100     		.2byte	0x1
+ 1324 018f 56       		.byte	0x56
+ 1325 0190 00000000 		.4byte	0
+ 1326 0194 00000000 		.4byte	0
+ 1327              	.LLST9:
+ 1328 0198 00000000 		.4byte	.LVL19
+ 1329 019c 13000000 		.4byte	.LVL22-1
+ 1330 01a0 0100     		.2byte	0x1
+ 1331 01a2 52       		.byte	0x52
+ 1332 01a3 13000000 		.4byte	.LVL22-1
+ 1333 01a7 48000000 		.4byte	.LFE2
+ 1334 01ab 0100     		.2byte	0x1
+ 1335 01ad 54       		.byte	0x54
+ 1336 01ae 00000000 		.4byte	0
+ 1337 01b2 00000000 		.4byte	0
+ 1338              	.LLST10:
+ 1339 01b6 00000000 		.4byte	.LVL19
+ 1340 01ba 13000000 		.4byte	.LVL22-1
+ 1341 01be 0100     		.2byte	0x1
+ 1342 01c0 53       		.byte	0x53
+ 1343 01c1 13000000 		.4byte	.LVL22-1
+ 1344 01c5 48000000 		.4byte	.LFE2
+ 1345 01c9 0400     		.2byte	0x4
+ 1346 01cb F3       		.byte	0xf3
+ 1347 01cc 01       		.uleb128 0x1
+ 1348 01cd 53       		.byte	0x53
+ 1349 01ce 9F       		.byte	0x9f
+ 1350 01cf 00000000 		.4byte	0
+ 1351 01d3 00000000 		.4byte	0
+ 1352              	.LLST11:
+ 1353 01d7 1A000000 		.4byte	.LVL24
+ 1354 01db 24000000 		.4byte	.LVL25
+ 1355 01df 0100     		.2byte	0x1
+ 1356 01e1 53       		.byte	0x53
+ 1357 01e2 00000000 		.4byte	0
+ 1358 01e6 00000000 		.4byte	0
+ 1359              	.LLST12:
+ 1360 01ea 10000000 		.4byte	.LVL21
+ 1361 01ee 36000000 		.4byte	.LVL27
+ 1362 01f2 0200     		.2byte	0x2
+ 1363 01f4 30       		.byte	0x30
+ 1364 01f5 9F       		.byte	0x9f
+ 1365 01f6 36000000 		.4byte	.LVL27
+ 1366 01fa 3C000000 		.4byte	.LVL28
+ 1367 01fe 0700     		.2byte	0x7
+ 1368 0200 91       		.byte	0x91
+ 1369 0201 6C       		.sleb128 -20
+ 1370 0202 06       		.byte	0x6
+ 1371 0203 73       		.byte	0x73
+ 1372 0204 00       		.sleb128 0
+ 1373 0205 22       		.byte	0x22
+ 1374 0206 9F       		.byte	0x9f
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 27
+
+
+ 1375 0207 3C000000 		.4byte	.LVL28
+ 1376 020b 3F000000 		.4byte	.LVL29-1
+ 1377 020f 0700     		.2byte	0x7
+ 1378 0211 70       		.byte	0x70
+ 1379 0212 00       		.sleb128 0
+ 1380 0213 06       		.byte	0x6
+ 1381 0214 73       		.byte	0x73
+ 1382 0215 00       		.sleb128 0
+ 1383 0216 22       		.byte	0x22
+ 1384 0217 9F       		.byte	0x9f
+ 1385 0218 00000000 		.4byte	0
+ 1386 021c 00000000 		.4byte	0
+ 1387              	.LLST13:
+ 1388 0220 10000000 		.4byte	.LVL21
+ 1389 0224 2E000000 		.4byte	.LVL26
+ 1390 0228 0200     		.2byte	0x2
+ 1391 022a 30       		.byte	0x30
+ 1392 022b 9F       		.byte	0x9f
+ 1393 022c 2E000000 		.4byte	.LVL26
+ 1394 0230 3C000000 		.4byte	.LVL28
+ 1395 0234 0100     		.2byte	0x1
+ 1396 0236 50       		.byte	0x50
+ 1397 0237 42000000 		.4byte	.LVL30
+ 1398 023b 44000000 		.4byte	.LVL31
+ 1399 023f 0200     		.2byte	0x2
+ 1400 0241 31       		.byte	0x31
+ 1401 0242 9F       		.byte	0x9f
+ 1402 0243 44000000 		.4byte	.LVL31
+ 1403 0247 48000000 		.4byte	.LFE2
+ 1404 024b 0100     		.2byte	0x1
+ 1405 024d 50       		.byte	0x50
+ 1406 024e 00000000 		.4byte	0
+ 1407 0252 00000000 		.4byte	0
+ 1408              		.section	.debug_aranges,"",%progbits
+ 1409 0000 24000000 		.4byte	0x24
+ 1410 0004 0200     		.2byte	0x2
+ 1411 0006 00000000 		.4byte	.Ldebug_info0
+ 1412 000a 04       		.byte	0x4
+ 1413 000b 00       		.byte	0
+ 1414 000c 0000     		.2byte	0
+ 1415 000e 0000     		.2byte	0
+ 1416 0010 00000000 		.4byte	.LFB1
+ 1417 0014 88000000 		.4byte	.LFE1-.LFB1
+ 1418 0018 00000000 		.4byte	.LFB2
+ 1419 001c 48000000 		.4byte	.LFE2-.LFB2
+ 1420 0020 00000000 		.4byte	0
+ 1421 0024 00000000 		.4byte	0
+ 1422              		.section	.debug_ranges,"",%progbits
+ 1423              	.Ldebug_ranges0:
+ 1424 0000 00000000 		.4byte	.LFB1
+ 1425 0004 88000000 		.4byte	.LFE1
+ 1426 0008 00000000 		.4byte	.LFB2
+ 1427 000c 48000000 		.4byte	.LFE2
+ 1428 0010 00000000 		.4byte	0
+ 1429 0014 00000000 		.4byte	0
+ 1430              		.section	.debug_line,"",%progbits
+ 1431              	.Ldebug_line0:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 28
+
+
+ 1432 0000 B4000000 		.section	.debug_str,"MS",%progbits,1
+ 1432      02006600 
+ 1432      00000201 
+ 1432      FB0E0D00 
+ 1432      01010101 
+ 1433              	.LASF46:
+ 1434 0000 4D515454 		.ascii	"MQTTDeserialize_publish\000"
+ 1434      44657365 
+ 1434      7269616C 
+ 1434      697A655F 
+ 1434      7075626C 
+ 1435              	.LASF38:
+ 1436 0018 746F7069 		.ascii	"topicName\000"
+ 1436      634E616D 
+ 1436      6500
+ 1437              	.LASF53:
+ 1438 0022 72656164 		.ascii	"readInt\000"
+ 1438      496E7400 
+ 1439              	.LASF40:
+ 1440 002a 7061796C 		.ascii	"payloadlen\000"
+ 1440      6F61646C 
+ 1440      656E00
+ 1441              	.LASF27:
+ 1442 0035 74797065 		.ascii	"type\000"
+ 1442      00
+ 1443              	.LASF52:
+ 1444 003a 72656164 		.ascii	"readMQTTLenString\000"
+ 1444      4D515454 
+ 1444      4C656E53 
+ 1444      7472696E 
+ 1444      6700
+ 1445              	.LASF22:
+ 1446 004c 554E5355 		.ascii	"UNSUBACK\000"
+ 1446      4241434B 
+ 1446      00
+ 1447              	.LASF26:
+ 1448 0055 72657461 		.ascii	"retain\000"
+ 1448      696E00
+ 1449              	.LASF34:
+ 1450 005c 6C656E73 		.ascii	"lenstring\000"
+ 1450      7472696E 
+ 1450      6700
+ 1451              	.LASF7:
+ 1452 0066 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1452      206C6F6E 
+ 1452      6720756E 
+ 1452      7369676E 
+ 1452      65642069 
+ 1453              	.LASF6:
+ 1454 007d 6C6F6E67 		.ascii	"long long int\000"
+ 1454      206C6F6E 
+ 1454      6720696E 
+ 1454      7400
+ 1455              	.LASF0:
+ 1456 008b 7369676E 		.ascii	"signed char\000"
+ 1456      65642063 
+ 1456      68617200 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 29
+
+
+ 1457              	.LASF50:
+ 1458 0097 72656164 		.ascii	"readChar\000"
+ 1458      43686172 
+ 1458      00
+ 1459              	.LASF29:
+ 1460 00a0 62697473 		.ascii	"bits\000"
+ 1460      00
+ 1461              	.LASF4:
+ 1462 00a5 6C6F6E67 		.ascii	"long int\000"
+ 1462      20696E74 
+ 1462      00
+ 1463              	.LASF21:
+ 1464 00ae 554E5355 		.ascii	"UNSUBSCRIBE\000"
+ 1464      42534352 
+ 1464      49424500 
+ 1465              	.LASF28:
+ 1466 00ba 62797465 		.ascii	"byte\000"
+ 1466      00
+ 1467              	.LASF57:
+ 1468 00bf 6D736754 		.ascii	"msgTypes\000"
+ 1468      79706573 
+ 1468      00
+ 1469              	.LASF8:
+ 1470 00c8 756E7369 		.ascii	"unsigned int\000"
+ 1470      676E6564 
+ 1470      20696E74 
+ 1470      00
+ 1471              	.LASF13:
+ 1472 00d5 434F4E4E 		.ascii	"CONNACK\000"
+ 1472      41434B00 
+ 1473              	.LASF5:
+ 1474 00dd 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1474      20756E73 
+ 1474      69676E65 
+ 1474      6420696E 
+ 1474      7400
+ 1475              	.LASF44:
+ 1476 00ef 656E6464 		.ascii	"enddata\000"
+ 1476      61746100 
+ 1477              	.LASF30:
+ 1478 00f7 64617461 		.ascii	"data\000"
+ 1478      00
+ 1479              	.LASF3:
+ 1480 00fc 73686F72 		.ascii	"short unsigned int\000"
+ 1480      7420756E 
+ 1480      7369676E 
+ 1480      65642069 
+ 1480      6E7400
+ 1481              	.LASF48:
+ 1482 010f 7061636B 		.ascii	"packettype\000"
+ 1482      65747479 
+ 1482      706500
+ 1483              	.LASF20:
+ 1484 011a 53554241 		.ascii	"SUBACK\000"
+ 1484      434B00
+ 1485              	.LASF47:
+ 1486 0121 4D515454 		.ascii	"MQTTDeserialize_ack\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 30
+
+
+ 1486      44657365 
+ 1486      7269616C 
+ 1486      697A655F 
+ 1486      61636B00 
+ 1487              	.LASF35:
+ 1488 0135 4D515454 		.ascii	"MQTTString\000"
+ 1488      53747269 
+ 1488      6E6700
+ 1489              	.LASF37:
+ 1490 0140 7061636B 		.ascii	"packetid\000"
+ 1490      65746964 
+ 1490      00
+ 1491              	.LASF55:
+ 1492 0149 2E2E5C70 		.ascii	"..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTDese"
+ 1492      61686F2E 
+ 1492      6D717474 
+ 1492      2E656D62 
+ 1492      65646465 
+ 1493 0178 7269616C 		.ascii	"rializePublish.c\000"
+ 1493      697A6550 
+ 1493      75626C69 
+ 1493      73682E63 
+ 1493      00
+ 1494              	.LASF9:
+ 1495 0189 6C6F6E67 		.ascii	"long double\000"
+ 1495      20646F75 
+ 1495      626C6500 
+ 1496              	.LASF39:
+ 1497 0195 7061796C 		.ascii	"payload\000"
+ 1497      6F616400 
+ 1498              	.LASF33:
+ 1499 019d 63737472 		.ascii	"cstring\000"
+ 1499      696E6700 
+ 1500              	.LASF25:
+ 1501 01a5 44495343 		.ascii	"DISCONNECT\000"
+ 1501      4F4E4E45 
+ 1501      435400
+ 1502              	.LASF51:
+ 1503 01b0 4D515454 		.ascii	"MQTTPacket_decodeBuf\000"
+ 1503      5061636B 
+ 1503      65745F64 
+ 1503      65636F64 
+ 1503      65427566 
+ 1504              	.LASF43:
+ 1505 01c5 63757264 		.ascii	"curdata\000"
+ 1505      61746100 
+ 1506              	.LASF45:
+ 1507 01cd 6D796C65 		.ascii	"mylen\000"
+ 1507      6E00
+ 1508              	.LASF24:
+ 1509 01d3 50494E47 		.ascii	"PINGRESP\000"
+ 1509      52455350 
+ 1509      00
+ 1510              	.LASF12:
+ 1511 01dc 434F4E4E 		.ascii	"CONNECT\000"
+ 1511      45435400 
+ 1512              	.LASF1:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 31
+
+
+ 1513 01e4 756E7369 		.ascii	"unsigned char\000"
+ 1513      676E6564 
+ 1513      20636861 
+ 1513      7200
+ 1514              	.LASF36:
+ 1515 01f2 72657461 		.ascii	"retained\000"
+ 1515      696E6564 
+ 1515      00
+ 1516              	.LASF2:
+ 1517 01fb 73686F72 		.ascii	"short int\000"
+ 1517      7420696E 
+ 1517      7400
+ 1518              	.LASF14:
+ 1519 0205 5055424C 		.ascii	"PUBLISH\000"
+ 1519      49534800 
+ 1520              	.LASF54:
+ 1521 020d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1521      43313120 
+ 1521      352E342E 
+ 1521      31203230 
+ 1521      31363036 
+ 1522 0240 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1522      20726576 
+ 1522      6973696F 
+ 1522      6E203233 
+ 1522      37373135 
+ 1523 0273 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1523      66756E63 
+ 1523      74696F6E 
+ 1523      2D736563 
+ 1523      74696F6E 
+ 1524              	.LASF41:
+ 1525 029b 6275666C 		.ascii	"buflen\000"
+ 1525      656E00
+ 1526              	.LASF49:
+ 1527 02a2 65786974 		.ascii	"exit\000"
+ 1527      00
+ 1528              	.LASF56:
+ 1529 02a7 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 1529      73657273 
+ 1529      5C457667 
+ 1529      656E7920 
+ 1529      4D657368 
+ 1530 02d6 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 1530      746D705C 
+ 1530      5A756D6F 
+ 1530      5C5A756D 
+ 1530      6F426F74 
+ 1531              	.LASF31:
+ 1532 02f1 4D515454 		.ascii	"MQTTHeader\000"
+ 1532      48656164 
+ 1532      657200
+ 1533              	.LASF32:
+ 1534 02fc 4D515454 		.ascii	"MQTTLenString\000"
+ 1534      4C656E53 
+ 1534      7472696E 
+ 1534      6700
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccZiXDoQ.s 			page 32
+
+
+ 1535              	.LASF19:
+ 1536 030a 53554253 		.ascii	"SUBSCRIBE\000"
+ 1536      43524942 
+ 1536      4500
+ 1537              	.LASF11:
+ 1538 0314 63686172 		.ascii	"char\000"
+ 1538      00
+ 1539              	.LASF15:
+ 1540 0319 50554241 		.ascii	"PUBACK\000"
+ 1540      434B00
+ 1541              	.LASF18:
+ 1542 0320 50554243 		.ascii	"PUBCOMP\000"
+ 1542      4F4D5000 
+ 1543              	.LASF10:
+ 1544 0328 73697A65 		.ascii	"sizetype\000"
+ 1544      74797065 
+ 1544      00
+ 1545              	.LASF16:
+ 1546 0331 50554252 		.ascii	"PUBREC\000"
+ 1546      454300
+ 1547              	.LASF17:
+ 1548 0338 50554252 		.ascii	"PUBREL\000"
+ 1548      454C00
+ 1549              	.LASF23:
+ 1550 033f 50494E47 		.ascii	"PINGREQ\000"
+ 1550      52455100 
+ 1551              	.LASF42:
+ 1552 0347 68656164 		.ascii	"header\000"
+ 1552      657200
+ 1553              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

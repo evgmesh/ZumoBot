@@ -1,0 +1,4423 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"simulator.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.send,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	send, %function
+  24              	send:
+  25              	.LFB85:
+  26              		.file 1 "ZumoLibrary\\simulator.c"
+   1:ZumoLibrary/simulator.c **** #include "FreeRTOS.h"
+   2:ZumoLibrary/simulator.c **** #include "task.h"
+   3:ZumoLibrary/simulator.c **** #include "semphr.h"
+   4:ZumoLibrary/simulator.c **** #include "project.h"
+   5:ZumoLibrary/simulator.c **** #include "serial1.h"
+   6:ZumoLibrary/simulator.c **** 
+   7:ZumoLibrary/simulator.c **** #include "zumo_config.h"
+   8:ZumoLibrary/simulator.c **** 
+   9:ZumoLibrary/simulator.c **** #include "simulator.h"
+  10:ZumoLibrary/simulator.c **** #include "Motor.h"
+  11:ZumoLibrary/simulator.c **** #include "Reflectance.h"
+  12:ZumoLibrary/simulator.c **** #include "Ultra.h"
+  13:ZumoLibrary/simulator.c **** #include "IR.h"
+  14:ZumoLibrary/simulator.c **** #include <stdio.h>
+  15:ZumoLibrary/simulator.c **** 
+  16:ZumoLibrary/simulator.c **** static QueueHandle_t motor_q;
+  17:ZumoLibrary/simulator.c **** 
+  18:ZumoLibrary/simulator.c **** void SimulatorTaskInit(void)
+  19:ZumoLibrary/simulator.c **** {
+  20:ZumoLibrary/simulator.c ****     motor_q = xQueueCreate(3, sizeof(SimData));
+  21:ZumoLibrary/simulator.c **** }
+  22:ZumoLibrary/simulator.c **** 
+  23:ZumoLibrary/simulator.c **** #if ZUMO_SIMULATOR == 1
+  24:ZumoLibrary/simulator.c **** static void send(const char *data, int len) ;
+  25:ZumoLibrary/simulator.c ****     
+  26:ZumoLibrary/simulator.c **** #define RUN_TIMEOUT 5
+  27:ZumoLibrary/simulator.c **** #define STOP_TIMEOUT 25
+  28:ZumoLibrary/simulator.c **** 
+  29:ZumoLibrary/simulator.c **** static const char stopped[5] = {0,255,0,0,RUN_TIMEOUT};
+  30:ZumoLibrary/simulator.c **** 
+  31:ZumoLibrary/simulator.c **** static volatile int motor_started;    
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 2
+
+
+  32:ZumoLibrary/simulator.c **** /*
+  33:ZumoLibrary/simulator.c ****  * Motor simulator
+  34:ZumoLibrary/simulator.c ****  */
+  35:ZumoLibrary/simulator.c **** void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
+  36:ZumoLibrary/simulator.c **** {
+  37:ZumoLibrary/simulator.c ****     SimData sim = { left_dir, right_dir, left_speed, right_speed, delay };
+  38:ZumoLibrary/simulator.c ****     if(!motor_started) {
+  39:ZumoLibrary/simulator.c ****         printf("You haven't started motors\n");
+  40:ZumoLibrary/simulator.c ****     }
+  41:ZumoLibrary/simulator.c ****     if(delay < 2) {
+  42:ZumoLibrary/simulator.c ****         sim.delay = 2;
+  43:ZumoLibrary/simulator.c ****     }
+  44:ZumoLibrary/simulator.c ****     xQueueSend(motor_q, &sim, portMAX_DELAY);
+  45:ZumoLibrary/simulator.c ****     vTaskDelay(delay);
+  46:ZumoLibrary/simulator.c **** }
+  47:ZumoLibrary/simulator.c **** 
+  48:ZumoLibrary/simulator.c **** 
+  49:ZumoLibrary/simulator.c **** /**
+  50:ZumoLibrary/simulator.c **** * @brief    Starting motor sensors
+  51:ZumoLibrary/simulator.c **** * @details  
+  52:ZumoLibrary/simulator.c **** */
+  53:ZumoLibrary/simulator.c **** void motor_start()
+  54:ZumoLibrary/simulator.c **** {
+  55:ZumoLibrary/simulator.c ****     motor_started = 1;
+  56:ZumoLibrary/simulator.c **** }
+  57:ZumoLibrary/simulator.c **** 
+  58:ZumoLibrary/simulator.c **** 
+  59:ZumoLibrary/simulator.c **** /**
+  60:ZumoLibrary/simulator.c **** * @brief    Stopping motor sensors
+  61:ZumoLibrary/simulator.c **** * @details
+  62:ZumoLibrary/simulator.c **** */
+  63:ZumoLibrary/simulator.c **** void motor_stop()
+  64:ZumoLibrary/simulator.c **** {
+  65:ZumoLibrary/simulator.c ****     motor_started = 0;
+  66:ZumoLibrary/simulator.c ****     send(stopped, 5);
+  67:ZumoLibrary/simulator.c **** }
+  68:ZumoLibrary/simulator.c **** 
+  69:ZumoLibrary/simulator.c **** /*
+  70:ZumoLibrary/simulator.c ****  * Reflectance sensor simulator
+  71:ZumoLibrary/simulator.c ****  */
+  72:ZumoLibrary/simulator.c **** 
+  73:ZumoLibrary/simulator.c **** static volatile struct sensors_ sensors;
+  74:ZumoLibrary/simulator.c **** static struct sensors_ threshold = { 10000, 10000, 10000, 10000, 10000, 10000};
+  75:ZumoLibrary/simulator.c **** static volatile int reflectance_started;
+  76:ZumoLibrary/simulator.c **** 
+  77:ZumoLibrary/simulator.c **** /**
+  78:ZumoLibrary/simulator.c **** * @brief    Starting Reflectance Sensor
+  79:ZumoLibrary/simulator.c **** * @details 
+  80:ZumoLibrary/simulator.c **** */
+  81:ZumoLibrary/simulator.c **** void reflectance_start()
+  82:ZumoLibrary/simulator.c **** {
+  83:ZumoLibrary/simulator.c ****     reflectance_started = 1;
+  84:ZumoLibrary/simulator.c **** }
+  85:ZumoLibrary/simulator.c **** 
+  86:ZumoLibrary/simulator.c **** /**
+  87:ZumoLibrary/simulator.c **** * @brief    Read reflectance sensor values
+  88:ZumoLibrary/simulator.c **** * @details
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 3
+
+
+  89:ZumoLibrary/simulator.c **** */
+  90:ZumoLibrary/simulator.c **** void reflectance_read(struct sensors_ *values)
+  91:ZumoLibrary/simulator.c **** {
+  92:ZumoLibrary/simulator.c ****     if(!reflectance_started) {
+  93:ZumoLibrary/simulator.c ****         printf("You haven't started reflectance sensor\n");
+  94:ZumoLibrary/simulator.c ****     }
+  95:ZumoLibrary/simulator.c ****     *values = sensors;
+  96:ZumoLibrary/simulator.c **** }
+  97:ZumoLibrary/simulator.c **** 
+  98:ZumoLibrary/simulator.c **** /**
+  99:ZumoLibrary/simulator.c **** * @brief    Making Reflectance Sensor's period to digital
+ 100:ZumoLibrary/simulator.c **** * @details
+ 101:ZumoLibrary/simulator.c **** */
+ 102:ZumoLibrary/simulator.c **** void reflectance_digital(struct sensors_ *digital)
+ 103:ZumoLibrary/simulator.c **** {
+ 104:ZumoLibrary/simulator.c ****     if(!reflectance_started) {
+ 105:ZumoLibrary/simulator.c ****         printf("You haven't started reflectance sensor\n");
+ 106:ZumoLibrary/simulator.c ****     }
+ 107:ZumoLibrary/simulator.c ****     //if the results of reflectance_period function is over threshold, set digital_sensor_value to 
+ 108:ZumoLibrary/simulator.c ****     if(sensors.L3 < threshold.L3)
+ 109:ZumoLibrary/simulator.c ****         digital->L3 = 0;
+ 110:ZumoLibrary/simulator.c ****     else
+ 111:ZumoLibrary/simulator.c ****         digital->L3 = 1;
+ 112:ZumoLibrary/simulator.c ****     
+ 113:ZumoLibrary/simulator.c ****     if(sensors.L2 < threshold.L2)
+ 114:ZumoLibrary/simulator.c ****         digital->L2 = 0;
+ 115:ZumoLibrary/simulator.c ****     else
+ 116:ZumoLibrary/simulator.c ****         digital->L2 = 1;
+ 117:ZumoLibrary/simulator.c ****     
+ 118:ZumoLibrary/simulator.c ****     if(sensors.L1 < threshold.L1)
+ 119:ZumoLibrary/simulator.c ****         digital->L1 = 0;
+ 120:ZumoLibrary/simulator.c ****     else
+ 121:ZumoLibrary/simulator.c ****         digital->L1 = 1;
+ 122:ZumoLibrary/simulator.c ****     
+ 123:ZumoLibrary/simulator.c ****     if(sensors.R1 < threshold.R1)
+ 124:ZumoLibrary/simulator.c ****         digital->R1 = 0;
+ 125:ZumoLibrary/simulator.c ****     else
+ 126:ZumoLibrary/simulator.c ****         digital->R1 = 1;
+ 127:ZumoLibrary/simulator.c ****     
+ 128:ZumoLibrary/simulator.c ****     if(sensors.R2 < threshold.R2)
+ 129:ZumoLibrary/simulator.c ****         digital->R2 = 0;
+ 130:ZumoLibrary/simulator.c ****     else
+ 131:ZumoLibrary/simulator.c ****         digital->R2 = 1;
+ 132:ZumoLibrary/simulator.c ****     
+ 133:ZumoLibrary/simulator.c ****     if(sensors.R3 < threshold.R3)
+ 134:ZumoLibrary/simulator.c ****         digital->R3 = 0;
+ 135:ZumoLibrary/simulator.c ****     else
+ 136:ZumoLibrary/simulator.c ****         digital->R3 = 1;
+ 137:ZumoLibrary/simulator.c ****         
+ 138:ZumoLibrary/simulator.c **** }
+ 139:ZumoLibrary/simulator.c **** 
+ 140:ZumoLibrary/simulator.c **** void reflectance_set_threshold(uint16_t L3, uint16_t L2, uint16_t L1, uint16_t R1, uint16_t R2, uin
+ 141:ZumoLibrary/simulator.c **** {
+ 142:ZumoLibrary/simulator.c ****     threshold.L3 = L3;
+ 143:ZumoLibrary/simulator.c ****     threshold.L2 = L2;
+ 144:ZumoLibrary/simulator.c ****     threshold.L1 = L1;
+ 145:ZumoLibrary/simulator.c ****     threshold.R3 = R3;
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 4
+
+
+ 146:ZumoLibrary/simulator.c ****     threshold.R2 = R2;
+ 147:ZumoLibrary/simulator.c ****     threshold.R1 = R1;
+ 148:ZumoLibrary/simulator.c **** }
+ 149:ZumoLibrary/simulator.c **** 
+ 150:ZumoLibrary/simulator.c **** /*
+ 151:ZumoLibrary/simulator.c ****  * Retarget printf
+ 152:ZumoLibrary/simulator.c ****  */
+ 153:ZumoLibrary/simulator.c **** 
+ 154:ZumoLibrary/simulator.c **** static xSemaphoreHandle writeMutex;
+ 155:ZumoLibrary/simulator.c **** 
+ 156:ZumoLibrary/simulator.c **** void RetargetInit(void)
+ 157:ZumoLibrary/simulator.c **** {
+ 158:ZumoLibrary/simulator.c ****     writeMutex = xSemaphoreCreateMutex();;
+ 159:ZumoLibrary/simulator.c **** }
+ 160:ZumoLibrary/simulator.c **** 
+ 161:ZumoLibrary/simulator.c **** int _write(int file, char *ptr, int len)
+ 162:ZumoLibrary/simulator.c **** {
+ 163:ZumoLibrary/simulator.c ****     (void)file; /* Parameter is not used, suppress unused argument warning */
+ 164:ZumoLibrary/simulator.c ****     
+ 165:ZumoLibrary/simulator.c ****     if(xSemaphoreTake(writeMutex, portMAX_DELAY) == pdFALSE) return 0;
+ 166:ZumoLibrary/simulator.c ****     
+ 167:ZumoLibrary/simulator.c **** 	int n;
+ 168:ZumoLibrary/simulator.c **** 	for(n = 0; n < len; n++) {
+ 169:ZumoLibrary/simulator.c ****         if(*ptr == '\n') xSerial1PutChar('\r', portMAX_DELAY);
+ 170:ZumoLibrary/simulator.c **** 		xSerial1PutChar(*ptr++, portMAX_DELAY);
+ 171:ZumoLibrary/simulator.c **** 	}
+ 172:ZumoLibrary/simulator.c ****     
+ 173:ZumoLibrary/simulator.c ****     xSemaphoreGive(writeMutex);
+ 174:ZumoLibrary/simulator.c **** 
+ 175:ZumoLibrary/simulator.c ****     return len;
+ 176:ZumoLibrary/simulator.c **** }
+ 177:ZumoLibrary/simulator.c **** 
+ 178:ZumoLibrary/simulator.c **** int _read (int file, char *ptr, int count)
+ 179:ZumoLibrary/simulator.c **** {
+ 180:ZumoLibrary/simulator.c ****     (void) file;
+ 181:ZumoLibrary/simulator.c ****     (void) ptr;
+ 182:ZumoLibrary/simulator.c ****     (void) count;
+ 183:ZumoLibrary/simulator.c ****     return 0;
+ 184:ZumoLibrary/simulator.c **** }
+ 185:ZumoLibrary/simulator.c **** 
+ 186:ZumoLibrary/simulator.c **** /*
+ 187:ZumoLibrary/simulator.c ****  * Ultra Sonic Sensor simulator
+ 188:ZumoLibrary/simulator.c ****  */
+ 189:ZumoLibrary/simulator.c **** static volatile int distance;
+ 190:ZumoLibrary/simulator.c **** static volatile int ultra_started;
+ 191:ZumoLibrary/simulator.c **** 
+ 192:ZumoLibrary/simulator.c **** 
+ 193:ZumoLibrary/simulator.c **** void Ultra_Start()
+ 194:ZumoLibrary/simulator.c **** {
+ 195:ZumoLibrary/simulator.c ****     ultra_started = 1;
+ 196:ZumoLibrary/simulator.c **** }
+ 197:ZumoLibrary/simulator.c **** 
+ 198:ZumoLibrary/simulator.c **** int Ultra_GetDistance(void)
+ 199:ZumoLibrary/simulator.c **** {
+ 200:ZumoLibrary/simulator.c ****     if(!ultra_started) {
+ 201:ZumoLibrary/simulator.c ****         printf("You haven't started ultrasonic sensor\n");
+ 202:ZumoLibrary/simulator.c ****     }
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 5
+
+
+ 203:ZumoLibrary/simulator.c ****     return distance;       
+ 204:ZumoLibrary/simulator.c **** }    
+ 205:ZumoLibrary/simulator.c **** 
+ 206:ZumoLibrary/simulator.c **** 
+ 207:ZumoLibrary/simulator.c **** /*
+ 208:ZumoLibrary/simulator.c ****  * IR Sensor simulator
+ 209:ZumoLibrary/simulator.c ****  */
+ 210:ZumoLibrary/simulator.c **** static volatile int ir_value;
+ 211:ZumoLibrary/simulator.c **** static volatile int ir_started;
+ 212:ZumoLibrary/simulator.c **** 
+ 213:ZumoLibrary/simulator.c **** 
+ 214:ZumoLibrary/simulator.c **** void IR_Start(void)
+ 215:ZumoLibrary/simulator.c **** {
+ 216:ZumoLibrary/simulator.c ****     ir_started = 1;
+ 217:ZumoLibrary/simulator.c **** }
+ 218:ZumoLibrary/simulator.c **** 
+ 219:ZumoLibrary/simulator.c **** 
+ 220:ZumoLibrary/simulator.c **** /* Flush all previously received IR values */
+ 221:ZumoLibrary/simulator.c **** void IR_flush(void)
+ 222:ZumoLibrary/simulator.c **** {
+ 223:ZumoLibrary/simulator.c ****     if(!ir_started) {
+ 224:ZumoLibrary/simulator.c ****         printf("You haven't started IR sensor\n");
+ 225:ZumoLibrary/simulator.c ****     }
+ 226:ZumoLibrary/simulator.c ****     ir_value = 0;
+ 227:ZumoLibrary/simulator.c **** }
+ 228:ZumoLibrary/simulator.c **** 
+ 229:ZumoLibrary/simulator.c **** /* Wait for a high pulse with length between IR_LOWER_LIMIT and IR_UPPER_LIMIT */
+ 230:ZumoLibrary/simulator.c **** void IR_wait(void)
+ 231:ZumoLibrary/simulator.c **** {
+ 232:ZumoLibrary/simulator.c ****     if(!ir_started) {
+ 233:ZumoLibrary/simulator.c ****         printf("You haven't started IR sensor\n");
+ 234:ZumoLibrary/simulator.c ****     }
+ 235:ZumoLibrary/simulator.c ****     while(!ir_value) {
+ 236:ZumoLibrary/simulator.c ****         vTaskDelay(10);
+ 237:ZumoLibrary/simulator.c ****     }
+ 238:ZumoLibrary/simulator.c ****     IR_flush();
+ 239:ZumoLibrary/simulator.c **** }
+ 240:ZumoLibrary/simulator.c **** 
+ 241:ZumoLibrary/simulator.c **** 
+ 242:ZumoLibrary/simulator.c **** 
+ 243:ZumoLibrary/simulator.c **** /*
+ 244:ZumoLibrary/simulator.c ****  * Simulator send/receive task
+ 245:ZumoLibrary/simulator.c ****  */
+ 246:ZumoLibrary/simulator.c **** 
+ 247:ZumoLibrary/simulator.c **** 
+ 248:ZumoLibrary/simulator.c **** static void send(const char *data, int len) 
+ 249:ZumoLibrary/simulator.c **** {
+  27              		.loc 1 249 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+  33              		.cfi_def_cfa_offset 24
+  34              		.cfi_offset 3, -24
+  35              		.cfi_offset 4, -20
+  36              		.cfi_offset 5, -16
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 6
+
+
+  37              		.cfi_offset 6, -12
+  38              		.cfi_offset 7, -8
+  39              		.cfi_offset 14, -4
+  40 0002 0546     		mov	r5, r0
+  41 0004 0C46     		mov	r4, r1
+ 250:ZumoLibrary/simulator.c ****    if(xSemaphoreTake(writeMutex, portMAX_DELAY) == pdFALSE) return;
+  42              		.loc 1 250 0
+  43 0006 4FF0FF31 		mov	r1, #-1
+  44              	.LVL1:
+  45 000a 0C4B     		ldr	r3, .L6
+  46 000c 1868     		ldr	r0, [r3]
+  47              	.LVL2:
+  48 000e FFF7FEFF 		bl	xQueueSemaphoreTake
+  49              	.LVL3:
+  50 0012 38B9     		cbnz	r0, .L3
+  51 0014 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  52              	.LVL4:
+  53              	.L4:
+ 251:ZumoLibrary/simulator.c **** 
+ 252:ZumoLibrary/simulator.c ****    while(len-- > 0) {
+ 253:ZumoLibrary/simulator.c ****         xSerial1PutChar(*data++, 0);
+  54              		.loc 1 253 0
+  55 0016 6F1C     		adds	r7, r5, #1
+  56              	.LVL5:
+  57 0018 0021     		movs	r1, #0
+  58 001a 2878     		ldrb	r0, [r5]	@ zero_extendqisi2
+  59 001c FFF7FEFF 		bl	xSerial1PutChar
+  60              	.LVL6:
+ 252:ZumoLibrary/simulator.c ****         xSerial1PutChar(*data++, 0);
+  61              		.loc 1 252 0
+  62 0020 3446     		mov	r4, r6
+  63              		.loc 1 253 0
+  64 0022 3D46     		mov	r5, r7
+  65              	.LVL7:
+  66              	.L3:
+ 252:ZumoLibrary/simulator.c ****         xSerial1PutChar(*data++, 0);
+  67              		.loc 1 252 0
+  68 0024 661E     		subs	r6, r4, #1
+  69              	.LVL8:
+  70 0026 002C     		cmp	r4, #0
+  71 0028 F5DC     		bgt	.L4
+ 254:ZumoLibrary/simulator.c ****     }
+ 255:ZumoLibrary/simulator.c **** 
+ 256:ZumoLibrary/simulator.c ****     xSemaphoreGive(writeMutex);
+  72              		.loc 1 256 0
+  73 002a 0023     		movs	r3, #0
+  74 002c 1A46     		mov	r2, r3
+  75 002e 1946     		mov	r1, r3
+  76 0030 0248     		ldr	r0, .L6
+  77 0032 0068     		ldr	r0, [r0]
+  78 0034 FFF7FEFF 		bl	xQueueGenericSend
+  79              	.LVL9:
+  80 0038 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+  81              	.LVL10:
+  82              	.L7:
+  83 003a 00BF     		.align	2
+  84              	.L6:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 7
+
+
+  85 003c 00000000 		.word	.LANCHOR0
+  86              		.cfi_endproc
+  87              	.LFE85:
+  88              		.size	send, .-send
+  89              		.section	.text.SimulatorTaskInit,"ax",%progbits
+  90              		.align	2
+  91              		.global	SimulatorTaskInit
+  92              		.thumb
+  93              		.thumb_func
+  94              		.type	SimulatorTaskInit, %function
+  95              	SimulatorTaskInit:
+  96              	.LFB69:
+  19:ZumoLibrary/simulator.c ****     motor_q = xQueueCreate(3, sizeof(SimData));
+  97              		.loc 1 19 0
+  98              		.cfi_startproc
+  99              		@ args = 0, pretend = 0, frame = 0
+ 100              		@ frame_needed = 0, uses_anonymous_args = 0
+ 101 0000 08B5     		push	{r3, lr}
+ 102              		.cfi_def_cfa_offset 8
+ 103              		.cfi_offset 3, -8
+ 104              		.cfi_offset 14, -4
+  20:ZumoLibrary/simulator.c **** }
+ 105              		.loc 1 20 0
+ 106 0002 0022     		movs	r2, #0
+ 107 0004 0821     		movs	r1, #8
+ 108 0006 0320     		movs	r0, #3
+ 109 0008 FFF7FEFF 		bl	xQueueGenericCreate
+ 110              	.LVL11:
+ 111 000c 014B     		ldr	r3, .L10
+ 112 000e 5860     		str	r0, [r3, #4]
+ 113 0010 08BD     		pop	{r3, pc}
+ 114              	.L11:
+ 115 0012 00BF     		.align	2
+ 116              	.L10:
+ 117 0014 00000000 		.word	.LANCHOR0
+ 118              		.cfi_endproc
+ 119              	.LFE69:
+ 120              		.size	SimulatorTaskInit, .-SimulatorTaskInit
+ 121              		.section	.text.SetMotors,"ax",%progbits
+ 122              		.align	2
+ 123              		.global	SetMotors
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.type	SetMotors, %function
+ 127              	SetMotors:
+ 128              	.LFB70:
+  36:ZumoLibrary/simulator.c ****     SimData sim = { left_dir, right_dir, left_speed, right_speed, delay };
+ 129              		.loc 1 36 0
+ 130              		.cfi_startproc
+ 131              		@ args = 4, pretend = 0, frame = 8
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133              	.LVL12:
+ 134 0000 10B5     		push	{r4, lr}
+ 135              		.cfi_def_cfa_offset 8
+ 136              		.cfi_offset 4, -8
+ 137              		.cfi_offset 14, -4
+ 138 0002 82B0     		sub	sp, sp, #8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 8
+
+
+ 139              		.cfi_def_cfa_offset 16
+ 140 0004 049C     		ldr	r4, [sp, #16]
+  37:ZumoLibrary/simulator.c ****     if(!motor_started) {
+ 141              		.loc 1 37 0
+ 142 0006 8DF80000 		strb	r0, [sp]
+ 143 000a 8DF80110 		strb	r1, [sp, #1]
+ 144 000e 8DF80220 		strb	r2, [sp, #2]
+ 145 0012 8DF80330 		strb	r3, [sp, #3]
+ 146 0016 0194     		str	r4, [sp, #4]
+  38:ZumoLibrary/simulator.c ****         printf("You haven't started motors\n");
+ 147              		.loc 1 38 0
+ 148 0018 0B4B     		ldr	r3, .L16
+ 149              	.LVL13:
+ 150 001a 9B68     		ldr	r3, [r3, #8]
+ 151 001c 13B9     		cbnz	r3, .L13
+  39:ZumoLibrary/simulator.c ****     }
+ 152              		.loc 1 39 0
+ 153 001e 0B48     		ldr	r0, .L16+4
+ 154              	.LVL14:
+ 155 0020 FFF7FEFF 		bl	puts
+ 156              	.LVL15:
+ 157              	.L13:
+  41:ZumoLibrary/simulator.c ****         sim.delay = 2;
+ 158              		.loc 1 41 0
+ 159 0024 012C     		cmp	r4, #1
+ 160 0026 01D8     		bhi	.L14
+  42:ZumoLibrary/simulator.c ****     }
+ 161              		.loc 1 42 0
+ 162 0028 0223     		movs	r3, #2
+ 163 002a 0193     		str	r3, [sp, #4]
+ 164              	.L14:
+  44:ZumoLibrary/simulator.c ****     vTaskDelay(delay);
+ 165              		.loc 1 44 0
+ 166 002c 0023     		movs	r3, #0
+ 167 002e 4FF0FF32 		mov	r2, #-1
+ 168 0032 6946     		mov	r1, sp
+ 169 0034 0448     		ldr	r0, .L16
+ 170 0036 4068     		ldr	r0, [r0, #4]
+ 171 0038 FFF7FEFF 		bl	xQueueGenericSend
+ 172              	.LVL16:
+  45:ZumoLibrary/simulator.c **** }
+ 173              		.loc 1 45 0
+ 174 003c 2046     		mov	r0, r4
+ 175 003e FFF7FEFF 		bl	vTaskDelay
+ 176              	.LVL17:
+  46:ZumoLibrary/simulator.c **** 
+ 177              		.loc 1 46 0
+ 178 0042 02B0     		add	sp, sp, #8
+ 179              		.cfi_def_cfa_offset 8
+ 180              		@ sp needed
+ 181 0044 10BD     		pop	{r4, pc}
+ 182              	.LVL18:
+ 183              	.L17:
+ 184 0046 00BF     		.align	2
+ 185              	.L16:
+ 186 0048 00000000 		.word	.LANCHOR0
+ 187 004c 00000000 		.word	.LC1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 9
+
+
+ 188              		.cfi_endproc
+ 189              	.LFE70:
+ 190              		.size	SetMotors, .-SetMotors
+ 191              		.section	.text.motor_start,"ax",%progbits
+ 192              		.align	2
+ 193              		.global	motor_start
+ 194              		.thumb
+ 195              		.thumb_func
+ 196              		.type	motor_start, %function
+ 197              	motor_start:
+ 198              	.LFB71:
+  54:ZumoLibrary/simulator.c ****     motor_started = 1;
+ 199              		.loc 1 54 0
+ 200              		.cfi_startproc
+ 201              		@ args = 0, pretend = 0, frame = 0
+ 202              		@ frame_needed = 0, uses_anonymous_args = 0
+ 203              		@ link register save eliminated.
+  55:ZumoLibrary/simulator.c **** }
+ 204              		.loc 1 55 0
+ 205 0000 0122     		movs	r2, #1
+ 206 0002 014B     		ldr	r3, .L19
+ 207 0004 9A60     		str	r2, [r3, #8]
+ 208 0006 7047     		bx	lr
+ 209              	.L20:
+ 210              		.align	2
+ 211              	.L19:
+ 212 0008 00000000 		.word	.LANCHOR0
+ 213              		.cfi_endproc
+ 214              	.LFE71:
+ 215              		.size	motor_start, .-motor_start
+ 216              		.section	.text.motor_stop,"ax",%progbits
+ 217              		.align	2
+ 218              		.global	motor_stop
+ 219              		.thumb
+ 220              		.thumb_func
+ 221              		.type	motor_stop, %function
+ 222              	motor_stop:
+ 223              	.LFB72:
+  64:ZumoLibrary/simulator.c ****     motor_started = 0;
+ 224              		.loc 1 64 0
+ 225              		.cfi_startproc
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228 0000 08B5     		push	{r3, lr}
+ 229              		.cfi_def_cfa_offset 8
+ 230              		.cfi_offset 3, -8
+ 231              		.cfi_offset 14, -4
+  65:ZumoLibrary/simulator.c ****     send(stopped, 5);
+ 232              		.loc 1 65 0
+ 233 0002 0022     		movs	r2, #0
+ 234 0004 034B     		ldr	r3, .L23
+ 235 0006 9A60     		str	r2, [r3, #8]
+  66:ZumoLibrary/simulator.c **** }
+ 236              		.loc 1 66 0
+ 237 0008 0521     		movs	r1, #5
+ 238 000a 0348     		ldr	r0, .L23+4
+ 239 000c FFF7FEFF 		bl	send
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 10
+
+
+ 240              	.LVL19:
+ 241 0010 08BD     		pop	{r3, pc}
+ 242              	.L24:
+ 243 0012 00BF     		.align	2
+ 244              	.L23:
+ 245 0014 00000000 		.word	.LANCHOR0
+ 246 0018 00000000 		.word	.LANCHOR1
+ 247              		.cfi_endproc
+ 248              	.LFE72:
+ 249              		.size	motor_stop, .-motor_stop
+ 250              		.section	.text.reflectance_start,"ax",%progbits
+ 251              		.align	2
+ 252              		.global	reflectance_start
+ 253              		.thumb
+ 254              		.thumb_func
+ 255              		.type	reflectance_start, %function
+ 256              	reflectance_start:
+ 257              	.LFB73:
+  82:ZumoLibrary/simulator.c ****     reflectance_started = 1;
+ 258              		.loc 1 82 0
+ 259              		.cfi_startproc
+ 260              		@ args = 0, pretend = 0, frame = 0
+ 261              		@ frame_needed = 0, uses_anonymous_args = 0
+ 262              		@ link register save eliminated.
+  83:ZumoLibrary/simulator.c **** }
+ 263              		.loc 1 83 0
+ 264 0000 0122     		movs	r2, #1
+ 265 0002 014B     		ldr	r3, .L26
+ 266 0004 DA60     		str	r2, [r3, #12]
+ 267 0006 7047     		bx	lr
+ 268              	.L27:
+ 269              		.align	2
+ 270              	.L26:
+ 271 0008 00000000 		.word	.LANCHOR0
+ 272              		.cfi_endproc
+ 273              	.LFE73:
+ 274              		.size	reflectance_start, .-reflectance_start
+ 275              		.section	.text.reflectance_read,"ax",%progbits
+ 276              		.align	2
+ 277              		.global	reflectance_read
+ 278              		.thumb
+ 279              		.thumb_func
+ 280              		.type	reflectance_read, %function
+ 281              	reflectance_read:
+ 282              	.LFB74:
+  91:ZumoLibrary/simulator.c ****     if(!reflectance_started) {
+ 283              		.loc 1 91 0
+ 284              		.cfi_startproc
+ 285              		@ args = 0, pretend = 0, frame = 0
+ 286              		@ frame_needed = 0, uses_anonymous_args = 0
+ 287              	.LVL20:
+ 288 0000 10B5     		push	{r4, lr}
+ 289              		.cfi_def_cfa_offset 8
+ 290              		.cfi_offset 4, -8
+ 291              		.cfi_offset 14, -4
+ 292 0002 0446     		mov	r4, r0
+  92:ZumoLibrary/simulator.c ****         printf("You haven't started reflectance sensor\n");
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 11
+
+
+ 293              		.loc 1 92 0
+ 294 0004 054B     		ldr	r3, .L31
+ 295 0006 DB68     		ldr	r3, [r3, #12]
+ 296 0008 13B9     		cbnz	r3, .L29
+  93:ZumoLibrary/simulator.c ****     }
+ 297              		.loc 1 93 0
+ 298 000a 0548     		ldr	r0, .L31+4
+ 299              	.LVL21:
+ 300 000c FFF7FEFF 		bl	puts
+ 301              	.LVL22:
+ 302              	.L29:
+  95:ZumoLibrary/simulator.c **** }
+ 303              		.loc 1 95 0
+ 304 0010 044B     		ldr	r3, .L31+8
+ 305 0012 07CB     		ldmia	r3!, {r0, r1, r2}
+ 306 0014 2060     		str	r0, [r4]	@ unaligned
+ 307 0016 6160     		str	r1, [r4, #4]	@ unaligned
+ 308 0018 A260     		str	r2, [r4, #8]	@ unaligned
+ 309 001a 10BD     		pop	{r4, pc}
+ 310              	.LVL23:
+ 311              	.L32:
+ 312              		.align	2
+ 313              	.L31:
+ 314 001c 00000000 		.word	.LANCHOR0
+ 315 0020 1C000000 		.word	.LC2
+ 316 0024 10000000 		.word	.LANCHOR0+16
+ 317              		.cfi_endproc
+ 318              	.LFE74:
+ 319              		.size	reflectance_read, .-reflectance_read
+ 320              		.section	.text.reflectance_digital,"ax",%progbits
+ 321              		.align	2
+ 322              		.global	reflectance_digital
+ 323              		.thumb
+ 324              		.thumb_func
+ 325              		.type	reflectance_digital, %function
+ 326              	reflectance_digital:
+ 327              	.LFB75:
+ 103:ZumoLibrary/simulator.c ****     if(!reflectance_started) {
+ 328              		.loc 1 103 0
+ 329              		.cfi_startproc
+ 330              		@ args = 0, pretend = 0, frame = 0
+ 331              		@ frame_needed = 0, uses_anonymous_args = 0
+ 332              	.LVL24:
+ 333 0000 10B5     		push	{r4, lr}
+ 334              		.cfi_def_cfa_offset 8
+ 335              		.cfi_offset 4, -8
+ 336              		.cfi_offset 14, -4
+ 337 0002 0446     		mov	r4, r0
+ 104:ZumoLibrary/simulator.c ****         printf("You haven't started reflectance sensor\n");
+ 338              		.loc 1 104 0
+ 339 0004 274B     		ldr	r3, .L48
+ 340 0006 DB68     		ldr	r3, [r3, #12]
+ 341 0008 13B9     		cbnz	r3, .L34
+ 105:ZumoLibrary/simulator.c ****     }
+ 342              		.loc 1 105 0
+ 343 000a 2748     		ldr	r0, .L48+4
+ 344              	.LVL25:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 12
+
+
+ 345 000c FFF7FEFF 		bl	puts
+ 346              	.LVL26:
+ 347              	.L34:
+ 108:ZumoLibrary/simulator.c ****         digital->L3 = 0;
+ 348              		.loc 1 108 0
+ 349 0010 244B     		ldr	r3, .L48
+ 350 0012 1B8A     		ldrh	r3, [r3, #16]
+ 351 0014 9BB2     		uxth	r3, r3
+ 352 0016 254A     		ldr	r2, .L48+8
+ 353 0018 1288     		ldrh	r2, [r2]
+ 354 001a 9342     		cmp	r3, r2
+ 355 001c 02D2     		bcs	.L35
+ 109:ZumoLibrary/simulator.c ****     else
+ 356              		.loc 1 109 0
+ 357 001e 0023     		movs	r3, #0
+ 358 0020 2380     		strh	r3, [r4]	@ movhi
+ 359 0022 01E0     		b	.L36
+ 360              	.L35:
+ 111:ZumoLibrary/simulator.c ****     
+ 361              		.loc 1 111 0
+ 362 0024 0123     		movs	r3, #1
+ 363 0026 2380     		strh	r3, [r4]	@ movhi
+ 364              	.L36:
+ 113:ZumoLibrary/simulator.c ****         digital->L2 = 0;
+ 365              		.loc 1 113 0
+ 366 0028 1E4B     		ldr	r3, .L48
+ 367 002a 5B8A     		ldrh	r3, [r3, #18]
+ 368 002c 9BB2     		uxth	r3, r3
+ 369 002e 1F4A     		ldr	r2, .L48+8
+ 370 0030 5288     		ldrh	r2, [r2, #2]
+ 371 0032 9342     		cmp	r3, r2
+ 372 0034 02D2     		bcs	.L37
+ 114:ZumoLibrary/simulator.c ****     else
+ 373              		.loc 1 114 0
+ 374 0036 0023     		movs	r3, #0
+ 375 0038 6380     		strh	r3, [r4, #2]	@ movhi
+ 376 003a 01E0     		b	.L38
+ 377              	.L37:
+ 116:ZumoLibrary/simulator.c ****     
+ 378              		.loc 1 116 0
+ 379 003c 0123     		movs	r3, #1
+ 380 003e 6380     		strh	r3, [r4, #2]	@ movhi
+ 381              	.L38:
+ 118:ZumoLibrary/simulator.c ****         digital->L1 = 0;
+ 382              		.loc 1 118 0
+ 383 0040 184B     		ldr	r3, .L48
+ 384 0042 9B8A     		ldrh	r3, [r3, #20]
+ 385 0044 9BB2     		uxth	r3, r3
+ 386 0046 194A     		ldr	r2, .L48+8
+ 387 0048 9288     		ldrh	r2, [r2, #4]
+ 388 004a 9342     		cmp	r3, r2
+ 389 004c 02D2     		bcs	.L39
+ 119:ZumoLibrary/simulator.c ****     else
+ 390              		.loc 1 119 0
+ 391 004e 0023     		movs	r3, #0
+ 392 0050 A380     		strh	r3, [r4, #4]	@ movhi
+ 393 0052 01E0     		b	.L40
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 13
+
+
+ 394              	.L39:
+ 121:ZumoLibrary/simulator.c ****     
+ 395              		.loc 1 121 0
+ 396 0054 0123     		movs	r3, #1
+ 397 0056 A380     		strh	r3, [r4, #4]	@ movhi
+ 398              	.L40:
+ 123:ZumoLibrary/simulator.c ****         digital->R1 = 0;
+ 399              		.loc 1 123 0
+ 400 0058 124B     		ldr	r3, .L48
+ 401 005a DB8A     		ldrh	r3, [r3, #22]
+ 402 005c 9BB2     		uxth	r3, r3
+ 403 005e 134A     		ldr	r2, .L48+8
+ 404 0060 D288     		ldrh	r2, [r2, #6]
+ 405 0062 9342     		cmp	r3, r2
+ 406 0064 02D2     		bcs	.L41
+ 124:ZumoLibrary/simulator.c ****     else
+ 407              		.loc 1 124 0
+ 408 0066 0023     		movs	r3, #0
+ 409 0068 E380     		strh	r3, [r4, #6]	@ movhi
+ 410 006a 01E0     		b	.L42
+ 411              	.L41:
+ 126:ZumoLibrary/simulator.c ****     
+ 412              		.loc 1 126 0
+ 413 006c 0123     		movs	r3, #1
+ 414 006e E380     		strh	r3, [r4, #6]	@ movhi
+ 415              	.L42:
+ 128:ZumoLibrary/simulator.c ****         digital->R2 = 0;
+ 416              		.loc 1 128 0
+ 417 0070 0C4B     		ldr	r3, .L48
+ 418 0072 1B8B     		ldrh	r3, [r3, #24]
+ 419 0074 9BB2     		uxth	r3, r3
+ 420 0076 0D4A     		ldr	r2, .L48+8
+ 421 0078 1289     		ldrh	r2, [r2, #8]
+ 422 007a 9342     		cmp	r3, r2
+ 423 007c 02D2     		bcs	.L43
+ 129:ZumoLibrary/simulator.c ****     else
+ 424              		.loc 1 129 0
+ 425 007e 0023     		movs	r3, #0
+ 426 0080 2381     		strh	r3, [r4, #8]	@ movhi
+ 427 0082 01E0     		b	.L44
+ 428              	.L43:
+ 131:ZumoLibrary/simulator.c ****     
+ 429              		.loc 1 131 0
+ 430 0084 0123     		movs	r3, #1
+ 431 0086 2381     		strh	r3, [r4, #8]	@ movhi
+ 432              	.L44:
+ 133:ZumoLibrary/simulator.c ****         digital->R3 = 0;
+ 433              		.loc 1 133 0
+ 434 0088 064B     		ldr	r3, .L48
+ 435 008a 5B8B     		ldrh	r3, [r3, #26]
+ 436 008c 9BB2     		uxth	r3, r3
+ 437 008e 074A     		ldr	r2, .L48+8
+ 438 0090 5289     		ldrh	r2, [r2, #10]
+ 439 0092 9342     		cmp	r3, r2
+ 440 0094 02D2     		bcs	.L45
+ 134:ZumoLibrary/simulator.c ****     else
+ 441              		.loc 1 134 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 14
+
+
+ 442 0096 0023     		movs	r3, #0
+ 443 0098 6381     		strh	r3, [r4, #10]	@ movhi
+ 444 009a 10BD     		pop	{r4, pc}
+ 445              	.LVL27:
+ 446              	.L45:
+ 136:ZumoLibrary/simulator.c ****         
+ 447              		.loc 1 136 0
+ 448 009c 0123     		movs	r3, #1
+ 449 009e 6381     		strh	r3, [r4, #10]	@ movhi
+ 450 00a0 10BD     		pop	{r4, pc}
+ 451              	.LVL28:
+ 452              	.L49:
+ 453 00a2 00BF     		.align	2
+ 454              	.L48:
+ 455 00a4 00000000 		.word	.LANCHOR0
+ 456 00a8 1C000000 		.word	.LC2
+ 457 00ac 00000000 		.word	.LANCHOR2
+ 458              		.cfi_endproc
+ 459              	.LFE75:
+ 460              		.size	reflectance_digital, .-reflectance_digital
+ 461              		.section	.text.reflectance_set_threshold,"ax",%progbits
+ 462              		.align	2
+ 463              		.global	reflectance_set_threshold
+ 464              		.thumb
+ 465              		.thumb_func
+ 466              		.type	reflectance_set_threshold, %function
+ 467              	reflectance_set_threshold:
+ 468              	.LFB76:
+ 141:ZumoLibrary/simulator.c ****     threshold.L3 = L3;
+ 469              		.loc 1 141 0
+ 470              		.cfi_startproc
+ 471              		@ args = 8, pretend = 0, frame = 0
+ 472              		@ frame_needed = 0, uses_anonymous_args = 0
+ 473              		@ link register save eliminated.
+ 474              	.LVL29:
+ 475 0000 10B4     		push	{r4}
+ 476              		.cfi_def_cfa_offset 4
+ 477              		.cfi_offset 4, -4
+ 142:ZumoLibrary/simulator.c ****     threshold.L2 = L2;
+ 478              		.loc 1 142 0
+ 479 0002 064C     		ldr	r4, .L52
+ 480 0004 2080     		strh	r0, [r4]	@ movhi
+ 143:ZumoLibrary/simulator.c ****     threshold.L1 = L1;
+ 481              		.loc 1 143 0
+ 482 0006 6180     		strh	r1, [r4, #2]	@ movhi
+ 144:ZumoLibrary/simulator.c ****     threshold.R3 = R3;
+ 483              		.loc 1 144 0
+ 484 0008 A280     		strh	r2, [r4, #4]	@ movhi
+ 145:ZumoLibrary/simulator.c ****     threshold.R2 = R2;
+ 485              		.loc 1 145 0
+ 486 000a BDF80820 		ldrh	r2, [sp, #8]
+ 487              	.LVL30:
+ 488 000e 6281     		strh	r2, [r4, #10]	@ movhi
+ 146:ZumoLibrary/simulator.c ****     threshold.R1 = R1;
+ 489              		.loc 1 146 0
+ 490 0010 BDF80420 		ldrh	r2, [sp, #4]
+ 491 0014 2281     		strh	r2, [r4, #8]	@ movhi
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 15
+
+
+ 147:ZumoLibrary/simulator.c **** }
+ 492              		.loc 1 147 0
+ 493 0016 E380     		strh	r3, [r4, #6]	@ movhi
+ 148:ZumoLibrary/simulator.c **** 
+ 494              		.loc 1 148 0
+ 495 0018 10BC     		pop	{r4}
+ 496              		.cfi_restore 4
+ 497              		.cfi_def_cfa_offset 0
+ 498              	.LVL31:
+ 499 001a 7047     		bx	lr
+ 500              	.L53:
+ 501              		.align	2
+ 502              	.L52:
+ 503 001c 00000000 		.word	.LANCHOR2
+ 504              		.cfi_endproc
+ 505              	.LFE76:
+ 506              		.size	reflectance_set_threshold, .-reflectance_set_threshold
+ 507              		.section	.text.RetargetInit,"ax",%progbits
+ 508              		.align	2
+ 509              		.global	RetargetInit
+ 510              		.thumb
+ 511              		.thumb_func
+ 512              		.type	RetargetInit, %function
+ 513              	RetargetInit:
+ 514              	.LFB77:
+ 157:ZumoLibrary/simulator.c ****     writeMutex = xSemaphoreCreateMutex();;
+ 515              		.loc 1 157 0
+ 516              		.cfi_startproc
+ 517              		@ args = 0, pretend = 0, frame = 0
+ 518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 519 0000 08B5     		push	{r3, lr}
+ 520              		.cfi_def_cfa_offset 8
+ 521              		.cfi_offset 3, -8
+ 522              		.cfi_offset 14, -4
+ 158:ZumoLibrary/simulator.c **** }
+ 523              		.loc 1 158 0
+ 524 0002 0120     		movs	r0, #1
+ 525 0004 FFF7FEFF 		bl	xQueueCreateMutex
+ 526              	.LVL32:
+ 527 0008 014B     		ldr	r3, .L56
+ 528 000a 1860     		str	r0, [r3]
+ 529 000c 08BD     		pop	{r3, pc}
+ 530              	.L57:
+ 531 000e 00BF     		.align	2
+ 532              	.L56:
+ 533 0010 00000000 		.word	.LANCHOR0
+ 534              		.cfi_endproc
+ 535              	.LFE77:
+ 536              		.size	RetargetInit, .-RetargetInit
+ 537              		.section	.text._write,"ax",%progbits
+ 538              		.align	2
+ 539              		.global	_write
+ 540              		.thumb
+ 541              		.thumb_func
+ 542              		.type	_write, %function
+ 543              	_write:
+ 544              	.LFB78:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 16
+
+
+ 162:ZumoLibrary/simulator.c ****     (void)file; /* Parameter is not used, suppress unused argument warning */
+ 545              		.loc 1 162 0
+ 546              		.cfi_startproc
+ 547              		@ args = 0, pretend = 0, frame = 0
+ 548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549              	.LVL33:
+ 550 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 551              		.cfi_def_cfa_offset 24
+ 552              		.cfi_offset 3, -24
+ 553              		.cfi_offset 4, -20
+ 554              		.cfi_offset 5, -16
+ 555              		.cfi_offset 6, -12
+ 556              		.cfi_offset 7, -8
+ 557              		.cfi_offset 14, -4
+ 558 0002 0C46     		mov	r4, r1
+ 559 0004 1746     		mov	r7, r2
+ 165:ZumoLibrary/simulator.c ****     
+ 560              		.loc 1 165 0
+ 561 0006 4FF0FF31 		mov	r1, #-1
+ 562              	.LVL34:
+ 563 000a 124B     		ldr	r3, .L65
+ 564 000c 1868     		ldr	r0, [r3]
+ 565              	.LVL35:
+ 566 000e FFF7FEFF 		bl	xQueueSemaphoreTake
+ 567              	.LVL36:
+ 568 0012 E0B1     		cbz	r0, .L63
+ 569 0014 0025     		movs	r5, #0
+ 570 0016 0FE0     		b	.L60
+ 571              	.LVL37:
+ 572              	.L62:
+ 169:ZumoLibrary/simulator.c **** 		xSerial1PutChar(*ptr++, portMAX_DELAY);
+ 573              		.loc 1 169 0
+ 574 0018 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 575 001a 0A2B     		cmp	r3, #10
+ 576 001c 04D1     		bne	.L61
+ 169:ZumoLibrary/simulator.c **** 		xSerial1PutChar(*ptr++, portMAX_DELAY);
+ 577              		.loc 1 169 0 is_stmt 0 discriminator 1
+ 578 001e 4FF0FF31 		mov	r1, #-1
+ 579 0022 0D20     		movs	r0, #13
+ 580 0024 FFF7FEFF 		bl	xSerial1PutChar
+ 581              	.LVL38:
+ 582              	.L61:
+ 170:ZumoLibrary/simulator.c **** 	}
+ 583              		.loc 1 170 0 is_stmt 1 discriminator 2
+ 584 0028 661C     		adds	r6, r4, #1
+ 585              	.LVL39:
+ 586 002a 4FF0FF31 		mov	r1, #-1
+ 587 002e 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 588 0030 FFF7FEFF 		bl	xSerial1PutChar
+ 589              	.LVL40:
+ 168:ZumoLibrary/simulator.c ****         if(*ptr == '\n') xSerial1PutChar('\r', portMAX_DELAY);
+ 590              		.loc 1 168 0 discriminator 2
+ 591 0034 0135     		adds	r5, r5, #1
+ 592              	.LVL41:
+ 170:ZumoLibrary/simulator.c **** 	}
+ 593              		.loc 1 170 0 discriminator 2
+ 594 0036 3446     		mov	r4, r6
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 17
+
+
+ 595              	.LVL42:
+ 596              	.L60:
+ 168:ZumoLibrary/simulator.c ****         if(*ptr == '\n') xSerial1PutChar('\r', portMAX_DELAY);
+ 597              		.loc 1 168 0 discriminator 1
+ 598 0038 BD42     		cmp	r5, r7
+ 599 003a EDDB     		blt	.L62
+ 173:ZumoLibrary/simulator.c **** 
+ 600              		.loc 1 173 0
+ 601 003c 0023     		movs	r3, #0
+ 602 003e 1A46     		mov	r2, r3
+ 603 0040 1946     		mov	r1, r3
+ 604 0042 0448     		ldr	r0, .L65
+ 605 0044 0068     		ldr	r0, [r0]
+ 606 0046 FFF7FEFF 		bl	xQueueGenericSend
+ 607              	.LVL43:
+ 175:ZumoLibrary/simulator.c **** }
+ 608              		.loc 1 175 0
+ 609 004a 3846     		mov	r0, r7
+ 610 004c F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 611              	.LVL44:
+ 612              	.L63:
+ 165:ZumoLibrary/simulator.c ****     
+ 613              		.loc 1 165 0
+ 614 004e 0020     		movs	r0, #0
+ 176:ZumoLibrary/simulator.c **** 
+ 615              		.loc 1 176 0
+ 616 0050 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 617              	.LVL45:
+ 618              	.L66:
+ 619 0052 00BF     		.align	2
+ 620              	.L65:
+ 621 0054 00000000 		.word	.LANCHOR0
+ 622              		.cfi_endproc
+ 623              	.LFE78:
+ 624              		.size	_write, .-_write
+ 625              		.section	.text._read,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	_read
+ 628              		.thumb
+ 629              		.thumb_func
+ 630              		.type	_read, %function
+ 631              	_read:
+ 632              	.LFB79:
+ 179:ZumoLibrary/simulator.c ****     (void) file;
+ 633              		.loc 1 179 0
+ 634              		.cfi_startproc
+ 635              		@ args = 0, pretend = 0, frame = 0
+ 636              		@ frame_needed = 0, uses_anonymous_args = 0
+ 637              		@ link register save eliminated.
+ 638              	.LVL46:
+ 184:ZumoLibrary/simulator.c **** 
+ 639              		.loc 1 184 0
+ 640 0000 0020     		movs	r0, #0
+ 641              	.LVL47:
+ 642 0002 7047     		bx	lr
+ 643              		.cfi_endproc
+ 644              	.LFE79:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 18
+
+
+ 645              		.size	_read, .-_read
+ 646              		.section	.text.Ultra_Start,"ax",%progbits
+ 647              		.align	2
+ 648              		.global	Ultra_Start
+ 649              		.thumb
+ 650              		.thumb_func
+ 651              		.type	Ultra_Start, %function
+ 652              	Ultra_Start:
+ 653              	.LFB80:
+ 194:ZumoLibrary/simulator.c ****     ultra_started = 1;
+ 654              		.loc 1 194 0
+ 655              		.cfi_startproc
+ 656              		@ args = 0, pretend = 0, frame = 0
+ 657              		@ frame_needed = 0, uses_anonymous_args = 0
+ 658              		@ link register save eliminated.
+ 195:ZumoLibrary/simulator.c **** }
+ 659              		.loc 1 195 0
+ 660 0000 0122     		movs	r2, #1
+ 661 0002 014B     		ldr	r3, .L69
+ 662 0004 DA61     		str	r2, [r3, #28]
+ 663 0006 7047     		bx	lr
+ 664              	.L70:
+ 665              		.align	2
+ 666              	.L69:
+ 667 0008 00000000 		.word	.LANCHOR0
+ 668              		.cfi_endproc
+ 669              	.LFE80:
+ 670              		.size	Ultra_Start, .-Ultra_Start
+ 671              		.section	.text.Ultra_GetDistance,"ax",%progbits
+ 672              		.align	2
+ 673              		.global	Ultra_GetDistance
+ 674              		.thumb
+ 675              		.thumb_func
+ 676              		.type	Ultra_GetDistance, %function
+ 677              	Ultra_GetDistance:
+ 678              	.LFB81:
+ 199:ZumoLibrary/simulator.c ****     if(!ultra_started) {
+ 679              		.loc 1 199 0
+ 680              		.cfi_startproc
+ 681              		@ args = 0, pretend = 0, frame = 0
+ 682              		@ frame_needed = 0, uses_anonymous_args = 0
+ 683 0000 08B5     		push	{r3, lr}
+ 684              		.cfi_def_cfa_offset 8
+ 685              		.cfi_offset 3, -8
+ 686              		.cfi_offset 14, -4
+ 200:ZumoLibrary/simulator.c ****         printf("You haven't started ultrasonic sensor\n");
+ 687              		.loc 1 200 0
+ 688 0002 044B     		ldr	r3, .L74
+ 689 0004 DB69     		ldr	r3, [r3, #28]
+ 690 0006 13B9     		cbnz	r3, .L72
+ 201:ZumoLibrary/simulator.c ****     }
+ 691              		.loc 1 201 0
+ 692 0008 0348     		ldr	r0, .L74+4
+ 693 000a FFF7FEFF 		bl	puts
+ 694              	.LVL48:
+ 695              	.L72:
+ 203:ZumoLibrary/simulator.c **** }    
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 19
+
+
+ 696              		.loc 1 203 0
+ 697 000e 014B     		ldr	r3, .L74
+ 698 0010 186A     		ldr	r0, [r3, #32]
+ 204:ZumoLibrary/simulator.c **** 
+ 699              		.loc 1 204 0
+ 700 0012 08BD     		pop	{r3, pc}
+ 701              	.L75:
+ 702              		.align	2
+ 703              	.L74:
+ 704 0014 00000000 		.word	.LANCHOR0
+ 705 0018 44000000 		.word	.LC3
+ 706              		.cfi_endproc
+ 707              	.LFE81:
+ 708              		.size	Ultra_GetDistance, .-Ultra_GetDistance
+ 709              		.section	.text.IR_Start,"ax",%progbits
+ 710              		.align	2
+ 711              		.global	IR_Start
+ 712              		.thumb
+ 713              		.thumb_func
+ 714              		.type	IR_Start, %function
+ 715              	IR_Start:
+ 716              	.LFB82:
+ 215:ZumoLibrary/simulator.c ****     ir_started = 1;
+ 717              		.loc 1 215 0
+ 718              		.cfi_startproc
+ 719              		@ args = 0, pretend = 0, frame = 0
+ 720              		@ frame_needed = 0, uses_anonymous_args = 0
+ 721              		@ link register save eliminated.
+ 216:ZumoLibrary/simulator.c **** }
+ 722              		.loc 1 216 0
+ 723 0000 0122     		movs	r2, #1
+ 724 0002 014B     		ldr	r3, .L77
+ 725 0004 5A62     		str	r2, [r3, #36]
+ 726 0006 7047     		bx	lr
+ 727              	.L78:
+ 728              		.align	2
+ 729              	.L77:
+ 730 0008 00000000 		.word	.LANCHOR0
+ 731              		.cfi_endproc
+ 732              	.LFE82:
+ 733              		.size	IR_Start, .-IR_Start
+ 734              		.section	.text.IR_flush,"ax",%progbits
+ 735              		.align	2
+ 736              		.global	IR_flush
+ 737              		.thumb
+ 738              		.thumb_func
+ 739              		.type	IR_flush, %function
+ 740              	IR_flush:
+ 741              	.LFB83:
+ 222:ZumoLibrary/simulator.c ****     if(!ir_started) {
+ 742              		.loc 1 222 0
+ 743              		.cfi_startproc
+ 744              		@ args = 0, pretend = 0, frame = 0
+ 745              		@ frame_needed = 0, uses_anonymous_args = 0
+ 746 0000 08B5     		push	{r3, lr}
+ 747              		.cfi_def_cfa_offset 8
+ 748              		.cfi_offset 3, -8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 20
+
+
+ 749              		.cfi_offset 14, -4
+ 223:ZumoLibrary/simulator.c ****         printf("You haven't started IR sensor\n");
+ 750              		.loc 1 223 0
+ 751 0002 054B     		ldr	r3, .L82
+ 752 0004 5B6A     		ldr	r3, [r3, #36]
+ 753 0006 13B9     		cbnz	r3, .L80
+ 224:ZumoLibrary/simulator.c ****     }
+ 754              		.loc 1 224 0
+ 755 0008 0448     		ldr	r0, .L82+4
+ 756 000a FFF7FEFF 		bl	puts
+ 757              	.LVL49:
+ 758              	.L80:
+ 226:ZumoLibrary/simulator.c **** }
+ 759              		.loc 1 226 0
+ 760 000e 0022     		movs	r2, #0
+ 761 0010 014B     		ldr	r3, .L82
+ 762 0012 9A62     		str	r2, [r3, #40]
+ 763 0014 08BD     		pop	{r3, pc}
+ 764              	.L83:
+ 765 0016 00BF     		.align	2
+ 766              	.L82:
+ 767 0018 00000000 		.word	.LANCHOR0
+ 768 001c 6C000000 		.word	.LC4
+ 769              		.cfi_endproc
+ 770              	.LFE83:
+ 771              		.size	IR_flush, .-IR_flush
+ 772              		.section	.text.IR_wait,"ax",%progbits
+ 773              		.align	2
+ 774              		.global	IR_wait
+ 775              		.thumb
+ 776              		.thumb_func
+ 777              		.type	IR_wait, %function
+ 778              	IR_wait:
+ 779              	.LFB84:
+ 231:ZumoLibrary/simulator.c ****     if(!ir_started) {
+ 780              		.loc 1 231 0
+ 781              		.cfi_startproc
+ 782              		@ args = 0, pretend = 0, frame = 0
+ 783              		@ frame_needed = 0, uses_anonymous_args = 0
+ 784 0000 08B5     		push	{r3, lr}
+ 785              		.cfi_def_cfa_offset 8
+ 786              		.cfi_offset 3, -8
+ 787              		.cfi_offset 14, -4
+ 232:ZumoLibrary/simulator.c ****         printf("You haven't started IR sensor\n");
+ 788              		.loc 1 232 0
+ 789 0002 084B     		ldr	r3, .L89
+ 790 0004 5B6A     		ldr	r3, [r3, #36]
+ 791 0006 33B9     		cbnz	r3, .L86
+ 233:ZumoLibrary/simulator.c ****     }
+ 792              		.loc 1 233 0
+ 793 0008 0748     		ldr	r0, .L89+4
+ 794 000a FFF7FEFF 		bl	puts
+ 795              	.LVL50:
+ 796 000e 02E0     		b	.L86
+ 797              	.L87:
+ 236:ZumoLibrary/simulator.c ****     }
+ 798              		.loc 1 236 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 21
+
+
+ 799 0010 0A20     		movs	r0, #10
+ 800 0012 FFF7FEFF 		bl	vTaskDelay
+ 801              	.LVL51:
+ 802              	.L86:
+ 235:ZumoLibrary/simulator.c ****         vTaskDelay(10);
+ 803              		.loc 1 235 0
+ 804 0016 034B     		ldr	r3, .L89
+ 805 0018 9B6A     		ldr	r3, [r3, #40]
+ 806 001a 002B     		cmp	r3, #0
+ 807 001c F8D0     		beq	.L87
+ 238:ZumoLibrary/simulator.c **** }
+ 808              		.loc 1 238 0
+ 809 001e FFF7FEFF 		bl	IR_flush
+ 810              	.LVL52:
+ 811 0022 08BD     		pop	{r3, pc}
+ 812              	.L90:
+ 813              		.align	2
+ 814              	.L89:
+ 815 0024 00000000 		.word	.LANCHOR0
+ 816 0028 6C000000 		.word	.LC4
+ 817              		.cfi_endproc
+ 818              	.LFE84:
+ 819              		.size	IR_wait, .-IR_wait
+ 820              		.section	.text.SimulatorTask,"ax",%progbits
+ 821              		.align	2
+ 822              		.global	SimulatorTask
+ 823              		.thumb
+ 824              		.thumb_func
+ 825              		.type	SimulatorTask, %function
+ 826              	SimulatorTask:
+ 827              	.LFB86:
+ 257:ZumoLibrary/simulator.c **** }
+ 258:ZumoLibrary/simulator.c **** 
+ 259:ZumoLibrary/simulator.c **** 
+ 260:ZumoLibrary/simulator.c **** void SimulatorTask( void *pvParameters )
+ 261:ZumoLibrary/simulator.c **** {
+ 828              		.loc 1 261 0
+ 829              		.cfi_startproc
+ 830              		@ args = 0, pretend = 0, frame = 32
+ 831              		@ frame_needed = 0, uses_anonymous_args = 0
+ 832              	.LVL53:
+ 833 0000 70B5     		push	{r4, r5, r6, lr}
+ 834              		.cfi_def_cfa_offset 16
+ 835              		.cfi_offset 4, -16
+ 836              		.cfi_offset 5, -12
+ 837              		.cfi_offset 6, -8
+ 838              		.cfi_offset 14, -4
+ 839 0002 88B0     		sub	sp, sp, #32
+ 840              		.cfi_def_cfa_offset 48
+ 262:ZumoLibrary/simulator.c ****     (void) pvParameters;
+ 263:ZumoLibrary/simulator.c ****     SimData sd = { 0, 0, 0, 0, 0 };
+ 841              		.loc 1 263 0
+ 842 0004 0023     		movs	r3, #0
+ 843 0006 0693     		str	r3, [sp, #24]
+ 844 0008 0793     		str	r3, [sp, #28]
+ 264:ZumoLibrary/simulator.c ****     char data[5] = {0,255,0,0,RUN_TIMEOUT};
+ 845              		.loc 1 264 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 22
+
+
+ 846 000a 594B     		ldr	r3, .L113
+ 847 000c 53F8080F 		ldr	r0, [r3, #8]!	@ unaligned
+ 848              	.LVL54:
+ 849 0010 0490     		str	r0, [sp, #16]	@ unaligned
+ 850 0012 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 851 0014 8DF81430 		strb	r3, [sp, #20]
+ 852              	.LVL55:
+ 853              	.L106:
+ 854              	.LBB2:
+ 265:ZumoLibrary/simulator.c ****     uint32_t delay;
+ 266:ZumoLibrary/simulator.c ****     char sdata[8];
+ 267:ZumoLibrary/simulator.c ****     int pos = 0;
+ 268:ZumoLibrary/simulator.c ****     TickType_t wait_time = RUN_TIMEOUT;
+ 269:ZumoLibrary/simulator.c **** 
+ 270:ZumoLibrary/simulator.c ****     while(1) {
+ 271:ZumoLibrary/simulator.c ****         // reduce communication interval if speed is zero or motors are stopped
+ 272:ZumoLibrary/simulator.c ****         if((sd.ls == 0 && sd.rs == 0) || !motor_started) {
+ 855              		.loc 1 272 0
+ 856 0018 BDF81A30 		ldrh	r3, [sp, #26]
+ 857 001c 23B1     		cbz	r3, .L107
+ 858              		.loc 1 272 0 is_stmt 0 discriminator 1
+ 859 001e 554B     		ldr	r3, .L113+4
+ 860 0020 9B68     		ldr	r3, [r3, #8]
+ 861 0022 1BB9     		cbnz	r3, .L108
+ 273:ZumoLibrary/simulator.c ****             wait_time = STOP_TIMEOUT;
+ 862              		.loc 1 273 0 is_stmt 1
+ 863 0024 1922     		movs	r2, #25
+ 864 0026 02E0     		b	.L92
+ 865              	.L107:
+ 866 0028 1922     		movs	r2, #25
+ 867 002a 00E0     		b	.L92
+ 868              	.L108:
+ 274:ZumoLibrary/simulator.c ****         }
+ 275:ZumoLibrary/simulator.c ****         else {
+ 276:ZumoLibrary/simulator.c ****             wait_time = RUN_TIMEOUT;
+ 869              		.loc 1 276 0
+ 870 002c 0522     		movs	r2, #5
+ 871              	.L92:
+ 872              	.LVL56:
+ 277:ZumoLibrary/simulator.c ****         }
+ 278:ZumoLibrary/simulator.c ****         if(xQueueReceive(motor_q, &sd, wait_time) == pdTRUE) {
+ 873              		.loc 1 278 0
+ 874 002e 06A9     		add	r1, sp, #24
+ 875 0030 504B     		ldr	r3, .L113+4
+ 876 0032 5868     		ldr	r0, [r3, #4]
+ 877 0034 FFF7FEFF 		bl	xQueueReceive
+ 878              	.LVL57:
+ 879 0038 0128     		cmp	r0, #1
+ 880 003a 01D1     		bne	.L109
+ 279:ZumoLibrary/simulator.c ****             // motor speed data was updated get speed from the updated data
+ 280:ZumoLibrary/simulator.c ****             delay = sd.delay;
+ 881              		.loc 1 280 0
+ 882 003c 079D     		ldr	r5, [sp, #28]
+ 883              	.LVL58:
+ 884 003e 00E0     		b	.L93
+ 885              	.LVL59:
+ 886              	.L109:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 23
+
+
+ 281:ZumoLibrary/simulator.c ****         }
+ 282:ZumoLibrary/simulator.c ****         else {
+ 283:ZumoLibrary/simulator.c ****             // no new speed data was received
+ 284:ZumoLibrary/simulator.c ****             // set new delay, use old motor data
+ 285:ZumoLibrary/simulator.c ****             delay = RUN_TIMEOUT;
+ 887              		.loc 1 285 0
+ 888 0040 0525     		movs	r5, #5
+ 889              	.L93:
+ 890              	.LVL60:
+ 286:ZumoLibrary/simulator.c ****         }
+ 287:ZumoLibrary/simulator.c ****         if(motor_started) {
+ 891              		.loc 1 287 0
+ 892 0042 4C4B     		ldr	r3, .L113+4
+ 893 0044 9B68     		ldr	r3, [r3, #8]
+ 894 0046 CBB1     		cbz	r3, .L94
+ 288:ZumoLibrary/simulator.c ****             // motors are running take speed from current settings
+ 289:ZumoLibrary/simulator.c ****             data[0] = (sd.ld ? 0x01 : 0x0) | (sd.rd ? 0x02 : 0x0 );
+ 895              		.loc 1 289 0
+ 896 0048 9DF81830 		ldrb	r3, [sp, #24]	@ zero_extendqisi2
+ 897 004c 0033     		adds	r3, r3, #0
+ 898 004e 18BF     		it	ne
+ 899 0050 0123     		movne	r3, #1
+ 900 0052 9DF81920 		ldrb	r2, [sp, #25]	@ zero_extendqisi2
+ 901 0056 0AB1     		cbz	r2, .L110
+ 902 0058 0222     		movs	r2, #2
+ 903 005a 00E0     		b	.L95
+ 904              	.L110:
+ 905 005c 0022     		movs	r2, #0
+ 906              	.L95:
+ 907              		.loc 1 289 0 is_stmt 0 discriminator 4
+ 908 005e 1343     		orrs	r3, r3, r2
+ 909 0060 8DF81030 		strb	r3, [sp, #16]
+ 290:ZumoLibrary/simulator.c ****             data[1] = ~data[0];
+ 910              		.loc 1 290 0 is_stmt 1 discriminator 4
+ 911 0064 DB43     		mvns	r3, r3
+ 912 0066 8DF81130 		strb	r3, [sp, #17]
+ 291:ZumoLibrary/simulator.c ****             data[2] = sd.ls;
+ 913              		.loc 1 291 0 discriminator 4
+ 914 006a 9DF81A30 		ldrb	r3, [sp, #26]	@ zero_extendqisi2
+ 915 006e 8DF81230 		strb	r3, [sp, #18]
+ 292:ZumoLibrary/simulator.c ****             data[3] = sd.rs;
+ 916              		.loc 1 292 0 discriminator 4
+ 917 0072 9DF81B30 		ldrb	r3, [sp, #27]	@ zero_extendqisi2
+ 918 0076 8DF81330 		strb	r3, [sp, #19]
+ 919 007a 04E0     		b	.L96
+ 920              	.L94:
+ 293:ZumoLibrary/simulator.c ****         }
+ 294:ZumoLibrary/simulator.c ****         else {
+ 295:ZumoLibrary/simulator.c ****             // if motors haven't been started force speed to zero
+ 296:ZumoLibrary/simulator.c ****             data[2] = 0;
+ 921              		.loc 1 296 0
+ 922 007c 0023     		movs	r3, #0
+ 923 007e 8DF81230 		strb	r3, [sp, #18]
+ 297:ZumoLibrary/simulator.c ****             data[3] = 0;
+ 924              		.loc 1 297 0
+ 925 0082 8DF81330 		strb	r3, [sp, #19]
+ 926              	.L96:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 24
+
+
+ 298:ZumoLibrary/simulator.c ****         }
+ 299:ZumoLibrary/simulator.c ****         
+ 300:ZumoLibrary/simulator.c ****         TickType_t LastWakeTime = xTaskGetTickCount();
+ 927              		.loc 1 300 0
+ 928 0086 FFF7FEFF 		bl	xTaskGetTickCount
+ 929              	.LVL61:
+ 930 008a 0190     		str	r0, [sp, #4]
+ 301:ZumoLibrary/simulator.c ****         while(delay > 0) {
+ 931              		.loc 1 301 0
+ 932 008c 6CE0     		b	.L97
+ 933              	.L105:
+ 934              	.LBB3:
+ 302:ZumoLibrary/simulator.c ****             uint32_t ms = (delay > 60) ? 50 : delay;
+ 935              		.loc 1 302 0
+ 936 008e 3C2D     		cmp	r5, #60
+ 937 0090 01D9     		bls	.L111
+ 938 0092 3226     		movs	r6, #50
+ 939 0094 00E0     		b	.L98
+ 940              	.L111:
+ 941 0096 2E46     		mov	r6, r5
+ 942              	.L98:
+ 943              	.LVL62:
+ 303:ZumoLibrary/simulator.c ****             delay -= ms;
+ 944              		.loc 1 303 0 discriminator 4
+ 945 0098 AD1B     		subs	r5, r5, r6
+ 946              	.LVL63:
+ 304:ZumoLibrary/simulator.c ****             data[4] = ms;
+ 947              		.loc 1 304 0 discriminator 4
+ 948 009a 8DF81460 		strb	r6, [sp, #20]
+ 305:ZumoLibrary/simulator.c ****             send(data, 5);
+ 949              		.loc 1 305 0 discriminator 4
+ 950 009e 0521     		movs	r1, #5
+ 951 00a0 04A8     		add	r0, sp, #16
+ 952 00a2 FFF7FEFF 		bl	send
+ 953              	.LVL64:
+ 306:ZumoLibrary/simulator.c ****             pos = 0;
+ 954              		.loc 1 306 0 discriminator 4
+ 955 00a6 0024     		movs	r4, #0
+ 307:ZumoLibrary/simulator.c ****             while(pos < 8 && xSerial1GetChar(sdata+pos, 100)) {
+ 956              		.loc 1 307 0 discriminator 4
+ 957 00a8 04E0     		b	.L99
+ 958              	.LVL65:
+ 959              	.L102:
+ 308:ZumoLibrary/simulator.c ****                 if(sdata[0] < 32) {
+ 960              		.loc 1 308 0
+ 961 00aa 9DF80830 		ldrb	r3, [sp, #8]	@ zero_extendqisi2
+ 962 00ae 1F2B     		cmp	r3, #31
+ 963 00b0 00D8     		bhi	.L99
+ 309:ZumoLibrary/simulator.c ****                     ++pos;
+ 964              		.loc 1 309 0
+ 965 00b2 0134     		adds	r4, r4, #1
+ 966              	.LVL66:
+ 967              	.L99:
+ 307:ZumoLibrary/simulator.c ****             while(pos < 8 && xSerial1GetChar(sdata+pos, 100)) {
+ 968              		.loc 1 307 0
+ 969 00b4 072C     		cmp	r4, #7
+ 970 00b6 06DC     		bgt	.L101
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 25
+
+
+ 307:ZumoLibrary/simulator.c ****             while(pos < 8 && xSerial1GetChar(sdata+pos, 100)) {
+ 971              		.loc 1 307 0 is_stmt 0 discriminator 1
+ 972 00b8 6421     		movs	r1, #100
+ 973 00ba 02AB     		add	r3, sp, #8
+ 974 00bc 1819     		adds	r0, r3, r4
+ 975 00be FFF7FEFF 		bl	xSerial1GetChar
+ 976              	.LVL67:
+ 977 00c2 0028     		cmp	r0, #0
+ 978 00c4 F1D1     		bne	.L102
+ 979              	.L101:
+ 310:ZumoLibrary/simulator.c ****                 }
+ 311:ZumoLibrary/simulator.c ****             }
+ 312:ZumoLibrary/simulator.c ****             if(pos == 8 ) {
+ 980              		.loc 1 312 0 is_stmt 1
+ 981 00c6 082C     		cmp	r4, #8
+ 982 00c8 4AD1     		bne	.L103
+ 313:ZumoLibrary/simulator.c ****                 ir_value += sdata[0] & 0x01;
+ 983              		.loc 1 313 0
+ 984 00ca 9DF80820 		ldrb	r2, [sp, #8]	@ zero_extendqisi2
+ 985 00ce 02F00101 		and	r1, r2, #1
+ 986 00d2 284B     		ldr	r3, .L113+4
+ 987 00d4 9A6A     		ldr	r2, [r3, #40]
+ 988 00d6 0A44     		add	r2, r2, r1
+ 989 00d8 9A62     		str	r2, [r3, #40]
+ 314:ZumoLibrary/simulator.c ****                 if(ultra_started) {
+ 990              		.loc 1 314 0
+ 991 00da DB69     		ldr	r3, [r3, #28]
+ 992 00dc 2BB1     		cbz	r3, .L104
+ 315:ZumoLibrary/simulator.c ****                     distance = sdata[1] & 0x7f;
+ 993              		.loc 1 315 0
+ 994 00de 9DF80930 		ldrb	r3, [sp, #9]	@ zero_extendqisi2
+ 995 00e2 03F07F03 		and	r3, r3, #127
+ 996 00e6 234A     		ldr	r2, .L113+4
+ 997 00e8 1362     		str	r3, [r2, #32]
+ 998              	.L104:
+ 316:ZumoLibrary/simulator.c ****                 }
+ 317:ZumoLibrary/simulator.c ****                 if(reflectance_started) {
+ 999              		.loc 1 317 0
+ 1000 00ea 224B     		ldr	r3, .L113+4
+ 1001 00ec DB68     		ldr	r3, [r3, #12]
+ 1002 00ee 002B     		cmp	r3, #0
+ 1003 00f0 36D0     		beq	.L103
+ 318:ZumoLibrary/simulator.c ****                     sensors.L3 = sdata[2] * 100;
+ 1004              		.loc 1 318 0
+ 1005 00f2 9DF80A30 		ldrb	r3, [sp, #10]	@ zero_extendqisi2
+ 1006 00f6 03EB8303 		add	r3, r3, r3, lsl #2
+ 1007 00fa 03EB8303 		add	r3, r3, r3, lsl #2
+ 1008 00fe 9A00     		lsls	r2, r3, #2
+ 1009 0100 93B2     		uxth	r3, r2
+ 1010 0102 1C4A     		ldr	r2, .L113+4
+ 1011 0104 1382     		strh	r3, [r2, #16]	@ movhi
+ 319:ZumoLibrary/simulator.c ****                     sensors.L2 = sdata[3] * 100;
+ 1012              		.loc 1 319 0
+ 1013 0106 9DF80B30 		ldrb	r3, [sp, #11]	@ zero_extendqisi2
+ 1014 010a 03EB8303 		add	r3, r3, r3, lsl #2
+ 1015 010e 03EB8303 		add	r3, r3, r3, lsl #2
+ 1016 0112 9900     		lsls	r1, r3, #2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 26
+
+
+ 1017 0114 89B2     		uxth	r1, r1
+ 1018 0116 5182     		strh	r1, [r2, #18]	@ movhi
+ 320:ZumoLibrary/simulator.c ****                     sensors.L1 = sdata[4] * 100;
+ 1019              		.loc 1 320 0
+ 1020 0118 9DF80C30 		ldrb	r3, [sp, #12]	@ zero_extendqisi2
+ 1021 011c 03EB8303 		add	r3, r3, r3, lsl #2
+ 1022 0120 03EB8303 		add	r3, r3, r3, lsl #2
+ 1023 0124 9900     		lsls	r1, r3, #2
+ 1024 0126 89B2     		uxth	r1, r1
+ 1025 0128 9182     		strh	r1, [r2, #20]	@ movhi
+ 321:ZumoLibrary/simulator.c ****                     sensors.R1 = sdata[5] * 100;
+ 1026              		.loc 1 321 0
+ 1027 012a 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+ 1028 012e 03EB8303 		add	r3, r3, r3, lsl #2
+ 1029 0132 03EB8303 		add	r3, r3, r3, lsl #2
+ 1030 0136 9900     		lsls	r1, r3, #2
+ 1031 0138 89B2     		uxth	r1, r1
+ 1032 013a D182     		strh	r1, [r2, #22]	@ movhi
+ 322:ZumoLibrary/simulator.c ****                     sensors.R2 = sdata[6] * 100;
+ 1033              		.loc 1 322 0
+ 1034 013c 9DF80E30 		ldrb	r3, [sp, #14]	@ zero_extendqisi2
+ 1035 0140 03EB8303 		add	r3, r3, r3, lsl #2
+ 1036 0144 03EB8303 		add	r3, r3, r3, lsl #2
+ 1037 0148 9900     		lsls	r1, r3, #2
+ 1038 014a 89B2     		uxth	r1, r1
+ 1039 014c 1183     		strh	r1, [r2, #24]	@ movhi
+ 323:ZumoLibrary/simulator.c ****                     sensors.R3 = sdata[7] * 100;
+ 1040              		.loc 1 323 0
+ 1041 014e 9DF80F30 		ldrb	r3, [sp, #15]	@ zero_extendqisi2
+ 1042 0152 03EB8303 		add	r3, r3, r3, lsl #2
+ 1043 0156 03EB8303 		add	r3, r3, r3, lsl #2
+ 1044 015a 9900     		lsls	r1, r3, #2
+ 1045 015c 89B2     		uxth	r1, r1
+ 1046 015e 5183     		strh	r1, [r2, #26]	@ movhi
+ 1047              	.L103:
+ 324:ZumoLibrary/simulator.c ****                 }
+ 325:ZumoLibrary/simulator.c ****             }
+ 326:ZumoLibrary/simulator.c ****             vTaskDelayUntil( &LastWakeTime, ms );
+ 1048              		.loc 1 326 0
+ 1049 0160 3146     		mov	r1, r6
+ 1050 0162 01A8     		add	r0, sp, #4
+ 1051 0164 FFF7FEFF 		bl	vTaskDelayUntil
+ 1052              	.LVL68:
+ 1053              	.L97:
+ 1054              	.LBE3:
+ 301:ZumoLibrary/simulator.c ****             uint32_t ms = (delay > 60) ? 50 : delay;
+ 1055              		.loc 1 301 0
+ 1056 0168 002D     		cmp	r5, #0
+ 1057 016a 90D1     		bne	.L105
+ 1058 016c 54E7     		b	.L106
+ 1059              	.L114:
+ 1060 016e 00BF     		.align	2
+ 1061              	.L113:
+ 1062 0170 00000000 		.word	.LANCHOR1
+ 1063 0174 00000000 		.word	.LANCHOR0
+ 1064              	.LBE2:
+ 1065              		.cfi_endproc
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 27
+
+
+ 1066              	.LFE86:
+ 1067              		.size	SimulatorTask, .-SimulatorTask
+ 1068              		.section	.rodata
+ 1069              		.align	2
+ 1070              		.set	.LANCHOR1,. + 0
+ 1071              		.type	stopped, %object
+ 1072              		.size	stopped, 5
+ 1073              	stopped:
+ 1074 0000 00       		.byte	0
+ 1075 0001 FF       		.byte	-1
+ 1076 0002 00       		.byte	0
+ 1077 0003 00       		.byte	0
+ 1078 0004 05       		.byte	5
+ 1079 0005 000000   		.space	3
+ 1080              	.LC0:
+ 1081 0008 00       		.byte	0
+ 1082 0009 FF       		.byte	-1
+ 1083 000a 00       		.byte	0
+ 1084 000b 00       		.byte	0
+ 1085 000c 05       		.byte	5
+ 1086              		.data
+ 1087              		.align	2
+ 1088              		.set	.LANCHOR2,. + 0
+ 1089              		.type	threshold, %object
+ 1090              		.size	threshold, 12
+ 1091              	threshold:
+ 1092 0000 1027     		.short	10000
+ 1093 0002 1027     		.short	10000
+ 1094 0004 1027     		.short	10000
+ 1095 0006 1027     		.short	10000
+ 1096 0008 1027     		.short	10000
+ 1097 000a 1027     		.short	10000
+ 1098              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1099              		.align	2
+ 1100              	.LC1:
+ 1101 0000 596F7520 		.ascii	"You haven't started motors\000"
+ 1101      68617665 
+ 1101      6E277420 
+ 1101      73746172 
+ 1101      74656420 
+ 1102 001b 00       		.space	1
+ 1103              	.LC2:
+ 1104 001c 596F7520 		.ascii	"You haven't started reflectance sensor\000"
+ 1104      68617665 
+ 1104      6E277420 
+ 1104      73746172 
+ 1104      74656420 
+ 1105 0043 00       		.space	1
+ 1106              	.LC3:
+ 1107 0044 596F7520 		.ascii	"You haven't started ultrasonic sensor\000"
+ 1107      68617665 
+ 1107      6E277420 
+ 1107      73746172 
+ 1107      74656420 
+ 1108 006a 0000     		.space	2
+ 1109              	.LC4:
+ 1110 006c 596F7520 		.ascii	"You haven't started IR sensor\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 28
+
+
+ 1110      68617665 
+ 1110      6E277420 
+ 1110      73746172 
+ 1110      74656420 
+ 1111              		.bss
+ 1112              		.align	2
+ 1113              		.set	.LANCHOR0,. + 0
+ 1114              		.type	writeMutex, %object
+ 1115              		.size	writeMutex, 4
+ 1116              	writeMutex:
+ 1117 0000 00000000 		.space	4
+ 1118              		.type	motor_q, %object
+ 1119              		.size	motor_q, 4
+ 1120              	motor_q:
+ 1121 0004 00000000 		.space	4
+ 1122              		.type	motor_started, %object
+ 1123              		.size	motor_started, 4
+ 1124              	motor_started:
+ 1125 0008 00000000 		.space	4
+ 1126              		.type	reflectance_started, %object
+ 1127              		.size	reflectance_started, 4
+ 1128              	reflectance_started:
+ 1129 000c 00000000 		.space	4
+ 1130              		.type	sensors, %object
+ 1131              		.size	sensors, 12
+ 1132              	sensors:
+ 1133 0010 00000000 		.space	12
+ 1133      00000000 
+ 1133      00000000 
+ 1134              		.type	ultra_started, %object
+ 1135              		.size	ultra_started, 4
+ 1136              	ultra_started:
+ 1137 001c 00000000 		.space	4
+ 1138              		.type	distance, %object
+ 1139              		.size	distance, 4
+ 1140              	distance:
+ 1141 0020 00000000 		.space	4
+ 1142              		.type	ir_started, %object
+ 1143              		.size	ir_started, 4
+ 1144              	ir_started:
+ 1145 0024 00000000 		.space	4
+ 1146              		.type	ir_value, %object
+ 1147              		.size	ir_value, 4
+ 1148              	ir_value:
+ 1149 0028 00000000 		.space	4
+ 1150              		.text
+ 1151              	.Letext0:
+ 1152              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1153              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 1154              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 1155              		.file 5 "..\\FreeRTOS\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+ 1156              		.file 6 "..\\FreeRTOS\\Source\\include/queue.h"
+ 1157              		.file 7 "..\\FreeRTOS\\Source\\include/semphr.h"
+ 1158              		.file 8 "ZumoLibrary\\simulator.h"
+ 1159              		.file 9 "ZumoLibrary\\Reflectance.h"
+ 1160              		.file 10 "ZumoLibrary\\serial1.h"
+ 1161              		.file 11 "..\\FreeRTOS\\Source\\include/task.h"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 29
+
+
+ 1162              		.file 12 "Generated_Source\\PSoC5/core_cm3.h"
+ 1163              		.file 13 "<built-in>"
+ 1164              		.section	.debug_info,"",%progbits
+ 1165              	.Ldebug_info0:
+ 1166 0000 E3080000 		.4byte	0x8e3
+ 1167 0004 0400     		.2byte	0x4
+ 1168 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1169 000a 04       		.byte	0x4
+ 1170 000b 01       		.uleb128 0x1
+ 1171 000c 03030000 		.4byte	.LASF80
+ 1172 0010 0C       		.byte	0xc
+ 1173 0011 E0010000 		.4byte	.LASF81
+ 1174 0015 4B000000 		.4byte	.LASF82
+ 1175 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1176 001d 00000000 		.4byte	0
+ 1177 0021 00000000 		.4byte	.Ldebug_line0
+ 1178 0025 02       		.uleb128 0x2
+ 1179 0026 04       		.byte	0x4
+ 1180 0027 05       		.byte	0x5
+ 1181 0028 696E7400 		.ascii	"int\000"
+ 1182 002c 03       		.uleb128 0x3
+ 1183 002d 04       		.byte	0x4
+ 1184 002e 07       		.byte	0x7
+ 1185 002f A1020000 		.4byte	.LASF0
+ 1186 0033 03       		.uleb128 0x3
+ 1187 0034 08       		.byte	0x8
+ 1188 0035 05       		.byte	0x5
+ 1189 0036 64010000 		.4byte	.LASF1
+ 1190 003a 03       		.uleb128 0x3
+ 1191 003b 08       		.byte	0x8
+ 1192 003c 04       		.byte	0x4
+ 1193 003d 21020000 		.4byte	.LASF2
+ 1194 0041 03       		.uleb128 0x3
+ 1195 0042 01       		.byte	0x1
+ 1196 0043 06       		.byte	0x6
+ 1197 0044 2A000000 		.4byte	.LASF3
+ 1198 0048 04       		.uleb128 0x4
+ 1199 0049 D6010000 		.4byte	.LASF6
+ 1200 004d 02       		.byte	0x2
+ 1201 004e 1D       		.byte	0x1d
+ 1202 004f 53000000 		.4byte	0x53
+ 1203 0053 03       		.uleb128 0x3
+ 1204 0054 01       		.byte	0x1
+ 1205 0055 08       		.byte	0x8
+ 1206 0056 39020000 		.4byte	.LASF4
+ 1207 005a 03       		.uleb128 0x3
+ 1208 005b 02       		.byte	0x2
+ 1209 005c 05       		.byte	0x5
+ 1210 005d 95000000 		.4byte	.LASF5
+ 1211 0061 04       		.uleb128 0x4
+ 1212 0062 EC000000 		.4byte	.LASF7
+ 1213 0066 02       		.byte	0x2
+ 1214 0067 2B       		.byte	0x2b
+ 1215 0068 6C000000 		.4byte	0x6c
+ 1216 006c 03       		.uleb128 0x3
+ 1217 006d 02       		.byte	0x2
+ 1218 006e 07       		.byte	0x7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 30
+
+
+ 1219 006f F0020000 		.4byte	.LASF8
+ 1220 0073 04       		.uleb128 0x4
+ 1221 0074 67040000 		.4byte	.LASF9
+ 1222 0078 02       		.byte	0x2
+ 1223 0079 3F       		.byte	0x3f
+ 1224 007a 7E000000 		.4byte	0x7e
+ 1225 007e 03       		.uleb128 0x3
+ 1226 007f 04       		.byte	0x4
+ 1227 0080 05       		.byte	0x5
+ 1228 0081 AA040000 		.4byte	.LASF10
+ 1229 0085 04       		.uleb128 0x4
+ 1230 0086 3E040000 		.4byte	.LASF11
+ 1231 008a 02       		.byte	0x2
+ 1232 008b 41       		.byte	0x41
+ 1233 008c 90000000 		.4byte	0x90
+ 1234 0090 03       		.uleb128 0x3
+ 1235 0091 04       		.byte	0x4
+ 1236 0092 07       		.byte	0x7
+ 1237 0093 11040000 		.4byte	.LASF12
+ 1238 0097 03       		.uleb128 0x3
+ 1239 0098 08       		.byte	0x8
+ 1240 0099 07       		.byte	0x7
+ 1241 009a 81020000 		.4byte	.LASF13
+ 1242 009e 04       		.uleb128 0x4
+ 1243 009f 0F010000 		.4byte	.LASF14
+ 1244 00a3 03       		.byte	0x3
+ 1245 00a4 18       		.byte	0x18
+ 1246 00a5 48000000 		.4byte	0x48
+ 1247 00a9 04       		.uleb128 0x4
+ 1248 00aa AE020000 		.4byte	.LASF15
+ 1249 00ae 03       		.byte	0x3
+ 1250 00af 24       		.byte	0x24
+ 1251 00b0 61000000 		.4byte	0x61
+ 1252 00b4 04       		.uleb128 0x4
+ 1253 00b5 79020000 		.4byte	.LASF16
+ 1254 00b9 03       		.byte	0x3
+ 1255 00ba 2C       		.byte	0x2c
+ 1256 00bb 73000000 		.4byte	0x73
+ 1257 00bf 04       		.uleb128 0x4
+ 1258 00c0 98020000 		.4byte	.LASF17
+ 1259 00c4 03       		.byte	0x3
+ 1260 00c5 30       		.byte	0x30
+ 1261 00c6 85000000 		.4byte	0x85
+ 1262 00ca 05       		.uleb128 0x5
+ 1263 00cb 17010000 		.4byte	.LASF18
+ 1264 00cf 04       		.byte	0x4
+ 1265 00d0 E401     		.2byte	0x1e4
+ 1266 00d2 53000000 		.4byte	0x53
+ 1267 00d6 05       		.uleb128 0x5
+ 1268 00d7 23040000 		.4byte	.LASF19
+ 1269 00db 04       		.byte	0x4
+ 1270 00dc E601     		.2byte	0x1e6
+ 1271 00de 90000000 		.4byte	0x90
+ 1272 00e2 03       		.uleb128 0x3
+ 1273 00e3 04       		.byte	0x4
+ 1274 00e4 04       		.byte	0x4
+ 1275 00e5 5E010000 		.4byte	.LASF20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 31
+
+
+ 1276 00e9 03       		.uleb128 0x3
+ 1277 00ea 08       		.byte	0x8
+ 1278 00eb 04       		.byte	0x4
+ 1279 00ec 9D040000 		.4byte	.LASF21
+ 1280 00f0 03       		.uleb128 0x3
+ 1281 00f1 01       		.byte	0x1
+ 1282 00f2 08       		.byte	0x8
+ 1283 00f3 9F030000 		.4byte	.LASF22
+ 1284 00f7 03       		.uleb128 0x3
+ 1285 00f8 04       		.byte	0x4
+ 1286 00f9 07       		.byte	0x7
+ 1287 00fa 9F000000 		.4byte	.LASF23
+ 1288 00fe 06       		.uleb128 0x6
+ 1289 00ff 04       		.byte	0x4
+ 1290 0100 07       		.uleb128 0x7
+ 1291 0101 04       		.byte	0x4
+ 1292 0102 F0000000 		.4byte	0xf0
+ 1293 0106 07       		.uleb128 0x7
+ 1294 0107 04       		.byte	0x4
+ 1295 0108 0C010000 		.4byte	0x10c
+ 1296 010c 08       		.uleb128 0x8
+ 1297 010d F0000000 		.4byte	0xf0
+ 1298 0111 09       		.uleb128 0x9
+ 1299 0112 F0000000 		.4byte	0xf0
+ 1300 0116 21010000 		.4byte	0x121
+ 1301 011a 0A       		.uleb128 0xa
+ 1302 011b F7000000 		.4byte	0xf7
+ 1303 011f 07       		.byte	0x7
+ 1304 0120 00       		.byte	0
+ 1305 0121 04       		.uleb128 0x4
+ 1306 0122 A3010000 		.4byte	.LASF24
+ 1307 0126 05       		.byte	0x5
+ 1308 0127 38       		.byte	0x38
+ 1309 0128 7E000000 		.4byte	0x7e
+ 1310 012c 04       		.uleb128 0x4
+ 1311 012d 72010000 		.4byte	.LASF25
+ 1312 0131 05       		.byte	0x5
+ 1313 0132 3F       		.byte	0x3f
+ 1314 0133 BF000000 		.4byte	0xbf
+ 1315 0137 04       		.uleb128 0x4
+ 1316 0138 0A020000 		.4byte	.LASF26
+ 1317 013c 06       		.byte	0x6
+ 1318 013d 2E       		.byte	0x2e
+ 1319 013e FE000000 		.4byte	0xfe
+ 1320 0142 04       		.uleb128 0x4
+ 1321 0143 EA030000 		.4byte	.LASF27
+ 1322 0147 07       		.byte	0x7
+ 1323 0148 25       		.byte	0x25
+ 1324 0149 37010000 		.4byte	0x137
+ 1325 014d 0B       		.uleb128 0xb
+ 1326 014e 08       		.byte	0x8
+ 1327 014f 08       		.byte	0x8
+ 1328 0150 08       		.byte	0x8
+ 1329 0151 8E010000 		.4byte	0x18e
+ 1330 0155 0C       		.uleb128 0xc
+ 1331 0156 6C6400   		.ascii	"ld\000"
+ 1332 0159 08       		.byte	0x8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 32
+
+
+ 1333 015a 09       		.byte	0x9
+ 1334 015b CA000000 		.4byte	0xca
+ 1335 015f 00       		.byte	0
+ 1336 0160 0C       		.uleb128 0xc
+ 1337 0161 726400   		.ascii	"rd\000"
+ 1338 0164 08       		.byte	0x8
+ 1339 0165 0A       		.byte	0xa
+ 1340 0166 CA000000 		.4byte	0xca
+ 1341 016a 01       		.byte	0x1
+ 1342 016b 0C       		.uleb128 0xc
+ 1343 016c 6C7300   		.ascii	"ls\000"
+ 1344 016f 08       		.byte	0x8
+ 1345 0170 0B       		.byte	0xb
+ 1346 0171 CA000000 		.4byte	0xca
+ 1347 0175 02       		.byte	0x2
+ 1348 0176 0C       		.uleb128 0xc
+ 1349 0177 727300   		.ascii	"rs\000"
+ 1350 017a 08       		.byte	0x8
+ 1351 017b 0C       		.byte	0xc
+ 1352 017c CA000000 		.4byte	0xca
+ 1353 0180 03       		.byte	0x3
+ 1354 0181 0D       		.uleb128 0xd
+ 1355 0182 D2000000 		.4byte	.LASF28
+ 1356 0186 08       		.byte	0x8
+ 1357 0187 0D       		.byte	0xd
+ 1358 0188 D6000000 		.4byte	0xd6
+ 1359 018c 04       		.byte	0x4
+ 1360 018d 00       		.byte	0
+ 1361 018e 04       		.uleb128 0x4
+ 1362 018f 49040000 		.4byte	.LASF29
+ 1363 0193 08       		.byte	0x8
+ 1364 0194 0E       		.byte	0xe
+ 1365 0195 4D010000 		.4byte	0x14d
+ 1366 0199 0E       		.uleb128 0xe
+ 1367 019a 06010000 		.4byte	.LASF83
+ 1368 019e 0C       		.byte	0xc
+ 1369 019f 09       		.byte	0x9
+ 1370 01a0 0E       		.byte	0xe
+ 1371 01a1 E8010000 		.4byte	0x1e8
+ 1372 01a5 0C       		.uleb128 0xc
+ 1373 01a6 4C3300   		.ascii	"L3\000"
+ 1374 01a9 09       		.byte	0x9
+ 1375 01aa 0F       		.byte	0xf
+ 1376 01ab A9000000 		.4byte	0xa9
+ 1377 01af 00       		.byte	0
+ 1378 01b0 0C       		.uleb128 0xc
+ 1379 01b1 4C3200   		.ascii	"L2\000"
+ 1380 01b4 09       		.byte	0x9
+ 1381 01b5 10       		.byte	0x10
+ 1382 01b6 A9000000 		.4byte	0xa9
+ 1383 01ba 02       		.byte	0x2
+ 1384 01bb 0C       		.uleb128 0xc
+ 1385 01bc 4C3100   		.ascii	"L1\000"
+ 1386 01bf 09       		.byte	0x9
+ 1387 01c0 11       		.byte	0x11
+ 1388 01c1 A9000000 		.4byte	0xa9
+ 1389 01c5 04       		.byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 33
+
+
+ 1390 01c6 0C       		.uleb128 0xc
+ 1391 01c7 523100   		.ascii	"R1\000"
+ 1392 01ca 09       		.byte	0x9
+ 1393 01cb 12       		.byte	0x12
+ 1394 01cc A9000000 		.4byte	0xa9
+ 1395 01d0 06       		.byte	0x6
+ 1396 01d1 0C       		.uleb128 0xc
+ 1397 01d2 523200   		.ascii	"R2\000"
+ 1398 01d5 09       		.byte	0x9
+ 1399 01d6 13       		.byte	0x13
+ 1400 01d7 A9000000 		.4byte	0xa9
+ 1401 01db 08       		.byte	0x8
+ 1402 01dc 0C       		.uleb128 0xc
+ 1403 01dd 523300   		.ascii	"R3\000"
+ 1404 01e0 09       		.byte	0x9
+ 1405 01e1 14       		.byte	0x14
+ 1406 01e2 A9000000 		.4byte	0xa9
+ 1407 01e6 0A       		.byte	0xa
+ 1408 01e7 00       		.byte	0
+ 1409 01e8 0F       		.uleb128 0xf
+ 1410 01e9 0F000000 		.4byte	.LASF84
+ 1411 01ed 01       		.byte	0x1
+ 1412 01ee F8       		.byte	0xf8
+ 1413 01ef 00000000 		.4byte	.LFB85
+ 1414 01f3 40000000 		.4byte	.LFE85-.LFB85
+ 1415 01f7 01       		.uleb128 0x1
+ 1416 01f8 9C       		.byte	0x9c
+ 1417 01f9 5C020000 		.4byte	0x25c
+ 1418 01fd 10       		.uleb128 0x10
+ 1419 01fe D8030000 		.4byte	.LASF30
+ 1420 0202 01       		.byte	0x1
+ 1421 0203 F8       		.byte	0xf8
+ 1422 0204 06010000 		.4byte	0x106
+ 1423 0208 00000000 		.4byte	.LLST0
+ 1424 020c 11       		.uleb128 0x11
+ 1425 020d 6C656E00 		.ascii	"len\000"
+ 1426 0211 01       		.byte	0x1
+ 1427 0212 F8       		.byte	0xf8
+ 1428 0213 25000000 		.4byte	0x25
+ 1429 0217 34000000 		.4byte	.LLST1
+ 1430 021b 12       		.uleb128 0x12
+ 1431 021c 12000000 		.4byte	.LVL3
+ 1432 0220 61080000 		.4byte	0x861
+ 1433 0224 2F020000 		.4byte	0x22f
+ 1434 0228 13       		.uleb128 0x13
+ 1435 0229 01       		.uleb128 0x1
+ 1436 022a 51       		.byte	0x51
+ 1437 022b 02       		.uleb128 0x2
+ 1438 022c 09       		.byte	0x9
+ 1439 022d FF       		.byte	0xff
+ 1440 022e 00       		.byte	0
+ 1441 022f 12       		.uleb128 0x12
+ 1442 0230 20000000 		.4byte	.LVL6
+ 1443 0234 6D080000 		.4byte	0x86d
+ 1444 0238 42020000 		.4byte	0x242
+ 1445 023c 13       		.uleb128 0x13
+ 1446 023d 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 34
+
+
+ 1447 023e 51       		.byte	0x51
+ 1448 023f 01       		.uleb128 0x1
+ 1449 0240 30       		.byte	0x30
+ 1450 0241 00       		.byte	0
+ 1451 0242 14       		.uleb128 0x14
+ 1452 0243 38000000 		.4byte	.LVL9
+ 1453 0247 78080000 		.4byte	0x878
+ 1454 024b 13       		.uleb128 0x13
+ 1455 024c 01       		.uleb128 0x1
+ 1456 024d 51       		.byte	0x51
+ 1457 024e 01       		.uleb128 0x1
+ 1458 024f 30       		.byte	0x30
+ 1459 0250 13       		.uleb128 0x13
+ 1460 0251 01       		.uleb128 0x1
+ 1461 0252 52       		.byte	0x52
+ 1462 0253 01       		.uleb128 0x1
+ 1463 0254 30       		.byte	0x30
+ 1464 0255 13       		.uleb128 0x13
+ 1465 0256 01       		.uleb128 0x1
+ 1466 0257 53       		.byte	0x53
+ 1467 0258 01       		.uleb128 0x1
+ 1468 0259 30       		.byte	0x30
+ 1469 025a 00       		.byte	0
+ 1470 025b 00       		.byte	0
+ 1471 025c 15       		.uleb128 0x15
+ 1472 025d 67020000 		.4byte	.LASF31
+ 1473 0261 01       		.byte	0x1
+ 1474 0262 12       		.byte	0x12
+ 1475 0263 00000000 		.4byte	.LFB69
+ 1476 0267 18000000 		.4byte	.LFE69-.LFB69
+ 1477 026b 01       		.uleb128 0x1
+ 1478 026c 9C       		.byte	0x9c
+ 1479 026d 8B020000 		.4byte	0x28b
+ 1480 0271 14       		.uleb128 0x14
+ 1481 0272 0C000000 		.4byte	.LVL11
+ 1482 0276 84080000 		.4byte	0x884
+ 1483 027a 13       		.uleb128 0x13
+ 1484 027b 01       		.uleb128 0x1
+ 1485 027c 50       		.byte	0x50
+ 1486 027d 01       		.uleb128 0x1
+ 1487 027e 33       		.byte	0x33
+ 1488 027f 13       		.uleb128 0x13
+ 1489 0280 01       		.uleb128 0x1
+ 1490 0281 51       		.byte	0x51
+ 1491 0282 01       		.uleb128 0x1
+ 1492 0283 38       		.byte	0x38
+ 1493 0284 13       		.uleb128 0x13
+ 1494 0285 01       		.uleb128 0x1
+ 1495 0286 52       		.byte	0x52
+ 1496 0287 01       		.uleb128 0x1
+ 1497 0288 30       		.byte	0x30
+ 1498 0289 00       		.byte	0
+ 1499 028a 00       		.byte	0
+ 1500 028b 15       		.uleb128 0x15
+ 1501 028c 07040000 		.4byte	.LASF32
+ 1502 0290 01       		.byte	0x1
+ 1503 0291 23       		.byte	0x23
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 35
+
+
+ 1504 0292 00000000 		.4byte	.LFB70
+ 1505 0296 50000000 		.4byte	.LFE70-.LFB70
+ 1506 029a 01       		.uleb128 0x1
+ 1507 029b 9C       		.byte	0x9c
+ 1508 029c 40030000 		.4byte	0x340
+ 1509 02a0 10       		.uleb128 0x10
+ 1510 02a1 E7020000 		.4byte	.LASF33
+ 1511 02a5 01       		.byte	0x1
+ 1512 02a6 23       		.byte	0x23
+ 1513 02a7 CA000000 		.4byte	0xca
+ 1514 02ab 73000000 		.4byte	.LLST2
+ 1515 02af 10       		.uleb128 0x10
+ 1516 02b0 CE030000 		.4byte	.LASF34
+ 1517 02b4 01       		.byte	0x1
+ 1518 02b5 23       		.byte	0x23
+ 1519 02b6 CA000000 		.4byte	0xca
+ 1520 02ba A0000000 		.4byte	.LLST3
+ 1521 02be 10       		.uleb128 0x10
+ 1522 02bf D0020000 		.4byte	.LASF35
+ 1523 02c3 01       		.byte	0x1
+ 1524 02c4 23       		.byte	0x23
+ 1525 02c5 CA000000 		.4byte	0xca
+ 1526 02c9 C1000000 		.4byte	.LLST4
+ 1527 02cd 10       		.uleb128 0x10
+ 1528 02ce DB020000 		.4byte	.LASF36
+ 1529 02d2 01       		.byte	0x1
+ 1530 02d3 23       		.byte	0x23
+ 1531 02d4 CA000000 		.4byte	0xca
+ 1532 02d8 E2000000 		.4byte	.LLST5
+ 1533 02dc 10       		.uleb128 0x10
+ 1534 02dd D2000000 		.4byte	.LASF28
+ 1535 02e1 01       		.byte	0x1
+ 1536 02e2 23       		.byte	0x23
+ 1537 02e3 D6000000 		.4byte	0xd6
+ 1538 02e7 0F010000 		.4byte	.LLST6
+ 1539 02eb 16       		.uleb128 0x16
+ 1540 02ec 73696D00 		.ascii	"sim\000"
+ 1541 02f0 01       		.byte	0x1
+ 1542 02f1 25       		.byte	0x25
+ 1543 02f2 8E010000 		.4byte	0x18e
+ 1544 02f6 02       		.uleb128 0x2
+ 1545 02f7 91       		.byte	0x91
+ 1546 02f8 70       		.sleb128 -16
+ 1547 02f9 12       		.uleb128 0x12
+ 1548 02fa 24000000 		.4byte	.LVL15
+ 1549 02fe 90080000 		.4byte	0x890
+ 1550 0302 10030000 		.4byte	0x310
+ 1551 0306 13       		.uleb128 0x13
+ 1552 0307 01       		.uleb128 0x1
+ 1553 0308 50       		.byte	0x50
+ 1554 0309 05       		.uleb128 0x5
+ 1555 030a 03       		.byte	0x3
+ 1556 030b 00000000 		.4byte	.LC1
+ 1557 030f 00       		.byte	0
+ 1558 0310 12       		.uleb128 0x12
+ 1559 0311 3C000000 		.4byte	.LVL16
+ 1560 0315 78080000 		.4byte	0x878
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 36
+
+
+ 1561 0319 2F030000 		.4byte	0x32f
+ 1562 031d 13       		.uleb128 0x13
+ 1563 031e 01       		.uleb128 0x1
+ 1564 031f 51       		.byte	0x51
+ 1565 0320 02       		.uleb128 0x2
+ 1566 0321 7D       		.byte	0x7d
+ 1567 0322 00       		.sleb128 0
+ 1568 0323 13       		.uleb128 0x13
+ 1569 0324 01       		.uleb128 0x1
+ 1570 0325 52       		.byte	0x52
+ 1571 0326 02       		.uleb128 0x2
+ 1572 0327 09       		.byte	0x9
+ 1573 0328 FF       		.byte	0xff
+ 1574 0329 13       		.uleb128 0x13
+ 1575 032a 01       		.uleb128 0x1
+ 1576 032b 53       		.byte	0x53
+ 1577 032c 01       		.uleb128 0x1
+ 1578 032d 30       		.byte	0x30
+ 1579 032e 00       		.byte	0
+ 1580 032f 14       		.uleb128 0x14
+ 1581 0330 42000000 		.4byte	.LVL17
+ 1582 0334 9F080000 		.4byte	0x89f
+ 1583 0338 13       		.uleb128 0x13
+ 1584 0339 01       		.uleb128 0x1
+ 1585 033a 50       		.byte	0x50
+ 1586 033b 02       		.uleb128 0x2
+ 1587 033c 74       		.byte	0x74
+ 1588 033d 00       		.sleb128 0
+ 1589 033e 00       		.byte	0
+ 1590 033f 00       		.byte	0
+ 1591 0340 17       		.uleb128 0x17
+ 1592 0341 2A040000 		.4byte	.LASF47
+ 1593 0345 01       		.byte	0x1
+ 1594 0346 35       		.byte	0x35
+ 1595 0347 00000000 		.4byte	.LFB71
+ 1596 034b 0C000000 		.4byte	.LFE71-.LFB71
+ 1597 034f 01       		.uleb128 0x1
+ 1598 0350 9C       		.byte	0x9c
+ 1599 0351 18       		.uleb128 0x18
+ 1600 0352 36000000 		.4byte	.LASF85
+ 1601 0356 01       		.byte	0x1
+ 1602 0357 3F       		.byte	0x3f
+ 1603 0358 00000000 		.4byte	.LFB72
+ 1604 035c 1C000000 		.4byte	.LFE72-.LFB72
+ 1605 0360 01       		.uleb128 0x1
+ 1606 0361 9C       		.byte	0x9c
+ 1607 0362 7F030000 		.4byte	0x37f
+ 1608 0366 14       		.uleb128 0x14
+ 1609 0367 10000000 		.4byte	.LVL19
+ 1610 036b E8010000 		.4byte	0x1e8
+ 1611 036f 13       		.uleb128 0x13
+ 1612 0370 01       		.uleb128 0x1
+ 1613 0371 50       		.byte	0x50
+ 1614 0372 05       		.uleb128 0x5
+ 1615 0373 03       		.byte	0x3
+ 1616 0374 00000000 		.4byte	.LANCHOR1
+ 1617 0378 13       		.uleb128 0x13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 37
+
+
+ 1618 0379 01       		.uleb128 0x1
+ 1619 037a 51       		.byte	0x51
+ 1620 037b 01       		.uleb128 0x1
+ 1621 037c 35       		.byte	0x35
+ 1622 037d 00       		.byte	0
+ 1623 037e 00       		.byte	0
+ 1624 037f 19       		.uleb128 0x19
+ 1625 0380 28010000 		.4byte	.LASF50
+ 1626 0384 01       		.byte	0x1
+ 1627 0385 51       		.byte	0x51
+ 1628 0386 00000000 		.4byte	.LFB73
+ 1629 038a 0C000000 		.4byte	.LFE73-.LFB73
+ 1630 038e 01       		.uleb128 0x1
+ 1631 038f 9C       		.byte	0x9c
+ 1632 0390 15       		.uleb128 0x15
+ 1633 0391 71040000 		.4byte	.LASF37
+ 1634 0395 01       		.byte	0x1
+ 1635 0396 5A       		.byte	0x5a
+ 1636 0397 00000000 		.4byte	.LFB74
+ 1637 039b 28000000 		.4byte	.LFE74-.LFB74
+ 1638 039f 01       		.uleb128 0x1
+ 1639 03a0 9C       		.byte	0x9c
+ 1640 03a1 C8030000 		.4byte	0x3c8
+ 1641 03a5 10       		.uleb128 0x10
+ 1642 03a6 CF010000 		.4byte	.LASF38
+ 1643 03aa 01       		.byte	0x1
+ 1644 03ab 5A       		.byte	0x5a
+ 1645 03ac C8030000 		.4byte	0x3c8
+ 1646 03b0 2F010000 		.4byte	.LLST7
+ 1647 03b4 14       		.uleb128 0x14
+ 1648 03b5 10000000 		.4byte	.LVL22
+ 1649 03b9 90080000 		.4byte	0x890
+ 1650 03bd 13       		.uleb128 0x13
+ 1651 03be 01       		.uleb128 0x1
+ 1652 03bf 50       		.byte	0x50
+ 1653 03c0 05       		.uleb128 0x5
+ 1654 03c1 03       		.byte	0x3
+ 1655 03c2 1C000000 		.4byte	.LC2
+ 1656 03c6 00       		.byte	0
+ 1657 03c7 00       		.byte	0
+ 1658 03c8 07       		.uleb128 0x7
+ 1659 03c9 04       		.byte	0x4
+ 1660 03ca 99010000 		.4byte	0x199
+ 1661 03ce 15       		.uleb128 0x15
+ 1662 03cf 7D010000 		.4byte	.LASF39
+ 1663 03d3 01       		.byte	0x1
+ 1664 03d4 66       		.byte	0x66
+ 1665 03d5 00000000 		.4byte	.LFB75
+ 1666 03d9 B0000000 		.4byte	.LFE75-.LFB75
+ 1667 03dd 01       		.uleb128 0x1
+ 1668 03de 9C       		.byte	0x9c
+ 1669 03df 06040000 		.4byte	0x406
+ 1670 03e3 10       		.uleb128 0x10
+ 1671 03e4 36040000 		.4byte	.LASF40
+ 1672 03e8 01       		.byte	0x1
+ 1673 03e9 66       		.byte	0x66
+ 1674 03ea C8030000 		.4byte	0x3c8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 38
+
+
+ 1675 03ee 5B010000 		.4byte	.LLST8
+ 1676 03f2 14       		.uleb128 0x14
+ 1677 03f3 10000000 		.4byte	.LVL26
+ 1678 03f7 90080000 		.4byte	0x890
+ 1679 03fb 13       		.uleb128 0x13
+ 1680 03fc 01       		.uleb128 0x1
+ 1681 03fd 50       		.byte	0x50
+ 1682 03fe 05       		.uleb128 0x5
+ 1683 03ff 03       		.byte	0x3
+ 1684 0400 1C000000 		.4byte	.LC2
+ 1685 0404 00       		.byte	0
+ 1686 0405 00       		.byte	0
+ 1687 0406 15       		.uleb128 0x15
+ 1688 0407 47020000 		.4byte	.LASF41
+ 1689 040b 01       		.byte	0x1
+ 1690 040c 8C       		.byte	0x8c
+ 1691 040d 00000000 		.4byte	.LFB76
+ 1692 0411 20000000 		.4byte	.LFE76-.LFB76
+ 1693 0415 01       		.uleb128 0x1
+ 1694 0416 9C       		.byte	0x9c
+ 1695 0417 6A040000 		.4byte	0x46a
+ 1696 041b 1A       		.uleb128 0x1a
+ 1697 041c 4C3300   		.ascii	"L3\000"
+ 1698 041f 01       		.byte	0x1
+ 1699 0420 8C       		.byte	0x8c
+ 1700 0421 A9000000 		.4byte	0xa9
+ 1701 0425 01       		.uleb128 0x1
+ 1702 0426 50       		.byte	0x50
+ 1703 0427 1A       		.uleb128 0x1a
+ 1704 0428 4C3200   		.ascii	"L2\000"
+ 1705 042b 01       		.byte	0x1
+ 1706 042c 8C       		.byte	0x8c
+ 1707 042d A9000000 		.4byte	0xa9
+ 1708 0431 01       		.uleb128 0x1
+ 1709 0432 51       		.byte	0x51
+ 1710 0433 11       		.uleb128 0x11
+ 1711 0434 4C3100   		.ascii	"L1\000"
+ 1712 0437 01       		.byte	0x1
+ 1713 0438 8C       		.byte	0x8c
+ 1714 0439 A9000000 		.4byte	0xa9
+ 1715 043d 87010000 		.4byte	.LLST9
+ 1716 0441 1A       		.uleb128 0x1a
+ 1717 0442 523100   		.ascii	"R1\000"
+ 1718 0445 01       		.byte	0x1
+ 1719 0446 8C       		.byte	0x8c
+ 1720 0447 A9000000 		.4byte	0xa9
+ 1721 044b 01       		.uleb128 0x1
+ 1722 044c 53       		.byte	0x53
+ 1723 044d 11       		.uleb128 0x11
+ 1724 044e 523200   		.ascii	"R2\000"
+ 1725 0451 01       		.byte	0x1
+ 1726 0452 8C       		.byte	0x8c
+ 1727 0453 A9000000 		.4byte	0xa9
+ 1728 0457 A9010000 		.4byte	.LLST10
+ 1729 045b 11       		.uleb128 0x11
+ 1730 045c 523300   		.ascii	"R3\000"
+ 1731 045f 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 39
+
+
+ 1732 0460 8C       		.byte	0x8c
+ 1733 0461 A9000000 		.4byte	0xa9
+ 1734 0465 C9010000 		.4byte	.LLST11
+ 1735 0469 00       		.byte	0
+ 1736 046a 15       		.uleb128 0x15
+ 1737 046b C1030000 		.4byte	.LASF42
+ 1738 046f 01       		.byte	0x1
+ 1739 0470 9C       		.byte	0x9c
+ 1740 0471 00000000 		.4byte	.LFB77
+ 1741 0475 14000000 		.4byte	.LFE77-.LFB77
+ 1742 0479 01       		.uleb128 0x1
+ 1743 047a 9C       		.byte	0x9c
+ 1744 047b 8F040000 		.4byte	0x48f
+ 1745 047f 14       		.uleb128 0x14
+ 1746 0480 08000000 		.4byte	.LVL32
+ 1747 0484 AB080000 		.4byte	0x8ab
+ 1748 0488 13       		.uleb128 0x13
+ 1749 0489 01       		.uleb128 0x1
+ 1750 048a 50       		.byte	0x50
+ 1751 048b 01       		.uleb128 0x1
+ 1752 048c 31       		.byte	0x31
+ 1753 048d 00       		.byte	0
+ 1754 048e 00       		.byte	0
+ 1755 048f 1B       		.uleb128 0x1b
+ 1756 0490 CB000000 		.4byte	.LASF44
+ 1757 0494 01       		.byte	0x1
+ 1758 0495 A1       		.byte	0xa1
+ 1759 0496 25000000 		.4byte	0x25
+ 1760 049a 00000000 		.4byte	.LFB78
+ 1761 049e 58000000 		.4byte	.LFE78-.LFB78
+ 1762 04a2 01       		.uleb128 0x1
+ 1763 04a3 9C       		.byte	0x9c
+ 1764 04a4 3D050000 		.4byte	0x53d
+ 1765 04a8 10       		.uleb128 0x10
+ 1766 04a9 F7000000 		.4byte	.LASF43
+ 1767 04ad 01       		.byte	0x1
+ 1768 04ae A1       		.byte	0xa1
+ 1769 04af 25000000 		.4byte	0x25
+ 1770 04b3 E9010000 		.4byte	.LLST12
+ 1771 04b7 11       		.uleb128 0x11
+ 1772 04b8 70747200 		.ascii	"ptr\000"
+ 1773 04bc 01       		.byte	0x1
+ 1774 04bd A1       		.byte	0xa1
+ 1775 04be 00010000 		.4byte	0x100
+ 1776 04c2 0A020000 		.4byte	.LLST13
+ 1777 04c6 11       		.uleb128 0x11
+ 1778 04c7 6C656E00 		.ascii	"len\000"
+ 1779 04cb 01       		.byte	0x1
+ 1780 04cc A1       		.byte	0xa1
+ 1781 04cd 25000000 		.4byte	0x25
+ 1782 04d1 4C020000 		.4byte	.LLST14
+ 1783 04d5 1C       		.uleb128 0x1c
+ 1784 04d6 6E00     		.ascii	"n\000"
+ 1785 04d8 01       		.byte	0x1
+ 1786 04d9 A7       		.byte	0xa7
+ 1787 04da 25000000 		.4byte	0x25
+ 1788 04de 78020000 		.4byte	.LLST15
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 40
+
+
+ 1789 04e2 12       		.uleb128 0x12
+ 1790 04e3 12000000 		.4byte	.LVL36
+ 1791 04e7 61080000 		.4byte	0x861
+ 1792 04eb F6040000 		.4byte	0x4f6
+ 1793 04ef 13       		.uleb128 0x13
+ 1794 04f0 01       		.uleb128 0x1
+ 1795 04f1 51       		.byte	0x51
+ 1796 04f2 02       		.uleb128 0x2
+ 1797 04f3 09       		.byte	0x9
+ 1798 04f4 FF       		.byte	0xff
+ 1799 04f5 00       		.byte	0
+ 1800 04f6 12       		.uleb128 0x12
+ 1801 04f7 28000000 		.4byte	.LVL38
+ 1802 04fb 6D080000 		.4byte	0x86d
+ 1803 04ff 0F050000 		.4byte	0x50f
+ 1804 0503 13       		.uleb128 0x13
+ 1805 0504 01       		.uleb128 0x1
+ 1806 0505 50       		.byte	0x50
+ 1807 0506 01       		.uleb128 0x1
+ 1808 0507 3D       		.byte	0x3d
+ 1809 0508 13       		.uleb128 0x13
+ 1810 0509 01       		.uleb128 0x1
+ 1811 050a 51       		.byte	0x51
+ 1812 050b 02       		.uleb128 0x2
+ 1813 050c 09       		.byte	0x9
+ 1814 050d FF       		.byte	0xff
+ 1815 050e 00       		.byte	0
+ 1816 050f 12       		.uleb128 0x12
+ 1817 0510 34000000 		.4byte	.LVL40
+ 1818 0514 6D080000 		.4byte	0x86d
+ 1819 0518 23050000 		.4byte	0x523
+ 1820 051c 13       		.uleb128 0x13
+ 1821 051d 01       		.uleb128 0x1
+ 1822 051e 51       		.byte	0x51
+ 1823 051f 02       		.uleb128 0x2
+ 1824 0520 09       		.byte	0x9
+ 1825 0521 FF       		.byte	0xff
+ 1826 0522 00       		.byte	0
+ 1827 0523 14       		.uleb128 0x14
+ 1828 0524 4A000000 		.4byte	.LVL43
+ 1829 0528 78080000 		.4byte	0x878
+ 1830 052c 13       		.uleb128 0x13
+ 1831 052d 01       		.uleb128 0x1
+ 1832 052e 51       		.byte	0x51
+ 1833 052f 01       		.uleb128 0x1
+ 1834 0530 30       		.byte	0x30
+ 1835 0531 13       		.uleb128 0x13
+ 1836 0532 01       		.uleb128 0x1
+ 1837 0533 52       		.byte	0x52
+ 1838 0534 01       		.uleb128 0x1
+ 1839 0535 30       		.byte	0x30
+ 1840 0536 13       		.uleb128 0x13
+ 1841 0537 01       		.uleb128 0x1
+ 1842 0538 53       		.byte	0x53
+ 1843 0539 01       		.uleb128 0x1
+ 1844 053a 30       		.byte	0x30
+ 1845 053b 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 41
+
+
+ 1846 053c 00       		.byte	0
+ 1847 053d 1B       		.uleb128 0x1b
+ 1848 053e 61020000 		.4byte	.LASF45
+ 1849 0542 01       		.byte	0x1
+ 1850 0543 B2       		.byte	0xb2
+ 1851 0544 25000000 		.4byte	0x25
+ 1852 0548 00000000 		.4byte	.LFB79
+ 1853 054c 04000000 		.4byte	.LFE79-.LFB79
+ 1854 0550 01       		.uleb128 0x1
+ 1855 0551 9C       		.byte	0x9c
+ 1856 0552 80050000 		.4byte	0x580
+ 1857 0556 10       		.uleb128 0x10
+ 1858 0557 F7000000 		.4byte	.LASF43
+ 1859 055b 01       		.byte	0x1
+ 1860 055c B2       		.byte	0xb2
+ 1861 055d 25000000 		.4byte	0x25
+ 1862 0561 8B020000 		.4byte	.LLST16
+ 1863 0565 1A       		.uleb128 0x1a
+ 1864 0566 70747200 		.ascii	"ptr\000"
+ 1865 056a 01       		.byte	0x1
+ 1866 056b B2       		.byte	0xb2
+ 1867 056c 00010000 		.4byte	0x100
+ 1868 0570 01       		.uleb128 0x1
+ 1869 0571 51       		.byte	0x51
+ 1870 0572 1D       		.uleb128 0x1d
+ 1871 0573 51040000 		.4byte	.LASF46
+ 1872 0577 01       		.byte	0x1
+ 1873 0578 B2       		.byte	0xb2
+ 1874 0579 25000000 		.4byte	0x25
+ 1875 057d 01       		.uleb128 0x1
+ 1876 057e 52       		.byte	0x52
+ 1877 057f 00       		.byte	0
+ 1878 0580 17       		.uleb128 0x17
+ 1879 0581 2D020000 		.4byte	.LASF48
+ 1880 0585 01       		.byte	0x1
+ 1881 0586 C1       		.byte	0xc1
+ 1882 0587 00000000 		.4byte	.LFB80
+ 1883 058b 0C000000 		.4byte	.LFE80-.LFB80
+ 1884 058f 01       		.uleb128 0x1
+ 1885 0590 9C       		.byte	0x9c
+ 1886 0591 1B       		.uleb128 0x1b
+ 1887 0592 4C010000 		.4byte	.LASF49
+ 1888 0596 01       		.byte	0x1
+ 1889 0597 C6       		.byte	0xc6
+ 1890 0598 25000000 		.4byte	0x25
+ 1891 059c 00000000 		.4byte	.LFB81
+ 1892 05a0 1C000000 		.4byte	.LFE81-.LFB81
+ 1893 05a4 01       		.uleb128 0x1
+ 1894 05a5 9C       		.byte	0x9c
+ 1895 05a6 BE050000 		.4byte	0x5be
+ 1896 05aa 14       		.uleb128 0x14
+ 1897 05ab 0E000000 		.4byte	.LVL48
+ 1898 05af 90080000 		.4byte	0x890
+ 1899 05b3 13       		.uleb128 0x13
+ 1900 05b4 01       		.uleb128 0x1
+ 1901 05b5 50       		.byte	0x50
+ 1902 05b6 05       		.uleb128 0x5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 42
+
+
+ 1903 05b7 03       		.byte	0x3
+ 1904 05b8 44000000 		.4byte	.LC3
+ 1905 05bc 00       		.byte	0
+ 1906 05bd 00       		.byte	0
+ 1907 05be 19       		.uleb128 0x19
+ 1908 05bf 18020000 		.4byte	.LASF51
+ 1909 05c3 01       		.byte	0x1
+ 1910 05c4 D6       		.byte	0xd6
+ 1911 05c5 00000000 		.4byte	.LFB82
+ 1912 05c9 0C000000 		.4byte	.LFE82-.LFB82
+ 1913 05cd 01       		.uleb128 0x1
+ 1914 05ce 9C       		.byte	0x9c
+ 1915 05cf 15       		.uleb128 0x15
+ 1916 05d0 C0040000 		.4byte	.LASF52
+ 1917 05d4 01       		.byte	0x1
+ 1918 05d5 DD       		.byte	0xdd
+ 1919 05d6 00000000 		.4byte	.LFB83
+ 1920 05da 20000000 		.4byte	.LFE83-.LFB83
+ 1921 05de 01       		.uleb128 0x1
+ 1922 05df 9C       		.byte	0x9c
+ 1923 05e0 F8050000 		.4byte	0x5f8
+ 1924 05e4 14       		.uleb128 0x14
+ 1925 05e5 0E000000 		.4byte	.LVL49
+ 1926 05e9 90080000 		.4byte	0x890
+ 1927 05ed 13       		.uleb128 0x13
+ 1928 05ee 01       		.uleb128 0x1
+ 1929 05ef 50       		.byte	0x50
+ 1930 05f0 05       		.uleb128 0x5
+ 1931 05f1 03       		.byte	0x3
+ 1932 05f2 6C000000 		.4byte	.LC4
+ 1933 05f6 00       		.byte	0
+ 1934 05f7 00       		.byte	0
+ 1935 05f8 15       		.uleb128 0x15
+ 1936 05f9 AE010000 		.4byte	.LASF53
+ 1937 05fd 01       		.byte	0x1
+ 1938 05fe E6       		.byte	0xe6
+ 1939 05ff 00000000 		.4byte	.LFB84
+ 1940 0603 2C000000 		.4byte	.LFE84-.LFB84
+ 1941 0607 01       		.uleb128 0x1
+ 1942 0608 9C       		.byte	0x9c
+ 1943 0609 41060000 		.4byte	0x641
+ 1944 060d 12       		.uleb128 0x12
+ 1945 060e 0E000000 		.4byte	.LVL50
+ 1946 0612 90080000 		.4byte	0x890
+ 1947 0616 24060000 		.4byte	0x624
+ 1948 061a 13       		.uleb128 0x13
+ 1949 061b 01       		.uleb128 0x1
+ 1950 061c 50       		.byte	0x50
+ 1951 061d 05       		.uleb128 0x5
+ 1952 061e 03       		.byte	0x3
+ 1953 061f 6C000000 		.4byte	.LC4
+ 1954 0623 00       		.byte	0
+ 1955 0624 12       		.uleb128 0x12
+ 1956 0625 16000000 		.4byte	.LVL51
+ 1957 0629 9F080000 		.4byte	0x89f
+ 1958 062d 37060000 		.4byte	0x637
+ 1959 0631 13       		.uleb128 0x13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 43
+
+
+ 1960 0632 01       		.uleb128 0x1
+ 1961 0633 50       		.byte	0x50
+ 1962 0634 01       		.uleb128 0x1
+ 1963 0635 3A       		.byte	0x3a
+ 1964 0636 00       		.byte	0
+ 1965 0637 1E       		.uleb128 0x1e
+ 1966 0638 22000000 		.4byte	.LVL52
+ 1967 063c CF050000 		.4byte	0x5cf
+ 1968 0640 00       		.byte	0
+ 1969 0641 1F       		.uleb128 0x1f
+ 1970 0642 D1040000 		.4byte	.LASF54
+ 1971 0646 01       		.byte	0x1
+ 1972 0647 0401     		.2byte	0x104
+ 1973 0649 00000000 		.4byte	.LFB86
+ 1974 064d 78010000 		.4byte	.LFE86-.LFB86
+ 1975 0651 01       		.uleb128 0x1
+ 1976 0652 9C       		.byte	0x9c
+ 1977 0653 66070000 		.4byte	0x766
+ 1978 0657 20       		.uleb128 0x20
+ 1979 0658 90040000 		.4byte	.LASF55
+ 1980 065c 01       		.byte	0x1
+ 1981 065d 0401     		.2byte	0x104
+ 1982 065f FE000000 		.4byte	0xfe
+ 1983 0663 AC020000 		.4byte	.LLST17
+ 1984 0667 21       		.uleb128 0x21
+ 1985 0668 736400   		.ascii	"sd\000"
+ 1986 066b 01       		.byte	0x1
+ 1987 066c 0701     		.2byte	0x107
+ 1988 066e 8E010000 		.4byte	0x18e
+ 1989 0672 02       		.uleb128 0x2
+ 1990 0673 91       		.byte	0x91
+ 1991 0674 68       		.sleb128 -24
+ 1992 0675 22       		.uleb128 0x22
+ 1993 0676 D8030000 		.4byte	.LASF30
+ 1994 067a 01       		.byte	0x1
+ 1995 067b 0801     		.2byte	0x108
+ 1996 067d 66070000 		.4byte	0x766
+ 1997 0681 02       		.uleb128 0x2
+ 1998 0682 91       		.byte	0x91
+ 1999 0683 60       		.sleb128 -32
+ 2000 0684 23       		.uleb128 0x23
+ 2001 0685 D2000000 		.4byte	.LASF28
+ 2002 0689 01       		.byte	0x1
+ 2003 068a 0901     		.2byte	0x109
+ 2004 068c BF000000 		.4byte	0xbf
+ 2005 0690 CD020000 		.4byte	.LLST18
+ 2006 0694 22       		.uleb128 0x22
+ 2007 0695 A4040000 		.4byte	.LASF56
+ 2008 0699 01       		.byte	0x1
+ 2009 069a 0A01     		.2byte	0x10a
+ 2010 069c 11010000 		.4byte	0x111
+ 2011 06a0 02       		.uleb128 0x2
+ 2012 06a1 91       		.byte	0x91
+ 2013 06a2 58       		.sleb128 -40
+ 2014 06a3 24       		.uleb128 0x24
+ 2015 06a4 706F7300 		.ascii	"pos\000"
+ 2016 06a8 01       		.byte	0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 44
+
+
+ 2017 06a9 0B01     		.2byte	0x10b
+ 2018 06ab 25000000 		.4byte	0x25
+ 2019 06af EB020000 		.4byte	.LLST19
+ 2020 06b3 23       		.uleb128 0x23
+ 2021 06b4 FC000000 		.4byte	.LASF57
+ 2022 06b8 01       		.byte	0x1
+ 2023 06b9 0C01     		.2byte	0x10c
+ 2024 06bb 2C010000 		.4byte	0x12c
+ 2025 06bf 0A030000 		.4byte	.LLST20
+ 2026 06c3 25       		.uleb128 0x25
+ 2027 06c4 18000000 		.4byte	.LBB2
+ 2028 06c8 60010000 		.4byte	.LBE2-.LBB2
+ 2029 06cc 22       		.uleb128 0x22
+ 2030 06cd DD030000 		.4byte	.LASF58
+ 2031 06d1 01       		.byte	0x1
+ 2032 06d2 2C01     		.2byte	0x12c
+ 2033 06d4 2C010000 		.4byte	0x12c
+ 2034 06d8 02       		.uleb128 0x2
+ 2035 06d9 91       		.byte	0x91
+ 2036 06da 54       		.sleb128 -44
+ 2037 06db 26       		.uleb128 0x26
+ 2038 06dc 8E000000 		.4byte	.LBB3
+ 2039 06e0 DA000000 		.4byte	.LBE3-.LBB3
+ 2040 06e4 47070000 		.4byte	0x747
+ 2041 06e8 24       		.uleb128 0x24
+ 2042 06e9 6D7300   		.ascii	"ms\000"
+ 2043 06ec 01       		.byte	0x1
+ 2044 06ed 2E01     		.2byte	0x12e
+ 2045 06ef BF000000 		.4byte	0xbf
+ 2046 06f3 1D030000 		.4byte	.LLST21
+ 2047 06f7 12       		.uleb128 0x12
+ 2048 06f8 A6000000 		.4byte	.LVL64
+ 2049 06fc E8010000 		.4byte	0x1e8
+ 2050 0700 10070000 		.4byte	0x710
+ 2051 0704 13       		.uleb128 0x13
+ 2052 0705 01       		.uleb128 0x1
+ 2053 0706 50       		.byte	0x50
+ 2054 0707 02       		.uleb128 0x2
+ 2055 0708 91       		.byte	0x91
+ 2056 0709 60       		.sleb128 -32
+ 2057 070a 13       		.uleb128 0x13
+ 2058 070b 01       		.uleb128 0x1
+ 2059 070c 51       		.byte	0x51
+ 2060 070d 01       		.uleb128 0x1
+ 2061 070e 35       		.byte	0x35
+ 2062 070f 00       		.byte	0
+ 2063 0710 12       		.uleb128 0x12
+ 2064 0711 C2000000 		.4byte	.LVL67
+ 2065 0715 B7080000 		.4byte	0x8b7
+ 2066 0719 30070000 		.4byte	0x730
+ 2067 071d 13       		.uleb128 0x13
+ 2068 071e 01       		.uleb128 0x1
+ 2069 071f 50       		.byte	0x50
+ 2070 0720 08       		.uleb128 0x8
+ 2071 0721 91       		.byte	0x91
+ 2072 0722 00       		.sleb128 0
+ 2073 0723 74       		.byte	0x74
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 45
+
+
+ 2074 0724 00       		.sleb128 0
+ 2075 0725 22       		.byte	0x22
+ 2076 0726 08       		.byte	0x8
+ 2077 0727 28       		.byte	0x28
+ 2078 0728 1C       		.byte	0x1c
+ 2079 0729 13       		.uleb128 0x13
+ 2080 072a 01       		.uleb128 0x1
+ 2081 072b 51       		.byte	0x51
+ 2082 072c 02       		.uleb128 0x2
+ 2083 072d 08       		.byte	0x8
+ 2084 072e 64       		.byte	0x64
+ 2085 072f 00       		.byte	0
+ 2086 0730 14       		.uleb128 0x14
+ 2087 0731 68010000 		.4byte	.LVL68
+ 2088 0735 C2080000 		.4byte	0x8c2
+ 2089 0739 13       		.uleb128 0x13
+ 2090 073a 01       		.uleb128 0x1
+ 2091 073b 50       		.byte	0x50
+ 2092 073c 02       		.uleb128 0x2
+ 2093 073d 91       		.byte	0x91
+ 2094 073e 54       		.sleb128 -44
+ 2095 073f 13       		.uleb128 0x13
+ 2096 0740 01       		.uleb128 0x1
+ 2097 0741 51       		.byte	0x51
+ 2098 0742 02       		.uleb128 0x2
+ 2099 0743 76       		.byte	0x76
+ 2100 0744 00       		.sleb128 0
+ 2101 0745 00       		.byte	0
+ 2102 0746 00       		.byte	0
+ 2103 0747 12       		.uleb128 0x12
+ 2104 0748 38000000 		.4byte	.LVL57
+ 2105 074c CE080000 		.4byte	0x8ce
+ 2106 0750 5B070000 		.4byte	0x75b
+ 2107 0754 13       		.uleb128 0x13
+ 2108 0755 01       		.uleb128 0x1
+ 2109 0756 51       		.byte	0x51
+ 2110 0757 02       		.uleb128 0x2
+ 2111 0758 91       		.byte	0x91
+ 2112 0759 68       		.sleb128 -24
+ 2113 075a 00       		.byte	0
+ 2114 075b 1E       		.uleb128 0x1e
+ 2115 075c 8A000000 		.4byte	.LVL61
+ 2116 0760 DA080000 		.4byte	0x8da
+ 2117 0764 00       		.byte	0
+ 2118 0765 00       		.byte	0
+ 2119 0766 09       		.uleb128 0x9
+ 2120 0767 F0000000 		.4byte	0xf0
+ 2121 076b 76070000 		.4byte	0x776
+ 2122 076f 0A       		.uleb128 0xa
+ 2123 0770 F7000000 		.4byte	0xf7
+ 2124 0774 04       		.byte	0x4
+ 2125 0775 00       		.byte	0
+ 2126 0776 27       		.uleb128 0x27
+ 2127 0777 C9040000 		.4byte	.LASF59
+ 2128 077b 01       		.byte	0x1
+ 2129 077c 10       		.byte	0x10
+ 2130 077d 37010000 		.4byte	0x137
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 46
+
+
+ 2131 0781 05       		.uleb128 0x5
+ 2132 0782 03       		.byte	0x3
+ 2133 0783 04000000 		.4byte	motor_q
+ 2134 0787 09       		.uleb128 0x9
+ 2135 0788 0C010000 		.4byte	0x10c
+ 2136 078c 97070000 		.4byte	0x797
+ 2137 0790 0A       		.uleb128 0xa
+ 2138 0791 F7000000 		.4byte	0xf7
+ 2139 0795 04       		.byte	0x4
+ 2140 0796 00       		.byte	0
+ 2141 0797 27       		.uleb128 0x27
+ 2142 0798 22000000 		.4byte	.LASF60
+ 2143 079c 01       		.byte	0x1
+ 2144 079d 1D       		.byte	0x1d
+ 2145 079e A8070000 		.4byte	0x7a8
+ 2146 07a2 05       		.uleb128 0x5
+ 2147 07a3 03       		.byte	0x3
+ 2148 07a4 00000000 		.4byte	stopped
+ 2149 07a8 08       		.uleb128 0x8
+ 2150 07a9 87070000 		.4byte	0x787
+ 2151 07ad 27       		.uleb128 0x27
+ 2152 07ae 91030000 		.4byte	.LASF61
+ 2153 07b2 01       		.byte	0x1
+ 2154 07b3 1F       		.byte	0x1f
+ 2155 07b4 BE070000 		.4byte	0x7be
+ 2156 07b8 05       		.uleb128 0x5
+ 2157 07b9 03       		.byte	0x3
+ 2158 07ba 08000000 		.4byte	motor_started
+ 2159 07be 28       		.uleb128 0x28
+ 2160 07bf 25000000 		.4byte	0x25
+ 2161 07c3 27       		.uleb128 0x27
+ 2162 07c4 C3000000 		.4byte	.LASF62
+ 2163 07c8 01       		.byte	0x1
+ 2164 07c9 49       		.byte	0x49
+ 2165 07ca D4070000 		.4byte	0x7d4
+ 2166 07ce 05       		.uleb128 0x5
+ 2167 07cf 03       		.byte	0x3
+ 2168 07d0 10000000 		.4byte	sensors
+ 2169 07d4 28       		.uleb128 0x28
+ 2170 07d5 99010000 		.4byte	0x199
+ 2171 07d9 27       		.uleb128 0x27
+ 2172 07da 41000000 		.4byte	.LASF63
+ 2173 07de 01       		.byte	0x1
+ 2174 07df 4A       		.byte	0x4a
+ 2175 07e0 99010000 		.4byte	0x199
+ 2176 07e4 05       		.uleb128 0x5
+ 2177 07e5 03       		.byte	0x3
+ 2178 07e6 00000000 		.4byte	threshold
+ 2179 07ea 27       		.uleb128 0x27
+ 2180 07eb D8000000 		.4byte	.LASF64
+ 2181 07ef 01       		.byte	0x1
+ 2182 07f0 4B       		.byte	0x4b
+ 2183 07f1 BE070000 		.4byte	0x7be
+ 2184 07f5 05       		.uleb128 0x5
+ 2185 07f6 03       		.byte	0x3
+ 2186 07f7 0C000000 		.4byte	reflectance_started
+ 2187 07fb 27       		.uleb128 0x27
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 47
+
+
+ 2188 07fc 1D010000 		.4byte	.LASF65
+ 2189 0800 01       		.byte	0x1
+ 2190 0801 9A       		.byte	0x9a
+ 2191 0802 42010000 		.4byte	0x142
+ 2192 0806 05       		.uleb128 0x5
+ 2193 0807 03       		.byte	0x3
+ 2194 0808 00000000 		.4byte	writeMutex
+ 2195 080c 27       		.uleb128 0x27
+ 2196 080d A4030000 		.4byte	.LASF66
+ 2197 0811 01       		.byte	0x1
+ 2198 0812 BD       		.byte	0xbd
+ 2199 0813 BE070000 		.4byte	0x7be
+ 2200 0817 05       		.uleb128 0x5
+ 2201 0818 03       		.byte	0x3
+ 2202 0819 20000000 		.4byte	distance
+ 2203 081d 27       		.uleb128 0x27
+ 2204 081e 82040000 		.4byte	.LASF67
+ 2205 0822 01       		.byte	0x1
+ 2206 0823 BE       		.byte	0xbe
+ 2207 0824 BE070000 		.4byte	0x7be
+ 2208 0828 05       		.uleb128 0x5
+ 2209 0829 03       		.byte	0x3
+ 2210 082a 1C000000 		.4byte	ultra_started
+ 2211 082e 27       		.uleb128 0x27
+ 2212 082f C6010000 		.4byte	.LASF68
+ 2213 0833 01       		.byte	0x1
+ 2214 0834 D2       		.byte	0xd2
+ 2215 0835 BE070000 		.4byte	0x7be
+ 2216 0839 05       		.uleb128 0x5
+ 2217 083a 03       		.byte	0x3
+ 2218 083b 28000000 		.4byte	ir_value
+ 2219 083f 27       		.uleb128 0x27
+ 2220 0840 FC030000 		.4byte	.LASF69
+ 2221 0844 01       		.byte	0x1
+ 2222 0845 D3       		.byte	0xd3
+ 2223 0846 BE070000 		.4byte	0x7be
+ 2224 084a 05       		.uleb128 0x5
+ 2225 084b 03       		.byte	0x3
+ 2226 084c 24000000 		.4byte	ir_started
+ 2227 0850 29       		.uleb128 0x29
+ 2228 0851 B3040000 		.4byte	.LASF86
+ 2229 0855 0C       		.byte	0xc
+ 2230 0856 1207     		.2byte	0x712
+ 2231 0858 5C080000 		.4byte	0x85c
+ 2232 085c 28       		.uleb128 0x28
+ 2233 085d B4000000 		.4byte	0xb4
+ 2234 0861 2A       		.uleb128 0x2a
+ 2235 0862 B7020000 		.4byte	.LASF70
+ 2236 0866 B7020000 		.4byte	.LASF70
+ 2237 086a 06       		.byte	0x6
+ 2238 086b 8805     		.2byte	0x588
+ 2239 086d 2B       		.uleb128 0x2b
+ 2240 086e A8000000 		.4byte	.LASF71
+ 2241 0872 A8000000 		.4byte	.LASF71
+ 2242 0876 0A       		.byte	0xa
+ 2243 0877 25       		.byte	0x25
+ 2244 0878 2A       		.uleb128 0x2a
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 48
+
+
+ 2245 0879 3A010000 		.4byte	.LASF72
+ 2246 087d 3A010000 		.4byte	.LASF72
+ 2247 0881 06       		.byte	0x6
+ 2248 0882 8802     		.2byte	0x288
+ 2249 0884 2A       		.uleb128 0x2a
+ 2250 0885 AD030000 		.4byte	.LASF73
+ 2251 0889 AD030000 		.4byte	.LASF73
+ 2252 088d 06       		.byte	0x6
+ 2253 088e D605     		.2byte	0x5d6
+ 2254 0890 2C       		.uleb128 0x2c
+ 2255 0891 CB020000 		.4byte	.LASF87
+ 2256 0895 00000000 		.4byte	.LASF88
+ 2257 0899 0D       		.byte	0xd
+ 2258 089a 00       		.byte	0
+ 2259 089b CB020000 		.4byte	.LASF87
+ 2260 089f 2A       		.uleb128 0x2a
+ 2261 08a0 B8000000 		.4byte	.LASF74
+ 2262 08a4 B8000000 		.4byte	.LASF74
+ 2263 08a8 0B       		.byte	0xb
+ 2264 08a9 ED02     		.2byte	0x2ed
+ 2265 08ab 2A       		.uleb128 0x2a
+ 2266 08ac 91010000 		.4byte	.LASF75
+ 2267 08b0 91010000 		.4byte	.LASF75
+ 2268 08b4 06       		.byte	0x6
+ 2269 08b5 8405     		.2byte	0x584
+ 2270 08b7 2B       		.uleb128 0x2b
+ 2271 08b8 B6010000 		.4byte	.LASF76
+ 2272 08bc B6010000 		.4byte	.LASF76
+ 2273 08c0 0A       		.byte	0xa
+ 2274 08c1 24       		.byte	0x24
+ 2275 08c2 2A       		.uleb128 0x2a
+ 2276 08c3 57040000 		.4byte	.LASF77
+ 2277 08c7 57040000 		.4byte	.LASF77
+ 2278 08cb 0B       		.byte	0xb
+ 2279 08cc 2803     		.2byte	0x328
+ 2280 08ce 2A       		.uleb128 0x2a
+ 2281 08cf 14000000 		.4byte	.LASF78
+ 2282 08d3 14000000 		.4byte	.LASF78
+ 2283 08d7 06       		.byte	0x6
+ 2284 08d8 6203     		.2byte	0x362
+ 2285 08da 2A       		.uleb128 0x2a
+ 2286 08db F8010000 		.4byte	.LASF79
+ 2287 08df F8010000 		.4byte	.LASF79
+ 2288 08e3 0B       		.byte	0xb
+ 2289 08e4 3E05     		.2byte	0x53e
+ 2290 08e6 00       		.byte	0
+ 2291              		.section	.debug_abbrev,"",%progbits
+ 2292              	.Ldebug_abbrev0:
+ 2293 0000 01       		.uleb128 0x1
+ 2294 0001 11       		.uleb128 0x11
+ 2295 0002 01       		.byte	0x1
+ 2296 0003 25       		.uleb128 0x25
+ 2297 0004 0E       		.uleb128 0xe
+ 2298 0005 13       		.uleb128 0x13
+ 2299 0006 0B       		.uleb128 0xb
+ 2300 0007 03       		.uleb128 0x3
+ 2301 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 49
+
+
+ 2302 0009 1B       		.uleb128 0x1b
+ 2303 000a 0E       		.uleb128 0xe
+ 2304 000b 55       		.uleb128 0x55
+ 2305 000c 17       		.uleb128 0x17
+ 2306 000d 11       		.uleb128 0x11
+ 2307 000e 01       		.uleb128 0x1
+ 2308 000f 10       		.uleb128 0x10
+ 2309 0010 17       		.uleb128 0x17
+ 2310 0011 00       		.byte	0
+ 2311 0012 00       		.byte	0
+ 2312 0013 02       		.uleb128 0x2
+ 2313 0014 24       		.uleb128 0x24
+ 2314 0015 00       		.byte	0
+ 2315 0016 0B       		.uleb128 0xb
+ 2316 0017 0B       		.uleb128 0xb
+ 2317 0018 3E       		.uleb128 0x3e
+ 2318 0019 0B       		.uleb128 0xb
+ 2319 001a 03       		.uleb128 0x3
+ 2320 001b 08       		.uleb128 0x8
+ 2321 001c 00       		.byte	0
+ 2322 001d 00       		.byte	0
+ 2323 001e 03       		.uleb128 0x3
+ 2324 001f 24       		.uleb128 0x24
+ 2325 0020 00       		.byte	0
+ 2326 0021 0B       		.uleb128 0xb
+ 2327 0022 0B       		.uleb128 0xb
+ 2328 0023 3E       		.uleb128 0x3e
+ 2329 0024 0B       		.uleb128 0xb
+ 2330 0025 03       		.uleb128 0x3
+ 2331 0026 0E       		.uleb128 0xe
+ 2332 0027 00       		.byte	0
+ 2333 0028 00       		.byte	0
+ 2334 0029 04       		.uleb128 0x4
+ 2335 002a 16       		.uleb128 0x16
+ 2336 002b 00       		.byte	0
+ 2337 002c 03       		.uleb128 0x3
+ 2338 002d 0E       		.uleb128 0xe
+ 2339 002e 3A       		.uleb128 0x3a
+ 2340 002f 0B       		.uleb128 0xb
+ 2341 0030 3B       		.uleb128 0x3b
+ 2342 0031 0B       		.uleb128 0xb
+ 2343 0032 49       		.uleb128 0x49
+ 2344 0033 13       		.uleb128 0x13
+ 2345 0034 00       		.byte	0
+ 2346 0035 00       		.byte	0
+ 2347 0036 05       		.uleb128 0x5
+ 2348 0037 16       		.uleb128 0x16
+ 2349 0038 00       		.byte	0
+ 2350 0039 03       		.uleb128 0x3
+ 2351 003a 0E       		.uleb128 0xe
+ 2352 003b 3A       		.uleb128 0x3a
+ 2353 003c 0B       		.uleb128 0xb
+ 2354 003d 3B       		.uleb128 0x3b
+ 2355 003e 05       		.uleb128 0x5
+ 2356 003f 49       		.uleb128 0x49
+ 2357 0040 13       		.uleb128 0x13
+ 2358 0041 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 50
+
+
+ 2359 0042 00       		.byte	0
+ 2360 0043 06       		.uleb128 0x6
+ 2361 0044 0F       		.uleb128 0xf
+ 2362 0045 00       		.byte	0
+ 2363 0046 0B       		.uleb128 0xb
+ 2364 0047 0B       		.uleb128 0xb
+ 2365 0048 00       		.byte	0
+ 2366 0049 00       		.byte	0
+ 2367 004a 07       		.uleb128 0x7
+ 2368 004b 0F       		.uleb128 0xf
+ 2369 004c 00       		.byte	0
+ 2370 004d 0B       		.uleb128 0xb
+ 2371 004e 0B       		.uleb128 0xb
+ 2372 004f 49       		.uleb128 0x49
+ 2373 0050 13       		.uleb128 0x13
+ 2374 0051 00       		.byte	0
+ 2375 0052 00       		.byte	0
+ 2376 0053 08       		.uleb128 0x8
+ 2377 0054 26       		.uleb128 0x26
+ 2378 0055 00       		.byte	0
+ 2379 0056 49       		.uleb128 0x49
+ 2380 0057 13       		.uleb128 0x13
+ 2381 0058 00       		.byte	0
+ 2382 0059 00       		.byte	0
+ 2383 005a 09       		.uleb128 0x9
+ 2384 005b 01       		.uleb128 0x1
+ 2385 005c 01       		.byte	0x1
+ 2386 005d 49       		.uleb128 0x49
+ 2387 005e 13       		.uleb128 0x13
+ 2388 005f 01       		.uleb128 0x1
+ 2389 0060 13       		.uleb128 0x13
+ 2390 0061 00       		.byte	0
+ 2391 0062 00       		.byte	0
+ 2392 0063 0A       		.uleb128 0xa
+ 2393 0064 21       		.uleb128 0x21
+ 2394 0065 00       		.byte	0
+ 2395 0066 49       		.uleb128 0x49
+ 2396 0067 13       		.uleb128 0x13
+ 2397 0068 2F       		.uleb128 0x2f
+ 2398 0069 0B       		.uleb128 0xb
+ 2399 006a 00       		.byte	0
+ 2400 006b 00       		.byte	0
+ 2401 006c 0B       		.uleb128 0xb
+ 2402 006d 13       		.uleb128 0x13
+ 2403 006e 01       		.byte	0x1
+ 2404 006f 0B       		.uleb128 0xb
+ 2405 0070 0B       		.uleb128 0xb
+ 2406 0071 3A       		.uleb128 0x3a
+ 2407 0072 0B       		.uleb128 0xb
+ 2408 0073 3B       		.uleb128 0x3b
+ 2409 0074 0B       		.uleb128 0xb
+ 2410 0075 01       		.uleb128 0x1
+ 2411 0076 13       		.uleb128 0x13
+ 2412 0077 00       		.byte	0
+ 2413 0078 00       		.byte	0
+ 2414 0079 0C       		.uleb128 0xc
+ 2415 007a 0D       		.uleb128 0xd
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 51
+
+
+ 2416 007b 00       		.byte	0
+ 2417 007c 03       		.uleb128 0x3
+ 2418 007d 08       		.uleb128 0x8
+ 2419 007e 3A       		.uleb128 0x3a
+ 2420 007f 0B       		.uleb128 0xb
+ 2421 0080 3B       		.uleb128 0x3b
+ 2422 0081 0B       		.uleb128 0xb
+ 2423 0082 49       		.uleb128 0x49
+ 2424 0083 13       		.uleb128 0x13
+ 2425 0084 38       		.uleb128 0x38
+ 2426 0085 0B       		.uleb128 0xb
+ 2427 0086 00       		.byte	0
+ 2428 0087 00       		.byte	0
+ 2429 0088 0D       		.uleb128 0xd
+ 2430 0089 0D       		.uleb128 0xd
+ 2431 008a 00       		.byte	0
+ 2432 008b 03       		.uleb128 0x3
+ 2433 008c 0E       		.uleb128 0xe
+ 2434 008d 3A       		.uleb128 0x3a
+ 2435 008e 0B       		.uleb128 0xb
+ 2436 008f 3B       		.uleb128 0x3b
+ 2437 0090 0B       		.uleb128 0xb
+ 2438 0091 49       		.uleb128 0x49
+ 2439 0092 13       		.uleb128 0x13
+ 2440 0093 38       		.uleb128 0x38
+ 2441 0094 0B       		.uleb128 0xb
+ 2442 0095 00       		.byte	0
+ 2443 0096 00       		.byte	0
+ 2444 0097 0E       		.uleb128 0xe
+ 2445 0098 13       		.uleb128 0x13
+ 2446 0099 01       		.byte	0x1
+ 2447 009a 03       		.uleb128 0x3
+ 2448 009b 0E       		.uleb128 0xe
+ 2449 009c 0B       		.uleb128 0xb
+ 2450 009d 0B       		.uleb128 0xb
+ 2451 009e 3A       		.uleb128 0x3a
+ 2452 009f 0B       		.uleb128 0xb
+ 2453 00a0 3B       		.uleb128 0x3b
+ 2454 00a1 0B       		.uleb128 0xb
+ 2455 00a2 01       		.uleb128 0x1
+ 2456 00a3 13       		.uleb128 0x13
+ 2457 00a4 00       		.byte	0
+ 2458 00a5 00       		.byte	0
+ 2459 00a6 0F       		.uleb128 0xf
+ 2460 00a7 2E       		.uleb128 0x2e
+ 2461 00a8 01       		.byte	0x1
+ 2462 00a9 03       		.uleb128 0x3
+ 2463 00aa 0E       		.uleb128 0xe
+ 2464 00ab 3A       		.uleb128 0x3a
+ 2465 00ac 0B       		.uleb128 0xb
+ 2466 00ad 3B       		.uleb128 0x3b
+ 2467 00ae 0B       		.uleb128 0xb
+ 2468 00af 27       		.uleb128 0x27
+ 2469 00b0 19       		.uleb128 0x19
+ 2470 00b1 11       		.uleb128 0x11
+ 2471 00b2 01       		.uleb128 0x1
+ 2472 00b3 12       		.uleb128 0x12
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 52
+
+
+ 2473 00b4 06       		.uleb128 0x6
+ 2474 00b5 40       		.uleb128 0x40
+ 2475 00b6 18       		.uleb128 0x18
+ 2476 00b7 9742     		.uleb128 0x2117
+ 2477 00b9 19       		.uleb128 0x19
+ 2478 00ba 01       		.uleb128 0x1
+ 2479 00bb 13       		.uleb128 0x13
+ 2480 00bc 00       		.byte	0
+ 2481 00bd 00       		.byte	0
+ 2482 00be 10       		.uleb128 0x10
+ 2483 00bf 05       		.uleb128 0x5
+ 2484 00c0 00       		.byte	0
+ 2485 00c1 03       		.uleb128 0x3
+ 2486 00c2 0E       		.uleb128 0xe
+ 2487 00c3 3A       		.uleb128 0x3a
+ 2488 00c4 0B       		.uleb128 0xb
+ 2489 00c5 3B       		.uleb128 0x3b
+ 2490 00c6 0B       		.uleb128 0xb
+ 2491 00c7 49       		.uleb128 0x49
+ 2492 00c8 13       		.uleb128 0x13
+ 2493 00c9 02       		.uleb128 0x2
+ 2494 00ca 17       		.uleb128 0x17
+ 2495 00cb 00       		.byte	0
+ 2496 00cc 00       		.byte	0
+ 2497 00cd 11       		.uleb128 0x11
+ 2498 00ce 05       		.uleb128 0x5
+ 2499 00cf 00       		.byte	0
+ 2500 00d0 03       		.uleb128 0x3
+ 2501 00d1 08       		.uleb128 0x8
+ 2502 00d2 3A       		.uleb128 0x3a
+ 2503 00d3 0B       		.uleb128 0xb
+ 2504 00d4 3B       		.uleb128 0x3b
+ 2505 00d5 0B       		.uleb128 0xb
+ 2506 00d6 49       		.uleb128 0x49
+ 2507 00d7 13       		.uleb128 0x13
+ 2508 00d8 02       		.uleb128 0x2
+ 2509 00d9 17       		.uleb128 0x17
+ 2510 00da 00       		.byte	0
+ 2511 00db 00       		.byte	0
+ 2512 00dc 12       		.uleb128 0x12
+ 2513 00dd 898201   		.uleb128 0x4109
+ 2514 00e0 01       		.byte	0x1
+ 2515 00e1 11       		.uleb128 0x11
+ 2516 00e2 01       		.uleb128 0x1
+ 2517 00e3 31       		.uleb128 0x31
+ 2518 00e4 13       		.uleb128 0x13
+ 2519 00e5 01       		.uleb128 0x1
+ 2520 00e6 13       		.uleb128 0x13
+ 2521 00e7 00       		.byte	0
+ 2522 00e8 00       		.byte	0
+ 2523 00e9 13       		.uleb128 0x13
+ 2524 00ea 8A8201   		.uleb128 0x410a
+ 2525 00ed 00       		.byte	0
+ 2526 00ee 02       		.uleb128 0x2
+ 2527 00ef 18       		.uleb128 0x18
+ 2528 00f0 9142     		.uleb128 0x2111
+ 2529 00f2 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 53
+
+
+ 2530 00f3 00       		.byte	0
+ 2531 00f4 00       		.byte	0
+ 2532 00f5 14       		.uleb128 0x14
+ 2533 00f6 898201   		.uleb128 0x4109
+ 2534 00f9 01       		.byte	0x1
+ 2535 00fa 11       		.uleb128 0x11
+ 2536 00fb 01       		.uleb128 0x1
+ 2537 00fc 31       		.uleb128 0x31
+ 2538 00fd 13       		.uleb128 0x13
+ 2539 00fe 00       		.byte	0
+ 2540 00ff 00       		.byte	0
+ 2541 0100 15       		.uleb128 0x15
+ 2542 0101 2E       		.uleb128 0x2e
+ 2543 0102 01       		.byte	0x1
+ 2544 0103 3F       		.uleb128 0x3f
+ 2545 0104 19       		.uleb128 0x19
+ 2546 0105 03       		.uleb128 0x3
+ 2547 0106 0E       		.uleb128 0xe
+ 2548 0107 3A       		.uleb128 0x3a
+ 2549 0108 0B       		.uleb128 0xb
+ 2550 0109 3B       		.uleb128 0x3b
+ 2551 010a 0B       		.uleb128 0xb
+ 2552 010b 27       		.uleb128 0x27
+ 2553 010c 19       		.uleb128 0x19
+ 2554 010d 11       		.uleb128 0x11
+ 2555 010e 01       		.uleb128 0x1
+ 2556 010f 12       		.uleb128 0x12
+ 2557 0110 06       		.uleb128 0x6
+ 2558 0111 40       		.uleb128 0x40
+ 2559 0112 18       		.uleb128 0x18
+ 2560 0113 9742     		.uleb128 0x2117
+ 2561 0115 19       		.uleb128 0x19
+ 2562 0116 01       		.uleb128 0x1
+ 2563 0117 13       		.uleb128 0x13
+ 2564 0118 00       		.byte	0
+ 2565 0119 00       		.byte	0
+ 2566 011a 16       		.uleb128 0x16
+ 2567 011b 34       		.uleb128 0x34
+ 2568 011c 00       		.byte	0
+ 2569 011d 03       		.uleb128 0x3
+ 2570 011e 08       		.uleb128 0x8
+ 2571 011f 3A       		.uleb128 0x3a
+ 2572 0120 0B       		.uleb128 0xb
+ 2573 0121 3B       		.uleb128 0x3b
+ 2574 0122 0B       		.uleb128 0xb
+ 2575 0123 49       		.uleb128 0x49
+ 2576 0124 13       		.uleb128 0x13
+ 2577 0125 02       		.uleb128 0x2
+ 2578 0126 18       		.uleb128 0x18
+ 2579 0127 00       		.byte	0
+ 2580 0128 00       		.byte	0
+ 2581 0129 17       		.uleb128 0x17
+ 2582 012a 2E       		.uleb128 0x2e
+ 2583 012b 00       		.byte	0
+ 2584 012c 3F       		.uleb128 0x3f
+ 2585 012d 19       		.uleb128 0x19
+ 2586 012e 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 54
+
+
+ 2587 012f 0E       		.uleb128 0xe
+ 2588 0130 3A       		.uleb128 0x3a
+ 2589 0131 0B       		.uleb128 0xb
+ 2590 0132 3B       		.uleb128 0x3b
+ 2591 0133 0B       		.uleb128 0xb
+ 2592 0134 11       		.uleb128 0x11
+ 2593 0135 01       		.uleb128 0x1
+ 2594 0136 12       		.uleb128 0x12
+ 2595 0137 06       		.uleb128 0x6
+ 2596 0138 40       		.uleb128 0x40
+ 2597 0139 18       		.uleb128 0x18
+ 2598 013a 9742     		.uleb128 0x2117
+ 2599 013c 19       		.uleb128 0x19
+ 2600 013d 00       		.byte	0
+ 2601 013e 00       		.byte	0
+ 2602 013f 18       		.uleb128 0x18
+ 2603 0140 2E       		.uleb128 0x2e
+ 2604 0141 01       		.byte	0x1
+ 2605 0142 3F       		.uleb128 0x3f
+ 2606 0143 19       		.uleb128 0x19
+ 2607 0144 03       		.uleb128 0x3
+ 2608 0145 0E       		.uleb128 0xe
+ 2609 0146 3A       		.uleb128 0x3a
+ 2610 0147 0B       		.uleb128 0xb
+ 2611 0148 3B       		.uleb128 0x3b
+ 2612 0149 0B       		.uleb128 0xb
+ 2613 014a 11       		.uleb128 0x11
+ 2614 014b 01       		.uleb128 0x1
+ 2615 014c 12       		.uleb128 0x12
+ 2616 014d 06       		.uleb128 0x6
+ 2617 014e 40       		.uleb128 0x40
+ 2618 014f 18       		.uleb128 0x18
+ 2619 0150 9742     		.uleb128 0x2117
+ 2620 0152 19       		.uleb128 0x19
+ 2621 0153 01       		.uleb128 0x1
+ 2622 0154 13       		.uleb128 0x13
+ 2623 0155 00       		.byte	0
+ 2624 0156 00       		.byte	0
+ 2625 0157 19       		.uleb128 0x19
+ 2626 0158 2E       		.uleb128 0x2e
+ 2627 0159 00       		.byte	0
+ 2628 015a 3F       		.uleb128 0x3f
+ 2629 015b 19       		.uleb128 0x19
+ 2630 015c 03       		.uleb128 0x3
+ 2631 015d 0E       		.uleb128 0xe
+ 2632 015e 3A       		.uleb128 0x3a
+ 2633 015f 0B       		.uleb128 0xb
+ 2634 0160 3B       		.uleb128 0x3b
+ 2635 0161 0B       		.uleb128 0xb
+ 2636 0162 27       		.uleb128 0x27
+ 2637 0163 19       		.uleb128 0x19
+ 2638 0164 11       		.uleb128 0x11
+ 2639 0165 01       		.uleb128 0x1
+ 2640 0166 12       		.uleb128 0x12
+ 2641 0167 06       		.uleb128 0x6
+ 2642 0168 40       		.uleb128 0x40
+ 2643 0169 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 55
+
+
+ 2644 016a 9742     		.uleb128 0x2117
+ 2645 016c 19       		.uleb128 0x19
+ 2646 016d 00       		.byte	0
+ 2647 016e 00       		.byte	0
+ 2648 016f 1A       		.uleb128 0x1a
+ 2649 0170 05       		.uleb128 0x5
+ 2650 0171 00       		.byte	0
+ 2651 0172 03       		.uleb128 0x3
+ 2652 0173 08       		.uleb128 0x8
+ 2653 0174 3A       		.uleb128 0x3a
+ 2654 0175 0B       		.uleb128 0xb
+ 2655 0176 3B       		.uleb128 0x3b
+ 2656 0177 0B       		.uleb128 0xb
+ 2657 0178 49       		.uleb128 0x49
+ 2658 0179 13       		.uleb128 0x13
+ 2659 017a 02       		.uleb128 0x2
+ 2660 017b 18       		.uleb128 0x18
+ 2661 017c 00       		.byte	0
+ 2662 017d 00       		.byte	0
+ 2663 017e 1B       		.uleb128 0x1b
+ 2664 017f 2E       		.uleb128 0x2e
+ 2665 0180 01       		.byte	0x1
+ 2666 0181 3F       		.uleb128 0x3f
+ 2667 0182 19       		.uleb128 0x19
+ 2668 0183 03       		.uleb128 0x3
+ 2669 0184 0E       		.uleb128 0xe
+ 2670 0185 3A       		.uleb128 0x3a
+ 2671 0186 0B       		.uleb128 0xb
+ 2672 0187 3B       		.uleb128 0x3b
+ 2673 0188 0B       		.uleb128 0xb
+ 2674 0189 27       		.uleb128 0x27
+ 2675 018a 19       		.uleb128 0x19
+ 2676 018b 49       		.uleb128 0x49
+ 2677 018c 13       		.uleb128 0x13
+ 2678 018d 11       		.uleb128 0x11
+ 2679 018e 01       		.uleb128 0x1
+ 2680 018f 12       		.uleb128 0x12
+ 2681 0190 06       		.uleb128 0x6
+ 2682 0191 40       		.uleb128 0x40
+ 2683 0192 18       		.uleb128 0x18
+ 2684 0193 9742     		.uleb128 0x2117
+ 2685 0195 19       		.uleb128 0x19
+ 2686 0196 01       		.uleb128 0x1
+ 2687 0197 13       		.uleb128 0x13
+ 2688 0198 00       		.byte	0
+ 2689 0199 00       		.byte	0
+ 2690 019a 1C       		.uleb128 0x1c
+ 2691 019b 34       		.uleb128 0x34
+ 2692 019c 00       		.byte	0
+ 2693 019d 03       		.uleb128 0x3
+ 2694 019e 08       		.uleb128 0x8
+ 2695 019f 3A       		.uleb128 0x3a
+ 2696 01a0 0B       		.uleb128 0xb
+ 2697 01a1 3B       		.uleb128 0x3b
+ 2698 01a2 0B       		.uleb128 0xb
+ 2699 01a3 49       		.uleb128 0x49
+ 2700 01a4 13       		.uleb128 0x13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 56
+
+
+ 2701 01a5 02       		.uleb128 0x2
+ 2702 01a6 17       		.uleb128 0x17
+ 2703 01a7 00       		.byte	0
+ 2704 01a8 00       		.byte	0
+ 2705 01a9 1D       		.uleb128 0x1d
+ 2706 01aa 05       		.uleb128 0x5
+ 2707 01ab 00       		.byte	0
+ 2708 01ac 03       		.uleb128 0x3
+ 2709 01ad 0E       		.uleb128 0xe
+ 2710 01ae 3A       		.uleb128 0x3a
+ 2711 01af 0B       		.uleb128 0xb
+ 2712 01b0 3B       		.uleb128 0x3b
+ 2713 01b1 0B       		.uleb128 0xb
+ 2714 01b2 49       		.uleb128 0x49
+ 2715 01b3 13       		.uleb128 0x13
+ 2716 01b4 02       		.uleb128 0x2
+ 2717 01b5 18       		.uleb128 0x18
+ 2718 01b6 00       		.byte	0
+ 2719 01b7 00       		.byte	0
+ 2720 01b8 1E       		.uleb128 0x1e
+ 2721 01b9 898201   		.uleb128 0x4109
+ 2722 01bc 00       		.byte	0
+ 2723 01bd 11       		.uleb128 0x11
+ 2724 01be 01       		.uleb128 0x1
+ 2725 01bf 31       		.uleb128 0x31
+ 2726 01c0 13       		.uleb128 0x13
+ 2727 01c1 00       		.byte	0
+ 2728 01c2 00       		.byte	0
+ 2729 01c3 1F       		.uleb128 0x1f
+ 2730 01c4 2E       		.uleb128 0x2e
+ 2731 01c5 01       		.byte	0x1
+ 2732 01c6 3F       		.uleb128 0x3f
+ 2733 01c7 19       		.uleb128 0x19
+ 2734 01c8 03       		.uleb128 0x3
+ 2735 01c9 0E       		.uleb128 0xe
+ 2736 01ca 3A       		.uleb128 0x3a
+ 2737 01cb 0B       		.uleb128 0xb
+ 2738 01cc 3B       		.uleb128 0x3b
+ 2739 01cd 05       		.uleb128 0x5
+ 2740 01ce 27       		.uleb128 0x27
+ 2741 01cf 19       		.uleb128 0x19
+ 2742 01d0 8701     		.uleb128 0x87
+ 2743 01d2 19       		.uleb128 0x19
+ 2744 01d3 11       		.uleb128 0x11
+ 2745 01d4 01       		.uleb128 0x1
+ 2746 01d5 12       		.uleb128 0x12
+ 2747 01d6 06       		.uleb128 0x6
+ 2748 01d7 40       		.uleb128 0x40
+ 2749 01d8 18       		.uleb128 0x18
+ 2750 01d9 9742     		.uleb128 0x2117
+ 2751 01db 19       		.uleb128 0x19
+ 2752 01dc 01       		.uleb128 0x1
+ 2753 01dd 13       		.uleb128 0x13
+ 2754 01de 00       		.byte	0
+ 2755 01df 00       		.byte	0
+ 2756 01e0 20       		.uleb128 0x20
+ 2757 01e1 05       		.uleb128 0x5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 57
+
+
+ 2758 01e2 00       		.byte	0
+ 2759 01e3 03       		.uleb128 0x3
+ 2760 01e4 0E       		.uleb128 0xe
+ 2761 01e5 3A       		.uleb128 0x3a
+ 2762 01e6 0B       		.uleb128 0xb
+ 2763 01e7 3B       		.uleb128 0x3b
+ 2764 01e8 05       		.uleb128 0x5
+ 2765 01e9 49       		.uleb128 0x49
+ 2766 01ea 13       		.uleb128 0x13
+ 2767 01eb 02       		.uleb128 0x2
+ 2768 01ec 17       		.uleb128 0x17
+ 2769 01ed 00       		.byte	0
+ 2770 01ee 00       		.byte	0
+ 2771 01ef 21       		.uleb128 0x21
+ 2772 01f0 34       		.uleb128 0x34
+ 2773 01f1 00       		.byte	0
+ 2774 01f2 03       		.uleb128 0x3
+ 2775 01f3 08       		.uleb128 0x8
+ 2776 01f4 3A       		.uleb128 0x3a
+ 2777 01f5 0B       		.uleb128 0xb
+ 2778 01f6 3B       		.uleb128 0x3b
+ 2779 01f7 05       		.uleb128 0x5
+ 2780 01f8 49       		.uleb128 0x49
+ 2781 01f9 13       		.uleb128 0x13
+ 2782 01fa 02       		.uleb128 0x2
+ 2783 01fb 18       		.uleb128 0x18
+ 2784 01fc 00       		.byte	0
+ 2785 01fd 00       		.byte	0
+ 2786 01fe 22       		.uleb128 0x22
+ 2787 01ff 34       		.uleb128 0x34
+ 2788 0200 00       		.byte	0
+ 2789 0201 03       		.uleb128 0x3
+ 2790 0202 0E       		.uleb128 0xe
+ 2791 0203 3A       		.uleb128 0x3a
+ 2792 0204 0B       		.uleb128 0xb
+ 2793 0205 3B       		.uleb128 0x3b
+ 2794 0206 05       		.uleb128 0x5
+ 2795 0207 49       		.uleb128 0x49
+ 2796 0208 13       		.uleb128 0x13
+ 2797 0209 02       		.uleb128 0x2
+ 2798 020a 18       		.uleb128 0x18
+ 2799 020b 00       		.byte	0
+ 2800 020c 00       		.byte	0
+ 2801 020d 23       		.uleb128 0x23
+ 2802 020e 34       		.uleb128 0x34
+ 2803 020f 00       		.byte	0
+ 2804 0210 03       		.uleb128 0x3
+ 2805 0211 0E       		.uleb128 0xe
+ 2806 0212 3A       		.uleb128 0x3a
+ 2807 0213 0B       		.uleb128 0xb
+ 2808 0214 3B       		.uleb128 0x3b
+ 2809 0215 05       		.uleb128 0x5
+ 2810 0216 49       		.uleb128 0x49
+ 2811 0217 13       		.uleb128 0x13
+ 2812 0218 02       		.uleb128 0x2
+ 2813 0219 17       		.uleb128 0x17
+ 2814 021a 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 58
+
+
+ 2815 021b 00       		.byte	0
+ 2816 021c 24       		.uleb128 0x24
+ 2817 021d 34       		.uleb128 0x34
+ 2818 021e 00       		.byte	0
+ 2819 021f 03       		.uleb128 0x3
+ 2820 0220 08       		.uleb128 0x8
+ 2821 0221 3A       		.uleb128 0x3a
+ 2822 0222 0B       		.uleb128 0xb
+ 2823 0223 3B       		.uleb128 0x3b
+ 2824 0224 05       		.uleb128 0x5
+ 2825 0225 49       		.uleb128 0x49
+ 2826 0226 13       		.uleb128 0x13
+ 2827 0227 02       		.uleb128 0x2
+ 2828 0228 17       		.uleb128 0x17
+ 2829 0229 00       		.byte	0
+ 2830 022a 00       		.byte	0
+ 2831 022b 25       		.uleb128 0x25
+ 2832 022c 0B       		.uleb128 0xb
+ 2833 022d 01       		.byte	0x1
+ 2834 022e 11       		.uleb128 0x11
+ 2835 022f 01       		.uleb128 0x1
+ 2836 0230 12       		.uleb128 0x12
+ 2837 0231 06       		.uleb128 0x6
+ 2838 0232 00       		.byte	0
+ 2839 0233 00       		.byte	0
+ 2840 0234 26       		.uleb128 0x26
+ 2841 0235 0B       		.uleb128 0xb
+ 2842 0236 01       		.byte	0x1
+ 2843 0237 11       		.uleb128 0x11
+ 2844 0238 01       		.uleb128 0x1
+ 2845 0239 12       		.uleb128 0x12
+ 2846 023a 06       		.uleb128 0x6
+ 2847 023b 01       		.uleb128 0x1
+ 2848 023c 13       		.uleb128 0x13
+ 2849 023d 00       		.byte	0
+ 2850 023e 00       		.byte	0
+ 2851 023f 27       		.uleb128 0x27
+ 2852 0240 34       		.uleb128 0x34
+ 2853 0241 00       		.byte	0
+ 2854 0242 03       		.uleb128 0x3
+ 2855 0243 0E       		.uleb128 0xe
+ 2856 0244 3A       		.uleb128 0x3a
+ 2857 0245 0B       		.uleb128 0xb
+ 2858 0246 3B       		.uleb128 0x3b
+ 2859 0247 0B       		.uleb128 0xb
+ 2860 0248 49       		.uleb128 0x49
+ 2861 0249 13       		.uleb128 0x13
+ 2862 024a 02       		.uleb128 0x2
+ 2863 024b 18       		.uleb128 0x18
+ 2864 024c 00       		.byte	0
+ 2865 024d 00       		.byte	0
+ 2866 024e 28       		.uleb128 0x28
+ 2867 024f 35       		.uleb128 0x35
+ 2868 0250 00       		.byte	0
+ 2869 0251 49       		.uleb128 0x49
+ 2870 0252 13       		.uleb128 0x13
+ 2871 0253 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 59
+
+
+ 2872 0254 00       		.byte	0
+ 2873 0255 29       		.uleb128 0x29
+ 2874 0256 34       		.uleb128 0x34
+ 2875 0257 00       		.byte	0
+ 2876 0258 03       		.uleb128 0x3
+ 2877 0259 0E       		.uleb128 0xe
+ 2878 025a 3A       		.uleb128 0x3a
+ 2879 025b 0B       		.uleb128 0xb
+ 2880 025c 3B       		.uleb128 0x3b
+ 2881 025d 05       		.uleb128 0x5
+ 2882 025e 49       		.uleb128 0x49
+ 2883 025f 13       		.uleb128 0x13
+ 2884 0260 3F       		.uleb128 0x3f
+ 2885 0261 19       		.uleb128 0x19
+ 2886 0262 3C       		.uleb128 0x3c
+ 2887 0263 19       		.uleb128 0x19
+ 2888 0264 00       		.byte	0
+ 2889 0265 00       		.byte	0
+ 2890 0266 2A       		.uleb128 0x2a
+ 2891 0267 2E       		.uleb128 0x2e
+ 2892 0268 00       		.byte	0
+ 2893 0269 3F       		.uleb128 0x3f
+ 2894 026a 19       		.uleb128 0x19
+ 2895 026b 3C       		.uleb128 0x3c
+ 2896 026c 19       		.uleb128 0x19
+ 2897 026d 6E       		.uleb128 0x6e
+ 2898 026e 0E       		.uleb128 0xe
+ 2899 026f 03       		.uleb128 0x3
+ 2900 0270 0E       		.uleb128 0xe
+ 2901 0271 3A       		.uleb128 0x3a
+ 2902 0272 0B       		.uleb128 0xb
+ 2903 0273 3B       		.uleb128 0x3b
+ 2904 0274 05       		.uleb128 0x5
+ 2905 0275 00       		.byte	0
+ 2906 0276 00       		.byte	0
+ 2907 0277 2B       		.uleb128 0x2b
+ 2908 0278 2E       		.uleb128 0x2e
+ 2909 0279 00       		.byte	0
+ 2910 027a 3F       		.uleb128 0x3f
+ 2911 027b 19       		.uleb128 0x19
+ 2912 027c 3C       		.uleb128 0x3c
+ 2913 027d 19       		.uleb128 0x19
+ 2914 027e 6E       		.uleb128 0x6e
+ 2915 027f 0E       		.uleb128 0xe
+ 2916 0280 03       		.uleb128 0x3
+ 2917 0281 0E       		.uleb128 0xe
+ 2918 0282 3A       		.uleb128 0x3a
+ 2919 0283 0B       		.uleb128 0xb
+ 2920 0284 3B       		.uleb128 0x3b
+ 2921 0285 0B       		.uleb128 0xb
+ 2922 0286 00       		.byte	0
+ 2923 0287 00       		.byte	0
+ 2924 0288 2C       		.uleb128 0x2c
+ 2925 0289 2E       		.uleb128 0x2e
+ 2926 028a 00       		.byte	0
+ 2927 028b 3F       		.uleb128 0x3f
+ 2928 028c 19       		.uleb128 0x19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 60
+
+
+ 2929 028d 3C       		.uleb128 0x3c
+ 2930 028e 19       		.uleb128 0x19
+ 2931 028f 6E       		.uleb128 0x6e
+ 2932 0290 0E       		.uleb128 0xe
+ 2933 0291 03       		.uleb128 0x3
+ 2934 0292 0E       		.uleb128 0xe
+ 2935 0293 3A       		.uleb128 0x3a
+ 2936 0294 0B       		.uleb128 0xb
+ 2937 0295 3B       		.uleb128 0x3b
+ 2938 0296 0B       		.uleb128 0xb
+ 2939 0297 6E       		.uleb128 0x6e
+ 2940 0298 0E       		.uleb128 0xe
+ 2941 0299 00       		.byte	0
+ 2942 029a 00       		.byte	0
+ 2943 029b 00       		.byte	0
+ 2944              		.section	.debug_loc,"",%progbits
+ 2945              	.Ldebug_loc0:
+ 2946              	.LLST0:
+ 2947 0000 00000000 		.4byte	.LVL0
+ 2948 0004 0E000000 		.4byte	.LVL2
+ 2949 0008 0100     		.2byte	0x1
+ 2950 000a 50       		.byte	0x50
+ 2951 000b 0E000000 		.4byte	.LVL2
+ 2952 000f 18000000 		.4byte	.LVL5
+ 2953 0013 0100     		.2byte	0x1
+ 2954 0015 55       		.byte	0x55
+ 2955 0016 18000000 		.4byte	.LVL5
+ 2956 001a 24000000 		.4byte	.LVL7
+ 2957 001e 0100     		.2byte	0x1
+ 2958 0020 57       		.byte	0x57
+ 2959 0021 24000000 		.4byte	.LVL7
+ 2960 0025 3A000000 		.4byte	.LVL10
+ 2961 0029 0100     		.2byte	0x1
+ 2962 002b 55       		.byte	0x55
+ 2963 002c 00000000 		.4byte	0
+ 2964 0030 00000000 		.4byte	0
+ 2965              	.LLST1:
+ 2966 0034 00000000 		.4byte	.LVL0
+ 2967 0038 0A000000 		.4byte	.LVL1
+ 2968 003c 0100     		.2byte	0x1
+ 2969 003e 51       		.byte	0x51
+ 2970 003f 0A000000 		.4byte	.LVL1
+ 2971 0043 16000000 		.4byte	.LVL4
+ 2972 0047 0100     		.2byte	0x1
+ 2973 0049 54       		.byte	0x54
+ 2974 004a 16000000 		.4byte	.LVL4
+ 2975 004e 24000000 		.4byte	.LVL7
+ 2976 0052 0100     		.2byte	0x1
+ 2977 0054 56       		.byte	0x56
+ 2978 0055 24000000 		.4byte	.LVL7
+ 2979 0059 26000000 		.4byte	.LVL8
+ 2980 005d 0100     		.2byte	0x1
+ 2981 005f 54       		.byte	0x54
+ 2982 0060 26000000 		.4byte	.LVL8
+ 2983 0064 3A000000 		.4byte	.LVL10
+ 2984 0068 0100     		.2byte	0x1
+ 2985 006a 56       		.byte	0x56
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 61
+
+
+ 2986 006b 00000000 		.4byte	0
+ 2987 006f 00000000 		.4byte	0
+ 2988              	.LLST2:
+ 2989 0073 00000000 		.4byte	.LVL12
+ 2990 0077 20000000 		.4byte	.LVL14
+ 2991 007b 0100     		.2byte	0x1
+ 2992 007d 50       		.byte	0x50
+ 2993 007e 20000000 		.4byte	.LVL14
+ 2994 0082 23000000 		.4byte	.LVL15-1
+ 2995 0086 0200     		.2byte	0x2
+ 2996 0088 7D       		.byte	0x7d
+ 2997 0089 00       		.sleb128 0
+ 2998 008a 23000000 		.4byte	.LVL15-1
+ 2999 008e 50000000 		.4byte	.LFE70
+ 3000 0092 0400     		.2byte	0x4
+ 3001 0094 F3       		.byte	0xf3
+ 3002 0095 01       		.uleb128 0x1
+ 3003 0096 50       		.byte	0x50
+ 3004 0097 9F       		.byte	0x9f
+ 3005 0098 00000000 		.4byte	0
+ 3006 009c 00000000 		.4byte	0
+ 3007              	.LLST3:
+ 3008 00a0 00000000 		.4byte	.LVL12
+ 3009 00a4 23000000 		.4byte	.LVL15-1
+ 3010 00a8 0100     		.2byte	0x1
+ 3011 00aa 51       		.byte	0x51
+ 3012 00ab 23000000 		.4byte	.LVL15-1
+ 3013 00af 50000000 		.4byte	.LFE70
+ 3014 00b3 0400     		.2byte	0x4
+ 3015 00b5 F3       		.byte	0xf3
+ 3016 00b6 01       		.uleb128 0x1
+ 3017 00b7 51       		.byte	0x51
+ 3018 00b8 9F       		.byte	0x9f
+ 3019 00b9 00000000 		.4byte	0
+ 3020 00bd 00000000 		.4byte	0
+ 3021              	.LLST4:
+ 3022 00c1 00000000 		.4byte	.LVL12
+ 3023 00c5 23000000 		.4byte	.LVL15-1
+ 3024 00c9 0100     		.2byte	0x1
+ 3025 00cb 52       		.byte	0x52
+ 3026 00cc 23000000 		.4byte	.LVL15-1
+ 3027 00d0 50000000 		.4byte	.LFE70
+ 3028 00d4 0400     		.2byte	0x4
+ 3029 00d6 F3       		.byte	0xf3
+ 3030 00d7 01       		.uleb128 0x1
+ 3031 00d8 52       		.byte	0x52
+ 3032 00d9 9F       		.byte	0x9f
+ 3033 00da 00000000 		.4byte	0
+ 3034 00de 00000000 		.4byte	0
+ 3035              	.LLST5:
+ 3036 00e2 00000000 		.4byte	.LVL12
+ 3037 00e6 1A000000 		.4byte	.LVL13
+ 3038 00ea 0100     		.2byte	0x1
+ 3039 00ec 53       		.byte	0x53
+ 3040 00ed 1A000000 		.4byte	.LVL13
+ 3041 00f1 23000000 		.4byte	.LVL15-1
+ 3042 00f5 0200     		.2byte	0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 62
+
+
+ 3043 00f7 91       		.byte	0x91
+ 3044 00f8 73       		.sleb128 -13
+ 3045 00f9 23000000 		.4byte	.LVL15-1
+ 3046 00fd 50000000 		.4byte	.LFE70
+ 3047 0101 0400     		.2byte	0x4
+ 3048 0103 F3       		.byte	0xf3
+ 3049 0104 01       		.uleb128 0x1
+ 3050 0105 53       		.byte	0x53
+ 3051 0106 9F       		.byte	0x9f
+ 3052 0107 00000000 		.4byte	0
+ 3053 010b 00000000 		.4byte	0
+ 3054              	.LLST6:
+ 3055 010f 00000000 		.4byte	.LVL12
+ 3056 0113 46000000 		.4byte	.LVL18
+ 3057 0117 0200     		.2byte	0x2
+ 3058 0119 91       		.byte	0x91
+ 3059 011a 00       		.sleb128 0
+ 3060 011b 46000000 		.4byte	.LVL18
+ 3061 011f 50000000 		.4byte	.LFE70
+ 3062 0123 0200     		.2byte	0x2
+ 3063 0125 7D       		.byte	0x7d
+ 3064 0126 00       		.sleb128 0
+ 3065 0127 00000000 		.4byte	0
+ 3066 012b 00000000 		.4byte	0
+ 3067              	.LLST7:
+ 3068 012f 00000000 		.4byte	.LVL20
+ 3069 0133 0C000000 		.4byte	.LVL21
+ 3070 0137 0100     		.2byte	0x1
+ 3071 0139 50       		.byte	0x50
+ 3072 013a 0C000000 		.4byte	.LVL21
+ 3073 013e 1C000000 		.4byte	.LVL23
+ 3074 0142 0100     		.2byte	0x1
+ 3075 0144 54       		.byte	0x54
+ 3076 0145 1C000000 		.4byte	.LVL23
+ 3077 0149 28000000 		.4byte	.LFE74
+ 3078 014d 0400     		.2byte	0x4
+ 3079 014f F3       		.byte	0xf3
+ 3080 0150 01       		.uleb128 0x1
+ 3081 0151 50       		.byte	0x50
+ 3082 0152 9F       		.byte	0x9f
+ 3083 0153 00000000 		.4byte	0
+ 3084 0157 00000000 		.4byte	0
+ 3085              	.LLST8:
+ 3086 015b 00000000 		.4byte	.LVL24
+ 3087 015f 0C000000 		.4byte	.LVL25
+ 3088 0163 0100     		.2byte	0x1
+ 3089 0165 50       		.byte	0x50
+ 3090 0166 0C000000 		.4byte	.LVL25
+ 3091 016a A2000000 		.4byte	.LVL28
+ 3092 016e 0100     		.2byte	0x1
+ 3093 0170 54       		.byte	0x54
+ 3094 0171 A2000000 		.4byte	.LVL28
+ 3095 0175 B0000000 		.4byte	.LFE75
+ 3096 0179 0400     		.2byte	0x4
+ 3097 017b F3       		.byte	0xf3
+ 3098 017c 01       		.uleb128 0x1
+ 3099 017d 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 63
+
+
+ 3100 017e 9F       		.byte	0x9f
+ 3101 017f 00000000 		.4byte	0
+ 3102 0183 00000000 		.4byte	0
+ 3103              	.LLST9:
+ 3104 0187 00000000 		.4byte	.LVL29
+ 3105 018b 0E000000 		.4byte	.LVL30
+ 3106 018f 0100     		.2byte	0x1
+ 3107 0191 52       		.byte	0x52
+ 3108 0192 0E000000 		.4byte	.LVL30
+ 3109 0196 20000000 		.4byte	.LFE76
+ 3110 019a 0500     		.2byte	0x5
+ 3111 019c 03       		.byte	0x3
+ 3112 019d 04000000 		.4byte	threshold+4
+ 3113 01a1 00000000 		.4byte	0
+ 3114 01a5 00000000 		.4byte	0
+ 3115              	.LLST10:
+ 3116 01a9 00000000 		.4byte	.LVL29
+ 3117 01ad 1A000000 		.4byte	.LVL31
+ 3118 01b1 0200     		.2byte	0x2
+ 3119 01b3 91       		.byte	0x91
+ 3120 01b4 00       		.sleb128 0
+ 3121 01b5 1A000000 		.4byte	.LVL31
+ 3122 01b9 20000000 		.4byte	.LFE76
+ 3123 01bd 0200     		.2byte	0x2
+ 3124 01bf 7D       		.byte	0x7d
+ 3125 01c0 00       		.sleb128 0
+ 3126 01c1 00000000 		.4byte	0
+ 3127 01c5 00000000 		.4byte	0
+ 3128              	.LLST11:
+ 3129 01c9 00000000 		.4byte	.LVL29
+ 3130 01cd 1A000000 		.4byte	.LVL31
+ 3131 01d1 0200     		.2byte	0x2
+ 3132 01d3 91       		.byte	0x91
+ 3133 01d4 04       		.sleb128 4
+ 3134 01d5 1A000000 		.4byte	.LVL31
+ 3135 01d9 20000000 		.4byte	.LFE76
+ 3136 01dd 0200     		.2byte	0x2
+ 3137 01df 7D       		.byte	0x7d
+ 3138 01e0 04       		.sleb128 4
+ 3139 01e1 00000000 		.4byte	0
+ 3140 01e5 00000000 		.4byte	0
+ 3141              	.LLST12:
+ 3142 01e9 00000000 		.4byte	.LVL33
+ 3143 01ed 0E000000 		.4byte	.LVL35
+ 3144 01f1 0100     		.2byte	0x1
+ 3145 01f3 50       		.byte	0x50
+ 3146 01f4 0E000000 		.4byte	.LVL35
+ 3147 01f8 58000000 		.4byte	.LFE78
+ 3148 01fc 0400     		.2byte	0x4
+ 3149 01fe F3       		.byte	0xf3
+ 3150 01ff 01       		.uleb128 0x1
+ 3151 0200 50       		.byte	0x50
+ 3152 0201 9F       		.byte	0x9f
+ 3153 0202 00000000 		.4byte	0
+ 3154 0206 00000000 		.4byte	0
+ 3155              	.LLST13:
+ 3156 020a 00000000 		.4byte	.LVL33
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 64
+
+
+ 3157 020e 0A000000 		.4byte	.LVL34
+ 3158 0212 0100     		.2byte	0x1
+ 3159 0214 51       		.byte	0x51
+ 3160 0215 0A000000 		.4byte	.LVL34
+ 3161 0219 2A000000 		.4byte	.LVL39
+ 3162 021d 0100     		.2byte	0x1
+ 3163 021f 54       		.byte	0x54
+ 3164 0220 2A000000 		.4byte	.LVL39
+ 3165 0224 38000000 		.4byte	.LVL42
+ 3166 0228 0100     		.2byte	0x1
+ 3167 022a 56       		.byte	0x56
+ 3168 022b 38000000 		.4byte	.LVL42
+ 3169 022f 52000000 		.4byte	.LVL45
+ 3170 0233 0100     		.2byte	0x1
+ 3171 0235 54       		.byte	0x54
+ 3172 0236 52000000 		.4byte	.LVL45
+ 3173 023a 58000000 		.4byte	.LFE78
+ 3174 023e 0400     		.2byte	0x4
+ 3175 0240 F3       		.byte	0xf3
+ 3176 0241 01       		.uleb128 0x1
+ 3177 0242 51       		.byte	0x51
+ 3178 0243 9F       		.byte	0x9f
+ 3179 0244 00000000 		.4byte	0
+ 3180 0248 00000000 		.4byte	0
+ 3181              	.LLST14:
+ 3182 024c 00000000 		.4byte	.LVL33
+ 3183 0250 11000000 		.4byte	.LVL36-1
+ 3184 0254 0100     		.2byte	0x1
+ 3185 0256 52       		.byte	0x52
+ 3186 0257 11000000 		.4byte	.LVL36-1
+ 3187 025b 52000000 		.4byte	.LVL45
+ 3188 025f 0100     		.2byte	0x1
+ 3189 0261 57       		.byte	0x57
+ 3190 0262 52000000 		.4byte	.LVL45
+ 3191 0266 58000000 		.4byte	.LFE78
+ 3192 026a 0400     		.2byte	0x4
+ 3193 026c F3       		.byte	0xf3
+ 3194 026d 01       		.uleb128 0x1
+ 3195 026e 52       		.byte	0x52
+ 3196 026f 9F       		.byte	0x9f
+ 3197 0270 00000000 		.4byte	0
+ 3198 0274 00000000 		.4byte	0
+ 3199              	.LLST15:
+ 3200 0278 18000000 		.4byte	.LVL37
+ 3201 027c 4E000000 		.4byte	.LVL44
+ 3202 0280 0100     		.2byte	0x1
+ 3203 0282 55       		.byte	0x55
+ 3204 0283 00000000 		.4byte	0
+ 3205 0287 00000000 		.4byte	0
+ 3206              	.LLST16:
+ 3207 028b 00000000 		.4byte	.LVL46
+ 3208 028f 02000000 		.4byte	.LVL47
+ 3209 0293 0100     		.2byte	0x1
+ 3210 0295 50       		.byte	0x50
+ 3211 0296 02000000 		.4byte	.LVL47
+ 3212 029a 04000000 		.4byte	.LFE79
+ 3213 029e 0400     		.2byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 65
+
+
+ 3214 02a0 F3       		.byte	0xf3
+ 3215 02a1 01       		.uleb128 0x1
+ 3216 02a2 50       		.byte	0x50
+ 3217 02a3 9F       		.byte	0x9f
+ 3218 02a4 00000000 		.4byte	0
+ 3219 02a8 00000000 		.4byte	0
+ 3220              	.LLST17:
+ 3221 02ac 00000000 		.4byte	.LVL53
+ 3222 02b0 10000000 		.4byte	.LVL54
+ 3223 02b4 0100     		.2byte	0x1
+ 3224 02b6 50       		.byte	0x50
+ 3225 02b7 10000000 		.4byte	.LVL54
+ 3226 02bb 78010000 		.4byte	.LFE86
+ 3227 02bf 0400     		.2byte	0x4
+ 3228 02c1 F3       		.byte	0xf3
+ 3229 02c2 01       		.uleb128 0x1
+ 3230 02c3 50       		.byte	0x50
+ 3231 02c4 9F       		.byte	0x9f
+ 3232 02c5 00000000 		.4byte	0
+ 3233 02c9 00000000 		.4byte	0
+ 3234              	.LLST18:
+ 3235 02cd 3E000000 		.4byte	.LVL58
+ 3236 02d1 40000000 		.4byte	.LVL59
+ 3237 02d5 0100     		.2byte	0x1
+ 3238 02d7 55       		.byte	0x55
+ 3239 02d8 42000000 		.4byte	.LVL60
+ 3240 02dc 78010000 		.4byte	.LFE86
+ 3241 02e0 0100     		.2byte	0x1
+ 3242 02e2 55       		.byte	0x55
+ 3243 02e3 00000000 		.4byte	0
+ 3244 02e7 00000000 		.4byte	0
+ 3245              	.LLST19:
+ 3246 02eb A6000000 		.4byte	.LVL64
+ 3247 02ef AA000000 		.4byte	.LVL65
+ 3248 02f3 0200     		.2byte	0x2
+ 3249 02f5 30       		.byte	0x30
+ 3250 02f6 9F       		.byte	0x9f
+ 3251 02f7 AA000000 		.4byte	.LVL65
+ 3252 02fb 68010000 		.4byte	.LVL68
+ 3253 02ff 0100     		.2byte	0x1
+ 3254 0301 54       		.byte	0x54
+ 3255 0302 00000000 		.4byte	0
+ 3256 0306 00000000 		.4byte	0
+ 3257              	.LLST20:
+ 3258 030a 2E000000 		.4byte	.LVL56
+ 3259 030e 37000000 		.4byte	.LVL57-1
+ 3260 0312 0100     		.2byte	0x1
+ 3261 0314 52       		.byte	0x52
+ 3262 0315 00000000 		.4byte	0
+ 3263 0319 00000000 		.4byte	0
+ 3264              	.LLST21:
+ 3265 031d 98000000 		.4byte	.LVL62
+ 3266 0321 68010000 		.4byte	.LVL68
+ 3267 0325 0100     		.2byte	0x1
+ 3268 0327 56       		.byte	0x56
+ 3269 0328 00000000 		.4byte	0
+ 3270 032c 00000000 		.4byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 66
+
+
+ 3271              		.section	.debug_aranges,"",%progbits
+ 3272 0000 A4000000 		.4byte	0xa4
+ 3273 0004 0200     		.2byte	0x2
+ 3274 0006 00000000 		.4byte	.Ldebug_info0
+ 3275 000a 04       		.byte	0x4
+ 3276 000b 00       		.byte	0
+ 3277 000c 0000     		.2byte	0
+ 3278 000e 0000     		.2byte	0
+ 3279 0010 00000000 		.4byte	.LFB85
+ 3280 0014 40000000 		.4byte	.LFE85-.LFB85
+ 3281 0018 00000000 		.4byte	.LFB69
+ 3282 001c 18000000 		.4byte	.LFE69-.LFB69
+ 3283 0020 00000000 		.4byte	.LFB70
+ 3284 0024 50000000 		.4byte	.LFE70-.LFB70
+ 3285 0028 00000000 		.4byte	.LFB71
+ 3286 002c 0C000000 		.4byte	.LFE71-.LFB71
+ 3287 0030 00000000 		.4byte	.LFB72
+ 3288 0034 1C000000 		.4byte	.LFE72-.LFB72
+ 3289 0038 00000000 		.4byte	.LFB73
+ 3290 003c 0C000000 		.4byte	.LFE73-.LFB73
+ 3291 0040 00000000 		.4byte	.LFB74
+ 3292 0044 28000000 		.4byte	.LFE74-.LFB74
+ 3293 0048 00000000 		.4byte	.LFB75
+ 3294 004c B0000000 		.4byte	.LFE75-.LFB75
+ 3295 0050 00000000 		.4byte	.LFB76
+ 3296 0054 20000000 		.4byte	.LFE76-.LFB76
+ 3297 0058 00000000 		.4byte	.LFB77
+ 3298 005c 14000000 		.4byte	.LFE77-.LFB77
+ 3299 0060 00000000 		.4byte	.LFB78
+ 3300 0064 58000000 		.4byte	.LFE78-.LFB78
+ 3301 0068 00000000 		.4byte	.LFB79
+ 3302 006c 04000000 		.4byte	.LFE79-.LFB79
+ 3303 0070 00000000 		.4byte	.LFB80
+ 3304 0074 0C000000 		.4byte	.LFE80-.LFB80
+ 3305 0078 00000000 		.4byte	.LFB81
+ 3306 007c 1C000000 		.4byte	.LFE81-.LFB81
+ 3307 0080 00000000 		.4byte	.LFB82
+ 3308 0084 0C000000 		.4byte	.LFE82-.LFB82
+ 3309 0088 00000000 		.4byte	.LFB83
+ 3310 008c 20000000 		.4byte	.LFE83-.LFB83
+ 3311 0090 00000000 		.4byte	.LFB84
+ 3312 0094 2C000000 		.4byte	.LFE84-.LFB84
+ 3313 0098 00000000 		.4byte	.LFB86
+ 3314 009c 78010000 		.4byte	.LFE86-.LFB86
+ 3315 00a0 00000000 		.4byte	0
+ 3316 00a4 00000000 		.4byte	0
+ 3317              		.section	.debug_ranges,"",%progbits
+ 3318              	.Ldebug_ranges0:
+ 3319 0000 00000000 		.4byte	.LFB85
+ 3320 0004 40000000 		.4byte	.LFE85
+ 3321 0008 00000000 		.4byte	.LFB69
+ 3322 000c 18000000 		.4byte	.LFE69
+ 3323 0010 00000000 		.4byte	.LFB70
+ 3324 0014 50000000 		.4byte	.LFE70
+ 3325 0018 00000000 		.4byte	.LFB71
+ 3326 001c 0C000000 		.4byte	.LFE71
+ 3327 0020 00000000 		.4byte	.LFB72
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 67
+
+
+ 3328 0024 1C000000 		.4byte	.LFE72
+ 3329 0028 00000000 		.4byte	.LFB73
+ 3330 002c 0C000000 		.4byte	.LFE73
+ 3331 0030 00000000 		.4byte	.LFB74
+ 3332 0034 28000000 		.4byte	.LFE74
+ 3333 0038 00000000 		.4byte	.LFB75
+ 3334 003c B0000000 		.4byte	.LFE75
+ 3335 0040 00000000 		.4byte	.LFB76
+ 3336 0044 20000000 		.4byte	.LFE76
+ 3337 0048 00000000 		.4byte	.LFB77
+ 3338 004c 14000000 		.4byte	.LFE77
+ 3339 0050 00000000 		.4byte	.LFB78
+ 3340 0054 58000000 		.4byte	.LFE78
+ 3341 0058 00000000 		.4byte	.LFB79
+ 3342 005c 04000000 		.4byte	.LFE79
+ 3343 0060 00000000 		.4byte	.LFB80
+ 3344 0064 0C000000 		.4byte	.LFE80
+ 3345 0068 00000000 		.4byte	.LFB81
+ 3346 006c 1C000000 		.4byte	.LFE81
+ 3347 0070 00000000 		.4byte	.LFB82
+ 3348 0074 0C000000 		.4byte	.LFE82
+ 3349 0078 00000000 		.4byte	.LFB83
+ 3350 007c 20000000 		.4byte	.LFE83
+ 3351 0080 00000000 		.4byte	.LFB84
+ 3352 0084 2C000000 		.4byte	.LFE84
+ 3353 0088 00000000 		.4byte	.LFB86
+ 3354 008c 78010000 		.4byte	.LFE86
+ 3355 0090 00000000 		.4byte	0
+ 3356 0094 00000000 		.4byte	0
+ 3357              		.section	.debug_line,"",%progbits
+ 3358              	.Ldebug_line0:
+ 3359 0000 F1030000 		.section	.debug_str,"MS",%progbits,1
+ 3359      02000B02 
+ 3359      00000201 
+ 3359      FB0E0D00 
+ 3359      01010101 
+ 3360              	.LASF88:
+ 3361 0000 5F5F6275 		.ascii	"__builtin_puts\000"
+ 3361      696C7469 
+ 3361      6E5F7075 
+ 3361      747300
+ 3362              	.LASF84:
+ 3363 000f 73656E64 		.ascii	"send\000"
+ 3363      00
+ 3364              	.LASF78:
+ 3365 0014 78517565 		.ascii	"xQueueReceive\000"
+ 3365      75655265 
+ 3365      63656976 
+ 3365      6500
+ 3366              	.LASF60:
+ 3367 0022 73746F70 		.ascii	"stopped\000"
+ 3367      70656400 
+ 3368              	.LASF3:
+ 3369 002a 7369676E 		.ascii	"signed char\000"
+ 3369      65642063 
+ 3369      68617200 
+ 3370              	.LASF85:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 68
+
+
+ 3371 0036 6D6F746F 		.ascii	"motor_stop\000"
+ 3371      725F7374 
+ 3371      6F7000
+ 3372              	.LASF63:
+ 3373 0041 74687265 		.ascii	"threshold\000"
+ 3373      73686F6C 
+ 3373      6400
+ 3374              	.LASF82:
+ 3375 004b 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 3375      73657273 
+ 3375      5C457667 
+ 3375      656E7920 
+ 3375      4D657368 
+ 3376 007a 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 3376      746D705C 
+ 3376      5A756D6F 
+ 3376      5C5A756D 
+ 3376      6F426F74 
+ 3377              	.LASF5:
+ 3378 0095 73686F72 		.ascii	"short int\000"
+ 3378      7420696E 
+ 3378      7400
+ 3379              	.LASF23:
+ 3380 009f 73697A65 		.ascii	"sizetype\000"
+ 3380      74797065 
+ 3380      00
+ 3381              	.LASF71:
+ 3382 00a8 78536572 		.ascii	"xSerial1PutChar\000"
+ 3382      69616C31 
+ 3382      50757443 
+ 3382      68617200 
+ 3383              	.LASF74:
+ 3384 00b8 76546173 		.ascii	"vTaskDelay\000"
+ 3384      6B44656C 
+ 3384      617900
+ 3385              	.LASF62:
+ 3386 00c3 73656E73 		.ascii	"sensors\000"
+ 3386      6F727300 
+ 3387              	.LASF44:
+ 3388 00cb 5F777269 		.ascii	"_write\000"
+ 3388      746500
+ 3389              	.LASF28:
+ 3390 00d2 64656C61 		.ascii	"delay\000"
+ 3390      7900
+ 3391              	.LASF64:
+ 3392 00d8 7265666C 		.ascii	"reflectance_started\000"
+ 3392      65637461 
+ 3392      6E63655F 
+ 3392      73746172 
+ 3392      74656400 
+ 3393              	.LASF7:
+ 3394 00ec 5F5F7569 		.ascii	"__uint16_t\000"
+ 3394      6E743136 
+ 3394      5F7400
+ 3395              	.LASF43:
+ 3396 00f7 66696C65 		.ascii	"file\000"
+ 3396      00
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 69
+
+
+ 3397              	.LASF57:
+ 3398 00fc 77616974 		.ascii	"wait_time\000"
+ 3398      5F74696D 
+ 3398      6500
+ 3399              	.LASF83:
+ 3400 0106 73656E73 		.ascii	"sensors_\000"
+ 3400      6F72735F 
+ 3400      00
+ 3401              	.LASF14:
+ 3402 010f 75696E74 		.ascii	"uint8_t\000"
+ 3402      385F7400 
+ 3403              	.LASF18:
+ 3404 0117 75696E74 		.ascii	"uint8\000"
+ 3404      3800
+ 3405              	.LASF65:
+ 3406 011d 77726974 		.ascii	"writeMutex\000"
+ 3406      654D7574 
+ 3406      657800
+ 3407              	.LASF50:
+ 3408 0128 7265666C 		.ascii	"reflectance_start\000"
+ 3408      65637461 
+ 3408      6E63655F 
+ 3408      73746172 
+ 3408      7400
+ 3409              	.LASF72:
+ 3410 013a 78517565 		.ascii	"xQueueGenericSend\000"
+ 3410      75654765 
+ 3410      6E657269 
+ 3410      6353656E 
+ 3410      6400
+ 3411              	.LASF49:
+ 3412 014c 556C7472 		.ascii	"Ultra_GetDistance\000"
+ 3412      615F4765 
+ 3412      74446973 
+ 3412      74616E63 
+ 3412      6500
+ 3413              	.LASF20:
+ 3414 015e 666C6F61 		.ascii	"float\000"
+ 3414      7400
+ 3415              	.LASF1:
+ 3416 0164 6C6F6E67 		.ascii	"long long int\000"
+ 3416      206C6F6E 
+ 3416      6720696E 
+ 3416      7400
+ 3417              	.LASF25:
+ 3418 0172 5469636B 		.ascii	"TickType_t\000"
+ 3418      54797065 
+ 3418      5F7400
+ 3419              	.LASF39:
+ 3420 017d 7265666C 		.ascii	"reflectance_digital\000"
+ 3420      65637461 
+ 3420      6E63655F 
+ 3420      64696769 
+ 3420      74616C00 
+ 3421              	.LASF75:
+ 3422 0191 78517565 		.ascii	"xQueueCreateMutex\000"
+ 3422      75654372 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 70
+
+
+ 3422      65617465 
+ 3422      4D757465 
+ 3422      7800
+ 3423              	.LASF24:
+ 3424 01a3 42617365 		.ascii	"BaseType_t\000"
+ 3424      54797065 
+ 3424      5F7400
+ 3425              	.LASF53:
+ 3426 01ae 49525F77 		.ascii	"IR_wait\000"
+ 3426      61697400 
+ 3427              	.LASF76:
+ 3428 01b6 78536572 		.ascii	"xSerial1GetChar\000"
+ 3428      69616C31 
+ 3428      47657443 
+ 3428      68617200 
+ 3429              	.LASF68:
+ 3430 01c6 69725F76 		.ascii	"ir_value\000"
+ 3430      616C7565 
+ 3430      00
+ 3431              	.LASF38:
+ 3432 01cf 76616C75 		.ascii	"values\000"
+ 3432      657300
+ 3433              	.LASF6:
+ 3434 01d6 5F5F7569 		.ascii	"__uint8_t\000"
+ 3434      6E74385F 
+ 3434      7400
+ 3435              	.LASF81:
+ 3436 01e0 5A756D6F 		.ascii	"ZumoLibrary\\simulator.c\000"
+ 3436      4C696272 
+ 3436      6172795C 
+ 3436      73696D75 
+ 3436      6C61746F 
+ 3437              	.LASF79:
+ 3438 01f8 78546173 		.ascii	"xTaskGetTickCount\000"
+ 3438      6B476574 
+ 3438      5469636B 
+ 3438      436F756E 
+ 3438      7400
+ 3439              	.LASF26:
+ 3440 020a 51756575 		.ascii	"QueueHandle_t\000"
+ 3440      6548616E 
+ 3440      646C655F 
+ 3440      7400
+ 3441              	.LASF51:
+ 3442 0218 49525F53 		.ascii	"IR_Start\000"
+ 3442      74617274 
+ 3442      00
+ 3443              	.LASF2:
+ 3444 0221 6C6F6E67 		.ascii	"long double\000"
+ 3444      20646F75 
+ 3444      626C6500 
+ 3445              	.LASF48:
+ 3446 022d 556C7472 		.ascii	"Ultra_Start\000"
+ 3446      615F5374 
+ 3446      61727400 
+ 3447              	.LASF4:
+ 3448 0239 756E7369 		.ascii	"unsigned char\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 71
+
+
+ 3448      676E6564 
+ 3448      20636861 
+ 3448      7200
+ 3449              	.LASF41:
+ 3450 0247 7265666C 		.ascii	"reflectance_set_threshold\000"
+ 3450      65637461 
+ 3450      6E63655F 
+ 3450      7365745F 
+ 3450      74687265 
+ 3451              	.LASF45:
+ 3452 0261 5F726561 		.ascii	"_read\000"
+ 3452      6400
+ 3453              	.LASF31:
+ 3454 0267 53696D75 		.ascii	"SimulatorTaskInit\000"
+ 3454      6C61746F 
+ 3454      72546173 
+ 3454      6B496E69 
+ 3454      7400
+ 3455              	.LASF16:
+ 3456 0279 696E7433 		.ascii	"int32_t\000"
+ 3456      325F7400 
+ 3457              	.LASF13:
+ 3458 0281 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3458      206C6F6E 
+ 3458      6720756E 
+ 3458      7369676E 
+ 3458      65642069 
+ 3459              	.LASF17:
+ 3460 0298 75696E74 		.ascii	"uint32_t\000"
+ 3460      33325F74 
+ 3460      00
+ 3461              	.LASF0:
+ 3462 02a1 756E7369 		.ascii	"unsigned int\000"
+ 3462      676E6564 
+ 3462      20696E74 
+ 3462      00
+ 3463              	.LASF15:
+ 3464 02ae 75696E74 		.ascii	"uint16_t\000"
+ 3464      31365F74 
+ 3464      00
+ 3465              	.LASF70:
+ 3466 02b7 78517565 		.ascii	"xQueueSemaphoreTake\000"
+ 3466      75655365 
+ 3466      6D617068 
+ 3466      6F726554 
+ 3466      616B6500 
+ 3467              	.LASF87:
+ 3468 02cb 70757473 		.ascii	"puts\000"
+ 3468      00
+ 3469              	.LASF35:
+ 3470 02d0 6C656674 		.ascii	"left_speed\000"
+ 3470      5F737065 
+ 3470      656400
+ 3471              	.LASF36:
+ 3472 02db 72696768 		.ascii	"right_speed\000"
+ 3472      745F7370 
+ 3472      65656400 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 72
+
+
+ 3473              	.LASF33:
+ 3474 02e7 6C656674 		.ascii	"left_dir\000"
+ 3474      5F646972 
+ 3474      00
+ 3475              	.LASF8:
+ 3476 02f0 73686F72 		.ascii	"short unsigned int\000"
+ 3476      7420756E 
+ 3476      7369676E 
+ 3476      65642069 
+ 3476      6E7400
+ 3477              	.LASF80:
+ 3478 0303 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3478      43313120 
+ 3478      352E342E 
+ 3478      31203230 
+ 3478      31363036 
+ 3479 0336 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3479      20726576 
+ 3479      6973696F 
+ 3479      6E203233 
+ 3479      37373135 
+ 3480 0369 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3480      66756E63 
+ 3480      74696F6E 
+ 3480      2D736563 
+ 3480      74696F6E 
+ 3481              	.LASF61:
+ 3482 0391 6D6F746F 		.ascii	"motor_started\000"
+ 3482      725F7374 
+ 3482      61727465 
+ 3482      6400
+ 3483              	.LASF22:
+ 3484 039f 63686172 		.ascii	"char\000"
+ 3484      00
+ 3485              	.LASF66:
+ 3486 03a4 64697374 		.ascii	"distance\000"
+ 3486      616E6365 
+ 3486      00
+ 3487              	.LASF73:
+ 3488 03ad 78517565 		.ascii	"xQueueGenericCreate\000"
+ 3488      75654765 
+ 3488      6E657269 
+ 3488      63437265 
+ 3488      61746500 
+ 3489              	.LASF42:
+ 3490 03c1 52657461 		.ascii	"RetargetInit\000"
+ 3490      72676574 
+ 3490      496E6974 
+ 3490      00
+ 3491              	.LASF34:
+ 3492 03ce 72696768 		.ascii	"right_dir\000"
+ 3492      745F6469 
+ 3492      7200
+ 3493              	.LASF30:
+ 3494 03d8 64617461 		.ascii	"data\000"
+ 3494      00
+ 3495              	.LASF58:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 73
+
+
+ 3496 03dd 4C617374 		.ascii	"LastWakeTime\000"
+ 3496      57616B65 
+ 3496      54696D65 
+ 3496      00
+ 3497              	.LASF27:
+ 3498 03ea 53656D61 		.ascii	"SemaphoreHandle_t\000"
+ 3498      70686F72 
+ 3498      6548616E 
+ 3498      646C655F 
+ 3498      7400
+ 3499              	.LASF69:
+ 3500 03fc 69725F73 		.ascii	"ir_started\000"
+ 3500      74617274 
+ 3500      656400
+ 3501              	.LASF32:
+ 3502 0407 5365744D 		.ascii	"SetMotors\000"
+ 3502      6F746F72 
+ 3502      7300
+ 3503              	.LASF12:
+ 3504 0411 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3504      20756E73 
+ 3504      69676E65 
+ 3504      6420696E 
+ 3504      7400
+ 3505              	.LASF19:
+ 3506 0423 75696E74 		.ascii	"uint32\000"
+ 3506      333200
+ 3507              	.LASF47:
+ 3508 042a 6D6F746F 		.ascii	"motor_start\000"
+ 3508      725F7374 
+ 3508      61727400 
+ 3509              	.LASF40:
+ 3510 0436 64696769 		.ascii	"digital\000"
+ 3510      74616C00 
+ 3511              	.LASF11:
+ 3512 043e 5F5F7569 		.ascii	"__uint32_t\000"
+ 3512      6E743332 
+ 3512      5F7400
+ 3513              	.LASF29:
+ 3514 0449 53696D44 		.ascii	"SimData\000"
+ 3514      61746100 
+ 3515              	.LASF46:
+ 3516 0451 636F756E 		.ascii	"count\000"
+ 3516      7400
+ 3517              	.LASF77:
+ 3518 0457 76546173 		.ascii	"vTaskDelayUntil\000"
+ 3518      6B44656C 
+ 3518      6179556E 
+ 3518      74696C00 
+ 3519              	.LASF9:
+ 3520 0467 5F5F696E 		.ascii	"__int32_t\000"
+ 3520      7433325F 
+ 3520      7400
+ 3521              	.LASF37:
+ 3522 0471 7265666C 		.ascii	"reflectance_read\000"
+ 3522      65637461 
+ 3522      6E63655F 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccOuw7ka.s 			page 74
+
+
+ 3522      72656164 
+ 3522      00
+ 3523              	.LASF67:
+ 3524 0482 756C7472 		.ascii	"ultra_started\000"
+ 3524      615F7374 
+ 3524      61727465 
+ 3524      6400
+ 3525              	.LASF55:
+ 3526 0490 70765061 		.ascii	"pvParameters\000"
+ 3526      72616D65 
+ 3526      74657273 
+ 3526      00
+ 3527              	.LASF21:
+ 3528 049d 646F7562 		.ascii	"double\000"
+ 3528      6C6500
+ 3529              	.LASF56:
+ 3530 04a4 73646174 		.ascii	"sdata\000"
+ 3530      6100
+ 3531              	.LASF10:
+ 3532 04aa 6C6F6E67 		.ascii	"long int\000"
+ 3532      20696E74 
+ 3532      00
+ 3533              	.LASF86:
+ 3534 04b3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3534      52784275 
+ 3534      66666572 
+ 3534      00
+ 3535              	.LASF52:
+ 3536 04c0 49525F66 		.ascii	"IR_flush\000"
+ 3536      6C757368 
+ 3536      00
+ 3537              	.LASF59:
+ 3538 04c9 6D6F746F 		.ascii	"motor_q\000"
+ 3538      725F7100 
+ 3539              	.LASF54:
+ 3540 04d1 53696D75 		.ascii	"SimulatorTask\000"
+ 3540      6C61746F 
+ 3540      72546173 
+ 3540      6B00
+ 3541              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

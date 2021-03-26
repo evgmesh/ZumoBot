@@ -1,0 +1,1189 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_Common.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_Write,"ax",%progbits
+  20              		.align	2
+  21              		.global	I2C_Write
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	I2C_Write, %function
+  25              	I2C_Write:
+  26              	.LFB0:
+  27              		.file 1 "ZumoLibrary\\I2C_Common.c"
+   1:ZumoLibrary/I2C_Common.c **** /**
+   2:ZumoLibrary/I2C_Common.c ****  * @file    I2C_made.c
+   3:ZumoLibrary/I2C_Common.c ****  * @brief   Basic methods for I2C communication. For more details, please refer to I2C_made.h file.
+   4:ZumoLibrary/I2C_Common.c ****  * @details 
+   5:ZumoLibrary/I2C_Common.c **** */
+   6:ZumoLibrary/I2C_Common.c **** #include "I2C_Common.h"
+   7:ZumoLibrary/I2C_Common.c **** #include "I2C.h"
+   8:ZumoLibrary/I2C_Common.c **** 
+   9:ZumoLibrary/I2C_Common.c **** /**
+  10:ZumoLibrary/I2C_Common.c **** * @brief    Function for generic I2C byte write
+  11:ZumoLibrary/I2C_Common.c **** * @details  Single byte write 
+  12:ZumoLibrary/I2C_Common.c **** * @param    uint8 device : Slave Device address
+  13:ZumoLibrary/I2C_Common.c **** * @param    uint8 regAdd : register address to be written to
+  14:ZumoLibrary/I2C_Common.c **** * @param    uint8 data : value to be written
+  15:ZumoLibrary/I2C_Common.c **** */
+  16:ZumoLibrary/I2C_Common.c **** uint8_t I2C_Write(uint8_t device, uint8_t regAdd, uint8_t data){
+  28              		.loc 1 16 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 10B5     		push	{r4, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 4, -8
+  36              		.cfi_offset 14, -4
+  37 0002 82B0     		sub	sp, sp, #8
+  38              		.cfi_def_cfa_offset 16
+  39 0004 0446     		mov	r4, r0
+  17:ZumoLibrary/I2C_Common.c **** 
+  18:ZumoLibrary/I2C_Common.c ****     uint8 write_buf[2] = {regAdd, data};
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 2
+
+
+  40              		.loc 1 18 0
+  41 0006 8DF80410 		strb	r1, [sp, #4]
+  42 000a 8DF80520 		strb	r2, [sp, #5]
+  19:ZumoLibrary/I2C_Common.c ****  
+  20:ZumoLibrary/I2C_Common.c ****     I2C_MasterClearStatus(); // clear any pending status flags
+  43              		.loc 1 20 0
+  44 000e FFF7FEFF 		bl	I2C_MasterClearStatus
+  45              	.LVL1:
+  21:ZumoLibrary/I2C_Common.c ****     I2C_MasterWriteBuf(device, write_buf, 2, I2C_MODE_COMPLETE_XFER); // one complete byte transfer
+  46              		.loc 1 21 0
+  47 0012 0023     		movs	r3, #0
+  48 0014 0222     		movs	r2, #2
+  49 0016 01A9     		add	r1, sp, #4
+  50 0018 2046     		mov	r0, r4
+  51 001a FFF7FEFF 		bl	I2C_MasterWriteBuf
+  52              	.LVL2:
+  53              	.L2:
+  22:ZumoLibrary/I2C_Common.c ****     while(((I2C_MasterStatus()) & I2C_MSTAT_WR_CMPLT) == 0); //Check status and make sure it has co
+  54              		.loc 1 22 0 discriminator 1
+  55 001e FFF7FEFF 		bl	I2C_MasterStatus
+  56              	.LVL3:
+  57 0022 10F0020F 		tst	r0, #2
+  58 0026 FAD0     		beq	.L2
+  23:ZumoLibrary/I2C_Common.c ****     return 0;
+  24:ZumoLibrary/I2C_Common.c **** }
+  59              		.loc 1 24 0
+  60 0028 0020     		movs	r0, #0
+  61 002a 02B0     		add	sp, sp, #8
+  62              		.cfi_def_cfa_offset 8
+  63              		@ sp needed
+  64 002c 10BD     		pop	{r4, pc}
+  65              		.cfi_endproc
+  66              	.LFE0:
+  67              		.size	I2C_Write, .-I2C_Write
+  68 002e 00BF     		.section	.text.I2C_Read_Multiple,"ax",%progbits
+  69              		.align	2
+  70              		.global	I2C_Read_Multiple
+  71              		.thumb
+  72              		.thumb_func
+  73              		.type	I2C_Read_Multiple, %function
+  74              	I2C_Read_Multiple:
+  75              	.LFB2:
+  25:ZumoLibrary/I2C_Common.c **** 
+  26:ZumoLibrary/I2C_Common.c **** /**
+  27:ZumoLibrary/I2C_Common.c **** * @brief    Function for generic I2C single byte read
+  28:ZumoLibrary/I2C_Common.c **** * @details  Single byte read 
+  29:ZumoLibrary/I2C_Common.c **** * @param    uint8 device : Slave Device address
+  30:ZumoLibrary/I2C_Common.c **** * @param    uint8 regAdd : register address to be read from
+  31:ZumoLibrary/I2C_Common.c **** */
+  32:ZumoLibrary/I2C_Common.c **** 
+  33:ZumoLibrary/I2C_Common.c **** uint8_t I2C_Read(uint8_t device, uint8_t regAdd){
+  34:ZumoLibrary/I2C_Common.c ****     
+  35:ZumoLibrary/I2C_Common.c ****     uint8_t data; // Variable for data to be read
+  36:ZumoLibrary/I2C_Common.c ****     
+  37:ZumoLibrary/I2C_Common.c ****     I2C_Read_Multiple(device, regAdd, &data, 1);
+  38:ZumoLibrary/I2C_Common.c ****     
+  39:ZumoLibrary/I2C_Common.c ****     return data;
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 3
+
+
+  40:ZumoLibrary/I2C_Common.c **** }
+  41:ZumoLibrary/I2C_Common.c **** 
+  42:ZumoLibrary/I2C_Common.c **** /**
+  43:ZumoLibrary/I2C_Common.c **** * @brief    Function for generic I2C multi byte read
+  44:ZumoLibrary/I2C_Common.c **** * @details  Multiple byte read 
+  45:ZumoLibrary/I2C_Common.c **** * @param    uint8 device : Slave Device address
+  46:ZumoLibrary/I2C_Common.c **** * @param    uint8 startAdd : The address of the first register to be read. Subsequent reads will au
+  47:ZumoLibrary/I2C_Common.c **** * @param    uint8 data : Pointer for value/values to be read
+  48:ZumoLibrary/I2C_Common.c **** * @param    uint8 num_bytes_to_be_read : number of bytes to be read 
+  49:ZumoLibrary/I2C_Common.c **** */
+  50:ZumoLibrary/I2C_Common.c **** 
+  51:ZumoLibrary/I2C_Common.c **** void I2C_Read_Multiple(uint8_t device, uint8_t startAdd, uint8_t* data, uint8_t num_bytes_to_be_rea
+  76              		.loc 1 51 0
+  77              		.cfi_startproc
+  78              		@ args = 0, pretend = 0, frame = 8
+  79              		@ frame_needed = 0, uses_anonymous_args = 0
+  80              	.LVL4:
+  81 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  82              		.cfi_def_cfa_offset 20
+  83              		.cfi_offset 4, -20
+  84              		.cfi_offset 5, -16
+  85              		.cfi_offset 6, -12
+  86              		.cfi_offset 7, -8
+  87              		.cfi_offset 14, -4
+  88 0002 83B0     		sub	sp, sp, #12
+  89              		.cfi_def_cfa_offset 32
+  90 0004 0546     		mov	r5, r0
+  91 0006 1646     		mov	r6, r2
+  92 0008 1F46     		mov	r7, r3
+  93 000a 02AC     		add	r4, sp, #8
+  94 000c 04F8011D 		strb	r1, [r4, #-1]!
+  52:ZumoLibrary/I2C_Common.c ****     
+  53:ZumoLibrary/I2C_Common.c ****     I2C_MasterClearStatus(); // clear any pending status flags
+  95              		.loc 1 53 0
+  96 0010 FFF7FEFF 		bl	I2C_MasterClearStatus
+  97              	.LVL5:
+  54:ZumoLibrary/I2C_Common.c ****     I2C_MasterWriteBuf(device, &startAdd, 1, I2C_MODE_COMPLETE_XFER); // one complete byte transfer
+  98              		.loc 1 54 0
+  99 0014 0023     		movs	r3, #0
+ 100 0016 0122     		movs	r2, #1
+ 101 0018 2146     		mov	r1, r4
+ 102 001a 2846     		mov	r0, r5
+ 103 001c FFF7FEFF 		bl	I2C_MasterWriteBuf
+ 104              	.LVL6:
+ 105              	.L5:
+  55:ZumoLibrary/I2C_Common.c ****     while((I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT) == 0); //Check status and make sure it has comp
+ 106              		.loc 1 55 0 discriminator 1
+ 107 0020 FFF7FEFF 		bl	I2C_MasterStatus
+ 108              	.LVL7:
+ 109 0024 10F0020F 		tst	r0, #2
+ 110 0028 FAD0     		beq	.L5
+  56:ZumoLibrary/I2C_Common.c ****     I2C_MasterClearStatus(); // clear any pending status flags
+ 111              		.loc 1 56 0
+ 112 002a FFF7FEFF 		bl	I2C_MasterClearStatus
+ 113              	.LVL8:
+  57:ZumoLibrary/I2C_Common.c ****     I2C_MasterReadBuf(device, data, num_bytes_to_be_read, I2C_MODE_COMPLETE_XFER);//  complete byte
+ 114              		.loc 1 57 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 4
+
+
+ 115 002e 0023     		movs	r3, #0
+ 116 0030 3A46     		mov	r2, r7
+ 117 0032 3146     		mov	r1, r6
+ 118 0034 2846     		mov	r0, r5
+ 119 0036 FFF7FEFF 		bl	I2C_MasterReadBuf
+ 120              	.LVL9:
+ 121              	.L6:
+  58:ZumoLibrary/I2C_Common.c ****     while((I2C_MasterStatus() & I2C_MSTAT_RD_CMPLT) == 0); //Check status and make sure it has comp
+ 122              		.loc 1 58 0 discriminator 1
+ 123 003a FFF7FEFF 		bl	I2C_MasterStatus
+ 124              	.LVL10:
+ 125 003e 10F0010F 		tst	r0, #1
+ 126 0042 FAD0     		beq	.L6
+  59:ZumoLibrary/I2C_Common.c **** 
+  60:ZumoLibrary/I2C_Common.c **** }
+ 127              		.loc 1 60 0
+ 128 0044 03B0     		add	sp, sp, #12
+ 129              		.cfi_def_cfa_offset 20
+ 130              		@ sp needed
+ 131 0046 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 132              		.cfi_endproc
+ 133              	.LFE2:
+ 134              		.size	I2C_Read_Multiple, .-I2C_Read_Multiple
+ 135              		.section	.text.I2C_Read,"ax",%progbits
+ 136              		.align	2
+ 137              		.global	I2C_Read
+ 138              		.thumb
+ 139              		.thumb_func
+ 140              		.type	I2C_Read, %function
+ 141              	I2C_Read:
+ 142              	.LFB1:
+  33:ZumoLibrary/I2C_Common.c ****     
+ 143              		.loc 1 33 0
+ 144              		.cfi_startproc
+ 145              		@ args = 0, pretend = 0, frame = 8
+ 146              		@ frame_needed = 0, uses_anonymous_args = 0
+ 147              	.LVL11:
+ 148 0000 00B5     		push	{lr}
+ 149              		.cfi_def_cfa_offset 4
+ 150              		.cfi_offset 14, -4
+ 151 0002 83B0     		sub	sp, sp, #12
+ 152              		.cfi_def_cfa_offset 16
+  37:ZumoLibrary/I2C_Common.c ****     
+ 153              		.loc 1 37 0
+ 154 0004 0123     		movs	r3, #1
+ 155 0006 0DF10702 		add	r2, sp, #7
+ 156 000a FFF7FEFF 		bl	I2C_Read_Multiple
+ 157              	.LVL12:
+  40:ZumoLibrary/I2C_Common.c **** 
+ 158              		.loc 1 40 0
+ 159 000e 9DF80700 		ldrb	r0, [sp, #7]	@ zero_extendqisi2
+ 160 0012 03B0     		add	sp, sp, #12
+ 161              		.cfi_def_cfa_offset 4
+ 162              		@ sp needed
+ 163 0014 5DF804FB 		ldr	pc, [sp], #4
+ 164              		.cfi_endproc
+ 165              	.LFE1:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 5
+
+
+ 166              		.size	I2C_Read, .-I2C_Read
+ 167              		.text
+ 168              	.Letext0:
+ 169              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 170              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 171              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 172              		.file 5 "Generated_Source\\PSoC5/I2C.h"
+ 173              		.section	.debug_info,"",%progbits
+ 174              	.Ldebug_info0:
+ 175 0000 94020000 		.4byte	0x294
+ 176 0004 0400     		.2byte	0x4
+ 177 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 178 000a 04       		.byte	0x4
+ 179 000b 01       		.uleb128 0x1
+ 180 000c CC000000 		.4byte	.LASF29
+ 181 0010 0C       		.byte	0xc
+ 182 0011 03020000 		.4byte	.LASF30
+ 183 0015 3B000000 		.4byte	.LASF31
+ 184 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 185 001d 00000000 		.4byte	0
+ 186 0021 00000000 		.4byte	.Ldebug_line0
+ 187 0025 02       		.uleb128 0x2
+ 188 0026 01       		.byte	0x1
+ 189 0027 06       		.byte	0x6
+ 190 0028 54020000 		.4byte	.LASF0
+ 191 002c 03       		.uleb128 0x3
+ 192 002d 1E000000 		.4byte	.LASF9
+ 193 0031 02       		.byte	0x2
+ 194 0032 1D       		.byte	0x1d
+ 195 0033 37000000 		.4byte	0x37
+ 196 0037 02       		.uleb128 0x2
+ 197 0038 01       		.byte	0x1
+ 198 0039 08       		.byte	0x8
+ 199 003a BE000000 		.4byte	.LASF1
+ 200 003e 02       		.uleb128 0x2
+ 201 003f 02       		.byte	0x2
+ 202 0040 05       		.byte	0x5
+ 203 0041 1C020000 		.4byte	.LASF2
+ 204 0045 02       		.uleb128 0x2
+ 205 0046 02       		.byte	0x2
+ 206 0047 07       		.byte	0x7
+ 207 0048 28000000 		.4byte	.LASF3
+ 208 004c 02       		.uleb128 0x2
+ 209 004d 04       		.byte	0x4
+ 210 004e 05       		.byte	0x5
+ 211 004f 38020000 		.4byte	.LASF4
+ 212 0053 02       		.uleb128 0x2
+ 213 0054 04       		.byte	0x4
+ 214 0055 07       		.byte	0x7
+ 215 0056 70010000 		.4byte	.LASF5
+ 216 005a 02       		.uleb128 0x2
+ 217 005b 08       		.byte	0x8
+ 218 005c 05       		.byte	0x5
+ 219 005d DF010000 		.4byte	.LASF6
+ 220 0061 02       		.uleb128 0x2
+ 221 0062 08       		.byte	0x8
+ 222 0063 07       		.byte	0x7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 6
+
+
+ 223 0064 B0010000 		.4byte	.LASF7
+ 224 0068 04       		.uleb128 0x4
+ 225 0069 04       		.byte	0x4
+ 226 006a 05       		.byte	0x5
+ 227 006b 696E7400 		.ascii	"int\000"
+ 228 006f 02       		.uleb128 0x2
+ 229 0070 04       		.byte	0x4
+ 230 0071 07       		.byte	0x7
+ 231 0072 A3010000 		.4byte	.LASF8
+ 232 0076 03       		.uleb128 0x3
+ 233 0077 C7010000 		.4byte	.LASF10
+ 234 007b 03       		.byte	0x3
+ 235 007c 18       		.byte	0x18
+ 236 007d 2C000000 		.4byte	0x2c
+ 237 0081 05       		.uleb128 0x5
+ 238 0082 82010000 		.4byte	.LASF11
+ 239 0086 04       		.byte	0x4
+ 240 0087 E401     		.2byte	0x1e4
+ 241 0089 37000000 		.4byte	0x37
+ 242 008d 02       		.uleb128 0x2
+ 243 008e 04       		.byte	0x4
+ 244 008f 04       		.byte	0x4
+ 245 0090 B3000000 		.4byte	.LASF12
+ 246 0094 02       		.uleb128 0x2
+ 247 0095 08       		.byte	0x8
+ 248 0096 04       		.byte	0x4
+ 249 0097 88010000 		.4byte	.LASF13
+ 250 009b 02       		.uleb128 0x2
+ 251 009c 01       		.byte	0x1
+ 252 009d 08       		.byte	0x8
+ 253 009e ED010000 		.4byte	.LASF14
+ 254 00a2 02       		.uleb128 0x2
+ 255 00a3 08       		.byte	0x8
+ 256 00a4 04       		.byte	0x4
+ 257 00a5 41020000 		.4byte	.LASF15
+ 258 00a9 02       		.uleb128 0x2
+ 259 00aa 04       		.byte	0x4
+ 260 00ab 07       		.byte	0x7
+ 261 00ac CF010000 		.4byte	.LASF16
+ 262 00b0 06       		.uleb128 0x6
+ 263 00b1 8F010000 		.4byte	.LASF22
+ 264 00b5 01       		.byte	0x1
+ 265 00b6 10       		.byte	0x10
+ 266 00b7 76000000 		.4byte	0x76
+ 267 00bb 00000000 		.4byte	.LFB0
+ 268 00bf 2E000000 		.4byte	.LFE0-.LFB0
+ 269 00c3 01       		.uleb128 0x1
+ 270 00c4 9C       		.byte	0x9c
+ 271 00c5 3B010000 		.4byte	0x13b
+ 272 00c9 07       		.uleb128 0x7
+ 273 00ca 4D020000 		.4byte	.LASF17
+ 274 00ce 01       		.byte	0x1
+ 275 00cf 10       		.byte	0x10
+ 276 00d0 76000000 		.4byte	0x76
+ 277 00d4 00000000 		.4byte	.LLST0
+ 278 00d8 07       		.uleb128 0x7
+ 279 00d9 D8010000 		.4byte	.LASF18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 7
+
+
+ 280 00dd 01       		.byte	0x1
+ 281 00de 10       		.byte	0x10
+ 282 00df 76000000 		.4byte	0x76
+ 283 00e3 21000000 		.4byte	.LLST1
+ 284 00e7 07       		.uleb128 0x7
+ 285 00e8 B9000000 		.4byte	.LASF19
+ 286 00ec 01       		.byte	0x1
+ 287 00ed 10       		.byte	0x10
+ 288 00ee 76000000 		.4byte	0x76
+ 289 00f2 42000000 		.4byte	.LLST2
+ 290 00f6 08       		.uleb128 0x8
+ 291 00f7 99010000 		.4byte	.LASF24
+ 292 00fb 01       		.byte	0x1
+ 293 00fc 12       		.byte	0x12
+ 294 00fd 3B010000 		.4byte	0x13b
+ 295 0101 02       		.uleb128 0x2
+ 296 0102 91       		.byte	0x91
+ 297 0103 74       		.sleb128 -12
+ 298 0104 09       		.uleb128 0x9
+ 299 0105 12000000 		.4byte	.LVL1
+ 300 0109 6B020000 		.4byte	0x26b
+ 301 010d 0A       		.uleb128 0xa
+ 302 010e 1E000000 		.4byte	.LVL2
+ 303 0112 76020000 		.4byte	0x276
+ 304 0116 31010000 		.4byte	0x131
+ 305 011a 0B       		.uleb128 0xb
+ 306 011b 01       		.uleb128 0x1
+ 307 011c 50       		.byte	0x50
+ 308 011d 02       		.uleb128 0x2
+ 309 011e 74       		.byte	0x74
+ 310 011f 00       		.sleb128 0
+ 311 0120 0B       		.uleb128 0xb
+ 312 0121 01       		.uleb128 0x1
+ 313 0122 51       		.byte	0x51
+ 314 0123 02       		.uleb128 0x2
+ 315 0124 91       		.byte	0x91
+ 316 0125 74       		.sleb128 -12
+ 317 0126 0B       		.uleb128 0xb
+ 318 0127 01       		.uleb128 0x1
+ 319 0128 52       		.byte	0x52
+ 320 0129 01       		.uleb128 0x1
+ 321 012a 32       		.byte	0x32
+ 322 012b 0B       		.uleb128 0xb
+ 323 012c 01       		.uleb128 0x1
+ 324 012d 53       		.byte	0x53
+ 325 012e 01       		.uleb128 0x1
+ 326 012f 30       		.byte	0x30
+ 327 0130 00       		.byte	0
+ 328 0131 09       		.uleb128 0x9
+ 329 0132 22000000 		.4byte	.LVL3
+ 330 0136 81020000 		.4byte	0x281
+ 331 013a 00       		.byte	0
+ 332 013b 0C       		.uleb128 0xc
+ 333 013c 81000000 		.4byte	0x81
+ 334 0140 4B010000 		.4byte	0x14b
+ 335 0144 0D       		.uleb128 0xd
+ 336 0145 A9000000 		.4byte	0xa9
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 8
+
+
+ 337 0149 01       		.byte	0x1
+ 338 014a 00       		.byte	0
+ 339 014b 0E       		.uleb128 0xe
+ 340 014c 26020000 		.4byte	.LASF32
+ 341 0150 01       		.byte	0x1
+ 342 0151 33       		.byte	0x33
+ 343 0152 00000000 		.4byte	.LFB2
+ 344 0156 48000000 		.4byte	.LFE2-.LFB2
+ 345 015a 01       		.uleb128 0x1
+ 346 015b 9C       		.byte	0x9c
+ 347 015c 0A020000 		.4byte	0x20a
+ 348 0160 07       		.uleb128 0x7
+ 349 0161 4D020000 		.4byte	.LASF17
+ 350 0165 01       		.byte	0x1
+ 351 0166 33       		.byte	0x33
+ 352 0167 76000000 		.4byte	0x76
+ 353 016b 63000000 		.4byte	.LLST3
+ 354 016f 07       		.uleb128 0x7
+ 355 0170 85000000 		.4byte	.LASF20
+ 356 0174 01       		.byte	0x1
+ 357 0175 33       		.byte	0x33
+ 358 0176 76000000 		.4byte	0x76
+ 359 017a 84000000 		.4byte	.LLST4
+ 360 017e 07       		.uleb128 0x7
+ 361 017f B9000000 		.4byte	.LASF19
+ 362 0183 01       		.byte	0x1
+ 363 0184 33       		.byte	0x33
+ 364 0185 0A020000 		.4byte	0x20a
+ 365 0189 A3000000 		.4byte	.LLST5
+ 366 018d 07       		.uleb128 0x7
+ 367 018e 09000000 		.4byte	.LASF21
+ 368 0192 01       		.byte	0x1
+ 369 0193 33       		.byte	0x33
+ 370 0194 76000000 		.4byte	0x76
+ 371 0198 C1000000 		.4byte	.LLST6
+ 372 019c 09       		.uleb128 0x9
+ 373 019d 14000000 		.4byte	.LVL5
+ 374 01a1 6B020000 		.4byte	0x26b
+ 375 01a5 0A       		.uleb128 0xa
+ 376 01a6 20000000 		.4byte	.LVL6
+ 377 01aa 76020000 		.4byte	0x276
+ 378 01ae C9010000 		.4byte	0x1c9
+ 379 01b2 0B       		.uleb128 0xb
+ 380 01b3 01       		.uleb128 0x1
+ 381 01b4 50       		.byte	0x50
+ 382 01b5 02       		.uleb128 0x2
+ 383 01b6 75       		.byte	0x75
+ 384 01b7 00       		.sleb128 0
+ 385 01b8 0B       		.uleb128 0xb
+ 386 01b9 01       		.uleb128 0x1
+ 387 01ba 51       		.byte	0x51
+ 388 01bb 02       		.uleb128 0x2
+ 389 01bc 74       		.byte	0x74
+ 390 01bd 00       		.sleb128 0
+ 391 01be 0B       		.uleb128 0xb
+ 392 01bf 01       		.uleb128 0x1
+ 393 01c0 52       		.byte	0x52
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 9
+
+
+ 394 01c1 01       		.uleb128 0x1
+ 395 01c2 31       		.byte	0x31
+ 396 01c3 0B       		.uleb128 0xb
+ 397 01c4 01       		.uleb128 0x1
+ 398 01c5 53       		.byte	0x53
+ 399 01c6 01       		.uleb128 0x1
+ 400 01c7 30       		.byte	0x30
+ 401 01c8 00       		.byte	0
+ 402 01c9 09       		.uleb128 0x9
+ 403 01ca 24000000 		.4byte	.LVL7
+ 404 01ce 81020000 		.4byte	0x281
+ 405 01d2 09       		.uleb128 0x9
+ 406 01d3 2E000000 		.4byte	.LVL8
+ 407 01d7 6B020000 		.4byte	0x26b
+ 408 01db 0A       		.uleb128 0xa
+ 409 01dc 3A000000 		.4byte	.LVL9
+ 410 01e0 8C020000 		.4byte	0x28c
+ 411 01e4 00020000 		.4byte	0x200
+ 412 01e8 0B       		.uleb128 0xb
+ 413 01e9 01       		.uleb128 0x1
+ 414 01ea 50       		.byte	0x50
+ 415 01eb 02       		.uleb128 0x2
+ 416 01ec 75       		.byte	0x75
+ 417 01ed 00       		.sleb128 0
+ 418 01ee 0B       		.uleb128 0xb
+ 419 01ef 01       		.uleb128 0x1
+ 420 01f0 51       		.byte	0x51
+ 421 01f1 02       		.uleb128 0x2
+ 422 01f2 76       		.byte	0x76
+ 423 01f3 00       		.sleb128 0
+ 424 01f4 0B       		.uleb128 0xb
+ 425 01f5 01       		.uleb128 0x1
+ 426 01f6 52       		.byte	0x52
+ 427 01f7 02       		.uleb128 0x2
+ 428 01f8 77       		.byte	0x77
+ 429 01f9 00       		.sleb128 0
+ 430 01fa 0B       		.uleb128 0xb
+ 431 01fb 01       		.uleb128 0x1
+ 432 01fc 53       		.byte	0x53
+ 433 01fd 01       		.uleb128 0x1
+ 434 01fe 30       		.byte	0x30
+ 435 01ff 00       		.byte	0
+ 436 0200 09       		.uleb128 0x9
+ 437 0201 3E000000 		.4byte	.LVL10
+ 438 0205 81020000 		.4byte	0x281
+ 439 0209 00       		.byte	0
+ 440 020a 0F       		.uleb128 0xf
+ 441 020b 04       		.byte	0x4
+ 442 020c 76000000 		.4byte	0x76
+ 443 0210 06       		.uleb128 0x6
+ 444 0211 00000000 		.4byte	.LASF23
+ 445 0215 01       		.byte	0x1
+ 446 0216 21       		.byte	0x21
+ 447 0217 76000000 		.4byte	0x76
+ 448 021b 00000000 		.4byte	.LFB1
+ 449 021f 18000000 		.4byte	.LFE1-.LFB1
+ 450 0223 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 10
+
+
+ 451 0224 9C       		.byte	0x9c
+ 452 0225 6B020000 		.4byte	0x26b
+ 453 0229 07       		.uleb128 0x7
+ 454 022a 4D020000 		.4byte	.LASF17
+ 455 022e 01       		.byte	0x1
+ 456 022f 21       		.byte	0x21
+ 457 0230 76000000 		.4byte	0x76
+ 458 0234 E2000000 		.4byte	.LLST7
+ 459 0238 07       		.uleb128 0x7
+ 460 0239 D8010000 		.4byte	.LASF18
+ 461 023d 01       		.byte	0x1
+ 462 023e 21       		.byte	0x21
+ 463 023f 76000000 		.4byte	0x76
+ 464 0243 03010000 		.4byte	.LLST8
+ 465 0247 08       		.uleb128 0x8
+ 466 0248 B9000000 		.4byte	.LASF19
+ 467 024c 01       		.byte	0x1
+ 468 024d 23       		.byte	0x23
+ 469 024e 76000000 		.4byte	0x76
+ 470 0252 02       		.uleb128 0x2
+ 471 0253 91       		.byte	0x91
+ 472 0254 77       		.sleb128 -9
+ 473 0255 10       		.uleb128 0x10
+ 474 0256 0E000000 		.4byte	.LVL12
+ 475 025a 4B010000 		.4byte	0x14b
+ 476 025e 0B       		.uleb128 0xb
+ 477 025f 01       		.uleb128 0x1
+ 478 0260 52       		.byte	0x52
+ 479 0261 02       		.uleb128 0x2
+ 480 0262 91       		.byte	0x91
+ 481 0263 77       		.sleb128 -9
+ 482 0264 0B       		.uleb128 0xb
+ 483 0265 01       		.uleb128 0x1
+ 484 0266 53       		.byte	0x53
+ 485 0267 01       		.uleb128 0x1
+ 486 0268 31       		.byte	0x31
+ 487 0269 00       		.byte	0
+ 488 026a 00       		.byte	0
+ 489 026b 11       		.uleb128 0x11
+ 490 026c 5A010000 		.4byte	.LASF25
+ 491 0270 5A010000 		.4byte	.LASF25
+ 492 0274 05       		.byte	0x5
+ 493 0275 A4       		.byte	0xa4
+ 494 0276 11       		.uleb128 0x11
+ 495 0277 8E000000 		.4byte	.LASF26
+ 496 027b 8E000000 		.4byte	.LASF26
+ 497 027f 05       		.byte	0x5
+ 498 0280 A7       		.byte	0xa7
+ 499 0281 11       		.uleb128 0x11
+ 500 0282 F2010000 		.4byte	.LASF27
+ 501 0286 F2010000 		.4byte	.LASF27
+ 502 028a 05       		.byte	0x5
+ 503 028b A3       		.byte	0xa3
+ 504 028c 11       		.uleb128 0x11
+ 505 028d A1000000 		.4byte	.LASF28
+ 506 0291 A1000000 		.4byte	.LASF28
+ 507 0295 05       		.byte	0x5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 11
+
+
+ 508 0296 A9       		.byte	0xa9
+ 509 0297 00       		.byte	0
+ 510              		.section	.debug_abbrev,"",%progbits
+ 511              	.Ldebug_abbrev0:
+ 512 0000 01       		.uleb128 0x1
+ 513 0001 11       		.uleb128 0x11
+ 514 0002 01       		.byte	0x1
+ 515 0003 25       		.uleb128 0x25
+ 516 0004 0E       		.uleb128 0xe
+ 517 0005 13       		.uleb128 0x13
+ 518 0006 0B       		.uleb128 0xb
+ 519 0007 03       		.uleb128 0x3
+ 520 0008 0E       		.uleb128 0xe
+ 521 0009 1B       		.uleb128 0x1b
+ 522 000a 0E       		.uleb128 0xe
+ 523 000b 55       		.uleb128 0x55
+ 524 000c 17       		.uleb128 0x17
+ 525 000d 11       		.uleb128 0x11
+ 526 000e 01       		.uleb128 0x1
+ 527 000f 10       		.uleb128 0x10
+ 528 0010 17       		.uleb128 0x17
+ 529 0011 00       		.byte	0
+ 530 0012 00       		.byte	0
+ 531 0013 02       		.uleb128 0x2
+ 532 0014 24       		.uleb128 0x24
+ 533 0015 00       		.byte	0
+ 534 0016 0B       		.uleb128 0xb
+ 535 0017 0B       		.uleb128 0xb
+ 536 0018 3E       		.uleb128 0x3e
+ 537 0019 0B       		.uleb128 0xb
+ 538 001a 03       		.uleb128 0x3
+ 539 001b 0E       		.uleb128 0xe
+ 540 001c 00       		.byte	0
+ 541 001d 00       		.byte	0
+ 542 001e 03       		.uleb128 0x3
+ 543 001f 16       		.uleb128 0x16
+ 544 0020 00       		.byte	0
+ 545 0021 03       		.uleb128 0x3
+ 546 0022 0E       		.uleb128 0xe
+ 547 0023 3A       		.uleb128 0x3a
+ 548 0024 0B       		.uleb128 0xb
+ 549 0025 3B       		.uleb128 0x3b
+ 550 0026 0B       		.uleb128 0xb
+ 551 0027 49       		.uleb128 0x49
+ 552 0028 13       		.uleb128 0x13
+ 553 0029 00       		.byte	0
+ 554 002a 00       		.byte	0
+ 555 002b 04       		.uleb128 0x4
+ 556 002c 24       		.uleb128 0x24
+ 557 002d 00       		.byte	0
+ 558 002e 0B       		.uleb128 0xb
+ 559 002f 0B       		.uleb128 0xb
+ 560 0030 3E       		.uleb128 0x3e
+ 561 0031 0B       		.uleb128 0xb
+ 562 0032 03       		.uleb128 0x3
+ 563 0033 08       		.uleb128 0x8
+ 564 0034 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 12
+
+
+ 565 0035 00       		.byte	0
+ 566 0036 05       		.uleb128 0x5
+ 567 0037 16       		.uleb128 0x16
+ 568 0038 00       		.byte	0
+ 569 0039 03       		.uleb128 0x3
+ 570 003a 0E       		.uleb128 0xe
+ 571 003b 3A       		.uleb128 0x3a
+ 572 003c 0B       		.uleb128 0xb
+ 573 003d 3B       		.uleb128 0x3b
+ 574 003e 05       		.uleb128 0x5
+ 575 003f 49       		.uleb128 0x49
+ 576 0040 13       		.uleb128 0x13
+ 577 0041 00       		.byte	0
+ 578 0042 00       		.byte	0
+ 579 0043 06       		.uleb128 0x6
+ 580 0044 2E       		.uleb128 0x2e
+ 581 0045 01       		.byte	0x1
+ 582 0046 3F       		.uleb128 0x3f
+ 583 0047 19       		.uleb128 0x19
+ 584 0048 03       		.uleb128 0x3
+ 585 0049 0E       		.uleb128 0xe
+ 586 004a 3A       		.uleb128 0x3a
+ 587 004b 0B       		.uleb128 0xb
+ 588 004c 3B       		.uleb128 0x3b
+ 589 004d 0B       		.uleb128 0xb
+ 590 004e 27       		.uleb128 0x27
+ 591 004f 19       		.uleb128 0x19
+ 592 0050 49       		.uleb128 0x49
+ 593 0051 13       		.uleb128 0x13
+ 594 0052 11       		.uleb128 0x11
+ 595 0053 01       		.uleb128 0x1
+ 596 0054 12       		.uleb128 0x12
+ 597 0055 06       		.uleb128 0x6
+ 598 0056 40       		.uleb128 0x40
+ 599 0057 18       		.uleb128 0x18
+ 600 0058 9742     		.uleb128 0x2117
+ 601 005a 19       		.uleb128 0x19
+ 602 005b 01       		.uleb128 0x1
+ 603 005c 13       		.uleb128 0x13
+ 604 005d 00       		.byte	0
+ 605 005e 00       		.byte	0
+ 606 005f 07       		.uleb128 0x7
+ 607 0060 05       		.uleb128 0x5
+ 608 0061 00       		.byte	0
+ 609 0062 03       		.uleb128 0x3
+ 610 0063 0E       		.uleb128 0xe
+ 611 0064 3A       		.uleb128 0x3a
+ 612 0065 0B       		.uleb128 0xb
+ 613 0066 3B       		.uleb128 0x3b
+ 614 0067 0B       		.uleb128 0xb
+ 615 0068 49       		.uleb128 0x49
+ 616 0069 13       		.uleb128 0x13
+ 617 006a 02       		.uleb128 0x2
+ 618 006b 17       		.uleb128 0x17
+ 619 006c 00       		.byte	0
+ 620 006d 00       		.byte	0
+ 621 006e 08       		.uleb128 0x8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 13
+
+
+ 622 006f 34       		.uleb128 0x34
+ 623 0070 00       		.byte	0
+ 624 0071 03       		.uleb128 0x3
+ 625 0072 0E       		.uleb128 0xe
+ 626 0073 3A       		.uleb128 0x3a
+ 627 0074 0B       		.uleb128 0xb
+ 628 0075 3B       		.uleb128 0x3b
+ 629 0076 0B       		.uleb128 0xb
+ 630 0077 49       		.uleb128 0x49
+ 631 0078 13       		.uleb128 0x13
+ 632 0079 02       		.uleb128 0x2
+ 633 007a 18       		.uleb128 0x18
+ 634 007b 00       		.byte	0
+ 635 007c 00       		.byte	0
+ 636 007d 09       		.uleb128 0x9
+ 637 007e 898201   		.uleb128 0x4109
+ 638 0081 00       		.byte	0
+ 639 0082 11       		.uleb128 0x11
+ 640 0083 01       		.uleb128 0x1
+ 641 0084 31       		.uleb128 0x31
+ 642 0085 13       		.uleb128 0x13
+ 643 0086 00       		.byte	0
+ 644 0087 00       		.byte	0
+ 645 0088 0A       		.uleb128 0xa
+ 646 0089 898201   		.uleb128 0x4109
+ 647 008c 01       		.byte	0x1
+ 648 008d 11       		.uleb128 0x11
+ 649 008e 01       		.uleb128 0x1
+ 650 008f 31       		.uleb128 0x31
+ 651 0090 13       		.uleb128 0x13
+ 652 0091 01       		.uleb128 0x1
+ 653 0092 13       		.uleb128 0x13
+ 654 0093 00       		.byte	0
+ 655 0094 00       		.byte	0
+ 656 0095 0B       		.uleb128 0xb
+ 657 0096 8A8201   		.uleb128 0x410a
+ 658 0099 00       		.byte	0
+ 659 009a 02       		.uleb128 0x2
+ 660 009b 18       		.uleb128 0x18
+ 661 009c 9142     		.uleb128 0x2111
+ 662 009e 18       		.uleb128 0x18
+ 663 009f 00       		.byte	0
+ 664 00a0 00       		.byte	0
+ 665 00a1 0C       		.uleb128 0xc
+ 666 00a2 01       		.uleb128 0x1
+ 667 00a3 01       		.byte	0x1
+ 668 00a4 49       		.uleb128 0x49
+ 669 00a5 13       		.uleb128 0x13
+ 670 00a6 01       		.uleb128 0x1
+ 671 00a7 13       		.uleb128 0x13
+ 672 00a8 00       		.byte	0
+ 673 00a9 00       		.byte	0
+ 674 00aa 0D       		.uleb128 0xd
+ 675 00ab 21       		.uleb128 0x21
+ 676 00ac 00       		.byte	0
+ 677 00ad 49       		.uleb128 0x49
+ 678 00ae 13       		.uleb128 0x13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 14
+
+
+ 679 00af 2F       		.uleb128 0x2f
+ 680 00b0 0B       		.uleb128 0xb
+ 681 00b1 00       		.byte	0
+ 682 00b2 00       		.byte	0
+ 683 00b3 0E       		.uleb128 0xe
+ 684 00b4 2E       		.uleb128 0x2e
+ 685 00b5 01       		.byte	0x1
+ 686 00b6 3F       		.uleb128 0x3f
+ 687 00b7 19       		.uleb128 0x19
+ 688 00b8 03       		.uleb128 0x3
+ 689 00b9 0E       		.uleb128 0xe
+ 690 00ba 3A       		.uleb128 0x3a
+ 691 00bb 0B       		.uleb128 0xb
+ 692 00bc 3B       		.uleb128 0x3b
+ 693 00bd 0B       		.uleb128 0xb
+ 694 00be 27       		.uleb128 0x27
+ 695 00bf 19       		.uleb128 0x19
+ 696 00c0 11       		.uleb128 0x11
+ 697 00c1 01       		.uleb128 0x1
+ 698 00c2 12       		.uleb128 0x12
+ 699 00c3 06       		.uleb128 0x6
+ 700 00c4 40       		.uleb128 0x40
+ 701 00c5 18       		.uleb128 0x18
+ 702 00c6 9742     		.uleb128 0x2117
+ 703 00c8 19       		.uleb128 0x19
+ 704 00c9 01       		.uleb128 0x1
+ 705 00ca 13       		.uleb128 0x13
+ 706 00cb 00       		.byte	0
+ 707 00cc 00       		.byte	0
+ 708 00cd 0F       		.uleb128 0xf
+ 709 00ce 0F       		.uleb128 0xf
+ 710 00cf 00       		.byte	0
+ 711 00d0 0B       		.uleb128 0xb
+ 712 00d1 0B       		.uleb128 0xb
+ 713 00d2 49       		.uleb128 0x49
+ 714 00d3 13       		.uleb128 0x13
+ 715 00d4 00       		.byte	0
+ 716 00d5 00       		.byte	0
+ 717 00d6 10       		.uleb128 0x10
+ 718 00d7 898201   		.uleb128 0x4109
+ 719 00da 01       		.byte	0x1
+ 720 00db 11       		.uleb128 0x11
+ 721 00dc 01       		.uleb128 0x1
+ 722 00dd 31       		.uleb128 0x31
+ 723 00de 13       		.uleb128 0x13
+ 724 00df 00       		.byte	0
+ 725 00e0 00       		.byte	0
+ 726 00e1 11       		.uleb128 0x11
+ 727 00e2 2E       		.uleb128 0x2e
+ 728 00e3 00       		.byte	0
+ 729 00e4 3F       		.uleb128 0x3f
+ 730 00e5 19       		.uleb128 0x19
+ 731 00e6 3C       		.uleb128 0x3c
+ 732 00e7 19       		.uleb128 0x19
+ 733 00e8 6E       		.uleb128 0x6e
+ 734 00e9 0E       		.uleb128 0xe
+ 735 00ea 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 15
+
+
+ 736 00eb 0E       		.uleb128 0xe
+ 737 00ec 3A       		.uleb128 0x3a
+ 738 00ed 0B       		.uleb128 0xb
+ 739 00ee 3B       		.uleb128 0x3b
+ 740 00ef 0B       		.uleb128 0xb
+ 741 00f0 00       		.byte	0
+ 742 00f1 00       		.byte	0
+ 743 00f2 00       		.byte	0
+ 744              		.section	.debug_loc,"",%progbits
+ 745              	.Ldebug_loc0:
+ 746              	.LLST0:
+ 747 0000 00000000 		.4byte	.LVL0
+ 748 0004 11000000 		.4byte	.LVL1-1
+ 749 0008 0100     		.2byte	0x1
+ 750 000a 50       		.byte	0x50
+ 751 000b 11000000 		.4byte	.LVL1-1
+ 752 000f 2E000000 		.4byte	.LFE0
+ 753 0013 0400     		.2byte	0x4
+ 754 0015 F3       		.byte	0xf3
+ 755 0016 01       		.uleb128 0x1
+ 756 0017 50       		.byte	0x50
+ 757 0018 9F       		.byte	0x9f
+ 758 0019 00000000 		.4byte	0
+ 759 001d 00000000 		.4byte	0
+ 760              	.LLST1:
+ 761 0021 00000000 		.4byte	.LVL0
+ 762 0025 11000000 		.4byte	.LVL1-1
+ 763 0029 0100     		.2byte	0x1
+ 764 002b 51       		.byte	0x51
+ 765 002c 11000000 		.4byte	.LVL1-1
+ 766 0030 2E000000 		.4byte	.LFE0
+ 767 0034 0400     		.2byte	0x4
+ 768 0036 F3       		.byte	0xf3
+ 769 0037 01       		.uleb128 0x1
+ 770 0038 51       		.byte	0x51
+ 771 0039 9F       		.byte	0x9f
+ 772 003a 00000000 		.4byte	0
+ 773 003e 00000000 		.4byte	0
+ 774              	.LLST2:
+ 775 0042 00000000 		.4byte	.LVL0
+ 776 0046 11000000 		.4byte	.LVL1-1
+ 777 004a 0100     		.2byte	0x1
+ 778 004c 52       		.byte	0x52
+ 779 004d 11000000 		.4byte	.LVL1-1
+ 780 0051 2E000000 		.4byte	.LFE0
+ 781 0055 0400     		.2byte	0x4
+ 782 0057 F3       		.byte	0xf3
+ 783 0058 01       		.uleb128 0x1
+ 784 0059 52       		.byte	0x52
+ 785 005a 9F       		.byte	0x9f
+ 786 005b 00000000 		.4byte	0
+ 787 005f 00000000 		.4byte	0
+ 788              	.LLST3:
+ 789 0063 00000000 		.4byte	.LVL4
+ 790 0067 13000000 		.4byte	.LVL5-1
+ 791 006b 0100     		.2byte	0x1
+ 792 006d 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 16
+
+
+ 793 006e 13000000 		.4byte	.LVL5-1
+ 794 0072 48000000 		.4byte	.LFE2
+ 795 0076 0400     		.2byte	0x4
+ 796 0078 F3       		.byte	0xf3
+ 797 0079 01       		.uleb128 0x1
+ 798 007a 50       		.byte	0x50
+ 799 007b 9F       		.byte	0x9f
+ 800 007c 00000000 		.4byte	0
+ 801 0080 00000000 		.4byte	0
+ 802              	.LLST4:
+ 803 0084 00000000 		.4byte	.LVL4
+ 804 0088 13000000 		.4byte	.LVL5-1
+ 805 008c 0100     		.2byte	0x1
+ 806 008e 51       		.byte	0x51
+ 807 008f 13000000 		.4byte	.LVL5-1
+ 808 0093 48000000 		.4byte	.LFE2
+ 809 0097 0200     		.2byte	0x2
+ 810 0099 74       		.byte	0x74
+ 811 009a 00       		.sleb128 0
+ 812 009b 00000000 		.4byte	0
+ 813 009f 00000000 		.4byte	0
+ 814              	.LLST5:
+ 815 00a3 00000000 		.4byte	.LVL4
+ 816 00a7 13000000 		.4byte	.LVL5-1
+ 817 00ab 0100     		.2byte	0x1
+ 818 00ad 52       		.byte	0x52
+ 819 00ae 13000000 		.4byte	.LVL5-1
+ 820 00b2 48000000 		.4byte	.LFE2
+ 821 00b6 0100     		.2byte	0x1
+ 822 00b8 56       		.byte	0x56
+ 823 00b9 00000000 		.4byte	0
+ 824 00bd 00000000 		.4byte	0
+ 825              	.LLST6:
+ 826 00c1 00000000 		.4byte	.LVL4
+ 827 00c5 13000000 		.4byte	.LVL5-1
+ 828 00c9 0100     		.2byte	0x1
+ 829 00cb 53       		.byte	0x53
+ 830 00cc 13000000 		.4byte	.LVL5-1
+ 831 00d0 48000000 		.4byte	.LFE2
+ 832 00d4 0400     		.2byte	0x4
+ 833 00d6 F3       		.byte	0xf3
+ 834 00d7 01       		.uleb128 0x1
+ 835 00d8 53       		.byte	0x53
+ 836 00d9 9F       		.byte	0x9f
+ 837 00da 00000000 		.4byte	0
+ 838 00de 00000000 		.4byte	0
+ 839              	.LLST7:
+ 840 00e2 00000000 		.4byte	.LVL11
+ 841 00e6 0D000000 		.4byte	.LVL12-1
+ 842 00ea 0100     		.2byte	0x1
+ 843 00ec 50       		.byte	0x50
+ 844 00ed 0D000000 		.4byte	.LVL12-1
+ 845 00f1 18000000 		.4byte	.LFE1
+ 846 00f5 0400     		.2byte	0x4
+ 847 00f7 F3       		.byte	0xf3
+ 848 00f8 01       		.uleb128 0x1
+ 849 00f9 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 17
+
+
+ 850 00fa 9F       		.byte	0x9f
+ 851 00fb 00000000 		.4byte	0
+ 852 00ff 00000000 		.4byte	0
+ 853              	.LLST8:
+ 854 0103 00000000 		.4byte	.LVL11
+ 855 0107 0D000000 		.4byte	.LVL12-1
+ 856 010b 0100     		.2byte	0x1
+ 857 010d 51       		.byte	0x51
+ 858 010e 0D000000 		.4byte	.LVL12-1
+ 859 0112 18000000 		.4byte	.LFE1
+ 860 0116 0400     		.2byte	0x4
+ 861 0118 F3       		.byte	0xf3
+ 862 0119 01       		.uleb128 0x1
+ 863 011a 51       		.byte	0x51
+ 864 011b 9F       		.byte	0x9f
+ 865 011c 00000000 		.4byte	0
+ 866 0120 00000000 		.4byte	0
+ 867              		.section	.debug_aranges,"",%progbits
+ 868 0000 2C000000 		.4byte	0x2c
+ 869 0004 0200     		.2byte	0x2
+ 870 0006 00000000 		.4byte	.Ldebug_info0
+ 871 000a 04       		.byte	0x4
+ 872 000b 00       		.byte	0
+ 873 000c 0000     		.2byte	0
+ 874 000e 0000     		.2byte	0
+ 875 0010 00000000 		.4byte	.LFB0
+ 876 0014 2E000000 		.4byte	.LFE0-.LFB0
+ 877 0018 00000000 		.4byte	.LFB2
+ 878 001c 48000000 		.4byte	.LFE2-.LFB2
+ 879 0020 00000000 		.4byte	.LFB1
+ 880 0024 18000000 		.4byte	.LFE1-.LFB1
+ 881 0028 00000000 		.4byte	0
+ 882 002c 00000000 		.4byte	0
+ 883              		.section	.debug_ranges,"",%progbits
+ 884              	.Ldebug_ranges0:
+ 885 0000 00000000 		.4byte	.LFB0
+ 886 0004 2E000000 		.4byte	.LFE0
+ 887 0008 00000000 		.4byte	.LFB2
+ 888 000c 48000000 		.4byte	.LFE2
+ 889 0010 00000000 		.4byte	.LFB1
+ 890 0014 18000000 		.4byte	.LFE1
+ 891 0018 00000000 		.4byte	0
+ 892 001c 00000000 		.4byte	0
+ 893              		.section	.debug_line,"",%progbits
+ 894              	.Ldebug_line0:
+ 895 0000 A6010000 		.section	.debug_str,"MS",%progbits,1
+ 895      02005901 
+ 895      00000201 
+ 895      FB0E0D00 
+ 895      01010101 
+ 896              	.LASF23:
+ 897 0000 4932435F 		.ascii	"I2C_Read\000"
+ 897      52656164 
+ 897      00
+ 898              	.LASF21:
+ 899 0009 6E756D5F 		.ascii	"num_bytes_to_be_read\000"
+ 899      62797465 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 18
+
+
+ 899      735F746F 
+ 899      5F62655F 
+ 899      72656164 
+ 900              	.LASF9:
+ 901 001e 5F5F7569 		.ascii	"__uint8_t\000"
+ 901      6E74385F 
+ 901      7400
+ 902              	.LASF3:
+ 903 0028 73686F72 		.ascii	"short unsigned int\000"
+ 903      7420756E 
+ 903      7369676E 
+ 903      65642069 
+ 903      6E7400
+ 904              	.LASF31:
+ 905 003b 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 905      73657273 
+ 905      5C457667 
+ 905      656E7920 
+ 905      4D657368 
+ 906 006a 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 906      746D705C 
+ 906      5A756D6F 
+ 906      5C5A756D 
+ 906      6F426F74 
+ 907              	.LASF20:
+ 908 0085 73746172 		.ascii	"startAdd\000"
+ 908      74416464 
+ 908      00
+ 909              	.LASF26:
+ 910 008e 4932435F 		.ascii	"I2C_MasterWriteBuf\000"
+ 910      4D617374 
+ 910      65725772 
+ 910      69746542 
+ 910      756600
+ 911              	.LASF28:
+ 912 00a1 4932435F 		.ascii	"I2C_MasterReadBuf\000"
+ 912      4D617374 
+ 912      65725265 
+ 912      61644275 
+ 912      6600
+ 913              	.LASF12:
+ 914 00b3 666C6F61 		.ascii	"float\000"
+ 914      7400
+ 915              	.LASF19:
+ 916 00b9 64617461 		.ascii	"data\000"
+ 916      00
+ 917              	.LASF1:
+ 918 00be 756E7369 		.ascii	"unsigned char\000"
+ 918      676E6564 
+ 918      20636861 
+ 918      7200
+ 919              	.LASF29:
+ 920 00cc 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 920      43313120 
+ 920      352E342E 
+ 920      31203230 
+ 920      31363036 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 19
+
+
+ 921 00ff 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 921      20726576 
+ 921      6973696F 
+ 921      6E203233 
+ 921      37373135 
+ 922 0132 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 922      66756E63 
+ 922      74696F6E 
+ 922      2D736563 
+ 922      74696F6E 
+ 923              	.LASF25:
+ 924 015a 4932435F 		.ascii	"I2C_MasterClearStatus\000"
+ 924      4D617374 
+ 924      6572436C 
+ 924      65617253 
+ 924      74617475 
+ 925              	.LASF5:
+ 926 0170 6C6F6E67 		.ascii	"long unsigned int\000"
+ 926      20756E73 
+ 926      69676E65 
+ 926      6420696E 
+ 926      7400
+ 927              	.LASF11:
+ 928 0182 75696E74 		.ascii	"uint8\000"
+ 928      3800
+ 929              	.LASF13:
+ 930 0188 646F7562 		.ascii	"double\000"
+ 930      6C6500
+ 931              	.LASF22:
+ 932 018f 4932435F 		.ascii	"I2C_Write\000"
+ 932      57726974 
+ 932      6500
+ 933              	.LASF24:
+ 934 0199 77726974 		.ascii	"write_buf\000"
+ 934      655F6275 
+ 934      6600
+ 935              	.LASF8:
+ 936 01a3 756E7369 		.ascii	"unsigned int\000"
+ 936      676E6564 
+ 936      20696E74 
+ 936      00
+ 937              	.LASF7:
+ 938 01b0 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 938      206C6F6E 
+ 938      6720756E 
+ 938      7369676E 
+ 938      65642069 
+ 939              	.LASF10:
+ 940 01c7 75696E74 		.ascii	"uint8_t\000"
+ 940      385F7400 
+ 941              	.LASF16:
+ 942 01cf 73697A65 		.ascii	"sizetype\000"
+ 942      74797065 
+ 942      00
+ 943              	.LASF18:
+ 944 01d8 72656741 		.ascii	"regAdd\000"
+ 944      646400
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccshKtwj.s 			page 20
+
+
+ 945              	.LASF6:
+ 946 01df 6C6F6E67 		.ascii	"long long int\000"
+ 946      206C6F6E 
+ 946      6720696E 
+ 946      7400
+ 947              	.LASF14:
+ 948 01ed 63686172 		.ascii	"char\000"
+ 948      00
+ 949              	.LASF27:
+ 950 01f2 4932435F 		.ascii	"I2C_MasterStatus\000"
+ 950      4D617374 
+ 950      65725374 
+ 950      61747573 
+ 950      00
+ 951              	.LASF30:
+ 952 0203 5A756D6F 		.ascii	"ZumoLibrary\\I2C_Common.c\000"
+ 952      4C696272 
+ 952      6172795C 
+ 952      4932435F 
+ 952      436F6D6D 
+ 953              	.LASF2:
+ 954 021c 73686F72 		.ascii	"short int\000"
+ 954      7420696E 
+ 954      7400
+ 955              	.LASF32:
+ 956 0226 4932435F 		.ascii	"I2C_Read_Multiple\000"
+ 956      52656164 
+ 956      5F4D756C 
+ 956      7469706C 
+ 956      6500
+ 957              	.LASF4:
+ 958 0238 6C6F6E67 		.ascii	"long int\000"
+ 958      20696E74 
+ 958      00
+ 959              	.LASF15:
+ 960 0241 6C6F6E67 		.ascii	"long double\000"
+ 960      20646F75 
+ 960      626C6500 
+ 961              	.LASF17:
+ 962 024d 64657669 		.ascii	"device\000"
+ 962      636500
+ 963              	.LASF0:
+ 964 0254 7369676E 		.ascii	"signed char\000"
+ 964      65642063 
+ 964      68617200 
+ 965              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

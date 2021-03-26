@@ -1,0 +1,699 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"LSM303D.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.LSM303D_Start,"ax",%progbits
+  20              		.align	2
+  21              		.global	LSM303D_Start
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	LSM303D_Start, %function
+  25              	LSM303D_Start:
+  26              	.LFB68:
+  27              		.file 1 "ZumoLibrary\\LSM303D.c"
+   1:ZumoLibrary/LSM303D.c **** /* ========================================
+   2:ZumoLibrary/LSM303D.c ****  *
+   3:ZumoLibrary/LSM303D.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:ZumoLibrary/LSM303D.c ****  * All Rights Reserved
+   5:ZumoLibrary/LSM303D.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:ZumoLibrary/LSM303D.c ****  *
+   7:ZumoLibrary/LSM303D.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:ZumoLibrary/LSM303D.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:ZumoLibrary/LSM303D.c ****  *
+  10:ZumoLibrary/LSM303D.c ****  * ========================================
+  11:ZumoLibrary/LSM303D.c **** */
+  12:ZumoLibrary/LSM303D.c **** 
+  13:ZumoLibrary/LSM303D.c **** /*Usage Example at the bottom of this file!!!*/
+  14:ZumoLibrary/LSM303D.c **** #include "FreeRTOS.h"
+  15:ZumoLibrary/LSM303D.c **** #include "task.h"
+  16:ZumoLibrary/LSM303D.c **** 
+  17:ZumoLibrary/LSM303D.c **** 
+  18:ZumoLibrary/LSM303D.c **** #include"LSM303D.h"
+  19:ZumoLibrary/LSM303D.c **** #include"I2C.h"
+  20:ZumoLibrary/LSM303D.c **** #include"I2C_Common.h"
+  21:ZumoLibrary/LSM303D.c **** #include "zumo_config.h"
+  22:ZumoLibrary/LSM303D.c **** 
+  23:ZumoLibrary/LSM303D.c **** #if ZUMO_SIMULATOR == 0
+  24:ZumoLibrary/LSM303D.c **** 
+  25:ZumoLibrary/LSM303D.c **** uint8_t LSM303D_Start(void){
+  26:ZumoLibrary/LSM303D.c ****     
+  27:ZumoLibrary/LSM303D.c ****     I2C_Start();
+  28:ZumoLibrary/LSM303D.c ****     I2C_Write(LSM303D, CTRL_1, 0x77);           // set accelerometer & magnetometer into active mod
+  29:ZumoLibrary/LSM303D.c ****     I2C_Write(LSM303D, CTRL_7, 0x83);
+  30:ZumoLibrary/LSM303D.c ****     
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 2
+
+
+  31:ZumoLibrary/LSM303D.c ****     if(I2C_Read(LSM303D, WHO_AM_I) == DEV_ID){
+  32:ZumoLibrary/LSM303D.c **** 
+  33:ZumoLibrary/LSM303D.c ****         return 1;
+  34:ZumoLibrary/LSM303D.c **** 
+  35:ZumoLibrary/LSM303D.c ****     }
+  36:ZumoLibrary/LSM303D.c ****     else {
+  37:ZumoLibrary/LSM303D.c ****     
+  38:ZumoLibrary/LSM303D.c ****         return 0;
+  39:ZumoLibrary/LSM303D.c ****     
+  40:ZumoLibrary/LSM303D.c ****     }
+  41:ZumoLibrary/LSM303D.c **** }
+  42:ZumoLibrary/LSM303D.c **** 
+  43:ZumoLibrary/LSM303D.c **** 
+  44:ZumoLibrary/LSM303D.c **** 
+  45:ZumoLibrary/LSM303D.c **** void LSM303D_Read_Acc(struct accData_* data){
+  46:ZumoLibrary/LSM303D.c ****     
+  47:ZumoLibrary/LSM303D.c ****     uint8_t xyz[6];
+  48:ZumoLibrary/LSM303D.c ****     
+  49:ZumoLibrary/LSM303D.c ****     I2C_Read_Multiple(LSM303D, OUT_X_L_A | MULTIPLE_READ, xyz, 6);
+  50:ZumoLibrary/LSM303D.c ****     
+  51:ZumoLibrary/LSM303D.c ****     data->accX = (int16)(xyz[1] << 8 | xyz[0]);
+  52:ZumoLibrary/LSM303D.c ****     data->accY = (int16)(xyz[3] << 8 | xyz[2]);
+  53:ZumoLibrary/LSM303D.c ****     data->accZ = (int16)(xyz[5] << 8 | xyz[4]);
+  54:ZumoLibrary/LSM303D.c **** }
+  55:ZumoLibrary/LSM303D.c **** #else
+  56:ZumoLibrary/LSM303D.c **** uint8_t LSM303D_Start(void)
+  57:ZumoLibrary/LSM303D.c **** {
+  28              		.loc 1 57 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  58:ZumoLibrary/LSM303D.c ****     return 1;
+  59:ZumoLibrary/LSM303D.c **** }
+  33              		.loc 1 59 0
+  34 0000 0120     		movs	r0, #1
+  35 0002 7047     		bx	lr
+  36              		.cfi_endproc
+  37              	.LFE68:
+  38              		.size	LSM303D_Start, .-LSM303D_Start
+  39              		.section	.text.LSM303D_Read_Acc,"ax",%progbits
+  40              		.align	2
+  41              		.global	LSM303D_Read_Acc
+  42              		.thumb
+  43              		.thumb_func
+  44              		.type	LSM303D_Read_Acc, %function
+  45              	LSM303D_Read_Acc:
+  46              	.LFB69:
+  60:ZumoLibrary/LSM303D.c **** 
+  61:ZumoLibrary/LSM303D.c **** void LSM303D_Read_Acc(struct accData_* data){
+  47              		.loc 1 61 0
+  48              		.cfi_startproc
+  49              		@ args = 0, pretend = 0, frame = 0
+  50              		@ frame_needed = 0, uses_anonymous_args = 0
+  51              		@ link register save eliminated.
+  52              	.LVL0:
+  62:ZumoLibrary/LSM303D.c ****     
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 3
+
+
+  63:ZumoLibrary/LSM303D.c ****     data->accX = 0;
+  53              		.loc 1 63 0
+  54 0000 0023     		movs	r3, #0
+  55 0002 0380     		strh	r3, [r0]	@ movhi
+  64:ZumoLibrary/LSM303D.c ****     data->accY = 0;
+  56              		.loc 1 64 0
+  57 0004 4380     		strh	r3, [r0, #2]	@ movhi
+  65:ZumoLibrary/LSM303D.c ****     data->accZ = 0;
+  58              		.loc 1 65 0
+  59 0006 8380     		strh	r3, [r0, #4]	@ movhi
+  60 0008 7047     		bx	lr
+  61              		.cfi_endproc
+  62              	.LFE69:
+  63              		.size	LSM303D_Read_Acc, .-LSM303D_Read_Acc
+  64 000a 00BF     		.text
+  65              	.Letext0:
+  66              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+  67              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+  68              		.file 4 "ZumoLibrary\\LSM303D.h"
+  69              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+  70              		.section	.debug_info,"",%progbits
+  71              	.Ldebug_info0:
+  72 0000 4D010000 		.4byte	0x14d
+  73 0004 0400     		.2byte	0x4
+  74 0006 00000000 		.4byte	.Ldebug_abbrev0
+  75 000a 04       		.byte	0x4
+  76 000b 01       		.uleb128 0x1
+  77 000c 99000000 		.4byte	.LASF23
+  78 0010 0C       		.byte	0xc
+  79 0011 A2010000 		.4byte	.LASF24
+  80 0015 1E000000 		.4byte	.LASF25
+  81 0019 00000000 		.4byte	.Ldebug_ranges0+0
+  82 001d 00000000 		.4byte	0
+  83 0021 00000000 		.4byte	.Ldebug_line0
+  84 0025 02       		.uleb128 0x2
+  85 0026 04       		.byte	0x4
+  86 0027 05       		.byte	0x5
+  87 0028 696E7400 		.ascii	"int\000"
+  88 002c 03       		.uleb128 0x3
+  89 002d 04       		.byte	0x4
+  90 002e 07       		.byte	0x7
+  91 002f 6E010000 		.4byte	.LASF0
+  92 0033 03       		.uleb128 0x3
+  93 0034 08       		.byte	0x8
+  94 0035 05       		.byte	0x5
+  95 0036 C9010000 		.4byte	.LASF1
+  96 003a 03       		.uleb128 0x3
+  97 003b 08       		.byte	0x8
+  98 003c 04       		.byte	0x4
+  99 003d EF010000 		.4byte	.LASF2
+ 100 0041 03       		.uleb128 0x3
+ 101 0042 01       		.byte	0x1
+ 102 0043 06       		.byte	0x6
+ 103 0044 FB010000 		.4byte	.LASF3
+ 104 0048 04       		.uleb128 0x4
+ 105 0049 00000000 		.4byte	.LASF5
+ 106 004d 02       		.byte	0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 4
+
+
+ 107 004e 1D       		.byte	0x1d
+ 108 004f 53000000 		.4byte	0x53
+ 109 0053 03       		.uleb128 0x3
+ 110 0054 01       		.byte	0x1
+ 111 0055 08       		.byte	0x8
+ 112 0056 59010000 		.4byte	.LASF4
+ 113 005a 04       		.uleb128 0x4
+ 114 005b 0A000000 		.4byte	.LASF6
+ 115 005f 02       		.byte	0x2
+ 116 0060 29       		.byte	0x29
+ 117 0061 65000000 		.4byte	0x65
+ 118 0065 03       		.uleb128 0x3
+ 119 0066 02       		.byte	0x2
+ 120 0067 05       		.byte	0x5
+ 121 0068 DC010000 		.4byte	.LASF7
+ 122 006c 03       		.uleb128 0x3
+ 123 006d 02       		.byte	0x2
+ 124 006e 07       		.byte	0x7
+ 125 006f 39010000 		.4byte	.LASF8
+ 126 0073 04       		.uleb128 0x4
+ 127 0074 14000000 		.4byte	.LASF9
+ 128 0078 02       		.byte	0x2
+ 129 0079 3F       		.byte	0x3f
+ 130 007a 7E000000 		.4byte	0x7e
+ 131 007e 03       		.uleb128 0x3
+ 132 007f 04       		.byte	0x4
+ 133 0080 05       		.byte	0x5
+ 134 0081 E6010000 		.4byte	.LASF10
+ 135 0085 03       		.uleb128 0x3
+ 136 0086 04       		.byte	0x4
+ 137 0087 07       		.byte	0x7
+ 138 0088 27010000 		.4byte	.LASF11
+ 139 008c 03       		.uleb128 0x3
+ 140 008d 08       		.byte	0x8
+ 141 008e 07       		.byte	0x7
+ 142 008f 7B010000 		.4byte	.LASF12
+ 143 0093 04       		.uleb128 0x4
+ 144 0094 92010000 		.4byte	.LASF13
+ 145 0098 03       		.byte	0x3
+ 146 0099 18       		.byte	0x18
+ 147 009a 48000000 		.4byte	0x48
+ 148 009e 04       		.uleb128 0x4
+ 149 009f 9A010000 		.4byte	.LASF14
+ 150 00a3 03       		.byte	0x3
+ 151 00a4 20       		.byte	0x20
+ 152 00a5 5A000000 		.4byte	0x5a
+ 153 00a9 04       		.uleb128 0x4
+ 154 00aa B8010000 		.4byte	.LASF15
+ 155 00ae 03       		.byte	0x3
+ 156 00af 2C       		.byte	0x2c
+ 157 00b0 73000000 		.4byte	0x73
+ 158 00b4 03       		.uleb128 0x3
+ 159 00b5 04       		.byte	0x4
+ 160 00b6 04       		.byte	0x4
+ 161 00b7 71000000 		.4byte	.LASF16
+ 162 00bb 03       		.uleb128 0x3
+ 163 00bc 08       		.byte	0x8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 5
+
+
+ 164 00bd 04       		.byte	0x4
+ 165 00be 67010000 		.4byte	.LASF17
+ 166 00c2 03       		.uleb128 0x3
+ 167 00c3 01       		.byte	0x1
+ 168 00c4 08       		.byte	0x8
+ 169 00c5 D7010000 		.4byte	.LASF18
+ 170 00c9 03       		.uleb128 0x3
+ 171 00ca 04       		.byte	0x4
+ 172 00cb 07       		.byte	0x7
+ 173 00cc C0010000 		.4byte	.LASF19
+ 174 00d0 05       		.uleb128 0x5
+ 175 00d1 68000000 		.4byte	.LASF26
+ 176 00d5 06       		.byte	0x6
+ 177 00d6 04       		.byte	0x4
+ 178 00d7 47       		.byte	0x47
+ 179 00d8 01010000 		.4byte	0x101
+ 180 00dc 06       		.uleb128 0x6
+ 181 00dd 8A000000 		.4byte	.LASF20
+ 182 00e1 04       		.byte	0x4
+ 183 00e2 49       		.byte	0x49
+ 184 00e3 9E000000 		.4byte	0x9e
+ 185 00e7 00       		.byte	0
+ 186 00e8 06       		.uleb128 0x6
+ 187 00e9 8F000000 		.4byte	.LASF21
+ 188 00ed 04       		.byte	0x4
+ 189 00ee 4A       		.byte	0x4a
+ 190 00ef 9E000000 		.4byte	0x9e
+ 191 00f3 02       		.byte	0x2
+ 192 00f4 06       		.uleb128 0x6
+ 193 00f5 94000000 		.4byte	.LASF22
+ 194 00f9 04       		.byte	0x4
+ 195 00fa 4B       		.byte	0x4b
+ 196 00fb 9E000000 		.4byte	0x9e
+ 197 00ff 04       		.byte	0x4
+ 198 0100 00       		.byte	0
+ 199 0101 07       		.uleb128 0x7
+ 200 0102 7C000000 		.4byte	.LASF27
+ 201 0106 01       		.byte	0x1
+ 202 0107 38       		.byte	0x38
+ 203 0108 93000000 		.4byte	0x93
+ 204 010c 00000000 		.4byte	.LFB68
+ 205 0110 04000000 		.4byte	.LFE68-.LFB68
+ 206 0114 01       		.uleb128 0x1
+ 207 0115 9C       		.byte	0x9c
+ 208 0116 08       		.uleb128 0x8
+ 209 0117 07020000 		.4byte	.LASF28
+ 210 011b 01       		.byte	0x1
+ 211 011c 3D       		.byte	0x3d
+ 212 011d 00000000 		.4byte	.LFB69
+ 213 0121 0A000000 		.4byte	.LFE69-.LFB69
+ 214 0125 01       		.uleb128 0x1
+ 215 0126 9C       		.byte	0x9c
+ 216 0127 39010000 		.4byte	0x139
+ 217 012b 09       		.uleb128 0x9
+ 218 012c 77000000 		.4byte	.LASF29
+ 219 0130 01       		.byte	0x1
+ 220 0131 3D       		.byte	0x3d
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 6
+
+
+ 221 0132 39010000 		.4byte	0x139
+ 222 0136 01       		.uleb128 0x1
+ 223 0137 50       		.byte	0x50
+ 224 0138 00       		.byte	0
+ 225 0139 0A       		.uleb128 0xa
+ 226 013a 04       		.byte	0x4
+ 227 013b D0000000 		.4byte	0xd0
+ 228 013f 0B       		.uleb128 0xb
+ 229 0140 4C010000 		.4byte	.LASF30
+ 230 0144 05       		.byte	0x5
+ 231 0145 1207     		.2byte	0x712
+ 232 0147 4B010000 		.4byte	0x14b
+ 233 014b 0C       		.uleb128 0xc
+ 234 014c A9000000 		.4byte	0xa9
+ 235 0150 00       		.byte	0
+ 236              		.section	.debug_abbrev,"",%progbits
+ 237              	.Ldebug_abbrev0:
+ 238 0000 01       		.uleb128 0x1
+ 239 0001 11       		.uleb128 0x11
+ 240 0002 01       		.byte	0x1
+ 241 0003 25       		.uleb128 0x25
+ 242 0004 0E       		.uleb128 0xe
+ 243 0005 13       		.uleb128 0x13
+ 244 0006 0B       		.uleb128 0xb
+ 245 0007 03       		.uleb128 0x3
+ 246 0008 0E       		.uleb128 0xe
+ 247 0009 1B       		.uleb128 0x1b
+ 248 000a 0E       		.uleb128 0xe
+ 249 000b 55       		.uleb128 0x55
+ 250 000c 17       		.uleb128 0x17
+ 251 000d 11       		.uleb128 0x11
+ 252 000e 01       		.uleb128 0x1
+ 253 000f 10       		.uleb128 0x10
+ 254 0010 17       		.uleb128 0x17
+ 255 0011 00       		.byte	0
+ 256 0012 00       		.byte	0
+ 257 0013 02       		.uleb128 0x2
+ 258 0014 24       		.uleb128 0x24
+ 259 0015 00       		.byte	0
+ 260 0016 0B       		.uleb128 0xb
+ 261 0017 0B       		.uleb128 0xb
+ 262 0018 3E       		.uleb128 0x3e
+ 263 0019 0B       		.uleb128 0xb
+ 264 001a 03       		.uleb128 0x3
+ 265 001b 08       		.uleb128 0x8
+ 266 001c 00       		.byte	0
+ 267 001d 00       		.byte	0
+ 268 001e 03       		.uleb128 0x3
+ 269 001f 24       		.uleb128 0x24
+ 270 0020 00       		.byte	0
+ 271 0021 0B       		.uleb128 0xb
+ 272 0022 0B       		.uleb128 0xb
+ 273 0023 3E       		.uleb128 0x3e
+ 274 0024 0B       		.uleb128 0xb
+ 275 0025 03       		.uleb128 0x3
+ 276 0026 0E       		.uleb128 0xe
+ 277 0027 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 7
+
+
+ 278 0028 00       		.byte	0
+ 279 0029 04       		.uleb128 0x4
+ 280 002a 16       		.uleb128 0x16
+ 281 002b 00       		.byte	0
+ 282 002c 03       		.uleb128 0x3
+ 283 002d 0E       		.uleb128 0xe
+ 284 002e 3A       		.uleb128 0x3a
+ 285 002f 0B       		.uleb128 0xb
+ 286 0030 3B       		.uleb128 0x3b
+ 287 0031 0B       		.uleb128 0xb
+ 288 0032 49       		.uleb128 0x49
+ 289 0033 13       		.uleb128 0x13
+ 290 0034 00       		.byte	0
+ 291 0035 00       		.byte	0
+ 292 0036 05       		.uleb128 0x5
+ 293 0037 13       		.uleb128 0x13
+ 294 0038 01       		.byte	0x1
+ 295 0039 03       		.uleb128 0x3
+ 296 003a 0E       		.uleb128 0xe
+ 297 003b 0B       		.uleb128 0xb
+ 298 003c 0B       		.uleb128 0xb
+ 299 003d 3A       		.uleb128 0x3a
+ 300 003e 0B       		.uleb128 0xb
+ 301 003f 3B       		.uleb128 0x3b
+ 302 0040 0B       		.uleb128 0xb
+ 303 0041 01       		.uleb128 0x1
+ 304 0042 13       		.uleb128 0x13
+ 305 0043 00       		.byte	0
+ 306 0044 00       		.byte	0
+ 307 0045 06       		.uleb128 0x6
+ 308 0046 0D       		.uleb128 0xd
+ 309 0047 00       		.byte	0
+ 310 0048 03       		.uleb128 0x3
+ 311 0049 0E       		.uleb128 0xe
+ 312 004a 3A       		.uleb128 0x3a
+ 313 004b 0B       		.uleb128 0xb
+ 314 004c 3B       		.uleb128 0x3b
+ 315 004d 0B       		.uleb128 0xb
+ 316 004e 49       		.uleb128 0x49
+ 317 004f 13       		.uleb128 0x13
+ 318 0050 38       		.uleb128 0x38
+ 319 0051 0B       		.uleb128 0xb
+ 320 0052 00       		.byte	0
+ 321 0053 00       		.byte	0
+ 322 0054 07       		.uleb128 0x7
+ 323 0055 2E       		.uleb128 0x2e
+ 324 0056 00       		.byte	0
+ 325 0057 3F       		.uleb128 0x3f
+ 326 0058 19       		.uleb128 0x19
+ 327 0059 03       		.uleb128 0x3
+ 328 005a 0E       		.uleb128 0xe
+ 329 005b 3A       		.uleb128 0x3a
+ 330 005c 0B       		.uleb128 0xb
+ 331 005d 3B       		.uleb128 0x3b
+ 332 005e 0B       		.uleb128 0xb
+ 333 005f 27       		.uleb128 0x27
+ 334 0060 19       		.uleb128 0x19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 8
+
+
+ 335 0061 49       		.uleb128 0x49
+ 336 0062 13       		.uleb128 0x13
+ 337 0063 11       		.uleb128 0x11
+ 338 0064 01       		.uleb128 0x1
+ 339 0065 12       		.uleb128 0x12
+ 340 0066 06       		.uleb128 0x6
+ 341 0067 40       		.uleb128 0x40
+ 342 0068 18       		.uleb128 0x18
+ 343 0069 9742     		.uleb128 0x2117
+ 344 006b 19       		.uleb128 0x19
+ 345 006c 00       		.byte	0
+ 346 006d 00       		.byte	0
+ 347 006e 08       		.uleb128 0x8
+ 348 006f 2E       		.uleb128 0x2e
+ 349 0070 01       		.byte	0x1
+ 350 0071 3F       		.uleb128 0x3f
+ 351 0072 19       		.uleb128 0x19
+ 352 0073 03       		.uleb128 0x3
+ 353 0074 0E       		.uleb128 0xe
+ 354 0075 3A       		.uleb128 0x3a
+ 355 0076 0B       		.uleb128 0xb
+ 356 0077 3B       		.uleb128 0x3b
+ 357 0078 0B       		.uleb128 0xb
+ 358 0079 27       		.uleb128 0x27
+ 359 007a 19       		.uleb128 0x19
+ 360 007b 11       		.uleb128 0x11
+ 361 007c 01       		.uleb128 0x1
+ 362 007d 12       		.uleb128 0x12
+ 363 007e 06       		.uleb128 0x6
+ 364 007f 40       		.uleb128 0x40
+ 365 0080 18       		.uleb128 0x18
+ 366 0081 9742     		.uleb128 0x2117
+ 367 0083 19       		.uleb128 0x19
+ 368 0084 01       		.uleb128 0x1
+ 369 0085 13       		.uleb128 0x13
+ 370 0086 00       		.byte	0
+ 371 0087 00       		.byte	0
+ 372 0088 09       		.uleb128 0x9
+ 373 0089 05       		.uleb128 0x5
+ 374 008a 00       		.byte	0
+ 375 008b 03       		.uleb128 0x3
+ 376 008c 0E       		.uleb128 0xe
+ 377 008d 3A       		.uleb128 0x3a
+ 378 008e 0B       		.uleb128 0xb
+ 379 008f 3B       		.uleb128 0x3b
+ 380 0090 0B       		.uleb128 0xb
+ 381 0091 49       		.uleb128 0x49
+ 382 0092 13       		.uleb128 0x13
+ 383 0093 02       		.uleb128 0x2
+ 384 0094 18       		.uleb128 0x18
+ 385 0095 00       		.byte	0
+ 386 0096 00       		.byte	0
+ 387 0097 0A       		.uleb128 0xa
+ 388 0098 0F       		.uleb128 0xf
+ 389 0099 00       		.byte	0
+ 390 009a 0B       		.uleb128 0xb
+ 391 009b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 9
+
+
+ 392 009c 49       		.uleb128 0x49
+ 393 009d 13       		.uleb128 0x13
+ 394 009e 00       		.byte	0
+ 395 009f 00       		.byte	0
+ 396 00a0 0B       		.uleb128 0xb
+ 397 00a1 34       		.uleb128 0x34
+ 398 00a2 00       		.byte	0
+ 399 00a3 03       		.uleb128 0x3
+ 400 00a4 0E       		.uleb128 0xe
+ 401 00a5 3A       		.uleb128 0x3a
+ 402 00a6 0B       		.uleb128 0xb
+ 403 00a7 3B       		.uleb128 0x3b
+ 404 00a8 05       		.uleb128 0x5
+ 405 00a9 49       		.uleb128 0x49
+ 406 00aa 13       		.uleb128 0x13
+ 407 00ab 3F       		.uleb128 0x3f
+ 408 00ac 19       		.uleb128 0x19
+ 409 00ad 3C       		.uleb128 0x3c
+ 410 00ae 19       		.uleb128 0x19
+ 411 00af 00       		.byte	0
+ 412 00b0 00       		.byte	0
+ 413 00b1 0C       		.uleb128 0xc
+ 414 00b2 35       		.uleb128 0x35
+ 415 00b3 00       		.byte	0
+ 416 00b4 49       		.uleb128 0x49
+ 417 00b5 13       		.uleb128 0x13
+ 418 00b6 00       		.byte	0
+ 419 00b7 00       		.byte	0
+ 420 00b8 00       		.byte	0
+ 421              		.section	.debug_aranges,"",%progbits
+ 422 0000 24000000 		.4byte	0x24
+ 423 0004 0200     		.2byte	0x2
+ 424 0006 00000000 		.4byte	.Ldebug_info0
+ 425 000a 04       		.byte	0x4
+ 426 000b 00       		.byte	0
+ 427 000c 0000     		.2byte	0
+ 428 000e 0000     		.2byte	0
+ 429 0010 00000000 		.4byte	.LFB68
+ 430 0014 04000000 		.4byte	.LFE68-.LFB68
+ 431 0018 00000000 		.4byte	.LFB69
+ 432 001c 0A000000 		.4byte	.LFE69-.LFB69
+ 433 0020 00000000 		.4byte	0
+ 434 0024 00000000 		.4byte	0
+ 435              		.section	.debug_ranges,"",%progbits
+ 436              	.Ldebug_ranges0:
+ 437 0000 00000000 		.4byte	.LFB68
+ 438 0004 04000000 		.4byte	.LFE68
+ 439 0008 00000000 		.4byte	.LFB69
+ 440 000c 0A000000 		.4byte	.LFE69
+ 441 0010 00000000 		.4byte	0
+ 442 0014 00000000 		.4byte	0
+ 443              		.section	.debug_line,"",%progbits
+ 444              	.Ldebug_line0:
+ 445 0000 83010000 		.section	.debug_str,"MS",%progbits,1
+ 445      02005B01 
+ 445      00000201 
+ 445      FB0E0D00 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 10
+
+
+ 445      01010101 
+ 446              	.LASF5:
+ 447 0000 5F5F7569 		.ascii	"__uint8_t\000"
+ 447      6E74385F 
+ 447      7400
+ 448              	.LASF6:
+ 449 000a 5F5F696E 		.ascii	"__int16_t\000"
+ 449      7431365F 
+ 449      7400
+ 450              	.LASF9:
+ 451 0014 5F5F696E 		.ascii	"__int32_t\000"
+ 451      7433325F 
+ 451      7400
+ 452              	.LASF25:
+ 453 001e 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 453      73657273 
+ 453      5C457667 
+ 453      656E7920 
+ 453      4D657368 
+ 454 004d 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 454      746D705C 
+ 454      5A756D6F 
+ 454      5C5A756D 
+ 454      6F426F74 
+ 455              	.LASF26:
+ 456 0068 61636344 		.ascii	"accData_\000"
+ 456      6174615F 
+ 456      00
+ 457              	.LASF16:
+ 458 0071 666C6F61 		.ascii	"float\000"
+ 458      7400
+ 459              	.LASF29:
+ 460 0077 64617461 		.ascii	"data\000"
+ 460      00
+ 461              	.LASF27:
+ 462 007c 4C534D33 		.ascii	"LSM303D_Start\000"
+ 462      3033445F 
+ 462      53746172 
+ 462      7400
+ 463              	.LASF20:
+ 464 008a 61636358 		.ascii	"accX\000"
+ 464      00
+ 465              	.LASF21:
+ 466 008f 61636359 		.ascii	"accY\000"
+ 466      00
+ 467              	.LASF22:
+ 468 0094 6163635A 		.ascii	"accZ\000"
+ 468      00
+ 469              	.LASF23:
+ 470 0099 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 470      43313120 
+ 470      352E342E 
+ 470      31203230 
+ 470      31363036 
+ 471 00cc 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 471      20726576 
+ 471      6973696F 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 11
+
+
+ 471      6E203233 
+ 471      37373135 
+ 472 00ff 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 472      66756E63 
+ 472      74696F6E 
+ 472      2D736563 
+ 472      74696F6E 
+ 473              	.LASF11:
+ 474 0127 6C6F6E67 		.ascii	"long unsigned int\000"
+ 474      20756E73 
+ 474      69676E65 
+ 474      6420696E 
+ 474      7400
+ 475              	.LASF8:
+ 476 0139 73686F72 		.ascii	"short unsigned int\000"
+ 476      7420756E 
+ 476      7369676E 
+ 476      65642069 
+ 476      6E7400
+ 477              	.LASF30:
+ 478 014c 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 478      52784275 
+ 478      66666572 
+ 478      00
+ 479              	.LASF4:
+ 480 0159 756E7369 		.ascii	"unsigned char\000"
+ 480      676E6564 
+ 480      20636861 
+ 480      7200
+ 481              	.LASF17:
+ 482 0167 646F7562 		.ascii	"double\000"
+ 482      6C6500
+ 483              	.LASF0:
+ 484 016e 756E7369 		.ascii	"unsigned int\000"
+ 484      676E6564 
+ 484      20696E74 
+ 484      00
+ 485              	.LASF12:
+ 486 017b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 486      206C6F6E 
+ 486      6720756E 
+ 486      7369676E 
+ 486      65642069 
+ 487              	.LASF13:
+ 488 0192 75696E74 		.ascii	"uint8_t\000"
+ 488      385F7400 
+ 489              	.LASF14:
+ 490 019a 696E7431 		.ascii	"int16_t\000"
+ 490      365F7400 
+ 491              	.LASF24:
+ 492 01a2 5A756D6F 		.ascii	"ZumoLibrary\\LSM303D.c\000"
+ 492      4C696272 
+ 492      6172795C 
+ 492      4C534D33 
+ 492      3033442E 
+ 493              	.LASF15:
+ 494 01b8 696E7433 		.ascii	"int32_t\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAaeiS8.s 			page 12
+
+
+ 494      325F7400 
+ 495              	.LASF19:
+ 496 01c0 73697A65 		.ascii	"sizetype\000"
+ 496      74797065 
+ 496      00
+ 497              	.LASF1:
+ 498 01c9 6C6F6E67 		.ascii	"long long int\000"
+ 498      206C6F6E 
+ 498      6720696E 
+ 498      7400
+ 499              	.LASF18:
+ 500 01d7 63686172 		.ascii	"char\000"
+ 500      00
+ 501              	.LASF7:
+ 502 01dc 73686F72 		.ascii	"short int\000"
+ 502      7420696E 
+ 502      7400
+ 503              	.LASF10:
+ 504 01e6 6C6F6E67 		.ascii	"long int\000"
+ 504      20696E74 
+ 504      00
+ 505              	.LASF2:
+ 506 01ef 6C6F6E67 		.ascii	"long double\000"
+ 506      20646F75 
+ 506      626C6500 
+ 507              	.LASF3:
+ 508 01fb 7369676E 		.ascii	"signed char\000"
+ 508      65642063 
+ 508      68617200 
+ 509              	.LASF28:
+ 510 0207 4C534D33 		.ascii	"LSM303D_Read_Acc\000"
+ 510      3033445F 
+ 510      52656164 
+ 510      5F416363 
+ 510      00
+ 511              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

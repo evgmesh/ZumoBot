@@ -1,0 +1,1962 @@
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"rtos_main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.start_zmain,"ax",%progbits
+  20              		.align	2
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	start_zmain, %function
+  24              	start_zmain:
+  25              	.LFB69:
+  26              		.file 1 "ZumoLibrary\\rtos_main.c"
+   1:ZumoLibrary/rtos_main.c **** /*
+   2:ZumoLibrary/rtos_main.c ****  * FreeRTOS Kernel V10.0.1
+   3:ZumoLibrary/rtos_main.c ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:ZumoLibrary/rtos_main.c ****  *
+   5:ZumoLibrary/rtos_main.c ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:ZumoLibrary/rtos_main.c ****  * this software and associated documentation files (the "Software"), to deal in
+   7:ZumoLibrary/rtos_main.c ****  * the Software without restriction, including without limitation the rights to
+   8:ZumoLibrary/rtos_main.c ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:ZumoLibrary/rtos_main.c ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:ZumoLibrary/rtos_main.c ****  * subject to the following conditions:
+  11:ZumoLibrary/rtos_main.c ****  *
+  12:ZumoLibrary/rtos_main.c ****  * The above copyright notice and this permission notice shall be included in all
+  13:ZumoLibrary/rtos_main.c ****  * copies or substantial portions of the Software.
+  14:ZumoLibrary/rtos_main.c ****  *
+  15:ZumoLibrary/rtos_main.c ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:ZumoLibrary/rtos_main.c ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:ZumoLibrary/rtos_main.c ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:ZumoLibrary/rtos_main.c ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:ZumoLibrary/rtos_main.c ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:ZumoLibrary/rtos_main.c ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:ZumoLibrary/rtos_main.c ****  *
+  22:ZumoLibrary/rtos_main.c ****  * http://www.FreeRTOS.org
+  23:ZumoLibrary/rtos_main.c ****  * http://aws.amazon.com/freertos
+  24:ZumoLibrary/rtos_main.c ****  *
+  25:ZumoLibrary/rtos_main.c ****  * 1 tab == 4 spaces!
+  26:ZumoLibrary/rtos_main.c ****  */
+  27:ZumoLibrary/rtos_main.c **** 
+  28:ZumoLibrary/rtos_main.c **** #include <project.h>
+  29:ZumoLibrary/rtos_main.c **** #include <stdio.h>
+  30:ZumoLibrary/rtos_main.c **** 
+  31:ZumoLibrary/rtos_main.c **** /* RTOS includes. */
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 2
+
+
+  32:ZumoLibrary/rtos_main.c **** #include "FreeRTOS.h"
+  33:ZumoLibrary/rtos_main.c **** #include "task.h"
+  34:ZumoLibrary/rtos_main.c **** #include "queue.h"
+  35:ZumoLibrary/rtos_main.c **** #include "semphr.h"
+  36:ZumoLibrary/rtos_main.c **** 
+  37:ZumoLibrary/rtos_main.c **** #include "serial.h"
+  38:ZumoLibrary/rtos_main.c **** #include "serial1.h"
+  39:ZumoLibrary/rtos_main.c **** #include "debug_uart.h"
+  40:ZumoLibrary/rtos_main.c **** #include "mqtt_sender.h"
+  41:ZumoLibrary/rtos_main.c **** #include "simulator.h"
+  42:ZumoLibrary/rtos_main.c **** #include "zumo_config.h"
+  43:ZumoLibrary/rtos_main.c **** 
+  44:ZumoLibrary/rtos_main.c **** #ifndef START_MQTT
+  45:ZumoLibrary/rtos_main.c **** #define START_MQTT 0
+  46:ZumoLibrary/rtos_main.c **** #endif    
+  47:ZumoLibrary/rtos_main.c **** 
+  48:ZumoLibrary/rtos_main.c **** 
+  49:ZumoLibrary/rtos_main.c **** 
+  50:ZumoLibrary/rtos_main.c **** extern void zmain(void);
+  51:ZumoLibrary/rtos_main.c **** 
+  52:ZumoLibrary/rtos_main.c **** /*
+  53:ZumoLibrary/rtos_main.c ****  * Installs the RTOS interrupt handlers and starts the peripherals.
+  54:ZumoLibrary/rtos_main.c ****  */
+  55:ZumoLibrary/rtos_main.c **** static void prvHardwareSetup( void );
+  56:ZumoLibrary/rtos_main.c **** /*---------------------------------------------------------------------------*/
+  57:ZumoLibrary/rtos_main.c **** 
+  58:ZumoLibrary/rtos_main.c **** static void start_zmain(void *p) {
+  27              		.loc 1 58 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  59:ZumoLibrary/rtos_main.c ****     (void) p; // we don't use this parameter
+  60:ZumoLibrary/rtos_main.c ****     zmain();
+  36              		.loc 1 60 0
+  37 0002 FFF7FEFF 		bl	zmain
+  38              	.LVL1:
+  61:ZumoLibrary/rtos_main.c ****     printf("\n\n\nERROR - ZMAIN ENDED!!!\n\n");
+  39              		.loc 1 61 0
+  40 0006 0348     		ldr	r0, .L3
+  41 0008 FFF7FEFF 		bl	puts
+  42              	.LVL2:
+  62:ZumoLibrary/rtos_main.c ****     vTaskSuspend(NULL);
+  43              		.loc 1 62 0
+  44 000c 0020     		movs	r0, #0
+  45 000e FFF7FEFF 		bl	vTaskSuspend
+  46              	.LVL3:
+  47 0012 08BD     		pop	{r3, pc}
+  48              	.L4:
+  49              		.align	2
+  50              	.L3:
+  51 0014 00000000 		.word	.LC0
+  52              		.cfi_endproc
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 3
+
+
+  53              	.LFE69:
+  54              		.size	start_zmain, .-start_zmain
+  55              		.section	.text.prvHardwareSetup,"ax",%progbits
+  56              		.align	2
+  57              		.thumb
+  58              		.thumb_func
+  59              		.type	prvHardwareSetup, %function
+  60              	prvHardwareSetup:
+  61              	.LFB71:
+  63:ZumoLibrary/rtos_main.c **** }
+  64:ZumoLibrary/rtos_main.c **** 
+  65:ZumoLibrary/rtos_main.c **** int main( void )
+  66:ZumoLibrary/rtos_main.c **** {
+  67:ZumoLibrary/rtos_main.c ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  68:ZumoLibrary/rtos_main.c **** 	prvHardwareSetup();
+  69:ZumoLibrary/rtos_main.c **** 
+  70:ZumoLibrary/rtos_main.c ****     
+  71:ZumoLibrary/rtos_main.c ****     /* Task initializations */
+  72:ZumoLibrary/rtos_main.c ****     vSerial1PortInitMinimal(256);
+  73:ZumoLibrary/rtos_main.c ****     RetargetInit();
+  74:ZumoLibrary/rtos_main.c ****     
+  75:ZumoLibrary/rtos_main.c ****     //DebugUartTaskInit();
+  76:ZumoLibrary/rtos_main.c ****   	//( void ) xTaskCreate( DebugUartTask, "DbgUart", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORI
+  77:ZumoLibrary/rtos_main.c ****   	//( void ) xTaskCreate( DebugCommandTask, "DbgCmd", configMINIMAL_STACK_SIZE * 3, NULL, tskIDLE_
+  78:ZumoLibrary/rtos_main.c ****     
+  79:ZumoLibrary/rtos_main.c ****   	( void ) xTaskCreate( start_zmain, "Zumo", configMINIMAL_STACK_SIZE * 10, NULL, tskIDLE_PRIORITY
+  80:ZumoLibrary/rtos_main.c **** #if START_MQTT == 1
+  81:ZumoLibrary/rtos_main.c ****     MQTTSendTaskInit();
+  82:ZumoLibrary/rtos_main.c ****   	( void ) xTaskCreate( MQTTSendTask, "MQTT_send", configMINIMAL_STACK_SIZE * 10, NULL, tskIDLE_PR
+  83:ZumoLibrary/rtos_main.c **** #endif    
+  84:ZumoLibrary/rtos_main.c **** #if ZUMO_SIMULATOR == 1  
+  85:ZumoLibrary/rtos_main.c ****     SimulatorTaskInit();
+  86:ZumoLibrary/rtos_main.c ****   	( void ) xTaskCreate( SimulatorTask, "Simulator", configMINIMAL_STACK_SIZE * 10, NULL, tskIDLE_P
+  87:ZumoLibrary/rtos_main.c **** #endif    
+  88:ZumoLibrary/rtos_main.c ****     
+  89:ZumoLibrary/rtos_main.c **** 	/* Will only get here if there was insufficient memory to create the idle
+  90:ZumoLibrary/rtos_main.c ****     task.  The idle task is created within vTaskStartScheduler(). */
+  91:ZumoLibrary/rtos_main.c **** 	vTaskStartScheduler();
+  92:ZumoLibrary/rtos_main.c **** 
+  93:ZumoLibrary/rtos_main.c **** 	/* Should never reach here as the kernel will now be running.  If
+  94:ZumoLibrary/rtos_main.c **** 	vTaskStartScheduler() does return then it is very likely that there was
+  95:ZumoLibrary/rtos_main.c **** 	insufficient (FreeRTOS) heap space available to create all the tasks,
+  96:ZumoLibrary/rtos_main.c **** 	including the idle task that is created within vTaskStartScheduler() itself. */
+  97:ZumoLibrary/rtos_main.c **** 	for( ;; );
+  98:ZumoLibrary/rtos_main.c **** }
+  99:ZumoLibrary/rtos_main.c **** /*---------------------------------------------------------------------------*/
+ 100:ZumoLibrary/rtos_main.c **** 
+ 101:ZumoLibrary/rtos_main.c **** 
+ 102:ZumoLibrary/rtos_main.c **** #if 0
+ 103:ZumoLibrary/rtos_main.c **** void __malloc_lock (struct _reent *reent) {
+ 104:ZumoLibrary/rtos_main.c ****     (void) reent;
+ 105:ZumoLibrary/rtos_main.c ****     vTaskSuspendAll();
+ 106:ZumoLibrary/rtos_main.c **** }
+ 107:ZumoLibrary/rtos_main.c **** 
+ 108:ZumoLibrary/rtos_main.c **** void __malloc_unlock (struct _reent *reent) {
+ 109:ZumoLibrary/rtos_main.c ****     (void) reent;
+ 110:ZumoLibrary/rtos_main.c ****     xTaskResumeAll();
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 4
+
+
+ 111:ZumoLibrary/rtos_main.c **** }
+ 112:ZumoLibrary/rtos_main.c **** #endif
+ 113:ZumoLibrary/rtos_main.c **** 
+ 114:ZumoLibrary/rtos_main.c **** void prvHardwareSetup( void )
+ 115:ZumoLibrary/rtos_main.c **** {
+  62              		.loc 1 115 0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66 0000 08B5     		push	{r3, lr}
+  67              		.cfi_def_cfa_offset 8
+  68              		.cfi_offset 3, -8
+  69              		.cfi_offset 14, -4
+ 116:ZumoLibrary/rtos_main.c **** /* Port layer functions that need to be copied into the vector table. */
+ 117:ZumoLibrary/rtos_main.c **** extern void xPortPendSVHandler( void );
+ 118:ZumoLibrary/rtos_main.c **** extern void xPortSysTickHandler( void );
+ 119:ZumoLibrary/rtos_main.c **** extern void vPortSVCHandler( void );
+ 120:ZumoLibrary/rtos_main.c **** extern cyisraddress CyRamVectors[];
+ 121:ZumoLibrary/rtos_main.c **** 
+ 122:ZumoLibrary/rtos_main.c **** 	/* Install the OS Interrupt Handlers. */
+ 123:ZumoLibrary/rtos_main.c **** 	CyRamVectors[ 11 ] = ( cyisraddress ) vPortSVCHandler;
+  70              		.loc 1 123 0
+  71 0002 064B     		ldr	r3, .L7
+  72 0004 064A     		ldr	r2, .L7+4
+  73 0006 DA62     		str	r2, [r3, #44]
+ 124:ZumoLibrary/rtos_main.c **** 	CyRamVectors[ 14 ] = ( cyisraddress ) xPortPendSVHandler;
+  74              		.loc 1 124 0
+  75 0008 064A     		ldr	r2, .L7+8
+  76 000a 9A63     		str	r2, [r3, #56]
+ 125:ZumoLibrary/rtos_main.c **** 	CyRamVectors[ 15 ] = ( cyisraddress ) xPortSysTickHandler;
+  77              		.loc 1 125 0
+  78 000c 064A     		ldr	r2, .L7+12
+  79 000e DA63     		str	r2, [r3, #60]
+ 126:ZumoLibrary/rtos_main.c **** 
+ 127:ZumoLibrary/rtos_main.c **** 	/* Start-up the peripherals. */
+ 128:ZumoLibrary/rtos_main.c **** 	UART_1_Start();
+  80              		.loc 1 128 0
+  81 0010 FFF7FEFF 		bl	UART_1_Start
+  82              	.LVL4:
+ 129:ZumoLibrary/rtos_main.c ****     UART_2_Start();
+  83              		.loc 1 129 0
+  84 0014 FFF7FEFF 		bl	UART_2_Start
+  85              	.LVL5:
+  86 0018 08BD     		pop	{r3, pc}
+  87              	.L8:
+  88 001a 00BF     		.align	2
+  89              	.L7:
+  90 001c 00000000 		.word	CyRamVectors
+  91 0020 00000000 		.word	vPortSVCHandler
+  92 0024 00000000 		.word	xPortPendSVHandler
+  93 0028 00000000 		.word	xPortSysTickHandler
+  94              		.cfi_endproc
+  95              	.LFE71:
+  96              		.size	prvHardwareSetup, .-prvHardwareSetup
+  97              		.section	.text.main,"ax",%progbits
+  98              		.align	2
+  99              		.global	main
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 5
+
+
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	main, %function
+ 103              	main:
+ 104              	.LFB70:
+  66:ZumoLibrary/rtos_main.c ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+ 105              		.loc 1 66 0
+ 106              		.cfi_startproc
+ 107              		@ Volatile: function does not return.
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110 0000 00B5     		push	{lr}
+ 111              		.cfi_def_cfa_offset 4
+ 112              		.cfi_offset 14, -4
+ 113 0002 83B0     		sub	sp, sp, #12
+ 114              		.cfi_def_cfa_offset 16
+  68:ZumoLibrary/rtos_main.c **** 
+ 115              		.loc 1 68 0
+ 116 0004 FFF7FEFF 		bl	prvHardwareSetup
+ 117              	.LVL6:
+  72:ZumoLibrary/rtos_main.c ****     RetargetInit();
+ 118              		.loc 1 72 0
+ 119 0008 4FF48070 		mov	r0, #256
+ 120 000c FFF7FEFF 		bl	vSerial1PortInitMinimal
+ 121              	.LVL7:
+  73:ZumoLibrary/rtos_main.c ****     
+ 122              		.loc 1 73 0
+ 123 0010 FFF7FEFF 		bl	RetargetInit
+ 124              	.LVL8:
+  79:ZumoLibrary/rtos_main.c **** #if START_MQTT == 1
+ 125              		.loc 1 79 0
+ 126 0014 0024     		movs	r4, #0
+ 127 0016 0194     		str	r4, [sp, #4]
+ 128 0018 0123     		movs	r3, #1
+ 129 001a 0093     		str	r3, [sp]
+ 130 001c 2346     		mov	r3, r4
+ 131 001e 4FF47A72 		mov	r2, #1000
+ 132 0022 0F49     		ldr	r1, .L12
+ 133 0024 0F48     		ldr	r0, .L12+4
+ 134 0026 FFF7FEFF 		bl	xTaskCreate
+ 135              	.LVL9:
+  81:ZumoLibrary/rtos_main.c ****   	( void ) xTaskCreate( MQTTSendTask, "MQTT_send", configMINIMAL_STACK_SIZE * 10, NULL, tskIDLE_PR
+ 136              		.loc 1 81 0
+ 137 002a FFF7FEFF 		bl	MQTTSendTaskInit
+ 138              	.LVL10:
+  82:ZumoLibrary/rtos_main.c **** #endif    
+ 139              		.loc 1 82 0
+ 140 002e 0194     		str	r4, [sp, #4]
+ 141 0030 0225     		movs	r5, #2
+ 142 0032 0095     		str	r5, [sp]
+ 143 0034 2346     		mov	r3, r4
+ 144 0036 4FF47A72 		mov	r2, #1000
+ 145 003a 0B49     		ldr	r1, .L12+8
+ 146 003c 0B48     		ldr	r0, .L12+12
+ 147 003e FFF7FEFF 		bl	xTaskCreate
+ 148              	.LVL11:
+  85:ZumoLibrary/rtos_main.c ****   	( void ) xTaskCreate( SimulatorTask, "Simulator", configMINIMAL_STACK_SIZE * 10, NULL, tskIDLE_P
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 6
+
+
+ 149              		.loc 1 85 0
+ 150 0042 FFF7FEFF 		bl	SimulatorTaskInit
+ 151              	.LVL12:
+  86:ZumoLibrary/rtos_main.c **** #endif    
+ 152              		.loc 1 86 0
+ 153 0046 0194     		str	r4, [sp, #4]
+ 154 0048 0095     		str	r5, [sp]
+ 155 004a 2346     		mov	r3, r4
+ 156 004c 4FF47A72 		mov	r2, #1000
+ 157 0050 0749     		ldr	r1, .L12+16
+ 158 0052 0848     		ldr	r0, .L12+20
+ 159 0054 FFF7FEFF 		bl	xTaskCreate
+ 160              	.LVL13:
+  91:ZumoLibrary/rtos_main.c **** 
+ 161              		.loc 1 91 0
+ 162 0058 FFF7FEFF 		bl	vTaskStartScheduler
+ 163              	.LVL14:
+ 164              	.L10:
+ 165 005c FEE7     		b	.L10
+ 166              	.L13:
+ 167 005e 00BF     		.align	2
+ 168              	.L12:
+ 169 0060 1C000000 		.word	.LC1
+ 170 0064 00000000 		.word	start_zmain
+ 171 0068 24000000 		.word	.LC2
+ 172 006c 00000000 		.word	MQTTSendTask
+ 173 0070 30000000 		.word	.LC3
+ 174 0074 00000000 		.word	SimulatorTask
+ 175              		.cfi_endproc
+ 176              	.LFE70:
+ 177              		.size	main, .-main
+ 178              		.section	.text.vApplicationStackOverflowHook,"ax",%progbits
+ 179              		.align	2
+ 180              		.global	vApplicationStackOverflowHook
+ 181              		.thumb
+ 182              		.thumb_func
+ 183              		.type	vApplicationStackOverflowHook, %function
+ 184              	vApplicationStackOverflowHook:
+ 185              	.LFB72:
+ 130:ZumoLibrary/rtos_main.c **** 
+ 131:ZumoLibrary/rtos_main.c **** }
+ 132:ZumoLibrary/rtos_main.c **** /*---------------------------------------------------------------------------*/
+ 133:ZumoLibrary/rtos_main.c **** 
+ 134:ZumoLibrary/rtos_main.c **** 
+ 135:ZumoLibrary/rtos_main.c **** /*---------------------------------------------------------------------------*/
+ 136:ZumoLibrary/rtos_main.c **** 
+ 137:ZumoLibrary/rtos_main.c **** void vApplicationStackOverflowHook( TaskHandle_t pxTask, char *pcTaskName )
+ 138:ZumoLibrary/rtos_main.c **** {
+ 186              		.loc 1 138 0
+ 187              		.cfi_startproc
+ 188              		@ Volatile: function does not return.
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              		@ link register save eliminated.
+ 192              	.LVL15:
+ 193              	.LBB6:
+ 194              	.LBB7:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 7
+
+
+ 195              		.file 2 "..\\FreeRTOS\\Source\\portable\\GCC\\ARM_CM3/portmacro.h"
+   1:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*
+   2:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * FreeRTOS Kernel V10.0.1
+   3:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * Copyright (C) 2017 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+   4:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+   5:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * Permission is hereby granted, free of charge, to any person obtaining a copy of
+   6:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * this software and associated documentation files (the "Software"), to deal in
+   7:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * the Software without restriction, including without limitation the rights to
+   8:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+   9:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * the Software, and to permit persons to whom the Software is furnished to do so,
+  10:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * subject to the following conditions:
+  11:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  12:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * The above copyright notice and this permission notice shall be included in all
+  13:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * copies or substantial portions of the Software.
+  14:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  15:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+  17:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+  18:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+  19:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  20:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  21:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  22:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * http://www.FreeRTOS.org
+  23:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * http://aws.amazon.com/freertos
+  24:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  25:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * 1 tab == 4 spaces!
+  26:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  */
+  27:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  28:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  29:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef PORTMACRO_H
+  30:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define PORTMACRO_H
+  31:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  32:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifdef __cplusplus
+  33:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** extern "C" {
+  34:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+  35:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  36:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------
+  37:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * Port specific definitions.
+  38:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  39:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * The settings in this file configure FreeRTOS correctly for the
+  40:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * given hardware and compiler.
+  41:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *
+  42:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  * These settings should not be altered.
+  43:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  *-----------------------------------------------------------
+  44:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h ****  */
+  45:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  46:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Type definitions. */
+  47:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portCHAR		char
+  48:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portFLOAT		float
+  49:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portDOUBLE		double
+  50:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portLONG		long
+  51:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSHORT		short
+  52:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSTACK_TYPE	uint32_t
+  53:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portBASE_TYPE	long
+  54:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  55:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef portSTACK_TYPE StackType_t;
+  56:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef long BaseType_t;
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 8
+
+
+  57:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** typedef unsigned long UBaseType_t;
+  58:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  59:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #if( configUSE_16_BIT_TICKS == 1 )
+  60:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	typedef uint16_t TickType_t;
+  61:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portMAX_DELAY ( TickType_t ) 0xffff
+  62:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #else
+  63:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	typedef uint32_t TickType_t;
+  64:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portMAX_DELAY ( TickType_t ) 0xffffffffUL
+  65:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  66:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* 32-bit tick type on a 32-bit architecture, so reads of the tick count do
+  67:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	not need to be guarded with a critical section. */
+  68:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portTICK_TYPE_IS_ATOMIC 1
+  69:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+  70:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+  71:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  72:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Architecture specifics. */
+  73:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSTACK_GROWTH			( -1 )
+  74:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTICK_PERIOD_MS			( ( TickType_t ) 1000 / configTICK_RATE_HZ )
+  75:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portBYTE_ALIGNMENT			8
+  76:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+  77:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  78:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Scheduler utilities. */
+  79:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portYIELD() 															\
+  80:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** {																				\
+  81:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Set a PendSV to request a context switch. */								\
+  82:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;								\
+  83:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 																				\
+  84:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Barriers are normally not required but do ensure the code is completely	\
+  85:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	within the specified behaviour for the architecture. */						\
+  86:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "dsb" ::: "memory" );										\
+  87:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "isb" );													\
+  88:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+  89:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  90:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNVIC_INT_CTRL_REG		( * ( ( volatile uint32_t * ) 0xe000ed04 ) )
+  91:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNVIC_PENDSVSET_BIT		( 1UL << 28UL )
+  92:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portEND_SWITCHING_ISR( xSwitchRequired ) if( xSwitchRequired != pdFALSE ) portYIELD()
+  93:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portYIELD_FROM_ISR( x ) portEND_SWITCHING_ISR( x )
+  94:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+  95:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+  96:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Critical section management. */
+  97:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** extern void vPortEnterCritical( void );
+  98:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** extern void vPortExitCritical( void );
+  99:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portSET_INTERRUPT_MASK_FROM_ISR()		ulPortRaiseBASEPRI()
+ 100:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portCLEAR_INTERRUPT_MASK_FROM_ISR(x)	vPortSetBASEPRI(x)
+ 101:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portDISABLE_INTERRUPTS()				vPortRaiseBASEPRI()
+ 102:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portENABLE_INTERRUPTS()					vPortSetBASEPRI(0)
+ 103:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portENTER_CRITICAL()					vPortEnterCritical()
+ 104:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portEXIT_CRITICAL()						vPortExitCritical()
+ 105:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 106:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 107:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 108:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Task function macros as described on the FreeRTOS.org WEB site.  These are
+ 109:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** not necessary for to use this port.  They are defined so the common demo files
+ 110:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** (which build with all the ports) will build. */
+ 111:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTASK_FUNCTION_PROTO( vFunction, pvParameters ) void vFunction( void *pvParameters )
+ 112:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portTASK_FUNCTION( vFunction, pvParameters ) void vFunction( void *pvParameters )
+ 113:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 9
+
+
+ 114:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 115:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Tickless idle/low power functionality. */
+ 116:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef portSUPPRESS_TICKS_AND_SLEEP
+ 117:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	extern void vPortSuppressTicksAndSleep( TickType_t xExpectedIdleTime );
+ 118:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portSUPPRESS_TICKS_AND_SLEEP( xExpectedIdleTime ) vPortSuppressTicksAndSleep( xExpectedIdl
+ 119:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 120:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 121:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 122:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* Architecture specific optimisations. */
+ 123:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef configUSE_PORT_OPTIMISED_TASK_SELECTION
+ 124:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define configUSE_PORT_OPTIMISED_TASK_SELECTION 1
+ 125:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 126:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 127:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #if configUSE_PORT_OPTIMISED_TASK_SELECTION == 1
+ 128:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 129:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Generic helper function. */
+ 130:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__attribute__( ( always_inline ) ) static inline uint8_t ucPortCountLeadingZeros( uint32_t ulBitma
+ 131:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 132:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	uint8_t ucReturn;
+ 133:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 134:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 		__asm volatile ( "clz %0, %1" : "=r" ( ucReturn ) : "r" ( ulBitmap ) : "memory" );
+ 135:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 		return ucReturn;
+ 136:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 137:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 138:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Check the configuration. */
+ 139:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#if( configMAX_PRIORITIES > 32 )
+ 140:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 		#error configUSE_PORT_OPTIMISED_TASK_SELECTION can only be set to 1 when configMAX_PRIORITIES is 
+ 141:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#endif
+ 142:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 143:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Store/clear the ready priorities in a bit map. */
+ 144:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portRECORD_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) |= ( 1UL 
+ 145:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portRESET_READY_PRIORITY( uxPriority, uxReadyPriorities ) ( uxReadyPriorities ) &= ~( 1UL 
+ 146:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 147:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/*-----------------------------------------------------------*/
+ 148:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 149:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portGET_HIGHEST_PRIORITY( uxTopPriority, uxReadyPriorities ) uxTopPriority = ( 31UL - ( ui
+ 150:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 151:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif /* configUSE_PORT_OPTIMISED_TASK_SELECTION */
+ 152:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 153:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 154:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 155:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifdef configASSERT
+ 156:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	void vPortValidateInterruptPriority( void );
+ 157:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portASSERT_IF_INTERRUPT_PRIORITY_INVALID() 	vPortValidateInterruptPriority()
+ 158:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 159:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 160:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /* portNOP() is not required by this port. */
+ 161:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portNOP()
+ 162:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 163:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #define portINLINE	__inline
+ 164:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 165:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #ifndef portFORCE_INLINE
+ 166:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	#define portFORCE_INLINE inline __attribute__(( always_inline))
+ 167:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** #endif
+ 168:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 169:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static BaseType_t xPortIsInsideInterrupt( void )
+ 170:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 10
+
+
+ 171:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** uint32_t ulCurrentInterrupt;
+ 172:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** BaseType_t xReturn;
+ 173:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 174:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	/* Obtain the number of the currently executing interrupt. */
+ 175:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile( "mrs %0, ipsr" : "=r"( ulCurrentInterrupt ) :: "memory" );
+ 176:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 177:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	if( ulCurrentInterrupt == 0 )
+ 178:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 179:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 		xReturn = pdFALSE;
+ 180:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 181:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	else
+ 182:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	{
+ 183:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 		xReturn = pdTRUE;
+ 184:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	}
+ 185:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 186:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	return xReturn;
+ 187:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** }
+ 188:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 189:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** /*-----------------------------------------------------------*/
+ 190:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 191:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** portFORCE_INLINE static void vPortRaiseBASEPRI( void )
+ 192:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** {
+ 193:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** uint32_t ulNewBASEPRI;
+ 194:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 
+ 195:..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h **** 	__asm volatile
+ 196              		.loc 2 195 0
+ 197              		.syntax unified
+ 198              	@ 195 "..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 199 0000 4FF0A003 			mov r3, #160												
+ 200 0004 83F31188 		msr basepri, r3											
+ 201 0008 BFF36F8F 		isb														
+ 202 000c BFF34F8F 		dsb														
+ 203              	
+ 204              	@ 0 "" 2
+ 205              	.LVL16:
+ 206              		.thumb
+ 207              		.syntax unified
+ 208              	.L15:
+ 209 0010 FEE7     		b	.L15
+ 210              	.LBE7:
+ 211              	.LBE6:
+ 212              		.cfi_endproc
+ 213              	.LFE72:
+ 214              		.size	vApplicationStackOverflowHook, .-vApplicationStackOverflowHook
+ 215 0012 00BF     		.section	.text.vApplicationMallocFailedHook,"ax",%progbits
+ 216              		.align	2
+ 217              		.global	vApplicationMallocFailedHook
+ 218              		.thumb
+ 219              		.thumb_func
+ 220              		.type	vApplicationMallocFailedHook, %function
+ 221              	vApplicationMallocFailedHook:
+ 222              	.LFB73:
+ 139:ZumoLibrary/rtos_main.c ****     (void) pxTask;
+ 140:ZumoLibrary/rtos_main.c ****     (void) pcTaskName;
+ 141:ZumoLibrary/rtos_main.c **** 	/* The stack space has been execeeded for a task, considering allocating more. */
+ 142:ZumoLibrary/rtos_main.c **** 	taskDISABLE_INTERRUPTS();
+ 143:ZumoLibrary/rtos_main.c **** 	for( ;; );
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 11
+
+
+ 144:ZumoLibrary/rtos_main.c **** }
+ 145:ZumoLibrary/rtos_main.c **** /*---------------------------------------------------------------------------*/
+ 146:ZumoLibrary/rtos_main.c **** 
+ 147:ZumoLibrary/rtos_main.c **** void vApplicationMallocFailedHook( void )
+ 148:ZumoLibrary/rtos_main.c **** {
+ 223              		.loc 1 148 0
+ 224              		.cfi_startproc
+ 225              		@ Volatile: function does not return.
+ 226              		@ args = 0, pretend = 0, frame = 0
+ 227              		@ frame_needed = 0, uses_anonymous_args = 0
+ 228              		@ link register save eliminated.
+ 229              	.LBB8:
+ 230              	.LBB9:
+ 231              		.loc 2 195 0
+ 232              		.syntax unified
+ 233              	@ 195 "..\FreeRTOS\Source\portable\GCC\ARM_CM3/portmacro.h" 1
+ 234 0000 4FF0A003 			mov r3, #160												
+ 235 0004 83F31188 		msr basepri, r3											
+ 236 0008 BFF36F8F 		isb														
+ 237 000c BFF34F8F 		dsb														
+ 238              	
+ 239              	@ 0 "" 2
+ 240              	.LVL17:
+ 241              		.thumb
+ 242              		.syntax unified
+ 243              	.L17:
+ 244 0010 FEE7     		b	.L17
+ 245              	.LBE9:
+ 246              	.LBE8:
+ 247              		.cfi_endproc
+ 248              	.LFE73:
+ 249              		.size	vApplicationMallocFailedHook, .-vApplicationMallocFailedHook
+ 250 0012 00BF     		.section	.rodata.str1.4,"aMS",%progbits,1
+ 251              		.align	2
+ 252              	.LC0:
+ 253 0000 0A0A0A45 		.ascii	"\012\012\012ERROR - ZMAIN ENDED!!!\012\000"
+ 253      52524F52 
+ 253      202D205A 
+ 253      4D41494E 
+ 253      20454E44 
+ 254 001b 00       		.space	1
+ 255              	.LC1:
+ 256 001c 5A756D6F 		.ascii	"Zumo\000"
+ 256      00
+ 257 0021 000000   		.space	3
+ 258              	.LC2:
+ 259 0024 4D515454 		.ascii	"MQTT_send\000"
+ 259      5F73656E 
+ 259      6400
+ 260 002e 0000     		.space	2
+ 261              	.LC3:
+ 262 0030 53696D75 		.ascii	"Simulator\000"
+ 262      6C61746F 
+ 262      7200
+ 263              		.text
+ 264              	.Letext0:
+ 265              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 12
+
+
+ 266              		.file 4 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 267              		.file 5 "Generated_Source\\PSoC5/cytypes.h"
+ 268              		.file 6 "..\\FreeRTOS\\Source\\include/task.h"
+ 269              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 270              		.file 8 "Generated_Source\\PSoC5/UART_1.h"
+ 271              		.file 9 "Generated_Source\\PSoC5/UART_2.h"
+ 272              		.file 10 "ZumoLibrary\\serial1.h"
+ 273              		.file 11 "ZumoLibrary\\mqtt_sender.h"
+ 274              		.file 12 "ZumoLibrary\\simulator.h"
+ 275              		.file 13 "<built-in>"
+ 276              		.section	.debug_info,"",%progbits
+ 277              	.Ldebug_info0:
+ 278 0000 BF030000 		.4byte	0x3bf
+ 279 0004 0400     		.2byte	0x4
+ 280 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 281 000a 04       		.byte	0x4
+ 282 000b 01       		.uleb128 0x1
+ 283 000c EA000000 		.4byte	.LASF42
+ 284 0010 0C       		.byte	0xc
+ 285 0011 EE010000 		.4byte	.LASF43
+ 286 0015 43000000 		.4byte	.LASF44
+ 287 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 288 001d 00000000 		.4byte	0
+ 289 0021 00000000 		.4byte	.Ldebug_line0
+ 290 0025 02       		.uleb128 0x2
+ 291 0026 01       		.byte	0x1
+ 292 0027 06       		.byte	0x6
+ 293 0028 2D030000 		.4byte	.LASF0
+ 294 002c 02       		.uleb128 0x2
+ 295 002d 01       		.byte	0x1
+ 296 002e 08       		.byte	0x8
+ 297 002f DC000000 		.4byte	.LASF1
+ 298 0033 02       		.uleb128 0x2
+ 299 0034 02       		.byte	0x2
+ 300 0035 05       		.byte	0x5
+ 301 0036 F4020000 		.4byte	.LASF2
+ 302 003a 02       		.uleb128 0x2
+ 303 003b 02       		.byte	0x2
+ 304 003c 07       		.byte	0x7
+ 305 003d 95010000 		.4byte	.LASF3
+ 306 0041 03       		.uleb128 0x3
+ 307 0042 39000000 		.4byte	.LASF5
+ 308 0046 03       		.byte	0x3
+ 309 0047 3F       		.byte	0x3f
+ 310 0048 4C000000 		.4byte	0x4c
+ 311 004c 02       		.uleb128 0x2
+ 312 004d 04       		.byte	0x4
+ 313 004e 05       		.byte	0x5
+ 314 004f 1F030000 		.4byte	.LASF4
+ 315 0053 03       		.uleb128 0x3
+ 316 0054 78010000 		.4byte	.LASF6
+ 317 0058 03       		.byte	0x3
+ 318 0059 41       		.byte	0x41
+ 319 005a 5E000000 		.4byte	0x5e
+ 320 005e 02       		.uleb128 0x2
+ 321 005f 04       		.byte	0x4
+ 322 0060 07       		.byte	0x7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 13
+
+
+ 323 0061 83010000 		.4byte	.LASF7
+ 324 0065 02       		.uleb128 0x2
+ 325 0066 08       		.byte	0x8
+ 326 0067 05       		.byte	0x5
+ 327 0068 00000000 		.4byte	.LASF8
+ 328 006c 02       		.uleb128 0x2
+ 329 006d 08       		.byte	0x8
+ 330 006e 07       		.byte	0x7
+ 331 006f 3E020000 		.4byte	.LASF9
+ 332 0073 04       		.uleb128 0x4
+ 333 0074 04       		.byte	0x4
+ 334 0075 05       		.byte	0x5
+ 335 0076 696E7400 		.ascii	"int\000"
+ 336 007a 02       		.uleb128 0x2
+ 337 007b 04       		.byte	0x4
+ 338 007c 07       		.byte	0x7
+ 339 007d 20020000 		.4byte	.LASF10
+ 340 0081 03       		.uleb128 0x3
+ 341 0082 BF000000 		.4byte	.LASF11
+ 342 0086 04       		.byte	0x4
+ 343 0087 2C       		.byte	0x2c
+ 344 0088 41000000 		.4byte	0x41
+ 345 008c 03       		.uleb128 0x3
+ 346 008d 16030000 		.4byte	.LASF12
+ 347 0091 04       		.byte	0x4
+ 348 0092 30       		.byte	0x30
+ 349 0093 53000000 		.4byte	0x53
+ 350 0097 02       		.uleb128 0x2
+ 351 0098 04       		.byte	0x4
+ 352 0099 04       		.byte	0x4
+ 353 009a C7000000 		.4byte	.LASF13
+ 354 009e 02       		.uleb128 0x2
+ 355 009f 08       		.byte	0x8
+ 356 00a0 04       		.byte	0x4
+ 357 00a1 B5010000 		.4byte	.LASF14
+ 358 00a5 02       		.uleb128 0x2
+ 359 00a6 01       		.byte	0x1
+ 360 00a7 08       		.byte	0x8
+ 361 00a8 CC020000 		.4byte	.LASF15
+ 362 00ac 05       		.uleb128 0x5
+ 363 00ad 55020000 		.4byte	.LASF16
+ 364 00b1 05       		.byte	0x5
+ 365 00b2 A002     		.2byte	0x2a0
+ 366 00b4 B8000000 		.4byte	0xb8
+ 367 00b8 06       		.uleb128 0x6
+ 368 00b9 04       		.byte	0x4
+ 369 00ba BE000000 		.4byte	0xbe
+ 370 00be 07       		.uleb128 0x7
+ 371 00bf 02       		.uleb128 0x2
+ 372 00c0 08       		.byte	0x8
+ 373 00c1 04       		.byte	0x4
+ 374 00c2 98020000 		.4byte	.LASF17
+ 375 00c6 02       		.uleb128 0x2
+ 376 00c7 04       		.byte	0x4
+ 377 00c8 07       		.byte	0x7
+ 378 00c9 A4020000 		.4byte	.LASF18
+ 379 00cd 08       		.uleb128 0x8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 14
+
+
+ 380 00ce 04       		.byte	0x4
+ 381 00cf 06       		.uleb128 0x6
+ 382 00d0 04       		.byte	0x4
+ 383 00d1 A5000000 		.4byte	0xa5
+ 384 00d5 03       		.uleb128 0x3
+ 385 00d6 39030000 		.4byte	.LASF19
+ 386 00da 02       		.byte	0x2
+ 387 00db 39       		.byte	0x39
+ 388 00dc 5E000000 		.4byte	0x5e
+ 389 00e0 03       		.uleb128 0x3
+ 390 00e1 09030000 		.4byte	.LASF20
+ 391 00e5 06       		.byte	0x6
+ 392 00e6 3D       		.byte	0x3d
+ 393 00e7 CD000000 		.4byte	0xcd
+ 394 00eb 09       		.uleb128 0x9
+ 395 00ec BA020000 		.4byte	.LASF45
+ 396 00f0 02       		.byte	0x2
+ 397 00f1 BF       		.byte	0xbf
+ 398 00f2 03       		.byte	0x3
+ 399 00f3 03010000 		.4byte	0x103
+ 400 00f7 0A       		.uleb128 0xa
+ 401 00f8 D4010000 		.4byte	.LASF46
+ 402 00fc 02       		.byte	0x2
+ 403 00fd C1       		.byte	0xc1
+ 404 00fe 8C000000 		.4byte	0x8c
+ 405 0102 00       		.byte	0
+ 406 0103 0B       		.uleb128 0xb
+ 407 0104 E1020000 		.4byte	.LASF21
+ 408 0108 01       		.byte	0x1
+ 409 0109 3A       		.byte	0x3a
+ 410 010a 00000000 		.4byte	.LFB69
+ 411 010e 18000000 		.4byte	.LFE69-.LFB69
+ 412 0112 01       		.uleb128 0x1
+ 413 0113 9C       		.byte	0x9c
+ 414 0114 55010000 		.4byte	0x155
+ 415 0118 0C       		.uleb128 0xc
+ 416 0119 7000     		.ascii	"p\000"
+ 417 011b 01       		.byte	0x1
+ 418 011c 3A       		.byte	0x3a
+ 419 011d CD000000 		.4byte	0xcd
+ 420 0121 00000000 		.4byte	.LLST0
+ 421 0125 0D       		.uleb128 0xd
+ 422 0126 06000000 		.4byte	.LVL1
+ 423 012a 42030000 		.4byte	0x342
+ 424 012e 0E       		.uleb128 0xe
+ 425 012f 0C000000 		.4byte	.LVL2
+ 426 0133 4D030000 		.4byte	0x34d
+ 427 0137 45010000 		.4byte	0x145
+ 428 013b 0F       		.uleb128 0xf
+ 429 013c 01       		.uleb128 0x1
+ 430 013d 50       		.byte	0x50
+ 431 013e 05       		.uleb128 0x5
+ 432 013f 03       		.byte	0x3
+ 433 0140 00000000 		.4byte	.LC0
+ 434 0144 00       		.byte	0
+ 435 0145 10       		.uleb128 0x10
+ 436 0146 12000000 		.4byte	.LVL3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 15
+
+
+ 437 014a 5C030000 		.4byte	0x35c
+ 438 014e 0F       		.uleb128 0xf
+ 439 014f 01       		.uleb128 0x1
+ 440 0150 50       		.byte	0x50
+ 441 0151 01       		.uleb128 0x1
+ 442 0152 30       		.byte	0x30
+ 443 0153 00       		.byte	0
+ 444 0154 00       		.byte	0
+ 445 0155 0B       		.uleb128 0xb
+ 446 0156 45030000 		.4byte	.LASF22
+ 447 015a 01       		.byte	0x1
+ 448 015b 72       		.byte	0x72
+ 449 015c 00000000 		.4byte	.LFB71
+ 450 0160 2C000000 		.4byte	.LFE71-.LFB71
+ 451 0164 01       		.uleb128 0x1
+ 452 0165 9C       		.byte	0x9c
+ 453 0166 9D010000 		.4byte	0x19d
+ 454 016a 11       		.uleb128 0x11
+ 455 016b 9F000000 		.4byte	.LASF23
+ 456 016f 01       		.byte	0x1
+ 457 0170 75       		.byte	0x75
+ 458 0171 11       		.uleb128 0x11
+ 459 0172 06020000 		.4byte	.LASF24
+ 460 0176 01       		.byte	0x1
+ 461 0177 76       		.byte	0x76
+ 462 0178 11       		.uleb128 0x11
+ 463 0179 D1020000 		.4byte	.LASF25
+ 464 017d 01       		.byte	0x1
+ 465 017e 77       		.byte	0x77
+ 466 017f 12       		.uleb128 0x12
+ 467 0180 2C000000 		.4byte	.LASF30
+ 468 0184 01       		.byte	0x1
+ 469 0185 78       		.byte	0x78
+ 470 0186 9D010000 		.4byte	0x19d
+ 471 018a 0D       		.uleb128 0xd
+ 472 018b 14000000 		.4byte	.LVL4
+ 473 018f 68030000 		.4byte	0x368
+ 474 0193 0D       		.uleb128 0xd
+ 475 0194 18000000 		.4byte	.LVL5
+ 476 0198 73030000 		.4byte	0x373
+ 477 019c 00       		.byte	0
+ 478 019d 13       		.uleb128 0x13
+ 479 019e AC000000 		.4byte	0xac
+ 480 01a2 A8010000 		.4byte	0x1a8
+ 481 01a6 14       		.uleb128 0x14
+ 482 01a7 00       		.byte	0
+ 483 01a8 15       		.uleb128 0x15
+ 484 01a9 93020000 		.4byte	.LASF47
+ 485 01ad 01       		.byte	0x1
+ 486 01ae 41       		.byte	0x41
+ 487 01af 73000000 		.4byte	0x73
+ 488 01b3 00000000 		.4byte	.LFB70
+ 489 01b7 78000000 		.4byte	.LFE70-.LFB70
+ 490 01bb 01       		.uleb128 0x1
+ 491 01bc 9C       		.byte	0x9c
+ 492 01bd A2020000 		.4byte	0x2a2
+ 493 01c1 0D       		.uleb128 0xd
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 16
+
+
+ 494 01c2 08000000 		.4byte	.LVL6
+ 495 01c6 55010000 		.4byte	0x155
+ 496 01ca 0E       		.uleb128 0xe
+ 497 01cb 10000000 		.4byte	.LVL7
+ 498 01cf 7E030000 		.4byte	0x37e
+ 499 01d3 DF010000 		.4byte	0x1df
+ 500 01d7 0F       		.uleb128 0xf
+ 501 01d8 01       		.uleb128 0x1
+ 502 01d9 50       		.byte	0x50
+ 503 01da 03       		.uleb128 0x3
+ 504 01db 0A       		.byte	0xa
+ 505 01dc 0001     		.2byte	0x100
+ 506 01de 00       		.byte	0
+ 507 01df 0D       		.uleb128 0xd
+ 508 01e0 14000000 		.4byte	.LVL8
+ 509 01e4 89030000 		.4byte	0x389
+ 510 01e8 0E       		.uleb128 0xe
+ 511 01e9 2A000000 		.4byte	.LVL9
+ 512 01ed 94030000 		.4byte	0x394
+ 513 01f1 22020000 		.4byte	0x222
+ 514 01f5 0F       		.uleb128 0xf
+ 515 01f6 01       		.uleb128 0x1
+ 516 01f7 50       		.byte	0x50
+ 517 01f8 05       		.uleb128 0x5
+ 518 01f9 03       		.byte	0x3
+ 519 01fa 00000000 		.4byte	start_zmain
+ 520 01fe 0F       		.uleb128 0xf
+ 521 01ff 01       		.uleb128 0x1
+ 522 0200 51       		.byte	0x51
+ 523 0201 05       		.uleb128 0x5
+ 524 0202 03       		.byte	0x3
+ 525 0203 1C000000 		.4byte	.LC1
+ 526 0207 0F       		.uleb128 0xf
+ 527 0208 01       		.uleb128 0x1
+ 528 0209 52       		.byte	0x52
+ 529 020a 03       		.uleb128 0x3
+ 530 020b 0A       		.byte	0xa
+ 531 020c E803     		.2byte	0x3e8
+ 532 020e 0F       		.uleb128 0xf
+ 533 020f 01       		.uleb128 0x1
+ 534 0210 53       		.byte	0x53
+ 535 0211 02       		.uleb128 0x2
+ 536 0212 74       		.byte	0x74
+ 537 0213 00       		.sleb128 0
+ 538 0214 0F       		.uleb128 0xf
+ 539 0215 02       		.uleb128 0x2
+ 540 0216 7D       		.byte	0x7d
+ 541 0217 00       		.sleb128 0
+ 542 0218 01       		.uleb128 0x1
+ 543 0219 31       		.byte	0x31
+ 544 021a 0F       		.uleb128 0xf
+ 545 021b 02       		.uleb128 0x2
+ 546 021c 7D       		.byte	0x7d
+ 547 021d 04       		.sleb128 4
+ 548 021e 02       		.uleb128 0x2
+ 549 021f 74       		.byte	0x74
+ 550 0220 00       		.sleb128 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 17
+
+
+ 551 0221 00       		.byte	0
+ 552 0222 0D       		.uleb128 0xd
+ 553 0223 2E000000 		.4byte	.LVL10
+ 554 0227 A0030000 		.4byte	0x3a0
+ 555 022b 0E       		.uleb128 0xe
+ 556 022c 42000000 		.4byte	.LVL11
+ 557 0230 94030000 		.4byte	0x394
+ 558 0234 5D020000 		.4byte	0x25d
+ 559 0238 0F       		.uleb128 0xf
+ 560 0239 01       		.uleb128 0x1
+ 561 023a 51       		.byte	0x51
+ 562 023b 05       		.uleb128 0x5
+ 563 023c 03       		.byte	0x3
+ 564 023d 24000000 		.4byte	.LC2
+ 565 0241 0F       		.uleb128 0xf
+ 566 0242 01       		.uleb128 0x1
+ 567 0243 52       		.byte	0x52
+ 568 0244 03       		.uleb128 0x3
+ 569 0245 0A       		.byte	0xa
+ 570 0246 E803     		.2byte	0x3e8
+ 571 0248 0F       		.uleb128 0xf
+ 572 0249 01       		.uleb128 0x1
+ 573 024a 53       		.byte	0x53
+ 574 024b 02       		.uleb128 0x2
+ 575 024c 74       		.byte	0x74
+ 576 024d 00       		.sleb128 0
+ 577 024e 0F       		.uleb128 0xf
+ 578 024f 02       		.uleb128 0x2
+ 579 0250 7D       		.byte	0x7d
+ 580 0251 00       		.sleb128 0
+ 581 0252 02       		.uleb128 0x2
+ 582 0253 75       		.byte	0x75
+ 583 0254 00       		.sleb128 0
+ 584 0255 0F       		.uleb128 0xf
+ 585 0256 02       		.uleb128 0x2
+ 586 0257 7D       		.byte	0x7d
+ 587 0258 04       		.sleb128 4
+ 588 0259 02       		.uleb128 0x2
+ 589 025a 74       		.byte	0x74
+ 590 025b 00       		.sleb128 0
+ 591 025c 00       		.byte	0
+ 592 025d 0D       		.uleb128 0xd
+ 593 025e 46000000 		.4byte	.LVL12
+ 594 0262 AB030000 		.4byte	0x3ab
+ 595 0266 0E       		.uleb128 0xe
+ 596 0267 58000000 		.4byte	.LVL13
+ 597 026b 94030000 		.4byte	0x394
+ 598 026f 98020000 		.4byte	0x298
+ 599 0273 0F       		.uleb128 0xf
+ 600 0274 01       		.uleb128 0x1
+ 601 0275 51       		.byte	0x51
+ 602 0276 05       		.uleb128 0x5
+ 603 0277 03       		.byte	0x3
+ 604 0278 30000000 		.4byte	.LC3
+ 605 027c 0F       		.uleb128 0xf
+ 606 027d 01       		.uleb128 0x1
+ 607 027e 52       		.byte	0x52
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 18
+
+
+ 608 027f 03       		.uleb128 0x3
+ 609 0280 0A       		.byte	0xa
+ 610 0281 E803     		.2byte	0x3e8
+ 611 0283 0F       		.uleb128 0xf
+ 612 0284 01       		.uleb128 0x1
+ 613 0285 53       		.byte	0x53
+ 614 0286 02       		.uleb128 0x2
+ 615 0287 74       		.byte	0x74
+ 616 0288 00       		.sleb128 0
+ 617 0289 0F       		.uleb128 0xf
+ 618 028a 02       		.uleb128 0x2
+ 619 028b 7D       		.byte	0x7d
+ 620 028c 00       		.sleb128 0
+ 621 028d 02       		.uleb128 0x2
+ 622 028e 75       		.byte	0x75
+ 623 028f 00       		.sleb128 0
+ 624 0290 0F       		.uleb128 0xf
+ 625 0291 02       		.uleb128 0x2
+ 626 0292 7D       		.byte	0x7d
+ 627 0293 04       		.sleb128 4
+ 628 0294 02       		.uleb128 0x2
+ 629 0295 74       		.byte	0x74
+ 630 0296 00       		.sleb128 0
+ 631 0297 00       		.byte	0
+ 632 0298 0D       		.uleb128 0xd
+ 633 0299 5C000000 		.4byte	.LVL14
+ 634 029d B6030000 		.4byte	0x3b6
+ 635 02a1 00       		.byte	0
+ 636 02a2 16       		.uleb128 0x16
+ 637 02a3 0E000000 		.4byte	.LASF28
+ 638 02a7 01       		.byte	0x1
+ 639 02a8 89       		.byte	0x89
+ 640 02a9 00000000 		.4byte	.LFB72
+ 641 02ad 12000000 		.4byte	.LFE72-.LFB72
+ 642 02b1 01       		.uleb128 0x1
+ 643 02b2 9C       		.byte	0x9c
+ 644 02b3 F1020000 		.4byte	0x2f1
+ 645 02b7 17       		.uleb128 0x17
+ 646 02b8 ED020000 		.4byte	.LASF26
+ 647 02bc 01       		.byte	0x1
+ 648 02bd 89       		.byte	0x89
+ 649 02be E0000000 		.4byte	0xe0
+ 650 02c2 01       		.uleb128 0x1
+ 651 02c3 50       		.byte	0x50
+ 652 02c4 17       		.uleb128 0x17
+ 653 02c5 FE020000 		.4byte	.LASF27
+ 654 02c9 01       		.byte	0x1
+ 655 02ca 89       		.byte	0x89
+ 656 02cb CF000000 		.4byte	0xcf
+ 657 02cf 01       		.uleb128 0x1
+ 658 02d0 51       		.byte	0x51
+ 659 02d1 18       		.uleb128 0x18
+ 660 02d2 EB000000 		.4byte	0xeb
+ 661 02d6 00000000 		.4byte	.LBB6
+ 662 02da 12000000 		.4byte	.LBE6-.LBB6
+ 663 02de 01       		.byte	0x1
+ 664 02df 8E       		.byte	0x8e
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 19
+
+
+ 665 02e0 19       		.uleb128 0x19
+ 666 02e1 00000000 		.4byte	.LBB7
+ 667 02e5 12000000 		.4byte	.LBE7-.LBB7
+ 668 02e9 1A       		.uleb128 0x1a
+ 669 02ea F7000000 		.4byte	0xf7
+ 670 02ee 00       		.byte	0
+ 671 02ef 00       		.byte	0
+ 672 02f0 00       		.byte	0
+ 673 02f1 16       		.uleb128 0x16
+ 674 02f2 76020000 		.4byte	.LASF29
+ 675 02f6 01       		.byte	0x1
+ 676 02f7 93       		.byte	0x93
+ 677 02f8 00000000 		.4byte	.LFB73
+ 678 02fc 12000000 		.4byte	.LFE73-.LFB73
+ 679 0300 01       		.uleb128 0x1
+ 680 0301 9C       		.byte	0x9c
+ 681 0302 26030000 		.4byte	0x326
+ 682 0306 18       		.uleb128 0x18
+ 683 0307 EB000000 		.4byte	0xeb
+ 684 030b 00000000 		.4byte	.LBB8
+ 685 030f 12000000 		.4byte	.LBE8-.LBB8
+ 686 0313 01       		.byte	0x1
+ 687 0314 96       		.byte	0x96
+ 688 0315 19       		.uleb128 0x19
+ 689 0316 00000000 		.4byte	.LBB9
+ 690 031a 12000000 		.4byte	.LBE9-.LBB9
+ 691 031e 1A       		.uleb128 0x1a
+ 692 031f F7000000 		.4byte	0xf7
+ 693 0323 00       		.byte	0
+ 694 0324 00       		.byte	0
+ 695 0325 00       		.byte	0
+ 696 0326 1B       		.uleb128 0x1b
+ 697 0327 A8010000 		.4byte	.LASF31
+ 698 032b 07       		.byte	0x7
+ 699 032c 1207     		.2byte	0x712
+ 700 032e 32030000 		.4byte	0x332
+ 701 0332 1C       		.uleb128 0x1c
+ 702 0333 81000000 		.4byte	0x81
+ 703 0337 12       		.uleb128 0x12
+ 704 0338 2C000000 		.4byte	.LASF30
+ 705 033c 01       		.byte	0x1
+ 706 033d 78       		.byte	0x78
+ 707 033e 9D010000 		.4byte	0x19d
+ 708 0342 1D       		.uleb128 0x1d
+ 709 0343 1A020000 		.4byte	.LASF32
+ 710 0347 1A020000 		.4byte	.LASF32
+ 711 034b 01       		.byte	0x1
+ 712 034c 32       		.byte	0x32
+ 713 034d 1E       		.uleb128 0x1e
+ 714 034e 28030000 		.4byte	.LASF48
+ 715 0352 CD000000 		.4byte	.LASF49
+ 716 0356 0D       		.byte	0xd
+ 717 0357 00       		.byte	0
+ 718 0358 28030000 		.4byte	.LASF48
+ 719 035c 1F       		.uleb128 0x1f
+ 720 035d B2000000 		.4byte	.LASF33
+ 721 0361 B2000000 		.4byte	.LASF33
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 20
+
+
+ 722 0365 06       		.byte	0x6
+ 723 0366 1F04     		.2byte	0x41f
+ 724 0368 1D       		.uleb128 0x1d
+ 725 0369 62030000 		.4byte	.LASF34
+ 726 036d 62030000 		.4byte	.LASF34
+ 727 0371 08       		.byte	0x8
+ 728 0372 54       		.byte	0x54
+ 729 0373 1D       		.uleb128 0x1d
+ 730 0374 AD020000 		.4byte	.LASF35
+ 731 0378 AD020000 		.4byte	.LASF35
+ 732 037c 09       		.byte	0x9
+ 733 037d 54       		.byte	0x54
+ 734 037e 1D       		.uleb128 0x1d
+ 735 037f BC010000 		.4byte	.LASF36
+ 736 0383 BC010000 		.4byte	.LASF36
+ 737 0387 0A       		.byte	0xa
+ 738 0388 22       		.byte	0x22
+ 739 0389 1D       		.uleb128 0x1d
+ 740 038a E1010000 		.4byte	.LASF37
+ 741 038e E1010000 		.4byte	.LASF37
+ 742 0392 0A       		.byte	0xa
+ 743 0393 21       		.byte	0x21
+ 744 0394 1F       		.uleb128 0x1f
+ 745 0395 56030000 		.4byte	.LASF38
+ 746 0399 56030000 		.4byte	.LASF38
+ 747 039d 06       		.byte	0x6
+ 748 039e 4101     		.2byte	0x141
+ 749 03a0 1D       		.uleb128 0x1d
+ 750 03a1 2D020000 		.4byte	.LASF39
+ 751 03a5 2D020000 		.4byte	.LASF39
+ 752 03a9 0B       		.byte	0xb
+ 753 03aa 06       		.byte	0x6
+ 754 03ab 1D       		.uleb128 0x1d
+ 755 03ac 8D000000 		.4byte	.LASF40
+ 756 03b0 8D000000 		.4byte	.LASF40
+ 757 03b4 0C       		.byte	0xc
+ 758 03b5 05       		.byte	0x5
+ 759 03b6 1F       		.uleb128 0x1f
+ 760 03b7 62020000 		.4byte	.LASF41
+ 761 03bb 62020000 		.4byte	.LASF41
+ 762 03bf 06       		.byte	0x6
+ 763 03c0 8E04     		.2byte	0x48e
+ 764 03c2 00       		.byte	0
+ 765              		.section	.debug_abbrev,"",%progbits
+ 766              	.Ldebug_abbrev0:
+ 767 0000 01       		.uleb128 0x1
+ 768 0001 11       		.uleb128 0x11
+ 769 0002 01       		.byte	0x1
+ 770 0003 25       		.uleb128 0x25
+ 771 0004 0E       		.uleb128 0xe
+ 772 0005 13       		.uleb128 0x13
+ 773 0006 0B       		.uleb128 0xb
+ 774 0007 03       		.uleb128 0x3
+ 775 0008 0E       		.uleb128 0xe
+ 776 0009 1B       		.uleb128 0x1b
+ 777 000a 0E       		.uleb128 0xe
+ 778 000b 55       		.uleb128 0x55
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 21
+
+
+ 779 000c 17       		.uleb128 0x17
+ 780 000d 11       		.uleb128 0x11
+ 781 000e 01       		.uleb128 0x1
+ 782 000f 10       		.uleb128 0x10
+ 783 0010 17       		.uleb128 0x17
+ 784 0011 00       		.byte	0
+ 785 0012 00       		.byte	0
+ 786 0013 02       		.uleb128 0x2
+ 787 0014 24       		.uleb128 0x24
+ 788 0015 00       		.byte	0
+ 789 0016 0B       		.uleb128 0xb
+ 790 0017 0B       		.uleb128 0xb
+ 791 0018 3E       		.uleb128 0x3e
+ 792 0019 0B       		.uleb128 0xb
+ 793 001a 03       		.uleb128 0x3
+ 794 001b 0E       		.uleb128 0xe
+ 795 001c 00       		.byte	0
+ 796 001d 00       		.byte	0
+ 797 001e 03       		.uleb128 0x3
+ 798 001f 16       		.uleb128 0x16
+ 799 0020 00       		.byte	0
+ 800 0021 03       		.uleb128 0x3
+ 801 0022 0E       		.uleb128 0xe
+ 802 0023 3A       		.uleb128 0x3a
+ 803 0024 0B       		.uleb128 0xb
+ 804 0025 3B       		.uleb128 0x3b
+ 805 0026 0B       		.uleb128 0xb
+ 806 0027 49       		.uleb128 0x49
+ 807 0028 13       		.uleb128 0x13
+ 808 0029 00       		.byte	0
+ 809 002a 00       		.byte	0
+ 810 002b 04       		.uleb128 0x4
+ 811 002c 24       		.uleb128 0x24
+ 812 002d 00       		.byte	0
+ 813 002e 0B       		.uleb128 0xb
+ 814 002f 0B       		.uleb128 0xb
+ 815 0030 3E       		.uleb128 0x3e
+ 816 0031 0B       		.uleb128 0xb
+ 817 0032 03       		.uleb128 0x3
+ 818 0033 08       		.uleb128 0x8
+ 819 0034 00       		.byte	0
+ 820 0035 00       		.byte	0
+ 821 0036 05       		.uleb128 0x5
+ 822 0037 16       		.uleb128 0x16
+ 823 0038 00       		.byte	0
+ 824 0039 03       		.uleb128 0x3
+ 825 003a 0E       		.uleb128 0xe
+ 826 003b 3A       		.uleb128 0x3a
+ 827 003c 0B       		.uleb128 0xb
+ 828 003d 3B       		.uleb128 0x3b
+ 829 003e 05       		.uleb128 0x5
+ 830 003f 49       		.uleb128 0x49
+ 831 0040 13       		.uleb128 0x13
+ 832 0041 00       		.byte	0
+ 833 0042 00       		.byte	0
+ 834 0043 06       		.uleb128 0x6
+ 835 0044 0F       		.uleb128 0xf
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 22
+
+
+ 836 0045 00       		.byte	0
+ 837 0046 0B       		.uleb128 0xb
+ 838 0047 0B       		.uleb128 0xb
+ 839 0048 49       		.uleb128 0x49
+ 840 0049 13       		.uleb128 0x13
+ 841 004a 00       		.byte	0
+ 842 004b 00       		.byte	0
+ 843 004c 07       		.uleb128 0x7
+ 844 004d 15       		.uleb128 0x15
+ 845 004e 00       		.byte	0
+ 846 004f 27       		.uleb128 0x27
+ 847 0050 19       		.uleb128 0x19
+ 848 0051 00       		.byte	0
+ 849 0052 00       		.byte	0
+ 850 0053 08       		.uleb128 0x8
+ 851 0054 0F       		.uleb128 0xf
+ 852 0055 00       		.byte	0
+ 853 0056 0B       		.uleb128 0xb
+ 854 0057 0B       		.uleb128 0xb
+ 855 0058 00       		.byte	0
+ 856 0059 00       		.byte	0
+ 857 005a 09       		.uleb128 0x9
+ 858 005b 2E       		.uleb128 0x2e
+ 859 005c 01       		.byte	0x1
+ 860 005d 03       		.uleb128 0x3
+ 861 005e 0E       		.uleb128 0xe
+ 862 005f 3A       		.uleb128 0x3a
+ 863 0060 0B       		.uleb128 0xb
+ 864 0061 3B       		.uleb128 0x3b
+ 865 0062 0B       		.uleb128 0xb
+ 866 0063 27       		.uleb128 0x27
+ 867 0064 19       		.uleb128 0x19
+ 868 0065 20       		.uleb128 0x20
+ 869 0066 0B       		.uleb128 0xb
+ 870 0067 01       		.uleb128 0x1
+ 871 0068 13       		.uleb128 0x13
+ 872 0069 00       		.byte	0
+ 873 006a 00       		.byte	0
+ 874 006b 0A       		.uleb128 0xa
+ 875 006c 34       		.uleb128 0x34
+ 876 006d 00       		.byte	0
+ 877 006e 03       		.uleb128 0x3
+ 878 006f 0E       		.uleb128 0xe
+ 879 0070 3A       		.uleb128 0x3a
+ 880 0071 0B       		.uleb128 0xb
+ 881 0072 3B       		.uleb128 0x3b
+ 882 0073 0B       		.uleb128 0xb
+ 883 0074 49       		.uleb128 0x49
+ 884 0075 13       		.uleb128 0x13
+ 885 0076 00       		.byte	0
+ 886 0077 00       		.byte	0
+ 887 0078 0B       		.uleb128 0xb
+ 888 0079 2E       		.uleb128 0x2e
+ 889 007a 01       		.byte	0x1
+ 890 007b 03       		.uleb128 0x3
+ 891 007c 0E       		.uleb128 0xe
+ 892 007d 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 23
+
+
+ 893 007e 0B       		.uleb128 0xb
+ 894 007f 3B       		.uleb128 0x3b
+ 895 0080 0B       		.uleb128 0xb
+ 896 0081 27       		.uleb128 0x27
+ 897 0082 19       		.uleb128 0x19
+ 898 0083 11       		.uleb128 0x11
+ 899 0084 01       		.uleb128 0x1
+ 900 0085 12       		.uleb128 0x12
+ 901 0086 06       		.uleb128 0x6
+ 902 0087 40       		.uleb128 0x40
+ 903 0088 18       		.uleb128 0x18
+ 904 0089 9742     		.uleb128 0x2117
+ 905 008b 19       		.uleb128 0x19
+ 906 008c 01       		.uleb128 0x1
+ 907 008d 13       		.uleb128 0x13
+ 908 008e 00       		.byte	0
+ 909 008f 00       		.byte	0
+ 910 0090 0C       		.uleb128 0xc
+ 911 0091 05       		.uleb128 0x5
+ 912 0092 00       		.byte	0
+ 913 0093 03       		.uleb128 0x3
+ 914 0094 08       		.uleb128 0x8
+ 915 0095 3A       		.uleb128 0x3a
+ 916 0096 0B       		.uleb128 0xb
+ 917 0097 3B       		.uleb128 0x3b
+ 918 0098 0B       		.uleb128 0xb
+ 919 0099 49       		.uleb128 0x49
+ 920 009a 13       		.uleb128 0x13
+ 921 009b 02       		.uleb128 0x2
+ 922 009c 17       		.uleb128 0x17
+ 923 009d 00       		.byte	0
+ 924 009e 00       		.byte	0
+ 925 009f 0D       		.uleb128 0xd
+ 926 00a0 898201   		.uleb128 0x4109
+ 927 00a3 00       		.byte	0
+ 928 00a4 11       		.uleb128 0x11
+ 929 00a5 01       		.uleb128 0x1
+ 930 00a6 31       		.uleb128 0x31
+ 931 00a7 13       		.uleb128 0x13
+ 932 00a8 00       		.byte	0
+ 933 00a9 00       		.byte	0
+ 934 00aa 0E       		.uleb128 0xe
+ 935 00ab 898201   		.uleb128 0x4109
+ 936 00ae 01       		.byte	0x1
+ 937 00af 11       		.uleb128 0x11
+ 938 00b0 01       		.uleb128 0x1
+ 939 00b1 31       		.uleb128 0x31
+ 940 00b2 13       		.uleb128 0x13
+ 941 00b3 01       		.uleb128 0x1
+ 942 00b4 13       		.uleb128 0x13
+ 943 00b5 00       		.byte	0
+ 944 00b6 00       		.byte	0
+ 945 00b7 0F       		.uleb128 0xf
+ 946 00b8 8A8201   		.uleb128 0x410a
+ 947 00bb 00       		.byte	0
+ 948 00bc 02       		.uleb128 0x2
+ 949 00bd 18       		.uleb128 0x18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 24
+
+
+ 950 00be 9142     		.uleb128 0x2111
+ 951 00c0 18       		.uleb128 0x18
+ 952 00c1 00       		.byte	0
+ 953 00c2 00       		.byte	0
+ 954 00c3 10       		.uleb128 0x10
+ 955 00c4 898201   		.uleb128 0x4109
+ 956 00c7 01       		.byte	0x1
+ 957 00c8 11       		.uleb128 0x11
+ 958 00c9 01       		.uleb128 0x1
+ 959 00ca 31       		.uleb128 0x31
+ 960 00cb 13       		.uleb128 0x13
+ 961 00cc 00       		.byte	0
+ 962 00cd 00       		.byte	0
+ 963 00ce 11       		.uleb128 0x11
+ 964 00cf 2E       		.uleb128 0x2e
+ 965 00d0 00       		.byte	0
+ 966 00d1 3F       		.uleb128 0x3f
+ 967 00d2 19       		.uleb128 0x19
+ 968 00d3 03       		.uleb128 0x3
+ 969 00d4 0E       		.uleb128 0xe
+ 970 00d5 3A       		.uleb128 0x3a
+ 971 00d6 0B       		.uleb128 0xb
+ 972 00d7 3B       		.uleb128 0x3b
+ 973 00d8 0B       		.uleb128 0xb
+ 974 00d9 27       		.uleb128 0x27
+ 975 00da 19       		.uleb128 0x19
+ 976 00db 3C       		.uleb128 0x3c
+ 977 00dc 19       		.uleb128 0x19
+ 978 00dd 00       		.byte	0
+ 979 00de 00       		.byte	0
+ 980 00df 12       		.uleb128 0x12
+ 981 00e0 34       		.uleb128 0x34
+ 982 00e1 00       		.byte	0
+ 983 00e2 03       		.uleb128 0x3
+ 984 00e3 0E       		.uleb128 0xe
+ 985 00e4 3A       		.uleb128 0x3a
+ 986 00e5 0B       		.uleb128 0xb
+ 987 00e6 3B       		.uleb128 0x3b
+ 988 00e7 0B       		.uleb128 0xb
+ 989 00e8 49       		.uleb128 0x49
+ 990 00e9 13       		.uleb128 0x13
+ 991 00ea 3F       		.uleb128 0x3f
+ 992 00eb 19       		.uleb128 0x19
+ 993 00ec 3C       		.uleb128 0x3c
+ 994 00ed 19       		.uleb128 0x19
+ 995 00ee 00       		.byte	0
+ 996 00ef 00       		.byte	0
+ 997 00f0 13       		.uleb128 0x13
+ 998 00f1 01       		.uleb128 0x1
+ 999 00f2 01       		.byte	0x1
+ 1000 00f3 49       		.uleb128 0x49
+ 1001 00f4 13       		.uleb128 0x13
+ 1002 00f5 01       		.uleb128 0x1
+ 1003 00f6 13       		.uleb128 0x13
+ 1004 00f7 00       		.byte	0
+ 1005 00f8 00       		.byte	0
+ 1006 00f9 14       		.uleb128 0x14
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 25
+
+
+ 1007 00fa 21       		.uleb128 0x21
+ 1008 00fb 00       		.byte	0
+ 1009 00fc 00       		.byte	0
+ 1010 00fd 00       		.byte	0
+ 1011 00fe 15       		.uleb128 0x15
+ 1012 00ff 2E       		.uleb128 0x2e
+ 1013 0100 01       		.byte	0x1
+ 1014 0101 3F       		.uleb128 0x3f
+ 1015 0102 19       		.uleb128 0x19
+ 1016 0103 03       		.uleb128 0x3
+ 1017 0104 0E       		.uleb128 0xe
+ 1018 0105 3A       		.uleb128 0x3a
+ 1019 0106 0B       		.uleb128 0xb
+ 1020 0107 3B       		.uleb128 0x3b
+ 1021 0108 0B       		.uleb128 0xb
+ 1022 0109 27       		.uleb128 0x27
+ 1023 010a 19       		.uleb128 0x19
+ 1024 010b 49       		.uleb128 0x49
+ 1025 010c 13       		.uleb128 0x13
+ 1026 010d 8701     		.uleb128 0x87
+ 1027 010f 19       		.uleb128 0x19
+ 1028 0110 11       		.uleb128 0x11
+ 1029 0111 01       		.uleb128 0x1
+ 1030 0112 12       		.uleb128 0x12
+ 1031 0113 06       		.uleb128 0x6
+ 1032 0114 40       		.uleb128 0x40
+ 1033 0115 18       		.uleb128 0x18
+ 1034 0116 9742     		.uleb128 0x2117
+ 1035 0118 19       		.uleb128 0x19
+ 1036 0119 01       		.uleb128 0x1
+ 1037 011a 13       		.uleb128 0x13
+ 1038 011b 00       		.byte	0
+ 1039 011c 00       		.byte	0
+ 1040 011d 16       		.uleb128 0x16
+ 1041 011e 2E       		.uleb128 0x2e
+ 1042 011f 01       		.byte	0x1
+ 1043 0120 3F       		.uleb128 0x3f
+ 1044 0121 19       		.uleb128 0x19
+ 1045 0122 03       		.uleb128 0x3
+ 1046 0123 0E       		.uleb128 0xe
+ 1047 0124 3A       		.uleb128 0x3a
+ 1048 0125 0B       		.uleb128 0xb
+ 1049 0126 3B       		.uleb128 0x3b
+ 1050 0127 0B       		.uleb128 0xb
+ 1051 0128 27       		.uleb128 0x27
+ 1052 0129 19       		.uleb128 0x19
+ 1053 012a 8701     		.uleb128 0x87
+ 1054 012c 19       		.uleb128 0x19
+ 1055 012d 11       		.uleb128 0x11
+ 1056 012e 01       		.uleb128 0x1
+ 1057 012f 12       		.uleb128 0x12
+ 1058 0130 06       		.uleb128 0x6
+ 1059 0131 40       		.uleb128 0x40
+ 1060 0132 18       		.uleb128 0x18
+ 1061 0133 9742     		.uleb128 0x2117
+ 1062 0135 19       		.uleb128 0x19
+ 1063 0136 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 26
+
+
+ 1064 0137 13       		.uleb128 0x13
+ 1065 0138 00       		.byte	0
+ 1066 0139 00       		.byte	0
+ 1067 013a 17       		.uleb128 0x17
+ 1068 013b 05       		.uleb128 0x5
+ 1069 013c 00       		.byte	0
+ 1070 013d 03       		.uleb128 0x3
+ 1071 013e 0E       		.uleb128 0xe
+ 1072 013f 3A       		.uleb128 0x3a
+ 1073 0140 0B       		.uleb128 0xb
+ 1074 0141 3B       		.uleb128 0x3b
+ 1075 0142 0B       		.uleb128 0xb
+ 1076 0143 49       		.uleb128 0x49
+ 1077 0144 13       		.uleb128 0x13
+ 1078 0145 02       		.uleb128 0x2
+ 1079 0146 18       		.uleb128 0x18
+ 1080 0147 00       		.byte	0
+ 1081 0148 00       		.byte	0
+ 1082 0149 18       		.uleb128 0x18
+ 1083 014a 1D       		.uleb128 0x1d
+ 1084 014b 01       		.byte	0x1
+ 1085 014c 31       		.uleb128 0x31
+ 1086 014d 13       		.uleb128 0x13
+ 1087 014e 11       		.uleb128 0x11
+ 1088 014f 01       		.uleb128 0x1
+ 1089 0150 12       		.uleb128 0x12
+ 1090 0151 06       		.uleb128 0x6
+ 1091 0152 58       		.uleb128 0x58
+ 1092 0153 0B       		.uleb128 0xb
+ 1093 0154 59       		.uleb128 0x59
+ 1094 0155 0B       		.uleb128 0xb
+ 1095 0156 00       		.byte	0
+ 1096 0157 00       		.byte	0
+ 1097 0158 19       		.uleb128 0x19
+ 1098 0159 0B       		.uleb128 0xb
+ 1099 015a 01       		.byte	0x1
+ 1100 015b 11       		.uleb128 0x11
+ 1101 015c 01       		.uleb128 0x1
+ 1102 015d 12       		.uleb128 0x12
+ 1103 015e 06       		.uleb128 0x6
+ 1104 015f 00       		.byte	0
+ 1105 0160 00       		.byte	0
+ 1106 0161 1A       		.uleb128 0x1a
+ 1107 0162 34       		.uleb128 0x34
+ 1108 0163 00       		.byte	0
+ 1109 0164 31       		.uleb128 0x31
+ 1110 0165 13       		.uleb128 0x13
+ 1111 0166 00       		.byte	0
+ 1112 0167 00       		.byte	0
+ 1113 0168 1B       		.uleb128 0x1b
+ 1114 0169 34       		.uleb128 0x34
+ 1115 016a 00       		.byte	0
+ 1116 016b 03       		.uleb128 0x3
+ 1117 016c 0E       		.uleb128 0xe
+ 1118 016d 3A       		.uleb128 0x3a
+ 1119 016e 0B       		.uleb128 0xb
+ 1120 016f 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 27
+
+
+ 1121 0170 05       		.uleb128 0x5
+ 1122 0171 49       		.uleb128 0x49
+ 1123 0172 13       		.uleb128 0x13
+ 1124 0173 3F       		.uleb128 0x3f
+ 1125 0174 19       		.uleb128 0x19
+ 1126 0175 3C       		.uleb128 0x3c
+ 1127 0176 19       		.uleb128 0x19
+ 1128 0177 00       		.byte	0
+ 1129 0178 00       		.byte	0
+ 1130 0179 1C       		.uleb128 0x1c
+ 1131 017a 35       		.uleb128 0x35
+ 1132 017b 00       		.byte	0
+ 1133 017c 49       		.uleb128 0x49
+ 1134 017d 13       		.uleb128 0x13
+ 1135 017e 00       		.byte	0
+ 1136 017f 00       		.byte	0
+ 1137 0180 1D       		.uleb128 0x1d
+ 1138 0181 2E       		.uleb128 0x2e
+ 1139 0182 00       		.byte	0
+ 1140 0183 3F       		.uleb128 0x3f
+ 1141 0184 19       		.uleb128 0x19
+ 1142 0185 3C       		.uleb128 0x3c
+ 1143 0186 19       		.uleb128 0x19
+ 1144 0187 6E       		.uleb128 0x6e
+ 1145 0188 0E       		.uleb128 0xe
+ 1146 0189 03       		.uleb128 0x3
+ 1147 018a 0E       		.uleb128 0xe
+ 1148 018b 3A       		.uleb128 0x3a
+ 1149 018c 0B       		.uleb128 0xb
+ 1150 018d 3B       		.uleb128 0x3b
+ 1151 018e 0B       		.uleb128 0xb
+ 1152 018f 00       		.byte	0
+ 1153 0190 00       		.byte	0
+ 1154 0191 1E       		.uleb128 0x1e
+ 1155 0192 2E       		.uleb128 0x2e
+ 1156 0193 00       		.byte	0
+ 1157 0194 3F       		.uleb128 0x3f
+ 1158 0195 19       		.uleb128 0x19
+ 1159 0196 3C       		.uleb128 0x3c
+ 1160 0197 19       		.uleb128 0x19
+ 1161 0198 6E       		.uleb128 0x6e
+ 1162 0199 0E       		.uleb128 0xe
+ 1163 019a 03       		.uleb128 0x3
+ 1164 019b 0E       		.uleb128 0xe
+ 1165 019c 3A       		.uleb128 0x3a
+ 1166 019d 0B       		.uleb128 0xb
+ 1167 019e 3B       		.uleb128 0x3b
+ 1168 019f 0B       		.uleb128 0xb
+ 1169 01a0 6E       		.uleb128 0x6e
+ 1170 01a1 0E       		.uleb128 0xe
+ 1171 01a2 00       		.byte	0
+ 1172 01a3 00       		.byte	0
+ 1173 01a4 1F       		.uleb128 0x1f
+ 1174 01a5 2E       		.uleb128 0x2e
+ 1175 01a6 00       		.byte	0
+ 1176 01a7 3F       		.uleb128 0x3f
+ 1177 01a8 19       		.uleb128 0x19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 28
+
+
+ 1178 01a9 3C       		.uleb128 0x3c
+ 1179 01aa 19       		.uleb128 0x19
+ 1180 01ab 6E       		.uleb128 0x6e
+ 1181 01ac 0E       		.uleb128 0xe
+ 1182 01ad 03       		.uleb128 0x3
+ 1183 01ae 0E       		.uleb128 0xe
+ 1184 01af 3A       		.uleb128 0x3a
+ 1185 01b0 0B       		.uleb128 0xb
+ 1186 01b1 3B       		.uleb128 0x3b
+ 1187 01b2 05       		.uleb128 0x5
+ 1188 01b3 00       		.byte	0
+ 1189 01b4 00       		.byte	0
+ 1190 01b5 00       		.byte	0
+ 1191              		.section	.debug_loc,"",%progbits
+ 1192              	.Ldebug_loc0:
+ 1193              	.LLST0:
+ 1194 0000 00000000 		.4byte	.LVL0
+ 1195 0004 05000000 		.4byte	.LVL1-1
+ 1196 0008 0100     		.2byte	0x1
+ 1197 000a 50       		.byte	0x50
+ 1198 000b 05000000 		.4byte	.LVL1-1
+ 1199 000f 18000000 		.4byte	.LFE69
+ 1200 0013 0400     		.2byte	0x4
+ 1201 0015 F3       		.byte	0xf3
+ 1202 0016 01       		.uleb128 0x1
+ 1203 0017 50       		.byte	0x50
+ 1204 0018 9F       		.byte	0x9f
+ 1205 0019 00000000 		.4byte	0
+ 1206 001d 00000000 		.4byte	0
+ 1207              		.section	.debug_aranges,"",%progbits
+ 1208 0000 3C000000 		.4byte	0x3c
+ 1209 0004 0200     		.2byte	0x2
+ 1210 0006 00000000 		.4byte	.Ldebug_info0
+ 1211 000a 04       		.byte	0x4
+ 1212 000b 00       		.byte	0
+ 1213 000c 0000     		.2byte	0
+ 1214 000e 0000     		.2byte	0
+ 1215 0010 00000000 		.4byte	.LFB69
+ 1216 0014 18000000 		.4byte	.LFE69-.LFB69
+ 1217 0018 00000000 		.4byte	.LFB71
+ 1218 001c 2C000000 		.4byte	.LFE71-.LFB71
+ 1219 0020 00000000 		.4byte	.LFB70
+ 1220 0024 78000000 		.4byte	.LFE70-.LFB70
+ 1221 0028 00000000 		.4byte	.LFB72
+ 1222 002c 12000000 		.4byte	.LFE72-.LFB72
+ 1223 0030 00000000 		.4byte	.LFB73
+ 1224 0034 12000000 		.4byte	.LFE73-.LFB73
+ 1225 0038 00000000 		.4byte	0
+ 1226 003c 00000000 		.4byte	0
+ 1227              		.section	.debug_ranges,"",%progbits
+ 1228              	.Ldebug_ranges0:
+ 1229 0000 00000000 		.4byte	.LFB69
+ 1230 0004 18000000 		.4byte	.LFE69
+ 1231 0008 00000000 		.4byte	.LFB71
+ 1232 000c 2C000000 		.4byte	.LFE71
+ 1233 0010 00000000 		.4byte	.LFB70
+ 1234 0014 78000000 		.4byte	.LFE70
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 29
+
+
+ 1235 0018 00000000 		.4byte	.LFB72
+ 1236 001c 12000000 		.4byte	.LFE72
+ 1237 0020 00000000 		.4byte	.LFB73
+ 1238 0024 12000000 		.4byte	.LFE73
+ 1239 0028 00000000 		.4byte	0
+ 1240 002c 00000000 		.4byte	0
+ 1241              		.section	.debug_line,"",%progbits
+ 1242              	.Ldebug_line0:
+ 1243 0000 7C020000 		.section	.debug_str,"MS",%progbits,1
+ 1243      02000C02 
+ 1243      00000201 
+ 1243      FB0E0D00 
+ 1243      01010101 
+ 1244              	.LASF8:
+ 1245 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1245      206C6F6E 
+ 1245      6720696E 
+ 1245      7400
+ 1246              	.LASF28:
+ 1247 000e 76417070 		.ascii	"vApplicationStackOverflowHook\000"
+ 1247      6C696361 
+ 1247      74696F6E 
+ 1247      53746163 
+ 1247      6B4F7665 
+ 1248              	.LASF30:
+ 1249 002c 43795261 		.ascii	"CyRamVectors\000"
+ 1249      6D566563 
+ 1249      746F7273 
+ 1249      00
+ 1250              	.LASF5:
+ 1251 0039 5F5F696E 		.ascii	"__int32_t\000"
+ 1251      7433325F 
+ 1251      7400
+ 1252              	.LASF44:
+ 1253 0043 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 1253      73657273 
+ 1253      5C457667 
+ 1253      656E7920 
+ 1253      4D657368 
+ 1254 0072 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 1254      746D705C 
+ 1254      5A756D6F 
+ 1254      5C5A756D 
+ 1254      6F426F74 
+ 1255              	.LASF40:
+ 1256 008d 53696D75 		.ascii	"SimulatorTaskInit\000"
+ 1256      6C61746F 
+ 1256      72546173 
+ 1256      6B496E69 
+ 1256      7400
+ 1257              	.LASF23:
+ 1258 009f 78506F72 		.ascii	"xPortPendSVHandler\000"
+ 1258      7450656E 
+ 1258      64535648 
+ 1258      616E646C 
+ 1258      657200
+ 1259              	.LASF33:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 30
+
+
+ 1260 00b2 76546173 		.ascii	"vTaskSuspend\000"
+ 1260      6B537573 
+ 1260      70656E64 
+ 1260      00
+ 1261              	.LASF11:
+ 1262 00bf 696E7433 		.ascii	"int32_t\000"
+ 1262      325F7400 
+ 1263              	.LASF13:
+ 1264 00c7 666C6F61 		.ascii	"float\000"
+ 1264      7400
+ 1265              	.LASF49:
+ 1266 00cd 5F5F6275 		.ascii	"__builtin_puts\000"
+ 1266      696C7469 
+ 1266      6E5F7075 
+ 1266      747300
+ 1267              	.LASF1:
+ 1268 00dc 756E7369 		.ascii	"unsigned char\000"
+ 1268      676E6564 
+ 1268      20636861 
+ 1268      7200
+ 1269              	.LASF42:
+ 1270 00ea 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1270      43313120 
+ 1270      352E342E 
+ 1270      31203230 
+ 1270      31363036 
+ 1271 011d 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1271      20726576 
+ 1271      6973696F 
+ 1271      6E203233 
+ 1271      37373135 
+ 1272 0150 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1272      66756E63 
+ 1272      74696F6E 
+ 1272      2D736563 
+ 1272      74696F6E 
+ 1273              	.LASF6:
+ 1274 0178 5F5F7569 		.ascii	"__uint32_t\000"
+ 1274      6E743332 
+ 1274      5F7400
+ 1275              	.LASF7:
+ 1276 0183 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1276      20756E73 
+ 1276      69676E65 
+ 1276      6420696E 
+ 1276      7400
+ 1277              	.LASF3:
+ 1278 0195 73686F72 		.ascii	"short unsigned int\000"
+ 1278      7420756E 
+ 1278      7369676E 
+ 1278      65642069 
+ 1278      6E7400
+ 1279              	.LASF31:
+ 1280 01a8 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1280      52784275 
+ 1280      66666572 
+ 1280      00
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 31
+
+
+ 1281              	.LASF14:
+ 1282 01b5 646F7562 		.ascii	"double\000"
+ 1282      6C6500
+ 1283              	.LASF36:
+ 1284 01bc 76536572 		.ascii	"vSerial1PortInitMinimal\000"
+ 1284      69616C31 
+ 1284      506F7274 
+ 1284      496E6974 
+ 1284      4D696E69 
+ 1285              	.LASF46:
+ 1286 01d4 756C4E65 		.ascii	"ulNewBASEPRI\000"
+ 1286      77424153 
+ 1286      45505249 
+ 1286      00
+ 1287              	.LASF37:
+ 1288 01e1 52657461 		.ascii	"RetargetInit\000"
+ 1288      72676574 
+ 1288      496E6974 
+ 1288      00
+ 1289              	.LASF43:
+ 1290 01ee 5A756D6F 		.ascii	"ZumoLibrary\\rtos_main.c\000"
+ 1290      4C696272 
+ 1290      6172795C 
+ 1290      72746F73 
+ 1290      5F6D6169 
+ 1291              	.LASF24:
+ 1292 0206 78506F72 		.ascii	"xPortSysTickHandler\000"
+ 1292      74537973 
+ 1292      5469636B 
+ 1292      48616E64 
+ 1292      6C657200 
+ 1293              	.LASF32:
+ 1294 021a 7A6D6169 		.ascii	"zmain\000"
+ 1294      6E00
+ 1295              	.LASF10:
+ 1296 0220 756E7369 		.ascii	"unsigned int\000"
+ 1296      676E6564 
+ 1296      20696E74 
+ 1296      00
+ 1297              	.LASF39:
+ 1298 022d 4D515454 		.ascii	"MQTTSendTaskInit\000"
+ 1298      53656E64 
+ 1298      5461736B 
+ 1298      496E6974 
+ 1298      00
+ 1299              	.LASF9:
+ 1300 023e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1300      206C6F6E 
+ 1300      6720756E 
+ 1300      7369676E 
+ 1300      65642069 
+ 1301              	.LASF16:
+ 1302 0255 63796973 		.ascii	"cyisraddress\000"
+ 1302      72616464 
+ 1302      72657373 
+ 1302      00
+ 1303              	.LASF41:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 32
+
+
+ 1304 0262 76546173 		.ascii	"vTaskStartScheduler\000"
+ 1304      6B537461 
+ 1304      72745363 
+ 1304      68656475 
+ 1304      6C657200 
+ 1305              	.LASF29:
+ 1306 0276 76417070 		.ascii	"vApplicationMallocFailedHook\000"
+ 1306      6C696361 
+ 1306      74696F6E 
+ 1306      4D616C6C 
+ 1306      6F634661 
+ 1307              	.LASF47:
+ 1308 0293 6D61696E 		.ascii	"main\000"
+ 1308      00
+ 1309              	.LASF17:
+ 1310 0298 6C6F6E67 		.ascii	"long double\000"
+ 1310      20646F75 
+ 1310      626C6500 
+ 1311              	.LASF18:
+ 1312 02a4 73697A65 		.ascii	"sizetype\000"
+ 1312      74797065 
+ 1312      00
+ 1313              	.LASF35:
+ 1314 02ad 55415254 		.ascii	"UART_2_Start\000"
+ 1314      5F325F53 
+ 1314      74617274 
+ 1314      00
+ 1315              	.LASF45:
+ 1316 02ba 76506F72 		.ascii	"vPortRaiseBASEPRI\000"
+ 1316      74526169 
+ 1316      73654241 
+ 1316      53455052 
+ 1316      4900
+ 1317              	.LASF15:
+ 1318 02cc 63686172 		.ascii	"char\000"
+ 1318      00
+ 1319              	.LASF25:
+ 1320 02d1 76506F72 		.ascii	"vPortSVCHandler\000"
+ 1320      74535643 
+ 1320      48616E64 
+ 1320      6C657200 
+ 1321              	.LASF21:
+ 1322 02e1 73746172 		.ascii	"start_zmain\000"
+ 1322      745F7A6D 
+ 1322      61696E00 
+ 1323              	.LASF26:
+ 1324 02ed 70785461 		.ascii	"pxTask\000"
+ 1324      736B00
+ 1325              	.LASF2:
+ 1326 02f4 73686F72 		.ascii	"short int\000"
+ 1326      7420696E 
+ 1326      7400
+ 1327              	.LASF27:
+ 1328 02fe 70635461 		.ascii	"pcTaskName\000"
+ 1328      736B4E61 
+ 1328      6D6500
+ 1329              	.LASF20:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc9hPGCv.s 			page 33
+
+
+ 1330 0309 5461736B 		.ascii	"TaskHandle_t\000"
+ 1330      48616E64 
+ 1330      6C655F74 
+ 1330      00
+ 1331              	.LASF12:
+ 1332 0316 75696E74 		.ascii	"uint32_t\000"
+ 1332      33325F74 
+ 1332      00
+ 1333              	.LASF4:
+ 1334 031f 6C6F6E67 		.ascii	"long int\000"
+ 1334      20696E74 
+ 1334      00
+ 1335              	.LASF48:
+ 1336 0328 70757473 		.ascii	"puts\000"
+ 1336      00
+ 1337              	.LASF0:
+ 1338 032d 7369676E 		.ascii	"signed char\000"
+ 1338      65642063 
+ 1338      68617200 
+ 1339              	.LASF19:
+ 1340 0339 55426173 		.ascii	"UBaseType_t\000"
+ 1340      65547970 
+ 1340      655F7400 
+ 1341              	.LASF22:
+ 1342 0345 70727648 		.ascii	"prvHardwareSetup\000"
+ 1342      61726477 
+ 1342      61726553 
+ 1342      65747570 
+ 1342      00
+ 1343              	.LASF38:
+ 1344 0356 78546173 		.ascii	"xTaskCreate\000"
+ 1344      6B437265 
+ 1344      61746500 
+ 1345              	.LASF34:
+ 1346 0362 55415254 		.ascii	"UART_1_Start\000"
+ 1346      5F315F53 
+ 1346      74617274 
+ 1346      00
+ 1347              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
