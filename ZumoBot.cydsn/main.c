@@ -47,7 +47,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-#include "custom.h"
+#include "evgenii.h"
 
 /**
  * @file    main.c
@@ -55,33 +55,22 @@
  * @details  ** Enable global interrupt since Zumo library uses interrupts. **<br>&nbsp;&nbsp;&nbsp;CyGlobalIntEnable;<br>
 */
 
-// week 3 Ex.1
+
+#define PRESSED 0
 
 
 
 #if 1
-//motor
-void zmain(void)
-{
-    motor_start();              // enable motor controller
-    motor_forward(0,0);         // set speed to zero to stop motors
-    while(SW1_Read());
-    BatteryLed_Write(true);
-    vTaskDelay(500);
-    BatteryLed_Write(false);
-    motor_forward(125,2750);     // moving forward from starting point
-    motor_forward(0,0);         // stop motors
-    tankTR(255, 103);           // 1st turning right 
     
-    motor_forward(125,2350);    // forward on horisontal line
-    tankTR(255, 103);           // 2nd turn
-    motor_forward(125,2550);
-    tankTR(255, 103);           // 2nd turn
-    tankTurn(164,135,1780);
-    motor_forward(125,570);     // moving forward from starting point
-    motor_stop();               // disable motor controller
-    progEnd(100);
-}
+    void zmain(void) {
+        
+    //Test your function here
+        
+    week3_1();
+    
+    while(true) vTaskDelay(100);
+    
+    }
 #endif
 
 

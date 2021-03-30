@@ -29,6 +29,39 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
+#include "evgenii.h"
+
+
+//week 3 Ex.1
+
+void week3_1(void)
+{
+    
+    motor_start();              // enable motor controller
+    IR_Start();
+    motor_forward(0,0);         // set speed to zero to stop motors
+   // while(SW1_Read() != PRESSED);
+    IR_wait();
+    BatteryLed_Write(true);
+    vTaskDelay(500);
+    BatteryLed_Write(false);
+    motor_forward(125,2750);     // moving forward from starting point
+    tankTR(255, 103);           // 1st turning right 
+    
+    motor_forward(125,2350);    // forward on horisontal line
+    tankTR(255, 103);           // 2nd turn
+    motor_forward(125,2550);
+    tankTR(255, 103);           // 2nd turn
+    tankTurn(164,135,1780);
+    motor_forward(125,570);     // moving forward from starting point
+    
+    motor_forward(0,0);         // stop motors
+    motor_stop();               // disable motor controller
+    
+    progEnd(100);
+}
+
+
 
 
 
