@@ -38,6 +38,52 @@ void week3_1(void)
 {
     
     motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+    motor_forward(125,2750);     // moving forward from starting point
+    
+    tankTR(255, 103);           // 1st turning right 
+    motor_forward(125,2350);    // forward on horisontal line
+    tankTR(255, 103);           // 2nd turn
+    motor_forward(125,2550);
+    tankTR(255, 103);           // 2nd turn
+    tankTurn(164,135,1780);
+    motor_forward(125,570);     // moving forward from starting point
+    motor_forward(0,0);         // stop motors
+    motor_stop();               // disable motor controller
+    
+    progEnd(100);
+}
+
+void week3_2(void) 
+{
+    Ultra_Start();                          // Ultra Sonic Start function
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+    
+    while(true) {
+        motor_forward(125, 50);
+        int d = Ultra_GetDistance();
+        // Print the detected distance (centimeters)
+        printf("distance = %d\r\n", d);
+        vTaskDelay(200);
+        if(d < 11){
+            motor_forward(0,10);         
+            motor_backward(100, 150);
+            motor_turn(0, 150, 462);
+        }
+        if(SW1_Read() == 0){
+            motor_forward(0,0);         // stop motors
+            motor_stop(); 
+        }
+    }
+
+}
+/*   USEFUL functions
+
+void week3_1(void)
+{
+    
+    motor_start();              // enable motor controller
     IR_Start();
     motor_forward(0,0);         // set speed to zero to stop motors
    // while(SW1_Read() != PRESSED);
@@ -60,8 +106,7 @@ void week3_1(void)
     
     progEnd(100);
 }
-
-
+*/
 
 
 
