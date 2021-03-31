@@ -1,34 +1,14 @@
-/**
-* @mainpage ZumoBot Project
-* @brief    You can make your own ZumoBot with various sensors.
-* @details  <br><br>
-    <p>
-    <B>General</B><br>
-    You will use Pololu Zumo Shields for your robot project with CY8CKIT-059(PSoC 5LP) from Cypress semiconductor.This 
-    library has basic methods of various sensors and communications so that you can make what you want with them. <br> 
-    <br><br>
-    </p>
-    
-    <p>
-    <B>Sensors</B><br>
-    &nbsp;Included: <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;LSM303D: Accelerometer & Magnetometer<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;L3GD20H: Gyroscope<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;Reflectance sensor<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;Motors
-    &nbsp;Wii nunchuck<br>
-    &nbsp;TSOP-2236: IR Receiver<br>
-    &nbsp;HC-SR04: Ultrasonic sensor<br>
-    &nbsp;APDS-9301: Ambient light sensor<br>
-    &nbsp;IR LED <br><br><br>
-    </p>
-    
-    <p>
-    <B>Communication</B><br>
-    I2C, UART, Serial<br>
-    </p>
+/* ========================================
+ *
+ * Copyright YOUR COMPANY, THE YEAR
+ * All Rights Reserved
+ * UNPUBLISHED, LICENSED SOFTWARE.
+ *
+ * CONFIDENTIAL AND PROPRIETARY INFORMATION
+ * WHICH IS THE PROPERTY OF your company.
+ *
+ * ========================================
 */
-
 #include <project.h>
 #include <stdio.h>
 #include "FreeRTOS.h"
@@ -49,17 +29,10 @@
 #include <unistd.h>
 #include "Dongbin.h"
 
-/**
- * @file    main.c
- * @brief   
- * @details  ** Enable global interrupt since Zumo library uses interrupts. **<br>&nbsp;&nbsp;&nbsp;CyGlobalIntEnable;<br>
-*/
 
-/****************** week3 Assignment 1 *********************************/
-#if 0
-//motor
-void zmain(void)
-{
+/************************ week3 Assignment 1 *******************/
+
+void week3_1(void){
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
    
@@ -91,14 +64,11 @@ void zmain(void)
     
     progEnd(500);
 }
-#endif
+
 
 /******************* week 3 Assignment 2 ***************************/
 
-#if 1
-//motor
-void zmain(void)
-{
+void week3_2(void){
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
     
@@ -106,16 +76,17 @@ void zmain(void)
     BatteryLed_Write(true);
     vTaskDelay(500); 
     BatteryLed_Write(false);
-    Ultra_Start();                          // Ultra Sonic Start function
+    Ultra_Start();              // Ultra Sonic Start function
     int i = 0;
-    while(i < 5) {
+    while(i < 10) {
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
         printf("distance = %d\r\n", d);
-        vTaskDelay(100);
+        vTaskDelay(300);
         motor_forward(100,200);
         if(d > 0 && d < 20){
            motor_forward(0,0);
+           vTaskDelay(300);
            motor_backward(125, 500);
            tankTL120(123);
            i++;
@@ -127,7 +98,89 @@ void zmain(void)
     
     progEnd(500);
 }
-#endif
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void progEnd(uint32_t delay){
+    bool led = false;
+    while(true){
+        BatteryLed_Write(led^=1);
+        vTaskDelay(delay);
+    }
+}
+void tankTL(uint8_t speed, uint32_t delay){
+    SetMotors(1,0,speed,speed,delay);
+}
+void tankTR(uint8_t speed, uint32_t delay){
+    SetMotors(0,1,speed,speed,delay);
+}
+void softTR(uint32_t delay){
+    SetMotors(0,1,80,80,delay); 
+}
+
+void tankTL120(uint32_t delay){
+    SetMotors(1,0,255,255,delay);
+}
+
+
+
+
+//void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
 
 /* [] END OF FILE */
