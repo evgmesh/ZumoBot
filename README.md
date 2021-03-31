@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# PSoC Creator project for Metropolia PSoC-Zumo adapter
-=======
 # ZumoBot
 
 :robot: Zuuuumo
