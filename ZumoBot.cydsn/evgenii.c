@@ -71,12 +71,12 @@ void week3_2_evg(void)
     IR_Start();
     IR_wait();
     while(true) {
-        motor_forward(125, 50);
+        motor_forward(150, 50);
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
         printf("distance = %d\r\n", d);
         vTaskDelay(100);
-        if(d < 11){
+        if(d < 10){
             motor_forward(0,10);         
             motor_backward(100, 150);
             motor_turn(0, 150, 462);
@@ -94,6 +94,7 @@ void week3_2_evg(void)
 
 void week3_3_evg(void) 
 {
+    printf("Press IR send to start and button on PSoC to stop");
     Ultra_Start();              // Ultra Sonic Start function
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
@@ -104,7 +105,7 @@ void week3_3_evg(void)
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
       //  printf("distance = %d\r\n", d);
-        vTaskDelay(100);
+        vTaskDelay(300);
        int turn = randomEvg(103, 309);
         if(d < 11){
             motor_forward(0,10);         
@@ -116,7 +117,6 @@ void week3_3_evg(void)
                tankTREvg(255, turn);
                printf("\nTurn value is %i so I turn right\n", turn);
             }
-            
         }
         if(!SW1_Read()){
              break;
@@ -184,9 +184,9 @@ int randomEvg(int min, int max) {
 
 
 
-/*void tankTurn(uint8 l_speed, uint8 r_speed, uint32 delay){
+void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
 }
-*/
+
 
 /* [] END OF FILE */

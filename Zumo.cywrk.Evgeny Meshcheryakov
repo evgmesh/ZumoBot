@@ -35,6 +35,8 @@
 <v>Zumo\ZumoBot\Source Files\Kernel</v>
 <v>Zumo\ZumoBot\Source Files\Library</v>
 <v>Zumo\ZumoBot\Source Files\paho.mqtt.embedded-c</v>
+<v>Zumo\ZumoBot\Source Files\aneta.c</v>
+<v>Zumo\ZumoBot\Source Files\aneta.h</v>
 <v>Zumo\ZumoBot\Source Files\Dongbin.c</v>
 <v>Zumo\ZumoBot\Source Files\Dongbin.h</v>
 <v>Zumo\ZumoBot\Source Files\evgenii.c</v>
@@ -72,6 +74,7 @@
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_IRQ.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_PM.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_theACLK.lst</v>
+<v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\aneta.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\Battery_pin.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\BatteryLed.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\Beep.lst</v>
@@ -222,6 +225,7 @@
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_IRQ.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_PM.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Battery_theACLK.lst</v>
+<v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\aneta.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\Battery_pin.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\BatteryLed.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\Beep.lst</v>
@@ -249,7 +253,6 @@
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\esp8266_socket.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\event_groups.lst</v>
 <v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\evgenii.lst</v>
-<v>Zumo\ZumoBot\CortexM3\ARM_GCC_541\Debug\Listing Files\Gyro.lst</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStates>
@@ -337,8 +340,6 @@
 <name v=".\ZumoBot.cydsn\main.c" />
 <name v=".\ZumoBot.cydsn\evgenii.c" />
 <name v=".\ZumoBot.cydsn\evgenii.h" />
-<name v=".\ZumoBot.cydsn\Dongbin.c" />
-<name v=".\ZumoBot.cydsn\Dongbin.h" />
 </OpenDocs>
 <OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
 
@@ -346,7 +347,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1037, 508" SelectedTabbedMdiWindow="50059e70-2527-4367-850a-92b3023f4fbd"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="6e784730-272d-4c2a-b0c4-94572ed107fe" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\main.c" Guid="862f4acb-dbe0-43a7-ada3-8ecb46dddf14" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\evgenii.c" Guid="50059e70-2527-4367-850a-92b3023f4fbd" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\evgenii.h" Guid="089628a1-5108-48cf-bd6e-80714b973c17" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\Dongbin.c" Guid="fc15879d-8a2f-4e79-ad50-467adf47b35c" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\Dongbin.h" Guid="a62bd8c1-7255-4e32-b9d1-129c32ad1f1c" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1037, 508" SelectedTabbedMdiWindow="50059e70-2527-4367-850a-92b3023f4fbd"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="6e784730-272d-4c2a-b0c4-94572ed107fe" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\main.c" Guid="862f4acb-dbe0-43a7-ada3-8ecb46dddf14" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\evgenii.c" Guid="50059e70-2527-4367-850a-92b3023f4fbd" /><DocumentWindow Key="C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\evgenii.h" Guid="089628a1-5108-48cf-bd6e-80714b973c17" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

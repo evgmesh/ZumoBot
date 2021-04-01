@@ -67,7 +67,7 @@
         
     //Test your function here
     //week3_2();  
-   week3_2_evg();
+   week3_3_evg();
     
     while(true) vTaskDelay(100);
     
