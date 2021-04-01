@@ -30,15 +30,20 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "evgenii.h"
+#include <stdlib.h>
 
 
-//week 3 Ex.1
+/*******************************************************weekly assignments***************************************/
 
-void week3_1(void)
+//week 3 Exercise 1
+
+void week3_1_evg(void)
 {
     
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
+    IR_Start();
+    IR_wait();
     motor_forward(125,2750);     // moving forward from starting point
     
     tankTR(255, 103);           // 1st turning right 
@@ -54,12 +59,17 @@ void week3_1(void)
     progEnd(100);
 }
 
-void week3_2(void) 
+//week 3 Exercise 2
+
+void week3_2_evg(void) 
 {
-    Ultra_Start();                          // Ultra Sonic Start function
+    printf("Press IR send to start and button on PSoC to stop");
+    Ultra_Start();              // Ultra Sonic Start function
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
     
+    IR_Start();
+    IR_wait();
     while(true) {
         motor_forward(125, 50);
         int d = Ultra_GetDistance();
@@ -71,13 +81,48 @@ void week3_2(void)
             motor_backward(100, 150);
             motor_turn(0, 150, 462);
         }
-        if(SW1_Read() == 0){
-            motor_forward(0,0);         // stop motors
-            motor_stop(); 
+        if(!SW1_Read()){
+             break;
         }
     }
+    motor_forward(0,0);         
+    motor_stop();
 
 }
+
+//week 3 Exercise 3
+
+void week3_3_evg(void) 
+{
+    Ultra_Start();              // Ultra Sonic Start function
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+    
+    while(true) {
+        motor_forward(125, 50);
+        int d = Ultra_GetDistance();
+        // Print the detected distance (centimeters)
+      //  printf("distance = %d\r\n", d);
+        vTaskDelay(200);
+        srand(xTaskGetTickCount());
+        int turn = rand()%500;
+        if(d < 11){
+            motor_forward(0,10);         
+            motor_backward(100, 150);
+            printf("\nturn is %i\n", turn);
+            tankTL(255, turn);
+        }
+        if(!SW1_Read()){
+             break;
+        }
+    }
+    motor_forward(0,0);         
+    motor_stop();
+
+}
+
+
+
 /*   USEFUL functions
 
 void week3_1(void)
