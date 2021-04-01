@@ -46,17 +46,17 @@ void week3_1_evg(void)
     IR_wait();
     motor_forward(125,2750);     // moving forward from starting point
     
-    tankTR(255, 103);           // 1st turning right 
+    tankTREvg(255, 103);           // 1st turning right 
     motor_forward(125,2350);    // forward on horisontal line
-    tankTR(255, 103);           // 2nd turn
+    tankTREvg(255, 103);           // 2nd turn
     motor_forward(125,2550);
-    tankTR(255, 103);           // 2nd turn
-    tankTurn(164,135,1780);
+    tankTREvg(255, 103);           // 2nd turn
+    tankTurnEvg(164,135,1780);
     motor_forward(125,570);     // moving forward from starting point
     motor_forward(0,0);         // stop motors
     motor_stop();               // disable motor controller
     
-    progEnd(100);
+    progEndEvg(100);
 }
 
 //week 3 Exercise 2
@@ -75,7 +75,7 @@ void week3_2_evg(void)
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
         printf("distance = %d\r\n", d);
-        vTaskDelay(200);
+        vTaskDelay(100);
         if(d < 11){
             motor_forward(0,10);         
             motor_backward(100, 150);
@@ -97,20 +97,26 @@ void week3_3_evg(void)
     Ultra_Start();              // Ultra Sonic Start function
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
-    
+    IR_Start();
+    IR_wait();
     while(true) {
         motor_forward(125, 50);
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
       //  printf("distance = %d\r\n", d);
-        vTaskDelay(200);
-        srand(xTaskGetTickCount());
-        int turn = rand()%200;
+        vTaskDelay(100);
+       int turn = randomEvg(103, 309);
         if(d < 11){
             motor_forward(0,10);         
             motor_backward(100, 150);
-            printf("\nturn is %i\n", turn);
-            tankTL(255, turn);
+            if (turn % 2 == 1) {
+               tankTLEvg(255, turn);
+               printf("\nTurn value is %i so I turn left\n", turn);
+            } else {
+               tankTREvg(255, turn);
+               printf("\nTurn value is %i so I turn right\n", turn);
+            }
+            
         }
         if(!SW1_Read()){
              break;
@@ -169,6 +175,14 @@ void tankTLEvg(uint8_t speed, uint32_t delay) {
 void tankTREvg(uint8_t speed, uint32_t delay) {
     SetMotors(0, 1, speed, speed, delay);
 }
+
+int randomEvg(int min, int max) {
+    srand(xTaskGetTickCount());
+    int random = (rand() % (max - min + 1)) + min;
+    return random;
+}
+
+
 
 /*void tankTurn(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
