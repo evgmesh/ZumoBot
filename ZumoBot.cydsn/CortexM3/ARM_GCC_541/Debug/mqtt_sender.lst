@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
   29:ZumoLibrary/mqtt_sender.c **** static QueueHandle_t buf_q;
   30:ZumoLibrary/mqtt_sender.c **** static char buffers[MAX_MESSAGE][BUFFER_SIZE];
   31:ZumoLibrary/mqtt_sender.c **** 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 2
 
 
   32:ZumoLibrary/mqtt_sender.c **** void MQTTSendTaskInit(void)
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
   86:ZumoLibrary/mqtt_sender.c **** 		MQTTMessage message;
   87:ZumoLibrary/mqtt_sender.c **** 
   88:ZumoLibrary/mqtt_sender.c **** 		message.qos = QOS0;
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 3
 
 
   89:ZumoLibrary/mqtt_sender.c **** 		message.retained = 0;
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
   30              		@ frame_needed = 0, uses_anonymous_args = 0
   31              	.LVL0:
   32 0000 00B5     		push	{lr}
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 4
 
 
   33              		.cfi_def_cfa_offset 4
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
   83 000e 6060     		str	r0, [r4, #4]
   35:ZumoLibrary/mqtt_sender.c **** }
   84              		.loc 1 35 0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 5
 
 
   85 0010 0022     		movs	r2, #0
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  135 001c 0023     		movs	r3, #0
  136 001e 1A46     		mov	r2, r3
  137 0020 0068     		ldr	r0, [r0]
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 6
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 6
 
 
  138 0022 FFF7FEFF 		bl	xQueueGenericSend
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  125:ZumoLibrary/mqtt_sender.c ****         fputs("\n", stdout);
  185              		.loc 1 125 0
  186 0068 2368     		ldr	r3, [r4]
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 7
 
 
  187 006a 9968     		ldr	r1, [r3, #8]
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  157:ZumoLibrary/mqtt_sender.c ****     return(cnt);
  158:ZumoLibrary/mqtt_sender.c **** #else
  159:ZumoLibrary/mqtt_sender.c ****     (void) topic;
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 8
 
 
  160:ZumoLibrary/mqtt_sender.c ****     (void) fmt;
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  260              		.loc 1 176 0
  261 002c 6422     		movs	r2, #100
  262 002e 01A9     		add	r1, sp, #4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 9
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 9
 
 
  263 0030 0448     		ldr	r0, .L23
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  308              		.cfi_offset 5, -20
  309              		.cfi_offset 14, -16
  310 0004 96B0     		sub	sp, sp, #88
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 10
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 10
 
 
  311              		.cfi_def_cfa_offset 112
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  360              		.size	buf_q, 4
  361              	buf_q:
  362 0000 00000000 		.space	4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 11
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 11
 
 
  363              		.type	msg_q, %object
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  413 003a 2D040000 		.4byte	.LASF1
  414 003e 02       		.uleb128 0x2
  415 003f 02       		.byte	0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 12
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 12
 
 
  416 0040 05       		.byte	0x5
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  470 00a9 5E000000 		.4byte	0x5e
  471 00ad 02       		.uleb128 0x2
  472 00ae 08       		.byte	0x8
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 13
 
 
  473 00af 04       		.byte	0x4
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  527 011f 24010000 		.4byte	0x124
  528 0123 00       		.byte	0
  529 0124 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 14
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 14
 
 
  530 0125 37000000 		.4byte	0x37
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  584 0194 00       		.byte	0
  585 0195 0F       		.uleb128 0xf
  586 0196 5F6B00   		.ascii	"_k\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 15
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 15
 
 
  587 0199 08       		.byte	0x8
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  641 0204 38       		.byte	0x38
  642 0205 7E000000 		.4byte	0x7e
  643 0209 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 16
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 16
 
 
  644 020a 0E       		.uleb128 0xe
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  698 0277 00       		.byte	0
  699 0278 0E       		.uleb128 0xe
  700 0279 00000000 		.4byte	.LASF48
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 17
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 17
 
 
  701 027d 08       		.byte	0x8
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  755 02ec 00       		.byte	0
  756 02ed 10       		.uleb128 0x10
  757 02ee 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 18
 
 
  758 02ef AF020000 		.4byte	0x2af
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  812 035b 08       		.byte	0x8
  813 035c B6       		.byte	0xb6
  814 035d 7E000000 		.4byte	0x7e
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 19
 
 
  815 0361 08       		.byte	0x8
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  869 03cd 2C       		.byte	0x2c
  870 03ce 0F       		.uleb128 0xf
  871 03cf 5F756200 		.ascii	"_ub\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 20
 
 
  872 03d3 08       		.byte	0x8
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  926 043f 08       		.byte	0x8
  927 0440 E0       		.byte	0xe0
  928 0441 67010000 		.4byte	0x167
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 21
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 21
 
 
  929 0445 58       		.byte	0x58
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  983 04b9 19020000 		.4byte	.LASF78
  984 04bd 08       		.byte	0x8
  985 04be 3F02     		.2byte	0x23f
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 22
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 22
 
 
  986 04c0 9C060000 		.4byte	0x69c
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1040 0535 D0010000 		.4byte	0x1d0
  1041 0539 48       		.byte	0x48
  1042 053a 17       		.uleb128 0x17
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 23
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 23
 
 
  1043 053b DA030000 		.4byte	.LASF88
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1097 05b5 10       		.uleb128 0x10
  1098 05b6 04       		.byte	0x4
  1099 05b7 BB050000 		.4byte	0x5bb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 24
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 24
 
 
  1100 05bb 02       		.uleb128 0x2
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1154 0636 37000000 		.4byte	0x37
  1155 063a 45060000 		.4byte	0x645
  1156 063e 0C       		.uleb128 0xc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 25
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 25
 
 
  1157 063f 34010000 		.4byte	0x134
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1211 06b4 08       		.byte	0x8
  1212 06b5 3E01     		.2byte	0x13e
  1213 06b7 D7060000 		.4byte	0x6d7
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 26
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 26
 
 
  1214 06bb 00       		.byte	0
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1268 072c 7E000000 		.4byte	0x7e
  1269 0730 48       		.byte	0x48
  1270 0731 17       		.uleb128 0x17
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 27
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 27
 
 
  1271 0732 AD020000 		.4byte	.LASF110
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1325 07a7 C5000000 		.4byte	.LASF119
  1326 07ab 08       		.byte	0x8
  1327 07ac 6702     		.2byte	0x267
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 28
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 28
 
 
  1328 07ae 5C010000 		.4byte	0x15c
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1382 0822 6E030000 		.4byte	.LASF124
  1383 0826 08       		.byte	0x8
  1384 0827 7302     		.2byte	0x273
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 29
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 29
 
 
  1385 0829 3C080000 		.4byte	0x83c
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1439 089f 10       		.uleb128 0x10
  1440 08a0 04       		.byte	0x4
  1441 08a1 D0010000 		.4byte	0x1d0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 30
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 30
 
 
  1442 08a5 1E       		.uleb128 0x1e
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1496 0917 05       		.uleb128 0x5
  1497 0918 93030000 		.4byte	.LASF133
  1498 091c 0C       		.byte	0xc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 31
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 31
 
 
  1499 091d 01       		.byte	0x1
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1553 0989 01       		.uleb128 0x1
  1554 098a 30       		.byte	0x30
  1555 098b 22       		.uleb128 0x22
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 32
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 32
 
 
  1556 098c 01       		.uleb128 0x1
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1610 09dd 30       		.byte	0x30
  1611 09de 00       		.byte	0
  1612 09df 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 33
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 33
 
 
  1613 09e0 25       		.uleb128 0x25
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1667 0a51 01       		.uleb128 0x1
  1668 0a52 52       		.byte	0x52
  1669 0a53 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 34
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 34
 
 
  1670 0a54 30       		.byte	0x30
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1724 0aa9 52       		.byte	0x52
  1725 0aaa 01       		.uleb128 0x1
  1726 0aab 35       		.byte	0x35
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 35
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 35
 
 
  1727 0aac 00       		.byte	0
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1781 0b21 02       		.uleb128 0x2
  1782 0b22 91       		.byte	0x91
  1783 0b23 6C       		.sleb128 -20
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 36
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 36
 
 
  1784 0b24 24       		.uleb128 0x24
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1838 0b75 30       		.byte	0x30
  1839 0b76 00       		.byte	0
  1840 0b77 2A       		.uleb128 0x2a
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 37
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 37
 
 
  1841 0b78 40000000 		.4byte	.LVL26
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1895 0bf1 22       		.uleb128 0x22
  1896 0bf2 01       		.uleb128 0x1
  1897 0bf3 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 38
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 38
 
 
  1898 0bf4 03       		.uleb128 0x3
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  1952 0c41 04000000 		.4byte	msg_q
  1953 0c45 2E       		.uleb128 0x2e
  1954 0c46 FB020000 		.4byte	.LASF147
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 39
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 39
 
 
  1955 0c4a 01       		.byte	0x1
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2009 0cc7 0D       		.byte	0xd
  2010 0cc8 ED02     		.2byte	0x2ed
  2011 0cca 32       		.uleb128 0x32
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 40
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 40
 
 
  2012 0ccb C9050000 		.4byte	.LASF156
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2066 0019 0B       		.uleb128 0xb
  2067 001a 03       		.uleb128 0x3
  2068 001b 0E       		.uleb128 0xe
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 41
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 41
 
 
  2069 001c 00       		.byte	0
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2123 0052 07       		.uleb128 0x7
  2124 0053 0F       		.uleb128 0xf
  2125 0054 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 42
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 42
 
 
  2126 0055 0B       		.uleb128 0xb
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2180 008b 00       		.byte	0
  2181 008c 49       		.uleb128 0x49
  2182 008d 13       		.uleb128 0x13
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 43
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 43
 
 
  2183 008e 2F       		.uleb128 0x2f
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2237 00c4 00       		.byte	0
  2238 00c5 00       		.byte	0
  2239 00c6 11       		.uleb128 0x11
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 44
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 44
 
 
  2240 00c7 13       		.uleb128 0x13
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2294 00fd 16       		.uleb128 0x16
  2295 00fe 13       		.uleb128 0x13
  2296 00ff 01       		.byte	0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 45
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 45
 
 
  2297 0100 03       		.uleb128 0x3
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2351 0136 0B       		.uleb128 0xb
  2352 0137 0B       		.uleb128 0xb
  2353 0138 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 46
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 46
 
 
  2354 0139 0B       		.uleb128 0xb
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2408 016f 00       		.byte	0
  2409 0170 1F       		.uleb128 0x1f
  2410 0171 2E       		.uleb128 0x2e
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 47
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 47
 
 
  2411 0172 01       		.byte	0x1
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2465 01ae 23       		.uleb128 0x23
  2466 01af 2E       		.uleb128 0x2e
  2467 01b0 01       		.byte	0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 48
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 48
 
 
  2468 01b1 3F       		.uleb128 0x3f
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2522 01eb 9642     		.uleb128 0x2116
  2523 01ed 19       		.uleb128 0x19
  2524 01ee 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 49
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 49
 
 
  2525 01ef 13       		.uleb128 0x13
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2579 0225 898201   		.uleb128 0x4109
  2580 0228 00       		.byte	0
  2581 0229 11       		.uleb128 0x11
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 50
 
 
  2582 022a 01       		.uleb128 0x1
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2636 0261 00       		.byte	0
  2637 0262 03       		.uleb128 0x3
  2638 0263 0E       		.uleb128 0xe
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 51
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 51
 
 
  2639 0264 3A       		.uleb128 0x3a
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2693 029a 3F       		.uleb128 0x3f
  2694 029b 19       		.uleb128 0x19
  2695 029c 3C       		.uleb128 0x3c
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 52
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 52
 
 
  2696 029d 19       		.uleb128 0x19
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2750 0033 00000000 		.4byte	0
  2751              	.LLST1:
  2752 0037 00000000 		.4byte	.LVL6
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 53
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 53
 
 
  2753 003b 08000000 		.4byte	.LVL8
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2807 00c2 0400     		.2byte	0x4
  2808 00c4 F3       		.byte	0xf3
  2809 00c5 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 54
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 54
 
 
  2810 00c6 51       		.byte	0x51
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2864 0020 00000000 		.4byte	.LFB70
  2865 0024 94000000 		.4byte	.LFE70-.LFB70
  2866 0028 00000000 		.4byte	.LFB73
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 55
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 55
 
 
  2867 002c 4C000000 		.4byte	.LFE73-.LFB73
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2905              	.LASF92:
  2906 0048 5F617465 		.ascii	"_atexit0\000"
  2906      78697430 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 56
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 56
 
 
  2906      00
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2929              	.LASF37:
  2930 00e7 5F5F746D 		.ascii	"__tm_sec\000"
  2930      5F736563 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 57
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 57
 
 
  2930      00
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2959              	.LASF58:
  2960 0178 5F666C61 		.ascii	"_flags\000"
  2960      677300
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 58
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 58
 
 
  2961              	.LASF50:
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  2990 0207 5F736967 		.ascii	"_sign\000"
  2990      6E00
  2991              	.LASF149:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 59
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 59
 
 
  2992 020d 5F696D70 		.ascii	"_impure_ptr\000"
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3022      4C696272 
  3022      6172795C 
  3022      6D717474 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 60
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 60
 
 
  3022      5F73656E 
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3052      756E7400 
  3053              	.LASF125:
  3054 0330 5F6E6D61 		.ascii	"_nmalloc\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 61
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 61
 
 
  3054      6C6C6F63 
@@ -3658,7 +3658,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3082      616D00
  3083              	.LASF20:
  3084 03c3 77696E74 		.ascii	"wint_t\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 62
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 62
 
 
  3084      5F7400
@@ -3718,7 +3718,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3111              	.LASF44:
  3112 0453 5F5F746D 		.ascii	"__tm_yday\000"
  3112      5F796461 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 63
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 63
 
 
  3112      7900
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3137              	.LASF33:
  3138 054a 5F6D6178 		.ascii	"_maxwds\000"
  3138      77647300 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 64
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 64
 
 
  3139              	.LASF74:
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3167      00
  3168              	.LASF138:
  3169 0607 62756666 		.ascii	"buffer\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 65
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 65
 
 
  3169      657200
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 1
  3195 068e 5F676C75 		.ascii	"_glue\000"
  3195      6500
  3196              	.LASF12:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccTn5yrM.s 			page 66
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccB5rvkc.s 			page 66
 
 
  3197 0694 75696E74 		.ascii	"uint8_t\000"
