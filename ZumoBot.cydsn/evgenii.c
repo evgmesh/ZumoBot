@@ -105,7 +105,7 @@ void week3_3_evg(void)
       //  printf("distance = %d\r\n", d);
         vTaskDelay(200);
         srand(xTaskGetTickCount());
-        int turn = rand()%500;
+        int turn = rand()%200;
         if(d < 11){
             motor_forward(0,10);         
             motor_backward(100, 150);
@@ -155,22 +155,24 @@ void week3_1(void)
 
 
 
-void progEnd(uint32_t delay) {
+void progEndEvg(uint32_t delay) {
     bool led = false;
     while(true){
      BatteryLed_Write(led^=1);
      vTaskDelay(delay);   
     }
 }
-void tankTL(uint8_t speed, uint32_t delay) {
+void tankTLEvg(uint8_t speed, uint32_t delay) {
     SetMotors(1, 0, speed, speed, delay);
 }
 
-void tankTR(uint8_t speed, uint32_t delay) {
+void tankTREvg(uint8_t speed, uint32_t delay) {
     SetMotors(0, 1, speed, speed, delay);
 }
 
-void tankTurn(uint8 l_speed, uint8 r_speed, uint32 delay){
+/*void tankTurn(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
 }
+*/
+
 /* [] END OF FILE */

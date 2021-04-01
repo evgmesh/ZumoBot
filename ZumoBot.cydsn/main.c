@@ -48,7 +48,7 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "evgenii.h"
-#include "Dongbin.h"
+//#include "Dongbin.h"
 
 /**
  * @file    main.c
@@ -66,7 +66,7 @@
     void zmain(void) {
         
     //Test your function here
-     // week3_2;  
+    // week3_1();  
    week3_3_evg();
     
     while(true) vTaskDelay(100);
