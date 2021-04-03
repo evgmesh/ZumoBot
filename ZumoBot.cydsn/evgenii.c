@@ -105,7 +105,7 @@ void week3_3_evg(void)
         int d = Ultra_GetDistance();
         // Print the detected distance (centimeters)
       //  printf("distance = %d\r\n", d);
-        vTaskDelay(300);
+        vTaskDelay(200);
        int turn = randomEvg(103, 309);
         if(d < 11){
             motor_forward(0,10);         
