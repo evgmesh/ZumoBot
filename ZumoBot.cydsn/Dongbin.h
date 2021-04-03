@@ -14,16 +14,20 @@
 #ifndef DONGBIN_H_
 #define DONGBIN_H_
     
-void progEnd(uint32_t delay);
-void tankTL(uint8_t speed, uint32_t delay);
-void tankTR(uint8_t speed, uint32_t delay);
-void softTR();
-void tankTL120();
+void progEnd_DB(uint32_t delay);
+void tankTL_DB(uint8_t speed, uint32_t delay);
+void tankTR_DB(uint8_t speed, uint32_t delay);
+void softTR_DB();
+void tankTL120_DB();
+void tankRandTL_DB(uint32_t delay);
+void tankRandTR_DB(uint32_t delay);
+int randTurnDeg_DB();
+int randTurnLR_DB();
 
 /********************* Ex.functions **********************/
-void week3_1(void);
-void week3_2(void);
-
+void week3_1_DB(void);
+void week3_2_DB(void);
+void week3_3_DB(void);
     
     
 #endif
