@@ -66,10 +66,10 @@
     
     void zmain(void) {
         
-    //Test your function here
-    //week3_2();  
-   week3_3_evg();
-    
+/***********************************Test your function here**************************************/
+   //week3_2();         // Dongbin
+   //week3_3_evg();     // Evgenii
+    aneta_w1a3();       // Aneta
     while(true) vTaskDelay(100);
     
     }

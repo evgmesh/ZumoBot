@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   28:evgenii.c     **** #include <time.h>
   29:evgenii.c     **** #include <sys/time.h>
   30:evgenii.c     **** #include "serial1.h"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 2
 
 
   31:evgenii.c     **** #include <unistd.h>
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   44 000c FFF7FEFF 		bl	motor_start
   45              	.LVL2:
   69:evgenii.c     ****     motor_forward(0,0);         // set speed to zero to stop motors
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 3
 
 
   46              		.loc 1 69 0
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   88 0048 9621     		movs	r1, #150
   89 004a 6420     		movs	r0, #100
   90 004c FFF7FEFF 		bl	motor_backward
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 4
 
 
   91              	.LVL13:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   96:evgenii.c     **** {
   97:evgenii.c     ****     printf("Press IR send to start and button on PSoC to stop");
   98:evgenii.c     ****     Ultra_Start();              // Ultra Sonic Start function
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 5
 
 
   99:evgenii.c     ****     motor_start();              // enable motor controller
@@ -250,7 +250,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  105:evgenii.c     ****         int d = Ultra_GetDistance();
  106:evgenii.c     ****         // Print the detected distance (centimeters)
  107:evgenii.c     ****       //  printf("distance = %d\r\n", d);
- 108:evgenii.c     ****         vTaskDelay(300);
+ 108:evgenii.c     ****         vTaskDelay(200);
  109:evgenii.c     ****        int turn = randomEvg(103, 309);
  110:evgenii.c     ****         if(d < 11){
  111:evgenii.c     ****             motor_forward(0,10);         
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  153:evgenii.c     ****     motor_forward(125,570);     // moving forward from starting point
  154:evgenii.c     ****     
  155:evgenii.c     ****     motor_forward(0,0);         // stop motors
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 6
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 6
 
 
  156:evgenii.c     ****     motor_stop();               // disable motor controller
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  171:evgenii.c     **** void tankTLEvg(uint8_t speed, uint32_t delay) {
  170              		.loc 1 171 0
  171              		.cfi_startproc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 7
 
 
  172              		@ args = 0, pretend = 0, frame = 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  221              	.LVL30:
  222 000c 0020     		movs	r0, #0
  223              	.LVL31:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 8
 
 
  224 000e FFF7FEFF 		bl	SetMotors
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  271              	.LVL39:
  272 0020 38BD     		pop	{r3, r4, r5, pc}
  273              		.cfi_endproc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 9
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 9
 
 
  274              	.LFE91:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  320 0024 FFF7FEFF 		bl	motor_forward
  321              	.LVL46:
  105:evgenii.c     ****         // Print the detected distance (centimeters)
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 10
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 10
 
 
  322              		.loc 1 105 0
@@ -548,97 +548,97 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  326              	.LVL48:
  108:evgenii.c     ****        int turn = randomEvg(103, 309);
  327              		.loc 1 108 0
- 328 002e 4FF49670 		mov	r0, #300
+ 328 002e C820     		movs	r0, #200
  329              	.LVL49:
- 330 0032 FFF7FEFF 		bl	vTaskDelay
+ 330 0030 FFF7FEFF 		bl	vTaskDelay
  331              	.LVL50:
  109:evgenii.c     ****         if(d < 11){
  332              		.loc 1 109 0
- 333 0036 40F23511 		movw	r1, #309
- 334 003a 6720     		movs	r0, #103
- 335 003c FFF7FEFF 		bl	randomEvg
+ 333 0034 40F23511 		movw	r1, #309
+ 334 0038 6720     		movs	r0, #103
+ 335 003a FFF7FEFF 		bl	randomEvg
  336              	.LVL51:
- 337 0040 0446     		mov	r4, r0
+ 337 003e 0446     		mov	r4, r0
  338              	.LVL52:
  110:evgenii.c     ****             motor_forward(0,10);         
  339              		.loc 1 110 0
- 340 0042 0A2D     		cmp	r5, #10
- 341 0044 21DC     		bgt	.L17
+ 340 0040 0A2D     		cmp	r5, #10
+ 341 0042 21DC     		bgt	.L17
  111:evgenii.c     ****             motor_backward(100, 150);
  342              		.loc 1 111 0
- 343 0046 0A21     		movs	r1, #10
- 344 0048 0020     		movs	r0, #0
+ 343 0044 0A21     		movs	r1, #10
+ 344 0046 0020     		movs	r0, #0
  345              	.LVL53:
- 346 004a FFF7FEFF 		bl	motor_forward
+ 346 0048 FFF7FEFF 		bl	motor_forward
  347              	.LVL54:
  112:evgenii.c     ****             if (turn % 2 == 1) {
  348              		.loc 1 112 0
- 349 004e 9621     		movs	r1, #150
- 350 0050 6420     		movs	r0, #100
- 351 0052 FFF7FEFF 		bl	motor_backward
+ 349 004c 9621     		movs	r1, #150
+ 350 004e 6420     		movs	r0, #100
+ 351 0050 FFF7FEFF 		bl	motor_backward
  352              	.LVL55:
  113:evgenii.c     ****                tankTLEvg(255, turn);
  353              		.loc 1 113 0
- 354 0056 134B     		ldr	r3, .L22+4
- 355 0058 2340     		ands	r3, r4, r3
- 356 005a 03D5     		bpl	.L18
- 357 005c 013B     		subs	r3, r3, #1
- 358 005e 63F00103 		orn	r3, r3, #1
- 359 0062 0133     		adds	r3, r3, #1
+ 354 0054 134B     		ldr	r3, .L22+4
+ 355 0056 2340     		ands	r3, r4, r3
+ 356 0058 03D5     		bpl	.L18
+ 357 005a 013B     		subs	r3, r3, #1
+ 358 005c 63F00103 		orn	r3, r3, #1
+ 359 0060 0133     		adds	r3, r3, #1
  360              	.L18:
- 361 0064 012B     		cmp	r3, #1
- 362 0066 08D1     		bne	.L19
+ 361 0062 012B     		cmp	r3, #1
+ 362 0064 08D1     		bne	.L19
  114:evgenii.c     ****                printf("\nTurn value is %i so I turn left\n", turn);
  363              		.loc 1 114 0
- 364 0068 2146     		mov	r1, r4
- 365 006a FF20     		movs	r0, #255
- 366 006c FFF7FEFF 		bl	tankTLEvg
+ 364 0066 2146     		mov	r1, r4
+ 365 0068 FF20     		movs	r0, #255
+ 366 006a FFF7FEFF 		bl	tankTLEvg
  367              	.LVL56:
  115:evgenii.c     ****             } else {
  368              		.loc 1 115 0
- 369 0070 2146     		mov	r1, r4
- 370 0072 0D48     		ldr	r0, .L22+8
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 11
+ 369 006e 2146     		mov	r1, r4
+ 370 0070 0D48     		ldr	r0, .L22+8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 11
 
 
- 371 0074 FFF7FEFF 		bl	printf
+ 371 0072 FFF7FEFF 		bl	printf
  372              	.LVL57:
- 373 0078 07E0     		b	.L17
+ 373 0076 07E0     		b	.L17
  374              	.L19:
  117:evgenii.c     ****                printf("\nTurn value is %i so I turn right\n", turn);
  375              		.loc 1 117 0
- 376 007a 2146     		mov	r1, r4
- 377 007c FF20     		movs	r0, #255
- 378 007e FFF7FEFF 		bl	tankTREvg
+ 376 0078 2146     		mov	r1, r4
+ 377 007a FF20     		movs	r0, #255
+ 378 007c FFF7FEFF 		bl	tankTREvg
  379              	.LVL58:
  118:evgenii.c     ****             }
  380              		.loc 1 118 0
- 381 0082 2146     		mov	r1, r4
- 382 0084 0948     		ldr	r0, .L22+12
- 383 0086 FFF7FEFF 		bl	printf
+ 381 0080 2146     		mov	r1, r4
+ 382 0082 0A48     		ldr	r0, .L22+12
+ 383 0084 FFF7FEFF 		bl	printf
  384              	.LVL59:
  385              	.L17:
  121:evgenii.c     ****              break;
  386              		.loc 1 121 0
- 387 008a FFF7FEFF 		bl	SW1_Read
+ 387 0088 FFF7FEFF 		bl	SW1_Read
  388              	.LVL60:
- 389 008e 0028     		cmp	r0, #0
- 390 0090 C6D1     		bne	.L20
+ 389 008c 0028     		cmp	r0, #0
+ 390 008e C7D1     		bne	.L20
  391              	.LBE3:
  125:evgenii.c     ****     motor_stop();
  392              		.loc 1 125 0
- 393 0092 0021     		movs	r1, #0
- 394 0094 0846     		mov	r0, r1
- 395 0096 FFF7FEFF 		bl	motor_forward
+ 393 0090 0021     		movs	r1, #0
+ 394 0092 0846     		mov	r0, r1
+ 395 0094 FFF7FEFF 		bl	motor_forward
  396              	.LVL61:
  126:evgenii.c     **** 
  397              		.loc 1 126 0
- 398 009a FFF7FEFF 		bl	motor_stop
+ 398 0098 FFF7FEFF 		bl	motor_stop
  399              	.LVL62:
- 400 009e 38BD     		pop	{r3, r4, r5, pc}
+ 400 009c 38BD     		pop	{r3, r4, r5, pc}
  401              	.LVL63:
  402              	.L23:
- 403              		.align	2
+ 403 009e 00BF     		.align	2
  404              	.L22:
  405 00a0 00000000 		.word	.LC0
  406 00a4 01000080 		.word	-2147483647
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  184:evgenii.c     **** 
  185:evgenii.c     **** 
  186:evgenii.c     **** 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 12
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 12
 
 
  187:evgenii.c     **** void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   44:evgenii.c     ****     IR_Start();
  469              		.loc 1 44 0
  470 0006 0021     		movs	r1, #0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 13
 
 
  471 0008 0846     		mov	r0, r1
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
   55:evgenii.c     ****     motor_forward(0,0);         // stop motors
  516              		.loc 1 55 0
  517 0058 40F23A21 		movw	r1, #570
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 14
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 14
 
 
  518 005c 7D20     		movs	r0, #125
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  554              		.file 6 ".\\ZumoLibrary/Ultra.h"
  555              		.file 7 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
  556              		.file 8 "..\\FreeRTOS\\Source\\include/task.h"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 15
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 15
 
 
  557              		.file 9 "Generated_Source\\PSoC5/SW1.h"
@@ -848,7 +848,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  561              		.file 13 "Generated_Source\\PSoC5/core_cm3.h"
  562              		.section	.debug_info,"",%progbits
  563              	.Ldebug_info0:
- 564 0000 CC070000 		.4byte	0x7cc
+ 564 0000 CB070000 		.4byte	0x7cb
  565 0004 0400     		.2byte	0x4
  566 0006 00000000 		.4byte	.Ldebug_abbrev0
  567 000a 04       		.byte	0x4
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  611 0069 02       		.uleb128 0x2
  612 006a 04       		.byte	0x4
  613 006b 07       		.byte	0x7
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 16
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 16
 
 
  614 006c 9C010000 		.4byte	.LASF8
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  668 00da 02       		.uleb128 0x2
  669 00db 08       		.byte	0x8
  670 00dc 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 17
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 17
 
 
  671 00dd C7020000 		.4byte	.LASF20
@@ -987,7 +987,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  694 0113 00000000 		.4byte	.LLST0
  695 0117 09       		.uleb128 0x9
  696 0118 28000000 		.4byte	.LVL6
- 697 011c 12070000 		.4byte	0x712
+ 697 011c 11070000 		.4byte	0x711
  698 0120 31010000 		.4byte	0x131
  699 0124 0A       		.uleb128 0xa
  700 0125 01       		.uleb128 0x1
@@ -1004,10 +1004,10 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  711 0130 00       		.byte	0
  712 0131 0B       		.uleb128 0xb
  713 0132 2C000000 		.4byte	.LVL7
- 714 0136 1D070000 		.4byte	0x71d
+ 714 0136 1C070000 		.4byte	0x71c
  715 013a 09       		.uleb128 0x9
  716 013b 36000000 		.4byte	.LVL10
- 717 013f 28070000 		.4byte	0x728
+ 717 013f 27070000 		.4byte	0x727
  718 0143 57010000 		.4byte	0x157
  719 0147 0A       		.uleb128 0xa
  720 0148 01       		.uleb128 0x1
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  725 0150 0A       		.uleb128 0xa
  726 0151 01       		.uleb128 0x1
  727 0152 51       		.byte	0x51
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 18
 
 
  728 0153 02       		.uleb128 0x2
@@ -1027,7 +1027,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  731 0156 00       		.byte	0
  732 0157 09       		.uleb128 0x9
  733 0158 3C000000 		.4byte	.LVL11
- 734 015c 33070000 		.4byte	0x733
+ 734 015c 32070000 		.4byte	0x732
  735 0160 6B010000 		.4byte	0x16b
  736 0164 0A       		.uleb128 0xa
  737 0165 01       		.uleb128 0x1
@@ -1038,7 +1038,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  742 016a 00       		.byte	0
  743 016b 09       		.uleb128 0x9
  744 016c 48000000 		.4byte	.LVL12
- 745 0170 12070000 		.4byte	0x712
+ 745 0170 11070000 		.4byte	0x711
  746 0174 83010000 		.4byte	0x183
  747 0178 0A       		.uleb128 0xa
  748 0179 01       		.uleb128 0x1
@@ -1053,7 +1053,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  757 0182 00       		.byte	0
  758 0183 09       		.uleb128 0x9
  759 0184 50000000 		.4byte	.LVL13
- 760 0188 3F070000 		.4byte	0x73f
+ 760 0188 3E070000 		.4byte	0x73e
  761 018c 9D010000 		.4byte	0x19d
  762 0190 0A       		.uleb128 0xa
  763 0191 01       		.uleb128 0x1
@@ -1070,7 +1070,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  774 019c 00       		.byte	0
  775 019d 09       		.uleb128 0x9
  776 019e 5C000000 		.4byte	.LVL14
- 777 01a2 4A070000 		.4byte	0x74a
+ 777 01a2 49070000 		.4byte	0x749
  778 01a6 BD010000 		.4byte	0x1bd
  779 01aa 0A       		.uleb128 0xa
  780 01ab 01       		.uleb128 0x1
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  782 01ad 01       		.uleb128 0x1
  783 01ae 30       		.byte	0x30
  784 01af 0A       		.uleb128 0xa
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 19
 
 
  785 01b0 01       		.uleb128 0x1
@@ -1095,11 +1095,11 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  796 01bc 00       		.byte	0
  797 01bd 0B       		.uleb128 0xb
  798 01be 60000000 		.4byte	.LVL15
- 799 01c2 55070000 		.4byte	0x755
+ 799 01c2 54070000 		.4byte	0x754
  800 01c6 00       		.byte	0
  801 01c7 09       		.uleb128 0x9
  802 01c8 08000000 		.4byte	.LVL0
- 803 01cc 28070000 		.4byte	0x728
+ 803 01cc 27070000 		.4byte	0x727
  804 01d0 DE010000 		.4byte	0x1de
  805 01d4 0A       		.uleb128 0xa
  806 01d5 01       		.uleb128 0x1
@@ -1110,13 +1110,13 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  811 01dd 00       		.byte	0
  812 01de 0B       		.uleb128 0xb
  813 01df 0C000000 		.4byte	.LVL1
- 814 01e3 60070000 		.4byte	0x760
+ 814 01e3 5F070000 		.4byte	0x75f
  815 01e7 0B       		.uleb128 0xb
  816 01e8 10000000 		.4byte	.LVL2
- 817 01ec 6B070000 		.4byte	0x76b
+ 817 01ec 6A070000 		.4byte	0x76a
  818 01f0 09       		.uleb128 0x9
  819 01f1 18000000 		.4byte	.LVL3
- 820 01f5 12070000 		.4byte	0x712
+ 820 01f5 11070000 		.4byte	0x711
  821 01f9 08020000 		.4byte	0x208
  822 01fd 0A       		.uleb128 0xa
  823 01fe 01       		.uleb128 0x1
@@ -1131,14 +1131,14 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  832 0207 00       		.byte	0
  833 0208 0B       		.uleb128 0xb
  834 0209 1C000000 		.4byte	.LVL4
- 835 020d 76070000 		.4byte	0x776
+ 835 020d 75070000 		.4byte	0x775
  836 0211 0B       		.uleb128 0xb
  837 0212 20000000 		.4byte	.LVL5
- 838 0216 81070000 		.4byte	0x781
+ 838 0216 80070000 		.4byte	0x780
  839 021a 09       		.uleb128 0x9
  840 021b 6C000000 		.4byte	.LVL16
- 841 021f 12070000 		.4byte	0x712
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 20
+ 841 021f 11070000 		.4byte	0x711
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 20
 
 
  842 0223 32020000 		.4byte	0x232
@@ -1155,7 +1155,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  853 0231 00       		.byte	0
  854 0232 0B       		.uleb128 0xb
  855 0233 70000000 		.4byte	.LVL17
- 856 0237 8C070000 		.4byte	0x78c
+ 856 0237 8B070000 		.4byte	0x78b
  857 023b 00       		.byte	0
  858 023c 0C       		.uleb128 0xc
  859 023d 18000000 		.4byte	.LASF28
@@ -1180,7 +1180,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  878 026b 47000000 		.4byte	.LLST2
  879 026f 09       		.uleb128 0x9
  880 0270 10000000 		.4byte	.LVL23
- 881 0274 97070000 		.4byte	0x797
+ 881 0274 96070000 		.4byte	0x796
  882 0278 83020000 		.4byte	0x283
  883 027c 0A       		.uleb128 0xa
  884 027d 01       		.uleb128 0x1
@@ -1191,14 +1191,14 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  889 0282 00       		.byte	0
  890 0283 0E       		.uleb128 0xe
  891 0284 16000000 		.4byte	.LVL24
- 892 0288 33070000 		.4byte	0x733
+ 892 0288 32070000 		.4byte	0x732
  893 028c 0A       		.uleb128 0xa
  894 028d 01       		.uleb128 0x1
  895 028e 50       		.byte	0x50
  896 028f 02       		.uleb128 0x2
  897 0290 75       		.byte	0x75
  898 0291 00       		.sleb128 0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 21
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 21
 
 
  899 0292 00       		.byte	0
@@ -1230,7 +1230,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  925 02ca 87000000 		.4byte	.LLST4
  926 02ce 0E       		.uleb128 0xe
  927 02cf 12000000 		.4byte	.LVL28
- 928 02d3 A2070000 		.4byte	0x7a2
+ 928 02d3 A1070000 		.4byte	0x7a1
  929 02d7 0A       		.uleb128 0xa
  930 02d8 01       		.uleb128 0x1
  931 02d9 50       		.byte	0x50
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  953 02f2 00000000 		.4byte	.LFB90
  954 02f6 18000000 		.4byte	.LFE90-.LFB90
  955 02fa 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 22
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 22
 
 
  956 02fb 9C       		.byte	0x9c
@@ -1277,7 +1277,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  969 031a D5000000 		.4byte	.LLST6
  970 031e 0E       		.uleb128 0xe
  971 031f 12000000 		.4byte	.LVL32
- 972 0323 A2070000 		.4byte	0x7a2
+ 972 0323 A1070000 		.4byte	0x7a1
  973 0327 0A       		.uleb128 0xa
  974 0328 01       		.uleb128 0x1
  975 0329 50       		.byte	0x50
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1010 0364 6D617800 		.ascii	"max\000"
  1011 0368 01       		.byte	0x1
  1012 0369 B3       		.byte	0xb3
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 23
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 23
 
 
  1013 036a 7E000000 		.4byte	0x7e
@@ -1331,13 +1331,13 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1020 037d 4C010000 		.4byte	.LLST9
  1021 0381 0B       		.uleb128 0xb
  1022 0382 0A000000 		.4byte	.LVL34
- 1023 0386 AD070000 		.4byte	0x7ad
+ 1023 0386 AC070000 		.4byte	0x7ac
  1024 038a 0B       		.uleb128 0xb
  1025 038b 0E000000 		.4byte	.LVL35
- 1026 038f B9070000 		.4byte	0x7b9
+ 1026 038f B8070000 		.4byte	0x7b8
  1027 0393 0B       		.uleb128 0xb
  1028 0394 12000000 		.4byte	.LVL36
- 1029 0398 C4070000 		.4byte	0x7c4
+ 1029 0398 C3070000 		.4byte	0x7c3
  1030 039c 00       		.byte	0
  1031 039d 06       		.uleb128 0x6
  1032 039e 9E020000 		.4byte	.LASF31
@@ -1347,11 +1347,11 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1036 03a8 B0000000 		.4byte	.LFE87-.LFB87
  1037 03ac 01       		.uleb128 0x1
  1038 03ad 9C       		.byte	0x9c
- 1039 03ae 4D050000 		.4byte	0x54d
+ 1039 03ae 4C050000 		.4byte	0x54c
  1040 03b2 07       		.uleb128 0x7
  1041 03b3 20000000 		.4byte	.LBB3
- 1042 03b7 72000000 		.4byte	.LBE3-.LBB3
- 1043 03bb D8040000 		.4byte	0x4d8
+ 1042 03b7 70000000 		.4byte	.LBE3-.LBB3
+ 1043 03bb D7040000 		.4byte	0x4d7
  1044 03bf 08       		.uleb128 0x8
  1045 03c0 6400     		.ascii	"d\000"
  1046 03c2 01       		.byte	0x1
@@ -1366,7 +1366,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1055 03d7 8D010000 		.4byte	.LLST11
  1056 03db 09       		.uleb128 0x9
  1057 03dc 28000000 		.4byte	.LVL46
- 1058 03e0 12070000 		.4byte	0x712
+ 1058 03e0 11070000 		.4byte	0x711
  1059 03e4 F5030000 		.4byte	0x3f5
  1060 03e8 0A       		.uleb128 0xa
  1061 03e9 01       		.uleb128 0x1
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1067 03ef 01       		.uleb128 0x1
  1068 03f0 51       		.byte	0x51
  1069 03f1 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 24
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 24
 
 
  1070 03f2 08       		.byte	0x8
@@ -1386,570 +1386,570 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1072 03f4 00       		.byte	0
  1073 03f5 0B       		.uleb128 0xb
  1074 03f6 2C000000 		.4byte	.LVL47
- 1075 03fa 1D070000 		.4byte	0x71d
+ 1075 03fa 1C070000 		.4byte	0x71c
  1076 03fe 09       		.uleb128 0x9
- 1077 03ff 36000000 		.4byte	.LVL50
- 1078 0403 33070000 		.4byte	0x733
- 1079 0407 13040000 		.4byte	0x413
+ 1077 03ff 34000000 		.4byte	.LVL50
+ 1078 0403 32070000 		.4byte	0x732
+ 1079 0407 12040000 		.4byte	0x412
  1080 040b 0A       		.uleb128 0xa
  1081 040c 01       		.uleb128 0x1
  1082 040d 50       		.byte	0x50
- 1083 040e 03       		.uleb128 0x3
- 1084 040f 0A       		.byte	0xa
- 1085 0410 2C01     		.2byte	0x12c
- 1086 0412 00       		.byte	0
- 1087 0413 09       		.uleb128 0x9
- 1088 0414 40000000 		.4byte	.LVL51
- 1089 0418 3B030000 		.4byte	0x33b
- 1090 041c 2E040000 		.4byte	0x42e
- 1091 0420 0A       		.uleb128 0xa
- 1092 0421 01       		.uleb128 0x1
- 1093 0422 50       		.byte	0x50
- 1094 0423 02       		.uleb128 0x2
- 1095 0424 08       		.byte	0x8
- 1096 0425 67       		.byte	0x67
- 1097 0426 0A       		.uleb128 0xa
- 1098 0427 01       		.uleb128 0x1
- 1099 0428 51       		.byte	0x51
- 1100 0429 03       		.uleb128 0x3
- 1101 042a 0A       		.byte	0xa
- 1102 042b 3501     		.2byte	0x135
- 1103 042d 00       		.byte	0
- 1104 042e 09       		.uleb128 0x9
- 1105 042f 4E000000 		.4byte	.LVL54
- 1106 0433 12070000 		.4byte	0x712
- 1107 0437 46040000 		.4byte	0x446
- 1108 043b 0A       		.uleb128 0xa
- 1109 043c 01       		.uleb128 0x1
- 1110 043d 50       		.byte	0x50
- 1111 043e 01       		.uleb128 0x1
- 1112 043f 30       		.byte	0x30
- 1113 0440 0A       		.uleb128 0xa
- 1114 0441 01       		.uleb128 0x1
- 1115 0442 51       		.byte	0x51
- 1116 0443 01       		.uleb128 0x1
- 1117 0444 3A       		.byte	0x3a
- 1118 0445 00       		.byte	0
- 1119 0446 09       		.uleb128 0x9
- 1120 0447 56000000 		.4byte	.LVL55
- 1121 044b 3F070000 		.4byte	0x73f
- 1122 044f 60040000 		.4byte	0x460
- 1123 0453 0A       		.uleb128 0xa
- 1124 0454 01       		.uleb128 0x1
- 1125 0455 50       		.byte	0x50
- 1126 0456 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 25
+ 1083 040e 02       		.uleb128 0x2
+ 1084 040f 08       		.byte	0x8
+ 1085 0410 C8       		.byte	0xc8
+ 1086 0411 00       		.byte	0
+ 1087 0412 09       		.uleb128 0x9
+ 1088 0413 3E000000 		.4byte	.LVL51
+ 1089 0417 3B030000 		.4byte	0x33b
+ 1090 041b 2D040000 		.4byte	0x42d
+ 1091 041f 0A       		.uleb128 0xa
+ 1092 0420 01       		.uleb128 0x1
+ 1093 0421 50       		.byte	0x50
+ 1094 0422 02       		.uleb128 0x2
+ 1095 0423 08       		.byte	0x8
+ 1096 0424 67       		.byte	0x67
+ 1097 0425 0A       		.uleb128 0xa
+ 1098 0426 01       		.uleb128 0x1
+ 1099 0427 51       		.byte	0x51
+ 1100 0428 03       		.uleb128 0x3
+ 1101 0429 0A       		.byte	0xa
+ 1102 042a 3501     		.2byte	0x135
+ 1103 042c 00       		.byte	0
+ 1104 042d 09       		.uleb128 0x9
+ 1105 042e 4C000000 		.4byte	.LVL54
+ 1106 0432 11070000 		.4byte	0x711
+ 1107 0436 45040000 		.4byte	0x445
+ 1108 043a 0A       		.uleb128 0xa
+ 1109 043b 01       		.uleb128 0x1
+ 1110 043c 50       		.byte	0x50
+ 1111 043d 01       		.uleb128 0x1
+ 1112 043e 30       		.byte	0x30
+ 1113 043f 0A       		.uleb128 0xa
+ 1114 0440 01       		.uleb128 0x1
+ 1115 0441 51       		.byte	0x51
+ 1116 0442 01       		.uleb128 0x1
+ 1117 0443 3A       		.byte	0x3a
+ 1118 0444 00       		.byte	0
+ 1119 0445 09       		.uleb128 0x9
+ 1120 0446 54000000 		.4byte	.LVL55
+ 1121 044a 3E070000 		.4byte	0x73e
+ 1122 044e 5F040000 		.4byte	0x45f
+ 1123 0452 0A       		.uleb128 0xa
+ 1124 0453 01       		.uleb128 0x1
+ 1125 0454 50       		.byte	0x50
+ 1126 0455 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 25
 
 
- 1127 0457 08       		.byte	0x8
- 1128 0458 64       		.byte	0x64
- 1129 0459 0A       		.uleb128 0xa
- 1130 045a 01       		.uleb128 0x1
- 1131 045b 51       		.byte	0x51
- 1132 045c 02       		.uleb128 0x2
- 1133 045d 08       		.byte	0x8
- 1134 045e 96       		.byte	0x96
- 1135 045f 00       		.byte	0
- 1136 0460 09       		.uleb128 0x9
- 1137 0461 70000000 		.4byte	.LVL56
- 1138 0465 9B020000 		.4byte	0x29b
- 1139 0469 7A040000 		.4byte	0x47a
- 1140 046d 0A       		.uleb128 0xa
- 1141 046e 01       		.uleb128 0x1
- 1142 046f 50       		.byte	0x50
- 1143 0470 02       		.uleb128 0x2
- 1144 0471 09       		.byte	0x9
- 1145 0472 FF       		.byte	0xff
- 1146 0473 0A       		.uleb128 0xa
- 1147 0474 01       		.uleb128 0x1
- 1148 0475 51       		.byte	0x51
- 1149 0476 02       		.uleb128 0x2
- 1150 0477 74       		.byte	0x74
- 1151 0478 00       		.sleb128 0
- 1152 0479 00       		.byte	0
- 1153 047a 09       		.uleb128 0x9
- 1154 047b 78000000 		.4byte	.LVL57
- 1155 047f 28070000 		.4byte	0x728
- 1156 0483 97040000 		.4byte	0x497
- 1157 0487 0A       		.uleb128 0xa
- 1158 0488 01       		.uleb128 0x1
- 1159 0489 50       		.byte	0x50
- 1160 048a 05       		.uleb128 0x5
- 1161 048b 03       		.byte	0x3
- 1162 048c 44000000 		.4byte	.LC2
- 1163 0490 0A       		.uleb128 0xa
- 1164 0491 01       		.uleb128 0x1
- 1165 0492 51       		.byte	0x51
- 1166 0493 02       		.uleb128 0x2
- 1167 0494 74       		.byte	0x74
- 1168 0495 00       		.sleb128 0
- 1169 0496 00       		.byte	0
- 1170 0497 09       		.uleb128 0x9
- 1171 0498 82000000 		.4byte	.LVL58
- 1172 049c EB020000 		.4byte	0x2eb
- 1173 04a0 B1040000 		.4byte	0x4b1
- 1174 04a4 0A       		.uleb128 0xa
- 1175 04a5 01       		.uleb128 0x1
- 1176 04a6 50       		.byte	0x50
- 1177 04a7 02       		.uleb128 0x2
- 1178 04a8 09       		.byte	0x9
- 1179 04a9 FF       		.byte	0xff
- 1180 04aa 0A       		.uleb128 0xa
- 1181 04ab 01       		.uleb128 0x1
- 1182 04ac 51       		.byte	0x51
- 1183 04ad 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 26
+ 1127 0456 08       		.byte	0x8
+ 1128 0457 64       		.byte	0x64
+ 1129 0458 0A       		.uleb128 0xa
+ 1130 0459 01       		.uleb128 0x1
+ 1131 045a 51       		.byte	0x51
+ 1132 045b 02       		.uleb128 0x2
+ 1133 045c 08       		.byte	0x8
+ 1134 045d 96       		.byte	0x96
+ 1135 045e 00       		.byte	0
+ 1136 045f 09       		.uleb128 0x9
+ 1137 0460 6E000000 		.4byte	.LVL56
+ 1138 0464 9B020000 		.4byte	0x29b
+ 1139 0468 79040000 		.4byte	0x479
+ 1140 046c 0A       		.uleb128 0xa
+ 1141 046d 01       		.uleb128 0x1
+ 1142 046e 50       		.byte	0x50
+ 1143 046f 02       		.uleb128 0x2
+ 1144 0470 09       		.byte	0x9
+ 1145 0471 FF       		.byte	0xff
+ 1146 0472 0A       		.uleb128 0xa
+ 1147 0473 01       		.uleb128 0x1
+ 1148 0474 51       		.byte	0x51
+ 1149 0475 02       		.uleb128 0x2
+ 1150 0476 74       		.byte	0x74
+ 1151 0477 00       		.sleb128 0
+ 1152 0478 00       		.byte	0
+ 1153 0479 09       		.uleb128 0x9
+ 1154 047a 76000000 		.4byte	.LVL57
+ 1155 047e 27070000 		.4byte	0x727
+ 1156 0482 96040000 		.4byte	0x496
+ 1157 0486 0A       		.uleb128 0xa
+ 1158 0487 01       		.uleb128 0x1
+ 1159 0488 50       		.byte	0x50
+ 1160 0489 05       		.uleb128 0x5
+ 1161 048a 03       		.byte	0x3
+ 1162 048b 44000000 		.4byte	.LC2
+ 1163 048f 0A       		.uleb128 0xa
+ 1164 0490 01       		.uleb128 0x1
+ 1165 0491 51       		.byte	0x51
+ 1166 0492 02       		.uleb128 0x2
+ 1167 0493 74       		.byte	0x74
+ 1168 0494 00       		.sleb128 0
+ 1169 0495 00       		.byte	0
+ 1170 0496 09       		.uleb128 0x9
+ 1171 0497 80000000 		.4byte	.LVL58
+ 1172 049b EB020000 		.4byte	0x2eb
+ 1173 049f B0040000 		.4byte	0x4b0
+ 1174 04a3 0A       		.uleb128 0xa
+ 1175 04a4 01       		.uleb128 0x1
+ 1176 04a5 50       		.byte	0x50
+ 1177 04a6 02       		.uleb128 0x2
+ 1178 04a7 09       		.byte	0x9
+ 1179 04a8 FF       		.byte	0xff
+ 1180 04a9 0A       		.uleb128 0xa
+ 1181 04aa 01       		.uleb128 0x1
+ 1182 04ab 51       		.byte	0x51
+ 1183 04ac 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 26
 
 
- 1184 04ae 74       		.byte	0x74
- 1185 04af 00       		.sleb128 0
- 1186 04b0 00       		.byte	0
- 1187 04b1 09       		.uleb128 0x9
- 1188 04b2 8A000000 		.4byte	.LVL59
- 1189 04b6 28070000 		.4byte	0x728
- 1190 04ba CE040000 		.4byte	0x4ce
- 1191 04be 0A       		.uleb128 0xa
- 1192 04bf 01       		.uleb128 0x1
- 1193 04c0 50       		.byte	0x50
- 1194 04c1 05       		.uleb128 0x5
- 1195 04c2 03       		.byte	0x3
- 1196 04c3 68000000 		.4byte	.LC3
- 1197 04c7 0A       		.uleb128 0xa
- 1198 04c8 01       		.uleb128 0x1
- 1199 04c9 51       		.byte	0x51
- 1200 04ca 02       		.uleb128 0x2
- 1201 04cb 74       		.byte	0x74
- 1202 04cc 00       		.sleb128 0
- 1203 04cd 00       		.byte	0
- 1204 04ce 0B       		.uleb128 0xb
- 1205 04cf 8E000000 		.4byte	.LVL60
- 1206 04d3 55070000 		.4byte	0x755
- 1207 04d7 00       		.byte	0
- 1208 04d8 09       		.uleb128 0x9
- 1209 04d9 08000000 		.4byte	.LVL40
- 1210 04dd 28070000 		.4byte	0x728
- 1211 04e1 EF040000 		.4byte	0x4ef
- 1212 04e5 0A       		.uleb128 0xa
- 1213 04e6 01       		.uleb128 0x1
- 1214 04e7 50       		.byte	0x50
- 1215 04e8 05       		.uleb128 0x5
- 1216 04e9 03       		.byte	0x3
- 1217 04ea 00000000 		.4byte	.LC0
- 1218 04ee 00       		.byte	0
- 1219 04ef 0B       		.uleb128 0xb
- 1220 04f0 0C000000 		.4byte	.LVL41
- 1221 04f4 60070000 		.4byte	0x760
- 1222 04f8 0B       		.uleb128 0xb
- 1223 04f9 10000000 		.4byte	.LVL42
- 1224 04fd 6B070000 		.4byte	0x76b
- 1225 0501 09       		.uleb128 0x9
- 1226 0502 18000000 		.4byte	.LVL43
- 1227 0506 12070000 		.4byte	0x712
- 1228 050a 19050000 		.4byte	0x519
- 1229 050e 0A       		.uleb128 0xa
- 1230 050f 01       		.uleb128 0x1
- 1231 0510 50       		.byte	0x50
- 1232 0511 01       		.uleb128 0x1
- 1233 0512 30       		.byte	0x30
- 1234 0513 0A       		.uleb128 0xa
- 1235 0514 01       		.uleb128 0x1
- 1236 0515 51       		.byte	0x51
- 1237 0516 01       		.uleb128 0x1
- 1238 0517 30       		.byte	0x30
- 1239 0518 00       		.byte	0
- 1240 0519 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 27
+ 1184 04ad 74       		.byte	0x74
+ 1185 04ae 00       		.sleb128 0
+ 1186 04af 00       		.byte	0
+ 1187 04b0 09       		.uleb128 0x9
+ 1188 04b1 88000000 		.4byte	.LVL59
+ 1189 04b5 27070000 		.4byte	0x727
+ 1190 04b9 CD040000 		.4byte	0x4cd
+ 1191 04bd 0A       		.uleb128 0xa
+ 1192 04be 01       		.uleb128 0x1
+ 1193 04bf 50       		.byte	0x50
+ 1194 04c0 05       		.uleb128 0x5
+ 1195 04c1 03       		.byte	0x3
+ 1196 04c2 68000000 		.4byte	.LC3
+ 1197 04c6 0A       		.uleb128 0xa
+ 1198 04c7 01       		.uleb128 0x1
+ 1199 04c8 51       		.byte	0x51
+ 1200 04c9 02       		.uleb128 0x2
+ 1201 04ca 74       		.byte	0x74
+ 1202 04cb 00       		.sleb128 0
+ 1203 04cc 00       		.byte	0
+ 1204 04cd 0B       		.uleb128 0xb
+ 1205 04ce 8C000000 		.4byte	.LVL60
+ 1206 04d2 54070000 		.4byte	0x754
+ 1207 04d6 00       		.byte	0
+ 1208 04d7 09       		.uleb128 0x9
+ 1209 04d8 08000000 		.4byte	.LVL40
+ 1210 04dc 27070000 		.4byte	0x727
+ 1211 04e0 EE040000 		.4byte	0x4ee
+ 1212 04e4 0A       		.uleb128 0xa
+ 1213 04e5 01       		.uleb128 0x1
+ 1214 04e6 50       		.byte	0x50
+ 1215 04e7 05       		.uleb128 0x5
+ 1216 04e8 03       		.byte	0x3
+ 1217 04e9 00000000 		.4byte	.LC0
+ 1218 04ed 00       		.byte	0
+ 1219 04ee 0B       		.uleb128 0xb
+ 1220 04ef 0C000000 		.4byte	.LVL41
+ 1221 04f3 5F070000 		.4byte	0x75f
+ 1222 04f7 0B       		.uleb128 0xb
+ 1223 04f8 10000000 		.4byte	.LVL42
+ 1224 04fc 6A070000 		.4byte	0x76a
+ 1225 0500 09       		.uleb128 0x9
+ 1226 0501 18000000 		.4byte	.LVL43
+ 1227 0505 11070000 		.4byte	0x711
+ 1228 0509 18050000 		.4byte	0x518
+ 1229 050d 0A       		.uleb128 0xa
+ 1230 050e 01       		.uleb128 0x1
+ 1231 050f 50       		.byte	0x50
+ 1232 0510 01       		.uleb128 0x1
+ 1233 0511 30       		.byte	0x30
+ 1234 0512 0A       		.uleb128 0xa
+ 1235 0513 01       		.uleb128 0x1
+ 1236 0514 51       		.byte	0x51
+ 1237 0515 01       		.uleb128 0x1
+ 1238 0516 30       		.byte	0x30
+ 1239 0517 00       		.byte	0
+ 1240 0518 0B       		.uleb128 0xb
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 27
 
 
- 1241 051a 1C000000 		.4byte	.LVL44
- 1242 051e 76070000 		.4byte	0x776
- 1243 0522 0B       		.uleb128 0xb
- 1244 0523 20000000 		.4byte	.LVL45
- 1245 0527 81070000 		.4byte	0x781
- 1246 052b 09       		.uleb128 0x9
- 1247 052c 9A000000 		.4byte	.LVL61
- 1248 0530 12070000 		.4byte	0x712
- 1249 0534 43050000 		.4byte	0x543
- 1250 0538 0A       		.uleb128 0xa
- 1251 0539 01       		.uleb128 0x1
- 1252 053a 50       		.byte	0x50
- 1253 053b 01       		.uleb128 0x1
- 1254 053c 30       		.byte	0x30
- 1255 053d 0A       		.uleb128 0xa
- 1256 053e 01       		.uleb128 0x1
- 1257 053f 51       		.byte	0x51
- 1258 0540 01       		.uleb128 0x1
- 1259 0541 30       		.byte	0x30
- 1260 0542 00       		.byte	0
- 1261 0543 0B       		.uleb128 0xb
- 1262 0544 9E000000 		.4byte	.LVL62
- 1263 0548 8C070000 		.4byte	0x78c
- 1264 054c 00       		.byte	0
- 1265 054d 06       		.uleb128 0x6
- 1266 054e 04030000 		.4byte	.LASF33
- 1267 0552 01       		.byte	0x1
- 1268 0553 BB       		.byte	0xbb
- 1269 0554 00000000 		.4byte	.LFB92
- 1270 0558 18000000 		.4byte	.LFE92-.LFB92
- 1271 055c 01       		.uleb128 0x1
- 1272 055d 9C       		.byte	0x9c
- 1273 055e AC050000 		.4byte	0x5ac
- 1274 0562 0D       		.uleb128 0xd
- 1275 0563 01020000 		.4byte	.LASF34
- 1276 0567 01       		.byte	0x1
- 1277 0568 BB       		.byte	0xbb
- 1278 0569 AD000000 		.4byte	0xad
- 1279 056d AB010000 		.4byte	.LLST12
- 1280 0571 0D       		.uleb128 0xd
- 1281 0572 4C000000 		.4byte	.LASF35
- 1282 0576 01       		.byte	0x1
- 1283 0577 BB       		.byte	0xbb
- 1284 0578 AD000000 		.4byte	0xad
- 1285 057c CC010000 		.4byte	.LLST13
- 1286 0580 0D       		.uleb128 0xd
- 1287 0581 90000000 		.4byte	.LASF25
- 1288 0585 01       		.byte	0x1
- 1289 0586 BB       		.byte	0xbb
- 1290 0587 B9000000 		.4byte	0xb9
- 1291 058b ED010000 		.4byte	.LLST14
- 1292 058f 0E       		.uleb128 0xe
- 1293 0590 12000000 		.4byte	.LVL68
- 1294 0594 A2070000 		.4byte	0x7a2
- 1295 0598 0A       		.uleb128 0xa
- 1296 0599 01       		.uleb128 0x1
- 1297 059a 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 28
+ 1241 0519 1C000000 		.4byte	.LVL44
+ 1242 051d 75070000 		.4byte	0x775
+ 1243 0521 0B       		.uleb128 0xb
+ 1244 0522 20000000 		.4byte	.LVL45
+ 1245 0526 80070000 		.4byte	0x780
+ 1246 052a 09       		.uleb128 0x9
+ 1247 052b 98000000 		.4byte	.LVL61
+ 1248 052f 11070000 		.4byte	0x711
+ 1249 0533 42050000 		.4byte	0x542
+ 1250 0537 0A       		.uleb128 0xa
+ 1251 0538 01       		.uleb128 0x1
+ 1252 0539 50       		.byte	0x50
+ 1253 053a 01       		.uleb128 0x1
+ 1254 053b 30       		.byte	0x30
+ 1255 053c 0A       		.uleb128 0xa
+ 1256 053d 01       		.uleb128 0x1
+ 1257 053e 51       		.byte	0x51
+ 1258 053f 01       		.uleb128 0x1
+ 1259 0540 30       		.byte	0x30
+ 1260 0541 00       		.byte	0
+ 1261 0542 0B       		.uleb128 0xb
+ 1262 0543 9C000000 		.4byte	.LVL62
+ 1263 0547 8B070000 		.4byte	0x78b
+ 1264 054b 00       		.byte	0
+ 1265 054c 06       		.uleb128 0x6
+ 1266 054d 04030000 		.4byte	.LASF33
+ 1267 0551 01       		.byte	0x1
+ 1268 0552 BB       		.byte	0xbb
+ 1269 0553 00000000 		.4byte	.LFB92
+ 1270 0557 18000000 		.4byte	.LFE92-.LFB92
+ 1271 055b 01       		.uleb128 0x1
+ 1272 055c 9C       		.byte	0x9c
+ 1273 055d AB050000 		.4byte	0x5ab
+ 1274 0561 0D       		.uleb128 0xd
+ 1275 0562 01020000 		.4byte	.LASF34
+ 1276 0566 01       		.byte	0x1
+ 1277 0567 BB       		.byte	0xbb
+ 1278 0568 AD000000 		.4byte	0xad
+ 1279 056c AB010000 		.4byte	.LLST12
+ 1280 0570 0D       		.uleb128 0xd
+ 1281 0571 4C000000 		.4byte	.LASF35
+ 1282 0575 01       		.byte	0x1
+ 1283 0576 BB       		.byte	0xbb
+ 1284 0577 AD000000 		.4byte	0xad
+ 1285 057b CC010000 		.4byte	.LLST13
+ 1286 057f 0D       		.uleb128 0xd
+ 1287 0580 90000000 		.4byte	.LASF25
+ 1288 0584 01       		.byte	0x1
+ 1289 0585 BB       		.byte	0xbb
+ 1290 0586 B9000000 		.4byte	0xb9
+ 1291 058a ED010000 		.4byte	.LLST14
+ 1292 058e 0E       		.uleb128 0xe
+ 1293 058f 12000000 		.4byte	.LVL68
+ 1294 0593 A1070000 		.4byte	0x7a1
+ 1295 0597 0A       		.uleb128 0xa
+ 1296 0598 01       		.uleb128 0x1
+ 1297 0599 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 28
 
 
- 1298 059b 01       		.uleb128 0x1
- 1299 059c 30       		.byte	0x30
- 1300 059d 0A       		.uleb128 0xa
- 1301 059e 01       		.uleb128 0x1
- 1302 059f 51       		.byte	0x51
- 1303 05a0 01       		.uleb128 0x1
- 1304 05a1 30       		.byte	0x30
- 1305 05a2 0A       		.uleb128 0xa
- 1306 05a3 02       		.uleb128 0x2
- 1307 05a4 7D       		.byte	0x7d
- 1308 05a5 00       		.sleb128 0
- 1309 05a6 03       		.uleb128 0x3
- 1310 05a7 F3       		.byte	0xf3
- 1311 05a8 01       		.uleb128 0x1
- 1312 05a9 52       		.byte	0x52
- 1313 05aa 00       		.byte	0
- 1314 05ab 00       		.byte	0
- 1315 05ac 0C       		.uleb128 0xc
- 1316 05ad 32010000 		.4byte	.LASF36
- 1317 05b1 01       		.byte	0x1
- 1318 05b2 28       		.byte	0x28
- 1319 05b3 00000000 		.4byte	.LFB85
- 1320 05b7 74000000 		.4byte	.LFE85-.LFB85
- 1321 05bb 01       		.uleb128 0x1
- 1322 05bc 9C       		.byte	0x9c
- 1323 05bd 01070000 		.4byte	0x701
- 1324 05c1 0B       		.uleb128 0xb
- 1325 05c2 06000000 		.4byte	.LVL69
- 1326 05c6 6B070000 		.4byte	0x76b
- 1327 05ca 09       		.uleb128 0x9
- 1328 05cb 0E000000 		.4byte	.LVL70
- 1329 05cf 12070000 		.4byte	0x712
- 1330 05d3 E2050000 		.4byte	0x5e2
- 1331 05d7 0A       		.uleb128 0xa
- 1332 05d8 01       		.uleb128 0x1
- 1333 05d9 50       		.byte	0x50
- 1334 05da 01       		.uleb128 0x1
- 1335 05db 30       		.byte	0x30
- 1336 05dc 0A       		.uleb128 0xa
- 1337 05dd 01       		.uleb128 0x1
- 1338 05de 51       		.byte	0x51
- 1339 05df 01       		.uleb128 0x1
- 1340 05e0 30       		.byte	0x30
- 1341 05e1 00       		.byte	0
- 1342 05e2 0B       		.uleb128 0xb
- 1343 05e3 12000000 		.4byte	.LVL71
- 1344 05e7 76070000 		.4byte	0x776
- 1345 05eb 0B       		.uleb128 0xb
- 1346 05ec 16000000 		.4byte	.LVL72
- 1347 05f0 81070000 		.4byte	0x781
- 1348 05f4 09       		.uleb128 0x9
- 1349 05f5 20000000 		.4byte	.LVL73
- 1350 05f9 12070000 		.4byte	0x712
- 1351 05fd 0F060000 		.4byte	0x60f
- 1352 0601 0A       		.uleb128 0xa
- 1353 0602 01       		.uleb128 0x1
- 1354 0603 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 29
+ 1298 059a 01       		.uleb128 0x1
+ 1299 059b 30       		.byte	0x30
+ 1300 059c 0A       		.uleb128 0xa
+ 1301 059d 01       		.uleb128 0x1
+ 1302 059e 51       		.byte	0x51
+ 1303 059f 01       		.uleb128 0x1
+ 1304 05a0 30       		.byte	0x30
+ 1305 05a1 0A       		.uleb128 0xa
+ 1306 05a2 02       		.uleb128 0x2
+ 1307 05a3 7D       		.byte	0x7d
+ 1308 05a4 00       		.sleb128 0
+ 1309 05a5 03       		.uleb128 0x3
+ 1310 05a6 F3       		.byte	0xf3
+ 1311 05a7 01       		.uleb128 0x1
+ 1312 05a8 52       		.byte	0x52
+ 1313 05a9 00       		.byte	0
+ 1314 05aa 00       		.byte	0
+ 1315 05ab 0C       		.uleb128 0xc
+ 1316 05ac 32010000 		.4byte	.LASF36
+ 1317 05b0 01       		.byte	0x1
+ 1318 05b1 28       		.byte	0x28
+ 1319 05b2 00000000 		.4byte	.LFB85
+ 1320 05b6 74000000 		.4byte	.LFE85-.LFB85
+ 1321 05ba 01       		.uleb128 0x1
+ 1322 05bb 9C       		.byte	0x9c
+ 1323 05bc 00070000 		.4byte	0x700
+ 1324 05c0 0B       		.uleb128 0xb
+ 1325 05c1 06000000 		.4byte	.LVL69
+ 1326 05c5 6A070000 		.4byte	0x76a
+ 1327 05c9 09       		.uleb128 0x9
+ 1328 05ca 0E000000 		.4byte	.LVL70
+ 1329 05ce 11070000 		.4byte	0x711
+ 1330 05d2 E1050000 		.4byte	0x5e1
+ 1331 05d6 0A       		.uleb128 0xa
+ 1332 05d7 01       		.uleb128 0x1
+ 1333 05d8 50       		.byte	0x50
+ 1334 05d9 01       		.uleb128 0x1
+ 1335 05da 30       		.byte	0x30
+ 1336 05db 0A       		.uleb128 0xa
+ 1337 05dc 01       		.uleb128 0x1
+ 1338 05dd 51       		.byte	0x51
+ 1339 05de 01       		.uleb128 0x1
+ 1340 05df 30       		.byte	0x30
+ 1341 05e0 00       		.byte	0
+ 1342 05e1 0B       		.uleb128 0xb
+ 1343 05e2 12000000 		.4byte	.LVL71
+ 1344 05e6 75070000 		.4byte	0x775
+ 1345 05ea 0B       		.uleb128 0xb
+ 1346 05eb 16000000 		.4byte	.LVL72
+ 1347 05ef 80070000 		.4byte	0x780
+ 1348 05f3 09       		.uleb128 0x9
+ 1349 05f4 20000000 		.4byte	.LVL73
+ 1350 05f8 11070000 		.4byte	0x711
+ 1351 05fc 0E060000 		.4byte	0x60e
+ 1352 0600 0A       		.uleb128 0xa
+ 1353 0601 01       		.uleb128 0x1
+ 1354 0602 50       		.byte	0x50
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 29
 
 
- 1355 0604 02       		.uleb128 0x2
- 1356 0605 08       		.byte	0x8
- 1357 0606 7D       		.byte	0x7d
- 1358 0607 0A       		.uleb128 0xa
- 1359 0608 01       		.uleb128 0x1
- 1360 0609 51       		.byte	0x51
- 1361 060a 03       		.uleb128 0x3
- 1362 060b 0A       		.byte	0xa
- 1363 060c BE0A     		.2byte	0xabe
- 1364 060e 00       		.byte	0
- 1365 060f 09       		.uleb128 0x9
- 1366 0610 28000000 		.4byte	.LVL74
- 1367 0614 EB020000 		.4byte	0x2eb
- 1368 0618 29060000 		.4byte	0x629
- 1369 061c 0A       		.uleb128 0xa
- 1370 061d 01       		.uleb128 0x1
- 1371 061e 50       		.byte	0x50
- 1372 061f 02       		.uleb128 0x2
- 1373 0620 09       		.byte	0x9
- 1374 0621 FF       		.byte	0xff
- 1375 0622 0A       		.uleb128 0xa
- 1376 0623 01       		.uleb128 0x1
- 1377 0624 51       		.byte	0x51
- 1378 0625 02       		.uleb128 0x2
- 1379 0626 08       		.byte	0x8
- 1380 0627 67       		.byte	0x67
- 1381 0628 00       		.byte	0
- 1382 0629 09       		.uleb128 0x9
- 1383 062a 32000000 		.4byte	.LVL75
- 1384 062e 12070000 		.4byte	0x712
- 1385 0632 44060000 		.4byte	0x644
- 1386 0636 0A       		.uleb128 0xa
- 1387 0637 01       		.uleb128 0x1
- 1388 0638 50       		.byte	0x50
- 1389 0639 02       		.uleb128 0x2
- 1390 063a 08       		.byte	0x8
- 1391 063b 7D       		.byte	0x7d
- 1392 063c 0A       		.uleb128 0xa
- 1393 063d 01       		.uleb128 0x1
- 1394 063e 51       		.byte	0x51
- 1395 063f 03       		.uleb128 0x3
- 1396 0640 0A       		.byte	0xa
- 1397 0641 2E09     		.2byte	0x92e
- 1398 0643 00       		.byte	0
- 1399 0644 09       		.uleb128 0x9
- 1400 0645 3A000000 		.4byte	.LVL76
- 1401 0649 EB020000 		.4byte	0x2eb
- 1402 064d 5E060000 		.4byte	0x65e
- 1403 0651 0A       		.uleb128 0xa
- 1404 0652 01       		.uleb128 0x1
- 1405 0653 50       		.byte	0x50
- 1406 0654 02       		.uleb128 0x2
- 1407 0655 09       		.byte	0x9
- 1408 0656 FF       		.byte	0xff
- 1409 0657 0A       		.uleb128 0xa
- 1410 0658 01       		.uleb128 0x1
- 1411 0659 51       		.byte	0x51
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 30
+ 1355 0603 02       		.uleb128 0x2
+ 1356 0604 08       		.byte	0x8
+ 1357 0605 7D       		.byte	0x7d
+ 1358 0606 0A       		.uleb128 0xa
+ 1359 0607 01       		.uleb128 0x1
+ 1360 0608 51       		.byte	0x51
+ 1361 0609 03       		.uleb128 0x3
+ 1362 060a 0A       		.byte	0xa
+ 1363 060b BE0A     		.2byte	0xabe
+ 1364 060d 00       		.byte	0
+ 1365 060e 09       		.uleb128 0x9
+ 1366 060f 28000000 		.4byte	.LVL74
+ 1367 0613 EB020000 		.4byte	0x2eb
+ 1368 0617 28060000 		.4byte	0x628
+ 1369 061b 0A       		.uleb128 0xa
+ 1370 061c 01       		.uleb128 0x1
+ 1371 061d 50       		.byte	0x50
+ 1372 061e 02       		.uleb128 0x2
+ 1373 061f 09       		.byte	0x9
+ 1374 0620 FF       		.byte	0xff
+ 1375 0621 0A       		.uleb128 0xa
+ 1376 0622 01       		.uleb128 0x1
+ 1377 0623 51       		.byte	0x51
+ 1378 0624 02       		.uleb128 0x2
+ 1379 0625 08       		.byte	0x8
+ 1380 0626 67       		.byte	0x67
+ 1381 0627 00       		.byte	0
+ 1382 0628 09       		.uleb128 0x9
+ 1383 0629 32000000 		.4byte	.LVL75
+ 1384 062d 11070000 		.4byte	0x711
+ 1385 0631 43060000 		.4byte	0x643
+ 1386 0635 0A       		.uleb128 0xa
+ 1387 0636 01       		.uleb128 0x1
+ 1388 0637 50       		.byte	0x50
+ 1389 0638 02       		.uleb128 0x2
+ 1390 0639 08       		.byte	0x8
+ 1391 063a 7D       		.byte	0x7d
+ 1392 063b 0A       		.uleb128 0xa
+ 1393 063c 01       		.uleb128 0x1
+ 1394 063d 51       		.byte	0x51
+ 1395 063e 03       		.uleb128 0x3
+ 1396 063f 0A       		.byte	0xa
+ 1397 0640 2E09     		.2byte	0x92e
+ 1398 0642 00       		.byte	0
+ 1399 0643 09       		.uleb128 0x9
+ 1400 0644 3A000000 		.4byte	.LVL76
+ 1401 0648 EB020000 		.4byte	0x2eb
+ 1402 064c 5D060000 		.4byte	0x65d
+ 1403 0650 0A       		.uleb128 0xa
+ 1404 0651 01       		.uleb128 0x1
+ 1405 0652 50       		.byte	0x50
+ 1406 0653 02       		.uleb128 0x2
+ 1407 0654 09       		.byte	0x9
+ 1408 0655 FF       		.byte	0xff
+ 1409 0656 0A       		.uleb128 0xa
+ 1410 0657 01       		.uleb128 0x1
+ 1411 0658 51       		.byte	0x51
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 30
 
 
- 1412 065a 02       		.uleb128 0x2
- 1413 065b 08       		.byte	0x8
- 1414 065c 67       		.byte	0x67
- 1415 065d 00       		.byte	0
- 1416 065e 09       		.uleb128 0x9
- 1417 065f 44000000 		.4byte	.LVL77
- 1418 0663 12070000 		.4byte	0x712
- 1419 0667 79060000 		.4byte	0x679
- 1420 066b 0A       		.uleb128 0xa
- 1421 066c 01       		.uleb128 0x1
- 1422 066d 50       		.byte	0x50
- 1423 066e 02       		.uleb128 0x2
- 1424 066f 08       		.byte	0x8
- 1425 0670 7D       		.byte	0x7d
- 1426 0671 0A       		.uleb128 0xa
- 1427 0672 01       		.uleb128 0x1
- 1428 0673 51       		.byte	0x51
- 1429 0674 03       		.uleb128 0x3
- 1430 0675 0A       		.byte	0xa
- 1431 0676 F609     		.2byte	0x9f6
- 1432 0678 00       		.byte	0
- 1433 0679 09       		.uleb128 0x9
- 1434 067a 4C000000 		.4byte	.LVL78
- 1435 067e EB020000 		.4byte	0x2eb
- 1436 0682 93060000 		.4byte	0x693
- 1437 0686 0A       		.uleb128 0xa
- 1438 0687 01       		.uleb128 0x1
- 1439 0688 50       		.byte	0x50
- 1440 0689 02       		.uleb128 0x2
- 1441 068a 09       		.byte	0x9
- 1442 068b FF       		.byte	0xff
- 1443 068c 0A       		.uleb128 0xa
- 1444 068d 01       		.uleb128 0x1
- 1445 068e 51       		.byte	0x51
- 1446 068f 02       		.uleb128 0x2
- 1447 0690 08       		.byte	0x8
- 1448 0691 67       		.byte	0x67
- 1449 0692 00       		.byte	0
- 1450 0693 09       		.uleb128 0x9
- 1451 0694 58000000 		.4byte	.LVL79
- 1452 0698 4D050000 		.4byte	0x54d
- 1453 069c B4060000 		.4byte	0x6b4
- 1454 06a0 0A       		.uleb128 0xa
- 1455 06a1 01       		.uleb128 0x1
- 1456 06a2 50       		.byte	0x50
- 1457 06a3 02       		.uleb128 0x2
- 1458 06a4 09       		.byte	0x9
- 1459 06a5 A4       		.byte	0xa4
- 1460 06a6 0A       		.uleb128 0xa
- 1461 06a7 01       		.uleb128 0x1
- 1462 06a8 51       		.byte	0x51
- 1463 06a9 02       		.uleb128 0x2
- 1464 06aa 09       		.byte	0x9
- 1465 06ab 87       		.byte	0x87
- 1466 06ac 0A       		.uleb128 0xa
- 1467 06ad 01       		.uleb128 0x1
- 1468 06ae 52       		.byte	0x52
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 31
+ 1412 0659 02       		.uleb128 0x2
+ 1413 065a 08       		.byte	0x8
+ 1414 065b 67       		.byte	0x67
+ 1415 065c 00       		.byte	0
+ 1416 065d 09       		.uleb128 0x9
+ 1417 065e 44000000 		.4byte	.LVL77
+ 1418 0662 11070000 		.4byte	0x711
+ 1419 0666 78060000 		.4byte	0x678
+ 1420 066a 0A       		.uleb128 0xa
+ 1421 066b 01       		.uleb128 0x1
+ 1422 066c 50       		.byte	0x50
+ 1423 066d 02       		.uleb128 0x2
+ 1424 066e 08       		.byte	0x8
+ 1425 066f 7D       		.byte	0x7d
+ 1426 0670 0A       		.uleb128 0xa
+ 1427 0671 01       		.uleb128 0x1
+ 1428 0672 51       		.byte	0x51
+ 1429 0673 03       		.uleb128 0x3
+ 1430 0674 0A       		.byte	0xa
+ 1431 0675 F609     		.2byte	0x9f6
+ 1432 0677 00       		.byte	0
+ 1433 0678 09       		.uleb128 0x9
+ 1434 0679 4C000000 		.4byte	.LVL78
+ 1435 067d EB020000 		.4byte	0x2eb
+ 1436 0681 92060000 		.4byte	0x692
+ 1437 0685 0A       		.uleb128 0xa
+ 1438 0686 01       		.uleb128 0x1
+ 1439 0687 50       		.byte	0x50
+ 1440 0688 02       		.uleb128 0x2
+ 1441 0689 09       		.byte	0x9
+ 1442 068a FF       		.byte	0xff
+ 1443 068b 0A       		.uleb128 0xa
+ 1444 068c 01       		.uleb128 0x1
+ 1445 068d 51       		.byte	0x51
+ 1446 068e 02       		.uleb128 0x2
+ 1447 068f 08       		.byte	0x8
+ 1448 0690 67       		.byte	0x67
+ 1449 0691 00       		.byte	0
+ 1450 0692 09       		.uleb128 0x9
+ 1451 0693 58000000 		.4byte	.LVL79
+ 1452 0697 4C050000 		.4byte	0x54c
+ 1453 069b B3060000 		.4byte	0x6b3
+ 1454 069f 0A       		.uleb128 0xa
+ 1455 06a0 01       		.uleb128 0x1
+ 1456 06a1 50       		.byte	0x50
+ 1457 06a2 02       		.uleb128 0x2
+ 1458 06a3 09       		.byte	0x9
+ 1459 06a4 A4       		.byte	0xa4
+ 1460 06a5 0A       		.uleb128 0xa
+ 1461 06a6 01       		.uleb128 0x1
+ 1462 06a7 51       		.byte	0x51
+ 1463 06a8 02       		.uleb128 0x2
+ 1464 06a9 09       		.byte	0x9
+ 1465 06aa 87       		.byte	0x87
+ 1466 06ab 0A       		.uleb128 0xa
+ 1467 06ac 01       		.uleb128 0x1
+ 1468 06ad 52       		.byte	0x52
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 31
 
 
- 1469 06af 03       		.uleb128 0x3
- 1470 06b0 0A       		.byte	0xa
- 1471 06b1 F406     		.2byte	0x6f4
- 1472 06b3 00       		.byte	0
- 1473 06b4 09       		.uleb128 0x9
- 1474 06b5 62000000 		.4byte	.LVL80
- 1475 06b9 12070000 		.4byte	0x712
- 1476 06bd CF060000 		.4byte	0x6cf
- 1477 06c1 0A       		.uleb128 0xa
- 1478 06c2 01       		.uleb128 0x1
- 1479 06c3 50       		.byte	0x50
- 1480 06c4 02       		.uleb128 0x2
- 1481 06c5 08       		.byte	0x8
- 1482 06c6 7D       		.byte	0x7d
- 1483 06c7 0A       		.uleb128 0xa
- 1484 06c8 01       		.uleb128 0x1
- 1485 06c9 51       		.byte	0x51
- 1486 06ca 03       		.uleb128 0x3
- 1487 06cb 0A       		.byte	0xa
- 1488 06cc 3A02     		.2byte	0x23a
- 1489 06ce 00       		.byte	0
- 1490 06cf 09       		.uleb128 0x9
- 1491 06d0 6A000000 		.4byte	.LVL81
- 1492 06d4 12070000 		.4byte	0x712
- 1493 06d8 E7060000 		.4byte	0x6e7
- 1494 06dc 0A       		.uleb128 0xa
- 1495 06dd 01       		.uleb128 0x1
- 1496 06de 50       		.byte	0x50
- 1497 06df 01       		.uleb128 0x1
- 1498 06e0 30       		.byte	0x30
- 1499 06e1 0A       		.uleb128 0xa
- 1500 06e2 01       		.uleb128 0x1
- 1501 06e3 51       		.byte	0x51
- 1502 06e4 01       		.uleb128 0x1
- 1503 06e5 30       		.byte	0x30
- 1504 06e6 00       		.byte	0
- 1505 06e7 0B       		.uleb128 0xb
- 1506 06e8 6E000000 		.4byte	.LVL82
- 1507 06ec 8C070000 		.4byte	0x78c
- 1508 06f0 0E       		.uleb128 0xe
- 1509 06f1 74000000 		.4byte	.LVL83
- 1510 06f5 3C020000 		.4byte	0x23c
- 1511 06f9 0A       		.uleb128 0xa
- 1512 06fa 01       		.uleb128 0x1
- 1513 06fb 50       		.byte	0x50
- 1514 06fc 02       		.uleb128 0x2
- 1515 06fd 08       		.byte	0x8
- 1516 06fe 64       		.byte	0x64
- 1517 06ff 00       		.byte	0
- 1518 0700 00       		.byte	0
- 1519 0701 12       		.uleb128 0x12
- 1520 0702 26020000 		.4byte	.LASF57
- 1521 0706 0D       		.byte	0xd
- 1522 0707 1207     		.2byte	0x712
- 1523 0709 0D070000 		.4byte	0x70d
- 1524 070d 13       		.uleb128 0x13
- 1525 070e 97000000 		.4byte	0x97
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 32
+ 1469 06ae 03       		.uleb128 0x3
+ 1470 06af 0A       		.byte	0xa
+ 1471 06b0 F406     		.2byte	0x6f4
+ 1472 06b2 00       		.byte	0
+ 1473 06b3 09       		.uleb128 0x9
+ 1474 06b4 62000000 		.4byte	.LVL80
+ 1475 06b8 11070000 		.4byte	0x711
+ 1476 06bc CE060000 		.4byte	0x6ce
+ 1477 06c0 0A       		.uleb128 0xa
+ 1478 06c1 01       		.uleb128 0x1
+ 1479 06c2 50       		.byte	0x50
+ 1480 06c3 02       		.uleb128 0x2
+ 1481 06c4 08       		.byte	0x8
+ 1482 06c5 7D       		.byte	0x7d
+ 1483 06c6 0A       		.uleb128 0xa
+ 1484 06c7 01       		.uleb128 0x1
+ 1485 06c8 51       		.byte	0x51
+ 1486 06c9 03       		.uleb128 0x3
+ 1487 06ca 0A       		.byte	0xa
+ 1488 06cb 3A02     		.2byte	0x23a
+ 1489 06cd 00       		.byte	0
+ 1490 06ce 09       		.uleb128 0x9
+ 1491 06cf 6A000000 		.4byte	.LVL81
+ 1492 06d3 11070000 		.4byte	0x711
+ 1493 06d7 E6060000 		.4byte	0x6e6
+ 1494 06db 0A       		.uleb128 0xa
+ 1495 06dc 01       		.uleb128 0x1
+ 1496 06dd 50       		.byte	0x50
+ 1497 06de 01       		.uleb128 0x1
+ 1498 06df 30       		.byte	0x30
+ 1499 06e0 0A       		.uleb128 0xa
+ 1500 06e1 01       		.uleb128 0x1
+ 1501 06e2 51       		.byte	0x51
+ 1502 06e3 01       		.uleb128 0x1
+ 1503 06e4 30       		.byte	0x30
+ 1504 06e5 00       		.byte	0
+ 1505 06e6 0B       		.uleb128 0xb
+ 1506 06e7 6E000000 		.4byte	.LVL82
+ 1507 06eb 8B070000 		.4byte	0x78b
+ 1508 06ef 0E       		.uleb128 0xe
+ 1509 06f0 74000000 		.4byte	.LVL83
+ 1510 06f4 3C020000 		.4byte	0x23c
+ 1511 06f8 0A       		.uleb128 0xa
+ 1512 06f9 01       		.uleb128 0x1
+ 1513 06fa 50       		.byte	0x50
+ 1514 06fb 02       		.uleb128 0x2
+ 1515 06fc 08       		.byte	0x8
+ 1516 06fd 64       		.byte	0x64
+ 1517 06fe 00       		.byte	0
+ 1518 06ff 00       		.byte	0
+ 1519 0700 12       		.uleb128 0x12
+ 1520 0701 26020000 		.4byte	.LASF57
+ 1521 0705 0D       		.byte	0xd
+ 1522 0706 1207     		.2byte	0x712
+ 1523 0708 0C070000 		.4byte	0x70c
+ 1524 070c 13       		.uleb128 0x13
+ 1525 070d 97000000 		.4byte	0x97
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 32
 
 
- 1526 0712 14       		.uleb128 0x14
- 1527 0713 8E010000 		.4byte	.LASF37
- 1528 0717 8E010000 		.4byte	.LASF37
- 1529 071b 05       		.byte	0x5
- 1530 071c 0F       		.byte	0xf
- 1531 071d 14       		.uleb128 0x14
- 1532 071e F2020000 		.4byte	.LASF38
- 1533 0722 F2020000 		.4byte	.LASF38
- 1534 0726 06       		.byte	0x6
- 1535 0727 0D       		.byte	0xd
- 1536 0728 14       		.uleb128 0x14
- 1537 0729 83020000 		.4byte	.LASF39
- 1538 072d 83020000 		.4byte	.LASF39
- 1539 0731 07       		.byte	0x7
- 1540 0732 BB       		.byte	0xbb
- 1541 0733 15       		.uleb128 0x15
- 1542 0734 BC020000 		.4byte	.LASF40
- 1543 0738 BC020000 		.4byte	.LASF40
- 1544 073c 08       		.byte	0x8
- 1545 073d ED02     		.2byte	0x2ed
- 1546 073f 14       		.uleb128 0x14
- 1547 0740 3D000000 		.4byte	.LASF41
- 1548 0744 3D000000 		.4byte	.LASF41
- 1549 0748 05       		.byte	0x5
- 1550 0749 15       		.byte	0x15
- 1551 074a 14       		.uleb128 0x14
- 1552 074b 68000000 		.4byte	.LASF42
- 1553 074f 68000000 		.4byte	.LASF42
- 1554 0753 05       		.byte	0x5
- 1555 0754 12       		.byte	0x12
- 1556 0755 14       		.uleb128 0x14
- 1557 0756 1D020000 		.4byte	.LASF43
- 1558 075a 1D020000 		.4byte	.LASF43
- 1559 075e 09       		.byte	0x9
- 1560 075f 29       		.byte	0x29
- 1561 0760 14       		.uleb128 0x14
- 1562 0761 E0010000 		.4byte	.LASF44
- 1563 0765 E0010000 		.4byte	.LASF44
- 1564 0769 06       		.byte	0x6
- 1565 076a 0A       		.byte	0xa
- 1566 076b 14       		.uleb128 0x14
- 1567 076c 58020000 		.4byte	.LASF45
- 1568 0770 58020000 		.4byte	.LASF45
- 1569 0774 05       		.byte	0x5
- 1570 0775 0B       		.byte	0xb
- 1571 0776 14       		.uleb128 0x14
- 1572 0777 F8010000 		.4byte	.LASF46
- 1573 077b F8010000 		.4byte	.LASF46
- 1574 077f 0A       		.byte	0xa
- 1575 0780 11       		.byte	0x11
- 1576 0781 14       		.uleb128 0x14
- 1577 0782 00000000 		.4byte	.LASF47
- 1578 0786 00000000 		.4byte	.LASF47
- 1579 078a 0A       		.byte	0xa
- 1580 078b 1B       		.byte	0x1b
- 1581 078c 14       		.uleb128 0x14
- 1582 078d B4010000 		.4byte	.LASF48
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 33
+ 1526 0711 14       		.uleb128 0x14
+ 1527 0712 8E010000 		.4byte	.LASF37
+ 1528 0716 8E010000 		.4byte	.LASF37
+ 1529 071a 05       		.byte	0x5
+ 1530 071b 0F       		.byte	0xf
+ 1531 071c 14       		.uleb128 0x14
+ 1532 071d F2020000 		.4byte	.LASF38
+ 1533 0721 F2020000 		.4byte	.LASF38
+ 1534 0725 06       		.byte	0x6
+ 1535 0726 0D       		.byte	0xd
+ 1536 0727 14       		.uleb128 0x14
+ 1537 0728 83020000 		.4byte	.LASF39
+ 1538 072c 83020000 		.4byte	.LASF39
+ 1539 0730 07       		.byte	0x7
+ 1540 0731 BB       		.byte	0xbb
+ 1541 0732 15       		.uleb128 0x15
+ 1542 0733 BC020000 		.4byte	.LASF40
+ 1543 0737 BC020000 		.4byte	.LASF40
+ 1544 073b 08       		.byte	0x8
+ 1545 073c ED02     		.2byte	0x2ed
+ 1546 073e 14       		.uleb128 0x14
+ 1547 073f 3D000000 		.4byte	.LASF41
+ 1548 0743 3D000000 		.4byte	.LASF41
+ 1549 0747 05       		.byte	0x5
+ 1550 0748 15       		.byte	0x15
+ 1551 0749 14       		.uleb128 0x14
+ 1552 074a 68000000 		.4byte	.LASF42
+ 1553 074e 68000000 		.4byte	.LASF42
+ 1554 0752 05       		.byte	0x5
+ 1555 0753 12       		.byte	0x12
+ 1556 0754 14       		.uleb128 0x14
+ 1557 0755 1D020000 		.4byte	.LASF43
+ 1558 0759 1D020000 		.4byte	.LASF43
+ 1559 075d 09       		.byte	0x9
+ 1560 075e 29       		.byte	0x29
+ 1561 075f 14       		.uleb128 0x14
+ 1562 0760 E0010000 		.4byte	.LASF44
+ 1563 0764 E0010000 		.4byte	.LASF44
+ 1564 0768 06       		.byte	0x6
+ 1565 0769 0A       		.byte	0xa
+ 1566 076a 14       		.uleb128 0x14
+ 1567 076b 58020000 		.4byte	.LASF45
+ 1568 076f 58020000 		.4byte	.LASF45
+ 1569 0773 05       		.byte	0x5
+ 1570 0774 0B       		.byte	0xb
+ 1571 0775 14       		.uleb128 0x14
+ 1572 0776 F8010000 		.4byte	.LASF46
+ 1573 077a F8010000 		.4byte	.LASF46
+ 1574 077e 0A       		.byte	0xa
+ 1575 077f 11       		.byte	0x11
+ 1576 0780 14       		.uleb128 0x14
+ 1577 0781 00000000 		.4byte	.LASF47
+ 1578 0785 00000000 		.4byte	.LASF47
+ 1579 0789 0A       		.byte	0xa
+ 1580 078a 1B       		.byte	0x1b
+ 1581 078b 14       		.uleb128 0x14
+ 1582 078c B4010000 		.4byte	.LASF48
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 33
 
 
- 1583 0791 B4010000 		.4byte	.LASF48
- 1584 0795 05       		.byte	0x5
- 1585 0796 0C       		.byte	0xc
- 1586 0797 14       		.uleb128 0x14
- 1587 0798 72020000 		.4byte	.LASF49
- 1588 079c 72020000 		.4byte	.LASF49
- 1589 07a0 0B       		.byte	0xb
- 1590 07a1 26       		.byte	0x26
- 1591 07a2 14       		.uleb128 0x14
- 1592 07a3 33020000 		.4byte	.LASF50
- 1593 07a7 33020000 		.4byte	.LASF50
- 1594 07ab 05       		.byte	0x5
- 1595 07ac 18       		.byte	0x18
- 1596 07ad 15       		.uleb128 0x15
- 1597 07ae 10030000 		.4byte	.LASF51
- 1598 07b2 10030000 		.4byte	.LASF51
- 1599 07b6 08       		.byte	0x8
- 1600 07b7 3E05     		.2byte	0x53e
- 1601 07b9 14       		.uleb128 0x14
- 1602 07ba AE010000 		.4byte	.LASF52
- 1603 07be AE010000 		.4byte	.LASF52
- 1604 07c2 0C       		.byte	0xc
- 1605 07c3 96       		.byte	0x96
- 1606 07c4 14       		.uleb128 0x14
- 1607 07c5 22030000 		.4byte	.LASF53
- 1608 07c9 22030000 		.4byte	.LASF53
- 1609 07cd 0C       		.byte	0xc
- 1610 07ce 88       		.byte	0x88
- 1611 07cf 00       		.byte	0
+ 1583 0790 B4010000 		.4byte	.LASF48
+ 1584 0794 05       		.byte	0x5
+ 1585 0795 0C       		.byte	0xc
+ 1586 0796 14       		.uleb128 0x14
+ 1587 0797 72020000 		.4byte	.LASF49
+ 1588 079b 72020000 		.4byte	.LASF49
+ 1589 079f 0B       		.byte	0xb
+ 1590 07a0 26       		.byte	0x26
+ 1591 07a1 14       		.uleb128 0x14
+ 1592 07a2 33020000 		.4byte	.LASF50
+ 1593 07a6 33020000 		.4byte	.LASF50
+ 1594 07aa 05       		.byte	0x5
+ 1595 07ab 18       		.byte	0x18
+ 1596 07ac 15       		.uleb128 0x15
+ 1597 07ad 10030000 		.4byte	.LASF51
+ 1598 07b1 10030000 		.4byte	.LASF51
+ 1599 07b5 08       		.byte	0x8
+ 1600 07b6 3E05     		.2byte	0x53e
+ 1601 07b8 14       		.uleb128 0x14
+ 1602 07b9 AE010000 		.4byte	.LASF52
+ 1603 07bd AE010000 		.4byte	.LASF52
+ 1604 07c1 0C       		.byte	0xc
+ 1605 07c2 96       		.byte	0x96
+ 1606 07c3 14       		.uleb128 0x14
+ 1607 07c4 22030000 		.4byte	.LASF53
+ 1608 07c8 22030000 		.4byte	.LASF53
+ 1609 07cc 0C       		.byte	0xc
+ 1610 07cd 88       		.byte	0x88
+ 1611 07ce 00       		.byte	0
  1612              		.section	.debug_abbrev,"",%progbits
  1613              	.Ldebug_abbrev0:
  1614 0000 01       		.uleb128 0x1
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1637 0017 0B       		.uleb128 0xb
  1638 0018 3E       		.uleb128 0x3e
  1639 0019 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 34
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 34
 
 
  1640 001a 03       		.uleb128 0x3
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1694 0050 11       		.uleb128 0x11
  1695 0051 01       		.uleb128 0x1
  1696 0052 12       		.uleb128 0x12
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 35
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 35
 
 
  1697 0053 06       		.uleb128 0x6
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1751 008f 00       		.byte	0
  1752 0090 0B       		.uleb128 0xb
  1753 0091 898201   		.uleb128 0x4109
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 36
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 36
 
 
  1754 0094 00       		.byte	0
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1808 00ce 31       		.uleb128 0x31
  1809 00cf 13       		.uleb128 0x13
  1810 00d0 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 37
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 37
 
 
  1811 00d1 00       		.byte	0
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1865 0108 02       		.uleb128 0x2
  1866 0109 17       		.uleb128 0x17
  1867 010a 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 38
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 38
 
 
  1868 010b 00       		.byte	0
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1922 0141 0B       		.uleb128 0xb
  1923 0142 3B       		.uleb128 0x3b
  1924 0143 05       		.uleb128 0x5
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 39
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 39
 
 
  1925 0144 00       		.byte	0
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  1979 007e 9F       		.byte	0x9f
  1980 007f 00000000 		.4byte	0
  1981 0083 00000000 		.4byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 40
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 40
 
 
  1982              	.LLST4:
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2036 0106 09000000 		.4byte	.LVL34-1
  2037 010a 0100     		.2byte	0x1
  2038 010c 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 41
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 41
 
 
  2039 010d 09000000 		.4byte	.LVL34-1
@@ -2443,25 +2443,25 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2078 016b 00000000 		.4byte	0
  2079              	.LLST10:
  2080 016f 2E000000 		.4byte	.LVL48
- 2081 0173 32000000 		.4byte	.LVL49
+ 2081 0173 30000000 		.4byte	.LVL49
  2082 0177 0100     		.2byte	0x1
  2083 0179 50       		.byte	0x50
- 2084 017a 32000000 		.4byte	.LVL49
- 2085 017e A0000000 		.4byte	.LVL63
+ 2084 017a 30000000 		.4byte	.LVL49
+ 2085 017e 9E000000 		.4byte	.LVL63
  2086 0182 0100     		.2byte	0x1
  2087 0184 55       		.byte	0x55
  2088 0185 00000000 		.4byte	0
  2089 0189 00000000 		.4byte	0
  2090              	.LLST11:
- 2091 018d 42000000 		.4byte	.LVL52
- 2092 0191 4A000000 		.4byte	.LVL53
+ 2091 018d 40000000 		.4byte	.LVL52
+ 2092 0191 48000000 		.4byte	.LVL53
  2093 0195 0100     		.2byte	0x1
  2094 0197 50       		.byte	0x50
- 2095 0198 4A000000 		.4byte	.LVL53
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 42
+ 2095 0198 48000000 		.4byte	.LVL53
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 42
 
 
- 2096 019c A0000000 		.4byte	.LVL63
+ 2096 019c 9E000000 		.4byte	.LVL63
  2097 01a0 0100     		.2byte	0x1
  2098 01a2 54       		.byte	0x54
  2099 01a3 00000000 		.4byte	0
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2150 0004 0200     		.2byte	0x2
  2151 0006 00000000 		.4byte	.Ldebug_info0
  2152 000a 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 43
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 43
 
 
  2153 000b 00       		.byte	0
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2200      7400
  2201              	.LASF26:
  2202 0012 73706565 		.ascii	"speed\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 44
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 44
 
 
  2202      6400
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2230 00a4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
  2230      43313120 
  2230      352E342E 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 45
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 45
 
 
  2230      31203230 
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2251      544C4576 
  2251      6700
  2252              	.LASF32:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 46
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 46
 
 
  2253 01d4 7475726E 		.ascii	"turn\000"
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2283 0258 6D6F746F 		.ascii	"motor_start\000"
  2283      725F7374 
  2283      61727400 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 47
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 47
 
 
  2284              	.LASF9:
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 1
  2309      615F4765 
  2309      74446973 
  2309      74616E63 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cci6lO8j.s 			page 48
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccRRlwqJ.s 			page 48
 
 
  2309      6500

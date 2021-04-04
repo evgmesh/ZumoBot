@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 1
 
 
    1              		.syntax unified
@@ -19,311 +19,2293 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              	.Letext0:
-  20              		.file 1 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
-  21              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
-  22              		.file 3 "Generated_Source\\PSoC5/core_cm3.h"
-  23              		.section	.debug_info,"",%progbits
-  24              	.Ldebug_info0:
-  25 0000 AA000000 		.4byte	0xaa
-  26 0004 0400     		.2byte	0x4
-  27 0006 00000000 		.4byte	.Ldebug_abbrev0
-  28 000a 04       		.byte	0x4
-  29 000b 01       		.uleb128 0x1
-  30 000c 36000000 		.4byte	.LASF16
-  31 0010 0C       		.byte	0xc
-  32 0011 2E000000 		.4byte	.LASF17
-  33 0015 45010000 		.4byte	.LASF18
-  34 0019 00000000 		.4byte	.Ldebug_line0
-  35 001d 02       		.uleb128 0x2
-  36 001e 01       		.byte	0x1
-  37 001f 06       		.byte	0x6
-  38 0020 1D010000 		.4byte	.LASF0
-  39 0024 02       		.uleb128 0x2
-  40 0025 01       		.byte	0x1
-  41 0026 08       		.byte	0x8
-  42 0027 ED000000 		.4byte	.LASF1
-  43 002b 02       		.uleb128 0x2
-  44 002c 02       		.byte	0x2
-  45 002d 05       		.byte	0x5
-  46 002e 8F010000 		.4byte	.LASF2
-  47 0032 02       		.uleb128 0x2
-  48 0033 02       		.byte	0x2
-  49 0034 07       		.byte	0x7
-  50 0035 0E000000 		.4byte	.LASF3
-  51 0039 03       		.uleb128 0x3
-  52 003a 35010000 		.4byte	.LASF9
-  53 003e 01       		.byte	0x1
-  54 003f 3F       		.byte	0x3f
-  55 0040 44000000 		.4byte	0x44
-  56 0044 02       		.uleb128 0x2
-  57 0045 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 2
+  19              		.section	.text.aneta_w1a1,"ax",%progbits
+  20              		.align	2
+  21              		.global	aneta_w1a1
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	aneta_w1a1, %function
+  25              	aneta_w1a1:
+  26              	.LFB85:
+  27              		.file 1 "aneta.c"
+   1:aneta.c       **** /* ========================================
+   2:aneta.c       ****  *
+   3:aneta.c       ****  * Copyright YOUR COMPANY, THE YEAR
+   4:aneta.c       ****  * All Rights Reserved
+   5:aneta.c       ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:aneta.c       ****  *
+   7:aneta.c       ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:aneta.c       ****  * WHICH IS THE PROPERTY OF your company.
+   9:aneta.c       ****  *
+  10:aneta.c       ****  * ========================================
+  11:aneta.c       **** */
+  12:aneta.c       **** 
+  13:aneta.c       **** 
+  14:aneta.c       **** #include <project.h>
+  15:aneta.c       **** #include <stdio.h>
+  16:aneta.c       **** #include "FreeRTOS.h"
+  17:aneta.c       **** #include "task.h"
+  18:aneta.c       **** #include "Motor.h"
+  19:aneta.c       **** #include "Ultra.h"
+  20:aneta.c       **** #include "Nunchuk.h"
+  21:aneta.c       **** #include "Reflectance.h"
+  22:aneta.c       **** #include "Gyro.h"
+  23:aneta.c       **** #include "Accel_magnet.h"
+  24:aneta.c       **** #include "LSM303D.h"
+  25:aneta.c       **** #include "IR.h"
+  26:aneta.c       **** #include "Beep.h"
+  27:aneta.c       **** #include "mqtt_sender.h"
+  28:aneta.c       **** #include <time.h>
+  29:aneta.c       **** #include <sys/time.h>
+  30:aneta.c       **** #include "serial1.h"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 2
 
 
-  58 0046 05       		.byte	0x5
-  59 0047 00010000 		.4byte	.LASF4
-  60 004b 02       		.uleb128 0x2
-  61 004c 04       		.byte	0x4
-  62 004d 07       		.byte	0x7
-  63 004e C4000000 		.4byte	.LASF5
-  64 0052 02       		.uleb128 0x2
-  65 0053 08       		.byte	0x8
-  66 0054 05       		.byte	0x5
-  67 0055 00000000 		.4byte	.LASF6
-  68 0059 02       		.uleb128 0x2
-  69 005a 08       		.byte	0x8
-  70 005b 07       		.byte	0x7
-  71 005c D6000000 		.4byte	.LASF7
-  72 0060 04       		.uleb128 0x4
-  73 0061 04       		.byte	0x4
-  74 0062 05       		.byte	0x5
-  75 0063 696E7400 		.ascii	"int\000"
-  76 0067 02       		.uleb128 0x2
-  77 0068 04       		.byte	0x4
-  78 0069 07       		.byte	0x7
-  79 006a 21000000 		.4byte	.LASF8
-  80 006e 03       		.uleb128 0x3
-  81 006f 99010000 		.4byte	.LASF10
-  82 0073 02       		.byte	0x2
-  83 0074 2C       		.byte	0x2c
-  84 0075 39000000 		.4byte	0x39
-  85 0079 02       		.uleb128 0x2
-  86 007a 04       		.byte	0x4
-  87 007b 04       		.byte	0x4
-  88 007c 3F010000 		.4byte	.LASF11
-  89 0080 02       		.uleb128 0x2
-  90 0081 08       		.byte	0x8
-  91 0082 04       		.byte	0x4
-  92 0083 09010000 		.4byte	.LASF12
-  93 0087 02       		.uleb128 0x2
-  94 0088 01       		.byte	0x1
-  95 0089 08       		.byte	0x8
-  96 008a FB000000 		.4byte	.LASF13
-  97 008e 02       		.uleb128 0x2
-  98 008f 08       		.byte	0x8
-  99 0090 04       		.byte	0x4
- 100 0091 29010000 		.4byte	.LASF14
- 101 0095 02       		.uleb128 0x2
- 102 0096 04       		.byte	0x4
- 103 0097 07       		.byte	0x7
- 104 0098 A1010000 		.4byte	.LASF15
- 105 009c 05       		.uleb128 0x5
- 106 009d 10010000 		.4byte	.LASF19
- 107 00a1 03       		.byte	0x3
- 108 00a2 1207     		.2byte	0x712
- 109 00a4 A8000000 		.4byte	0xa8
- 110 00a8 06       		.uleb128 0x6
- 111 00a9 6E000000 		.4byte	0x6e
- 112 00ad 00       		.byte	0
- 113              		.section	.debug_abbrev,"",%progbits
- 114              	.Ldebug_abbrev0:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 3
+  31:aneta.c       **** #include <unistd.h>
+  32:aneta.c       **** #include "aneta.h"
+  33:aneta.c       **** #include <stdlib.h>
+  34:aneta.c       **** 
+  35:aneta.c       **** //WEEK 1 ASSIGNMENT 1 *****************************************************************************
+  36:aneta.c       **** void aneta_w1a1(void){
+  28              		.loc 1 36 0
+  29              		.cfi_startproc
+  30              		@ Volatile: function does not return.
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              		.cfi_def_cfa_offset 8
+  35              		.cfi_offset 3, -8
+  36              		.cfi_offset 14, -4
+  37:aneta.c       ****     
+  38:aneta.c       ****     printf("ASSIGNMENT 1\n");
+  37              		.loc 1 38 0
+  38 0002 2148     		ldr	r0, .L4
+  39 0004 FFF7FEFF 		bl	puts
+  40              	.LVL0:
+  39:aneta.c       ****     motor_start();
+  41              		.loc 1 39 0
+  42 0008 FFF7FEFF 		bl	motor_start
+  43              	.LVL1:
+  40:aneta.c       ****     
+  41:aneta.c       ****     motor_forward(100,3350);
+  44              		.loc 1 41 0
+  45 000c 40F61651 		movw	r1, #3350
+  46 0010 6420     		movs	r0, #100
+  47 0012 FFF7FEFF 		bl	motor_forward
+  48              	.LVL2:
+  42:aneta.c       ****     motor_turn(255,0,205); 
+  49              		.loc 1 42 0
+  50 0016 CD22     		movs	r2, #205
+  51 0018 0021     		movs	r1, #0
+  52 001a FF20     		movs	r0, #255
+  53 001c FFF7FEFF 		bl	motor_turn
+  54              	.LVL3:
+  43:aneta.c       ****     
+  44:aneta.c       ****     motor_forward(100,2600);
+  55              		.loc 1 44 0
+  56 0020 40F62821 		movw	r1, #2600
+  57 0024 6420     		movs	r0, #100
+  58 0026 FFF7FEFF 		bl	motor_forward
+  59              	.LVL4:
+  45:aneta.c       ****     motor_turn(255,0,206);
+  60              		.loc 1 45 0
+  61 002a CE22     		movs	r2, #206
+  62 002c 0021     		movs	r1, #0
+  63 002e FF20     		movs	r0, #255
+  64 0030 FFF7FEFF 		bl	motor_turn
+  65              	.LVL5:
+  46:aneta.c       ****     
+  47:aneta.c       ****     motor_forward(100,2710);
+  66              		.loc 1 47 0
+  67 0034 40F69621 		movw	r1, #2710
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 3
 
 
- 115 0000 01       		.uleb128 0x1
- 116 0001 11       		.uleb128 0x11
- 117 0002 01       		.byte	0x1
- 118 0003 25       		.uleb128 0x25
- 119 0004 0E       		.uleb128 0xe
- 120 0005 13       		.uleb128 0x13
- 121 0006 0B       		.uleb128 0xb
- 122 0007 03       		.uleb128 0x3
- 123 0008 0E       		.uleb128 0xe
- 124 0009 1B       		.uleb128 0x1b
- 125 000a 0E       		.uleb128 0xe
- 126 000b 10       		.uleb128 0x10
- 127 000c 17       		.uleb128 0x17
- 128 000d 00       		.byte	0
- 129 000e 00       		.byte	0
- 130 000f 02       		.uleb128 0x2
- 131 0010 24       		.uleb128 0x24
- 132 0011 00       		.byte	0
- 133 0012 0B       		.uleb128 0xb
- 134 0013 0B       		.uleb128 0xb
- 135 0014 3E       		.uleb128 0x3e
- 136 0015 0B       		.uleb128 0xb
- 137 0016 03       		.uleb128 0x3
- 138 0017 0E       		.uleb128 0xe
- 139 0018 00       		.byte	0
- 140 0019 00       		.byte	0
- 141 001a 03       		.uleb128 0x3
- 142 001b 16       		.uleb128 0x16
- 143 001c 00       		.byte	0
- 144 001d 03       		.uleb128 0x3
- 145 001e 0E       		.uleb128 0xe
- 146 001f 3A       		.uleb128 0x3a
- 147 0020 0B       		.uleb128 0xb
- 148 0021 3B       		.uleb128 0x3b
- 149 0022 0B       		.uleb128 0xb
- 150 0023 49       		.uleb128 0x49
- 151 0024 13       		.uleb128 0x13
- 152 0025 00       		.byte	0
- 153 0026 00       		.byte	0
- 154 0027 04       		.uleb128 0x4
- 155 0028 24       		.uleb128 0x24
- 156 0029 00       		.byte	0
- 157 002a 0B       		.uleb128 0xb
- 158 002b 0B       		.uleb128 0xb
- 159 002c 3E       		.uleb128 0x3e
- 160 002d 0B       		.uleb128 0xb
- 161 002e 03       		.uleb128 0x3
- 162 002f 08       		.uleb128 0x8
- 163 0030 00       		.byte	0
- 164 0031 00       		.byte	0
- 165 0032 05       		.uleb128 0x5
- 166 0033 34       		.uleb128 0x34
- 167 0034 00       		.byte	0
- 168 0035 03       		.uleb128 0x3
- 169 0036 0E       		.uleb128 0xe
- 170 0037 3A       		.uleb128 0x3a
- 171 0038 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 4
+  68 0038 6420     		movs	r0, #100
+  69 003a FFF7FEFF 		bl	motor_forward
+  70              	.LVL6:
+  48:aneta.c       ****     motor_turn(255,0,247);
+  71              		.loc 1 48 0
+  72 003e F722     		movs	r2, #247
+  73 0040 0021     		movs	r1, #0
+  74 0042 FF20     		movs	r0, #255
+  75 0044 FFF7FEFF 		bl	motor_turn
+  76              	.LVL7:
+  49:aneta.c       ****     
+  50:aneta.c       ****     motor_turn(255,230,700);
+  77              		.loc 1 50 0
+  78 0048 4FF42F72 		mov	r2, #700
+  79 004c E621     		movs	r1, #230
+  80 004e FF20     		movs	r0, #255
+  81 0050 FFF7FEFF 		bl	motor_turn
+  82              	.LVL8:
+  51:aneta.c       ****     motor_turn(100,0,218);
+  83              		.loc 1 51 0
+  84 0054 DA22     		movs	r2, #218
+  85 0056 0021     		movs	r1, #0
+  86 0058 6420     		movs	r0, #100
+  87 005a FFF7FEFF 		bl	motor_turn
+  88              	.LVL9:
+  52:aneta.c       ****     motor_forward(100,500);
+  89              		.loc 1 52 0
+  90 005e 4FF4FA71 		mov	r1, #500
+  91 0062 6420     		movs	r0, #100
+  92 0064 FFF7FEFF 		bl	motor_forward
+  93              	.LVL10:
+  53:aneta.c       ****     motor_turn(100,0,30);
+  94              		.loc 1 53 0
+  95 0068 1E22     		movs	r2, #30
+  96 006a 0021     		movs	r1, #0
+  97 006c 6420     		movs	r0, #100
+  98 006e FFF7FEFF 		bl	motor_turn
+  99              	.LVL11:
+  54:aneta.c       ****     motor_forward(100,700);
+ 100              		.loc 1 54 0
+ 101 0072 4FF42F71 		mov	r1, #700
+ 102 0076 6420     		movs	r0, #100
+ 103 0078 FFF7FEFF 		bl	motor_forward
+ 104              	.LVL12:
+  55:aneta.c       **** 
+  56:aneta.c       ****     motor_stop();
+ 105              		.loc 1 56 0
+ 106 007c FFF7FEFF 		bl	motor_stop
+ 107              	.LVL13:
+ 108              	.L2:
+  57:aneta.c       ****     
+  58:aneta.c       ****     while(true)
+  59:aneta.c       ****     {
+  60:aneta.c       ****         vTaskDelay(100);
+ 109              		.loc 1 60 0 discriminator 1
+ 110 0080 6420     		movs	r0, #100
+ 111 0082 FFF7FEFF 		bl	vTaskDelay
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 4
 
 
- 172 0039 3B       		.uleb128 0x3b
- 173 003a 05       		.uleb128 0x5
- 174 003b 49       		.uleb128 0x49
- 175 003c 13       		.uleb128 0x13
- 176 003d 3F       		.uleb128 0x3f
- 177 003e 19       		.uleb128 0x19
- 178 003f 3C       		.uleb128 0x3c
- 179 0040 19       		.uleb128 0x19
- 180 0041 00       		.byte	0
- 181 0042 00       		.byte	0
- 182 0043 06       		.uleb128 0x6
- 183 0044 35       		.uleb128 0x35
- 184 0045 00       		.byte	0
- 185 0046 49       		.uleb128 0x49
- 186 0047 13       		.uleb128 0x13
- 187 0048 00       		.byte	0
- 188 0049 00       		.byte	0
- 189 004a 00       		.byte	0
- 190              		.section	.debug_aranges,"",%progbits
- 191 0000 14000000 		.4byte	0x14
- 192 0004 0200     		.2byte	0x2
- 193 0006 00000000 		.4byte	.Ldebug_info0
- 194 000a 04       		.byte	0x4
- 195 000b 00       		.byte	0
- 196 000c 0000     		.2byte	0
- 197 000e 0000     		.2byte	0
- 198 0010 00000000 		.4byte	0
- 199 0014 00000000 		.4byte	0
- 200              		.section	.debug_line,"",%progbits
- 201              	.Ldebug_line0:
- 202 0000 3B010000 		.section	.debug_str,"MS",%progbits,1
- 202      02003501 
- 202      00000201 
- 202      FB0E0D00 
- 202      01010101 
- 203              	.LASF6:
- 204 0000 6C6F6E67 		.ascii	"long long int\000"
- 204      206C6F6E 
- 204      6720696E 
- 204      7400
- 205              	.LASF3:
- 206 000e 73686F72 		.ascii	"short unsigned int\000"
- 206      7420756E 
- 206      7369676E 
- 206      65642069 
- 206      6E7400
- 207              	.LASF8:
- 208 0021 756E7369 		.ascii	"unsigned int\000"
- 208      676E6564 
- 208      20696E74 
- 208      00
- 209              	.LASF17:
- 210 002e 616E6574 		.ascii	"aneta.c\000"
- 210      612E6300 
- 211              	.LASF16:
- 212 0036 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 212      43313120 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 5
+ 112              	.LVL14:
+ 113 0086 FBE7     		b	.L2
+ 114              	.L5:
+ 115              		.align	2
+ 116              	.L4:
+ 117 0088 00000000 		.word	.LC0
+ 118              		.cfi_endproc
+ 119              	.LFE85:
+ 120              		.size	aneta_w1a1, .-aneta_w1a1
+ 121              		.section	.text.aneta_w1a2,"ax",%progbits
+ 122              		.align	2
+ 123              		.global	aneta_w1a2
+ 124              		.thumb
+ 125              		.thumb_func
+ 126              		.type	aneta_w1a2, %function
+ 127              	aneta_w1a2:
+ 128              	.LFB86:
+  61:aneta.c       ****     }
+  62:aneta.c       **** }
+  63:aneta.c       **** 
+  64:aneta.c       **** 
+  65:aneta.c       **** //WEEK 1 ASSIGNMENT 2 *****************************************************************************
+  66:aneta.c       **** void aneta_w1a2(void){
+ 129              		.loc 1 66 0
+ 130              		.cfi_startproc
+ 131              		@ args = 0, pretend = 0, frame = 0
+ 132              		@ frame_needed = 0, uses_anonymous_args = 0
+ 133 0000 10B5     		push	{r4, lr}
+ 134              		.cfi_def_cfa_offset 8
+ 135              		.cfi_offset 4, -8
+ 136              		.cfi_offset 14, -4
+ 137              	.LVL15:
+  67:aneta.c       ****     int obsD;           // how far the obstacle is
+  68:aneta.c       ****     int myD = 10;       // how far should obstacle be when robot should turn
+  69:aneta.c       ****     bool move = true;   // if true robot keeps moving
+  70:aneta.c       ****     
+  71:aneta.c       ****     printf("ASSIGNMENT 2\n");
+ 138              		.loc 1 71 0
+ 139 0002 1448     		ldr	r0, .L13
+ 140 0004 FFF7FEFF 		bl	puts
+ 141              	.LVL16:
+  72:aneta.c       ****     Ultra_Start();
+ 142              		.loc 1 72 0
+ 143 0008 FFF7FEFF 		bl	Ultra_Start
+ 144              	.LVL17:
+  73:aneta.c       ****     motor_start();
+ 145              		.loc 1 73 0
+ 146 000c FFF7FEFF 		bl	motor_start
+ 147              	.LVL18:
+  69:aneta.c       ****     
+ 148              		.loc 1 69 0
+ 149 0010 0124     		movs	r4, #1
+  74:aneta.c       ****     
+  75:aneta.c       ****     while(move){
+ 150              		.loc 1 75 0
+ 151 0012 19E0     		b	.L7
+ 152              	.LVL19:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 5
 
 
- 212      352E342E 
- 212      31203230 
- 212      31363036 
- 213 0069 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 213      20726576 
- 213      6973696F 
- 213      6E203233 
- 213      37373135 
- 214 009c 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 214      66756E63 
- 214      74696F6E 
- 214      2D736563 
- 214      74696F6E 
- 215              	.LASF5:
- 216 00c4 6C6F6E67 		.ascii	"long unsigned int\000"
- 216      20756E73 
- 216      69676E65 
- 216      6420696E 
- 216      7400
- 217              	.LASF7:
- 218 00d6 6C6F6E67 		.ascii	"long long unsigned int\000"
- 218      206C6F6E 
- 218      6720756E 
- 218      7369676E 
- 218      65642069 
- 219              	.LASF1:
- 220 00ed 756E7369 		.ascii	"unsigned char\000"
- 220      676E6564 
- 220      20636861 
- 220      7200
- 221              	.LASF13:
- 222 00fb 63686172 		.ascii	"char\000"
- 222      00
- 223              	.LASF4:
- 224 0100 6C6F6E67 		.ascii	"long int\000"
- 224      20696E74 
- 224      00
- 225              	.LASF12:
- 226 0109 646F7562 		.ascii	"double\000"
- 226      6C6500
- 227              	.LASF19:
- 228 0110 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 228      52784275 
- 228      66666572 
- 228      00
- 229              	.LASF0:
- 230 011d 7369676E 		.ascii	"signed char\000"
- 230      65642063 
- 230      68617200 
- 231              	.LASF14:
- 232 0129 6C6F6E67 		.ascii	"long double\000"
- 232      20646F75 
- 232      626C6500 
- 233              	.LASF9:
- 234 0135 5F5F696E 		.ascii	"__int32_t\000"
- 234      7433325F 
- 234      7400
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccAFEwCY.s 			page 6
+ 153              	.L10:
+  76:aneta.c       ****         motor_forward(50, 100);
+ 154              		.loc 1 76 0
+ 155 0014 6421     		movs	r1, #100
+ 156 0016 3220     		movs	r0, #50
+ 157 0018 FFF7FEFF 		bl	motor_forward
+ 158              	.LVL20:
+  77:aneta.c       ****         obsD = Ultra_GetDistance();
+ 159              		.loc 1 77 0
+ 160 001c FFF7FEFF 		bl	Ultra_GetDistance
+ 161              	.LVL21:
+  78:aneta.c       ****        
+  79:aneta.c       ****         if(obsD < myD){
+ 162              		.loc 1 79 0
+ 163 0020 0928     		cmp	r0, #9
+ 164 0022 0DDC     		bgt	.L8
+  80:aneta.c       ****             motor_forward(0,0);         
+ 165              		.loc 1 80 0
+ 166 0024 0021     		movs	r1, #0
+ 167 0026 0846     		mov	r0, r1
+ 168              	.LVL22:
+ 169 0028 FFF7FEFF 		bl	motor_forward
+ 170              	.LVL23:
+  81:aneta.c       ****             motor_backward(50,100);
+ 171              		.loc 1 81 0
+ 172 002c 6421     		movs	r1, #100
+ 173 002e 3220     		movs	r0, #50
+ 174 0030 FFF7FEFF 		bl	motor_backward
+ 175              	.LVL24:
+  82:aneta.c       ****             motor_turn(0,255,320);
+ 176              		.loc 1 82 0
+ 177 0034 4FF4A072 		mov	r2, #320
+ 178 0038 FF21     		movs	r1, #255
+ 179 003a 0020     		movs	r0, #0
+ 180 003c FFF7FEFF 		bl	motor_turn
+ 181              	.LVL25:
+ 182              	.L8:
+  83:aneta.c       ****         }
+  84:aneta.c       ****         
+  85:aneta.c       ****         if(!SW1_Read()){        //robot stops moving when button is pressed
+ 183              		.loc 1 85 0
+ 184 0040 FFF7FEFF 		bl	SW1_Read
+ 185              	.LVL26:
+ 186 0044 00B9     		cbnz	r0, .L7
+  86:aneta.c       ****             move = false;
+ 187              		.loc 1 86 0
+ 188 0046 0024     		movs	r4, #0
+ 189              	.LVL27:
+ 190              	.L7:
+  75:aneta.c       ****         motor_forward(50, 100);
+ 191              		.loc 1 75 0
+ 192 0048 002C     		cmp	r4, #0
+ 193 004a E3D1     		bne	.L10
+  87:aneta.c       ****         }
+  88:aneta.c       ****     
+  89:aneta.c       ****     }
+  90:aneta.c       **** 
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 6
 
 
- 235              	.LASF11:
- 236 013f 666C6F61 		.ascii	"float\000"
- 236      7400
- 237              	.LASF18:
- 238 0145 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
- 238      73657273 
- 238      5C457667 
- 238      656E7920 
- 238      4D657368 
- 239 0174 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
- 239      746D705C 
- 239      5A756D6F 
- 239      5C5A756D 
- 239      6F426F74 
- 240              	.LASF2:
- 241 018f 73686F72 		.ascii	"short int\000"
- 241      7420696E 
- 241      7400
- 242              	.LASF10:
- 243 0199 696E7433 		.ascii	"int32_t\000"
- 243      325F7400 
- 244              	.LASF15:
- 245 01a1 73697A65 		.ascii	"sizetype\000"
- 245      74797065 
- 245      00
- 246              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+  91:aneta.c       ****     motor_stop();
+ 194              		.loc 1 91 0
+ 195 004c FFF7FEFF 		bl	motor_stop
+ 196              	.LVL28:
+ 197 0050 10BD     		pop	{r4, pc}
+ 198              	.LVL29:
+ 199              	.L14:
+ 200 0052 00BF     		.align	2
+ 201              	.L13:
+ 202 0054 10000000 		.word	.LC1
+ 203              		.cfi_endproc
+ 204              	.LFE86:
+ 205              		.size	aneta_w1a2, .-aneta_w1a2
+ 206              		.section	.text.aneta_tankTurnRight,"ax",%progbits
+ 207              		.align	2
+ 208              		.global	aneta_tankTurnRight
+ 209              		.thumb
+ 210              		.thumb_func
+ 211              		.type	aneta_tankTurnRight, %function
+ 212              	aneta_tankTurnRight:
+ 213              	.LFB88:
+  92:aneta.c       **** 
+  93:aneta.c       **** }
+  94:aneta.c       **** 
+  95:aneta.c       **** 
+  96:aneta.c       **** //WEEK 1 ASSIGNMENT 3 *****************************************************************************
+  97:aneta.c       **** void aneta_w1a3(void){
+  98:aneta.c       ****     int obsD;           // how far the obstacle is
+  99:aneta.c       ****     int myD = 10;       // how far should obstacle be when robot should turn
+ 100:aneta.c       ****     int delay = 290;    // delay for motors; if delay is 290 and speed of motors is X, then robot t
+ 101:aneta.c       ****     int degreeTurn;     // how many degrees robot turns
+ 102:aneta.c       ****     bool move = true;   // if true robot keeps moving
+ 103:aneta.c       ****     bool turnRight;     // if true robot turns right, else turns left
+ 104:aneta.c       ****     
+ 105:aneta.c       ****     printf("ASSIGNMENT 3\n");
+ 106:aneta.c       ****     Ultra_Start();
+ 107:aneta.c       ****     motor_start();
+ 108:aneta.c       ****     
+ 109:aneta.c       ****     while(move){
+ 110:aneta.c       ****         motor_forward(50, 100);
+ 111:aneta.c       ****         obsD = Ultra_GetDistance();
+ 112:aneta.c       ****        
+ 113:aneta.c       ****         if(obsD < myD){
+ 114:aneta.c       ****             motor_forward(0,0);         
+ 115:aneta.c       ****             motor_backward(50,100);
+ 116:aneta.c       ****             turnRight = rand() % 2;
+ 117:aneta.c       ****             
+ 118:aneta.c       ****             degreeTurn = rand() % 181;  
+ 119:aneta.c       ****             
+ 120:aneta.c       ****             if (turnRight){
+ 121:aneta.c       ****                 printf("Right turn %d\n", (degreeTurn+90));
+ 122:aneta.c       ****                 aneta_tankTurnRight(90,delay);              //90 deg turn
+ 123:aneta.c       ****                 aneta_tankTurnRight(degreeTurn,delay);      //plus 0 to 180 turn
+ 124:aneta.c       ****             } else {
+ 125:aneta.c       ****                 printf("Left turn %d\n", (degreeTurn+90));
+ 126:aneta.c       ****                 aneta_tankTurnLeft(90,delay);
+ 127:aneta.c       ****                 aneta_tankTurnLeft(degreeTurn,delay);
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 7
+
+
+ 128:aneta.c       ****             }
+ 129:aneta.c       ****             
+ 130:aneta.c       ****         }
+ 131:aneta.c       ****         
+ 132:aneta.c       ****         if(!SW1_Read()){
+ 133:aneta.c       ****              move = false;
+ 134:aneta.c       ****         }
+ 135:aneta.c       ****     
+ 136:aneta.c       ****     }
+ 137:aneta.c       **** 
+ 138:aneta.c       ****     motor_stop();
+ 139:aneta.c       **** 
+ 140:aneta.c       **** }
+ 141:aneta.c       **** 
+ 142:aneta.c       **** 
+ 143:aneta.c       **** 
+ 144:aneta.c       **** 
+ 145:aneta.c       **** 
+ 146:aneta.c       **** 
+ 147:aneta.c       **** 
+ 148:aneta.c       **** //OTHER FUNCTIONS *********************************************************************************
+ 149:aneta.c       **** 
+ 150:aneta.c       **** void aneta_tankTurnRight(uint8_t speed, uint32_t delay){
+ 214              		.loc 1 150 0
+ 215              		.cfi_startproc
+ 216              		@ args = 0, pretend = 0, frame = 0
+ 217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 218              	.LVL30:
+ 219 0000 00B5     		push	{lr}
+ 220              		.cfi_def_cfa_offset 4
+ 221              		.cfi_offset 14, -4
+ 222 0002 83B0     		sub	sp, sp, #12
+ 223              		.cfi_def_cfa_offset 16
+ 224 0004 0246     		mov	r2, r0
+ 151:aneta.c       ****     SetMotors(0, 1, speed, speed, delay);
+ 225              		.loc 1 151 0
+ 226 0006 0091     		str	r1, [sp]
+ 227 0008 0346     		mov	r3, r0
+ 228 000a 0121     		movs	r1, #1
+ 229              	.LVL31:
+ 230 000c 0020     		movs	r0, #0
+ 231              	.LVL32:
+ 232 000e FFF7FEFF 		bl	SetMotors
+ 233              	.LVL33:
+ 152:aneta.c       **** }
+ 234              		.loc 1 152 0
+ 235 0012 03B0     		add	sp, sp, #12
+ 236              		.cfi_def_cfa_offset 4
+ 237              		@ sp needed
+ 238 0014 5DF804FB 		ldr	pc, [sp], #4
+ 239              		.cfi_endproc
+ 240              	.LFE88:
+ 241              		.size	aneta_tankTurnRight, .-aneta_tankTurnRight
+ 242              		.section	.text.aneta_tankTurnLeft,"ax",%progbits
+ 243              		.align	2
+ 244              		.global	aneta_tankTurnLeft
+ 245              		.thumb
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 8
+
+
+ 246              		.thumb_func
+ 247              		.type	aneta_tankTurnLeft, %function
+ 248              	aneta_tankTurnLeft:
+ 249              	.LFB89:
+ 153:aneta.c       **** 
+ 154:aneta.c       **** void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
+ 250              		.loc 1 154 0
+ 251              		.cfi_startproc
+ 252              		@ args = 0, pretend = 0, frame = 0
+ 253              		@ frame_needed = 0, uses_anonymous_args = 0
+ 254              	.LVL34:
+ 255 0000 00B5     		push	{lr}
+ 256              		.cfi_def_cfa_offset 4
+ 257              		.cfi_offset 14, -4
+ 258 0002 83B0     		sub	sp, sp, #12
+ 259              		.cfi_def_cfa_offset 16
+ 260 0004 0246     		mov	r2, r0
+ 155:aneta.c       ****     SetMotors(1, 0, speed, speed, delay);
+ 261              		.loc 1 155 0
+ 262 0006 0091     		str	r1, [sp]
+ 263 0008 0346     		mov	r3, r0
+ 264 000a 0021     		movs	r1, #0
+ 265              	.LVL35:
+ 266 000c 0120     		movs	r0, #1
+ 267              	.LVL36:
+ 268 000e FFF7FEFF 		bl	SetMotors
+ 269              	.LVL37:
+ 156:aneta.c       **** }
+ 270              		.loc 1 156 0
+ 271 0012 03B0     		add	sp, sp, #12
+ 272              		.cfi_def_cfa_offset 4
+ 273              		@ sp needed
+ 274 0014 5DF804FB 		ldr	pc, [sp], #4
+ 275              		.cfi_endproc
+ 276              	.LFE89:
+ 277              		.size	aneta_tankTurnLeft, .-aneta_tankTurnLeft
+ 278              		.section	.text.aneta_w1a3,"ax",%progbits
+ 279              		.align	2
+ 280              		.global	aneta_w1a3
+ 281              		.thumb
+ 282              		.thumb_func
+ 283              		.type	aneta_w1a3, %function
+ 284              	aneta_w1a3:
+ 285              	.LFB87:
+  97:aneta.c       ****     int obsD;           // how far the obstacle is
+ 286              		.loc 1 97 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 0
+ 289              		@ frame_needed = 0, uses_anonymous_args = 0
+ 290 0000 70B5     		push	{r4, r5, r6, lr}
+ 291              		.cfi_def_cfa_offset 16
+ 292              		.cfi_offset 4, -16
+ 293              		.cfi_offset 5, -12
+ 294              		.cfi_offset 6, -8
+ 295              		.cfi_offset 14, -4
+ 296              	.LVL38:
+ 105:aneta.c       ****     Ultra_Start();
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 9
+
+
+ 297              		.loc 1 105 0
+ 298 0002 2B48     		ldr	r0, .L28
+ 299 0004 FFF7FEFF 		bl	puts
+ 300              	.LVL39:
+ 106:aneta.c       ****     motor_start();
+ 301              		.loc 1 106 0
+ 302 0008 FFF7FEFF 		bl	Ultra_Start
+ 303              	.LVL40:
+ 107:aneta.c       ****     
+ 304              		.loc 1 107 0
+ 305 000c FFF7FEFF 		bl	motor_start
+ 306              	.LVL41:
+ 102:aneta.c       ****     bool turnRight;     // if true robot turns right, else turns left
+ 307              		.loc 1 102 0
+ 308 0010 0126     		movs	r6, #1
+ 109:aneta.c       ****         motor_forward(50, 100);
+ 309              		.loc 1 109 0
+ 310 0012 47E0     		b	.L20
+ 311              	.LVL42:
+ 312              	.L25:
+ 110:aneta.c       ****         obsD = Ultra_GetDistance();
+ 313              		.loc 1 110 0
+ 314 0014 6421     		movs	r1, #100
+ 315 0016 3220     		movs	r0, #50
+ 316 0018 FFF7FEFF 		bl	motor_forward
+ 317              	.LVL43:
+ 111:aneta.c       ****        
+ 318              		.loc 1 111 0
+ 319 001c FFF7FEFF 		bl	Ultra_GetDistance
+ 320              	.LVL44:
+ 113:aneta.c       ****             motor_forward(0,0);         
+ 321              		.loc 1 113 0
+ 322 0020 0928     		cmp	r0, #9
+ 323 0022 3BDC     		bgt	.L21
+ 114:aneta.c       ****             motor_backward(50,100);
+ 324              		.loc 1 114 0
+ 325 0024 0021     		movs	r1, #0
+ 326 0026 0846     		mov	r0, r1
+ 327              	.LVL45:
+ 328 0028 FFF7FEFF 		bl	motor_forward
+ 329              	.LVL46:
+ 115:aneta.c       ****             turnRight = rand() % 2;
+ 330              		.loc 1 115 0
+ 331 002c 6421     		movs	r1, #100
+ 332 002e 3220     		movs	r0, #50
+ 333 0030 FFF7FEFF 		bl	motor_backward
+ 334              	.LVL47:
+ 116:aneta.c       ****             
+ 335              		.loc 1 116 0
+ 336 0034 FFF7FEFF 		bl	rand
+ 337              	.LVL48:
+ 338 0038 1E4D     		ldr	r5, .L28+4
+ 339 003a 0540     		ands	r5, r0, r5
+ 340 003c 03D5     		bpl	.L22
+ 341 003e 013D     		subs	r5, r5, #1
+ 342 0040 65F00105 		orn	r5, r5, #1
+ 343 0044 0135     		adds	r5, r5, #1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 10
+
+
+ 344              	.L22:
+ 345              	.LVL49:
+ 118:aneta.c       ****             
+ 346              		.loc 1 118 0
+ 347 0046 FFF7FEFF 		bl	rand
+ 348              	.LVL50:
+ 349 004a 1B4C     		ldr	r4, .L28+8
+ 350 004c 84FB0034 		smull	r3, r4, r4, r0
+ 351 0050 C317     		asrs	r3, r0, #31
+ 352 0052 C3EB6414 		rsb	r4, r3, r4, asr #5
+ 353 0056 B523     		movs	r3, #181
+ 354 0058 03FB1404 		mls	r4, r3, r4, r0
+ 355              	.LVL51:
+ 120:aneta.c       ****                 printf("Right turn %d\n", (degreeTurn+90));
+ 356              		.loc 1 120 0
+ 357 005c 7DB1     		cbz	r5, .L23
+ 121:aneta.c       ****                 aneta_tankTurnRight(90,delay);              //90 deg turn
+ 358              		.loc 1 121 0
+ 359 005e 04F15A01 		add	r1, r4, #90
+ 360 0062 1648     		ldr	r0, .L28+12
+ 361 0064 FFF7FEFF 		bl	printf
+ 362              	.LVL52:
+ 122:aneta.c       ****                 aneta_tankTurnRight(degreeTurn,delay);      //plus 0 to 180 turn
+ 363              		.loc 1 122 0
+ 364 0068 4FF49171 		mov	r1, #290
+ 365 006c 5A20     		movs	r0, #90
+ 366 006e FFF7FEFF 		bl	aneta_tankTurnRight
+ 367              	.LVL53:
+ 123:aneta.c       ****             } else {
+ 368              		.loc 1 123 0
+ 369 0072 4FF49171 		mov	r1, #290
+ 370 0076 E0B2     		uxtb	r0, r4
+ 371 0078 FFF7FEFF 		bl	aneta_tankTurnRight
+ 372              	.LVL54:
+ 373 007c 0EE0     		b	.L21
+ 374              	.L23:
+ 125:aneta.c       ****                 aneta_tankTurnLeft(90,delay);
+ 375              		.loc 1 125 0
+ 376 007e 04F15A01 		add	r1, r4, #90
+ 377 0082 0F48     		ldr	r0, .L28+16
+ 378 0084 FFF7FEFF 		bl	printf
+ 379              	.LVL55:
+ 126:aneta.c       ****                 aneta_tankTurnLeft(degreeTurn,delay);
+ 380              		.loc 1 126 0
+ 381 0088 4FF49171 		mov	r1, #290
+ 382 008c 5A20     		movs	r0, #90
+ 383 008e FFF7FEFF 		bl	aneta_tankTurnLeft
+ 384              	.LVL56:
+ 127:aneta.c       ****             }
+ 385              		.loc 1 127 0
+ 386 0092 4FF49171 		mov	r1, #290
+ 387 0096 E0B2     		uxtb	r0, r4
+ 388 0098 FFF7FEFF 		bl	aneta_tankTurnLeft
+ 389              	.LVL57:
+ 390              	.L21:
+ 132:aneta.c       ****              move = false;
+ 391              		.loc 1 132 0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 11
+
+
+ 392 009c FFF7FEFF 		bl	SW1_Read
+ 393              	.LVL58:
+ 394 00a0 00B9     		cbnz	r0, .L20
+ 133:aneta.c       ****         }
+ 395              		.loc 1 133 0
+ 396 00a2 0026     		movs	r6, #0
+ 397              	.LVL59:
+ 398              	.L20:
+ 109:aneta.c       ****         motor_forward(50, 100);
+ 399              		.loc 1 109 0
+ 400 00a4 002E     		cmp	r6, #0
+ 401 00a6 B5D1     		bne	.L25
+ 138:aneta.c       **** 
+ 402              		.loc 1 138 0
+ 403 00a8 FFF7FEFF 		bl	motor_stop
+ 404              	.LVL60:
+ 405 00ac 70BD     		pop	{r4, r5, r6, pc}
+ 406              	.LVL61:
+ 407              	.L29:
+ 408 00ae 00BF     		.align	2
+ 409              	.L28:
+ 410 00b0 20000000 		.word	.LC2
+ 411 00b4 01000080 		.word	-2147483647
+ 412 00b8 A379422D 		.word	759331235
+ 413 00bc 30000000 		.word	.LC3
+ 414 00c0 40000000 		.word	.LC4
+ 415              		.cfi_endproc
+ 416              	.LFE87:
+ 417              		.size	aneta_w1a3, .-aneta_w1a3
+ 418              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 419              		.align	2
+ 420              	.LC0:
+ 421 0000 41535349 		.ascii	"ASSIGNMENT 1\000"
+ 421      474E4D45 
+ 421      4E542031 
+ 421      00
+ 422 000d 000000   		.space	3
+ 423              	.LC1:
+ 424 0010 41535349 		.ascii	"ASSIGNMENT 2\000"
+ 424      474E4D45 
+ 424      4E542032 
+ 424      00
+ 425 001d 000000   		.space	3
+ 426              	.LC2:
+ 427 0020 41535349 		.ascii	"ASSIGNMENT 3\000"
+ 427      474E4D45 
+ 427      4E542033 
+ 427      00
+ 428 002d 000000   		.space	3
+ 429              	.LC3:
+ 430 0030 52696768 		.ascii	"Right turn %d\012\000"
+ 430      74207475 
+ 430      726E2025 
+ 430      640A00
+ 431 003f 00       		.space	1
+ 432              	.LC4:
+ 433 0040 4C656674 		.ascii	"Left turn %d\012\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 12
+
+
+ 433      20747572 
+ 433      6E202564 
+ 433      0A00
+ 434              		.text
+ 435              	.Letext0:
+ 436              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 437              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 438              		.file 4 ".\\ZumoLibrary/Motor.h"
+ 439              		.file 5 "..\\FreeRTOS\\Source\\include/task.h"
+ 440              		.file 6 ".\\ZumoLibrary/Ultra.h"
+ 441              		.file 7 "Generated_Source\\PSoC5/SW1.h"
+ 442              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 443              		.file 9 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+ 444              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
+ 445              		.file 11 "<built-in>"
+ 446              		.section	.debug_info,"",%progbits
+ 447              	.Ldebug_info0:
+ 448 0000 4F060000 		.4byte	0x64f
+ 449 0004 0400     		.2byte	0x4
+ 450 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 451 000a 04       		.byte	0x4
+ 452 000b 01       		.uleb128 0x1
+ 453 000c 98000000 		.4byte	.LASF43
+ 454 0010 0C       		.byte	0xc
+ 455 0011 6C010000 		.4byte	.LASF44
+ 456 0015 74010000 		.4byte	.LASF45
+ 457 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 458 001d 00000000 		.4byte	0
+ 459 0021 00000000 		.4byte	.Ldebug_line0
+ 460 0025 02       		.uleb128 0x2
+ 461 0026 01       		.byte	0x1
+ 462 0027 06       		.byte	0x6
+ 463 0028 A4020000 		.4byte	.LASF0
+ 464 002c 03       		.uleb128 0x3
+ 465 002d 14000000 		.4byte	.LASF4
+ 466 0031 02       		.byte	0x2
+ 467 0032 1D       		.byte	0x1d
+ 468 0033 37000000 		.4byte	0x37
+ 469 0037 02       		.uleb128 0x2
+ 470 0038 01       		.byte	0x1
+ 471 0039 08       		.byte	0x8
+ 472 003a 8A000000 		.4byte	.LASF1
+ 473 003e 02       		.uleb128 0x2
+ 474 003f 02       		.byte	0x2
+ 475 0040 05       		.byte	0x5
+ 476 0041 78020000 		.4byte	.LASF2
+ 477 0045 02       		.uleb128 0x2
+ 478 0046 02       		.byte	0x2
+ 479 0047 07       		.byte	0x7
+ 480 0048 59010000 		.4byte	.LASF3
+ 481 004c 03       		.uleb128 0x3
+ 482 004d 24000000 		.4byte	.LASF5
+ 483 0051 02       		.byte	0x2
+ 484 0052 3F       		.byte	0x3f
+ 485 0053 57000000 		.4byte	0x57
+ 486 0057 02       		.uleb128 0x2
+ 487 0058 04       		.byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 13
+
+
+ 488 0059 05       		.byte	0x5
+ 489 005a 8B020000 		.4byte	.LASF6
+ 490 005e 03       		.uleb128 0x3
+ 491 005f EA010000 		.4byte	.LASF7
+ 492 0063 02       		.byte	0x2
+ 493 0064 41       		.byte	0x41
+ 494 0065 69000000 		.4byte	0x69
+ 495 0069 02       		.uleb128 0x2
+ 496 006a 04       		.byte	0x4
+ 497 006b 07       		.byte	0x7
+ 498 006c 47010000 		.4byte	.LASF8
+ 499 0070 02       		.uleb128 0x2
+ 500 0071 08       		.byte	0x8
+ 501 0072 05       		.byte	0x5
+ 502 0073 63020000 		.4byte	.LASF9
+ 503 0077 02       		.uleb128 0x2
+ 504 0078 08       		.byte	0x8
+ 505 0079 07       		.byte	0x7
+ 506 007a C8020000 		.4byte	.LASF10
+ 507 007e 04       		.uleb128 0x4
+ 508 007f 04       		.byte	0x4
+ 509 0080 05       		.byte	0x5
+ 510 0081 696E7400 		.ascii	"int\000"
+ 511 0085 02       		.uleb128 0x2
+ 512 0086 04       		.byte	0x4
+ 513 0087 07       		.byte	0x7
+ 514 0088 0E020000 		.4byte	.LASF11
+ 515 008c 03       		.uleb128 0x3
+ 516 008d 42000000 		.4byte	.LASF12
+ 517 0091 03       		.byte	0x3
+ 518 0092 18       		.byte	0x18
+ 519 0093 2C000000 		.4byte	0x2c
+ 520 0097 03       		.uleb128 0x3
+ 521 0098 46020000 		.4byte	.LASF13
+ 522 009c 03       		.byte	0x3
+ 523 009d 2C       		.byte	0x2c
+ 524 009e 4C000000 		.4byte	0x4c
+ 525 00a2 03       		.uleb128 0x3
+ 526 00a3 82020000 		.4byte	.LASF14
+ 527 00a7 03       		.byte	0x3
+ 528 00a8 30       		.byte	0x30
+ 529 00a9 5E000000 		.4byte	0x5e
+ 530 00ad 02       		.uleb128 0x2
+ 531 00ae 04       		.byte	0x4
+ 532 00af 04       		.byte	0x4
+ 533 00b0 6F000000 		.4byte	.LASF15
+ 534 00b4 02       		.uleb128 0x2
+ 535 00b5 08       		.byte	0x8
+ 536 00b6 04       		.byte	0x4
+ 537 00b7 CC010000 		.4byte	.LASF16
+ 538 00bb 02       		.uleb128 0x2
+ 539 00bc 01       		.byte	0x1
+ 540 00bd 08       		.byte	0x8
+ 541 00be 2E020000 		.4byte	.LASF17
+ 542 00c2 02       		.uleb128 0x2
+ 543 00c3 08       		.byte	0x8
+ 544 00c4 04       		.byte	0x4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 14
+
+
+ 545 00c5 D3010000 		.4byte	.LASF18
+ 546 00c9 02       		.uleb128 0x2
+ 547 00ca 04       		.byte	0x4
+ 548 00cb 07       		.byte	0x7
+ 549 00cc 4E020000 		.4byte	.LASF19
+ 550 00d0 05       		.uleb128 0x5
+ 551 00d1 26010000 		.4byte	.LASF46
+ 552 00d5 01       		.byte	0x1
+ 553 00d6 24       		.byte	0x24
+ 554 00d7 00000000 		.4byte	.LFB85
+ 555 00db 8C000000 		.4byte	.LFE85-.LFB85
+ 556 00df 01       		.uleb128 0x1
+ 557 00e0 9C       		.byte	0x9c
+ 558 00e1 61020000 		.4byte	0x261
+ 559 00e5 06       		.uleb128 0x6
+ 560 00e6 08000000 		.4byte	.LVL0
+ 561 00ea BE050000 		.4byte	0x5be
+ 562 00ee FC000000 		.4byte	0xfc
+ 563 00f2 07       		.uleb128 0x7
+ 564 00f3 01       		.uleb128 0x1
+ 565 00f4 50       		.byte	0x50
+ 566 00f5 05       		.uleb128 0x5
+ 567 00f6 03       		.byte	0x3
+ 568 00f7 00000000 		.4byte	.LC0
+ 569 00fb 00       		.byte	0
+ 570 00fc 08       		.uleb128 0x8
+ 571 00fd 0C000000 		.4byte	.LVL1
+ 572 0101 CD050000 		.4byte	0x5cd
+ 573 0105 06       		.uleb128 0x6
+ 574 0106 16000000 		.4byte	.LVL2
+ 575 010a D8050000 		.4byte	0x5d8
+ 576 010e 20010000 		.4byte	0x120
+ 577 0112 07       		.uleb128 0x7
+ 578 0113 01       		.uleb128 0x1
+ 579 0114 50       		.byte	0x50
+ 580 0115 02       		.uleb128 0x2
+ 581 0116 08       		.byte	0x8
+ 582 0117 64       		.byte	0x64
+ 583 0118 07       		.uleb128 0x7
+ 584 0119 01       		.uleb128 0x1
+ 585 011a 51       		.byte	0x51
+ 586 011b 03       		.uleb128 0x3
+ 587 011c 0A       		.byte	0xa
+ 588 011d 160D     		.2byte	0xd16
+ 589 011f 00       		.byte	0
+ 590 0120 06       		.uleb128 0x6
+ 591 0121 20000000 		.4byte	.LVL3
+ 592 0125 E3050000 		.4byte	0x5e3
+ 593 0129 3F010000 		.4byte	0x13f
+ 594 012d 07       		.uleb128 0x7
+ 595 012e 01       		.uleb128 0x1
+ 596 012f 50       		.byte	0x50
+ 597 0130 02       		.uleb128 0x2
+ 598 0131 09       		.byte	0x9
+ 599 0132 FF       		.byte	0xff
+ 600 0133 07       		.uleb128 0x7
+ 601 0134 01       		.uleb128 0x1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 15
+
+
+ 602 0135 51       		.byte	0x51
+ 603 0136 01       		.uleb128 0x1
+ 604 0137 30       		.byte	0x30
+ 605 0138 07       		.uleb128 0x7
+ 606 0139 01       		.uleb128 0x1
+ 607 013a 52       		.byte	0x52
+ 608 013b 02       		.uleb128 0x2
+ 609 013c 08       		.byte	0x8
+ 610 013d CD       		.byte	0xcd
+ 611 013e 00       		.byte	0
+ 612 013f 06       		.uleb128 0x6
+ 613 0140 2A000000 		.4byte	.LVL4
+ 614 0144 D8050000 		.4byte	0x5d8
+ 615 0148 5A010000 		.4byte	0x15a
+ 616 014c 07       		.uleb128 0x7
+ 617 014d 01       		.uleb128 0x1
+ 618 014e 50       		.byte	0x50
+ 619 014f 02       		.uleb128 0x2
+ 620 0150 08       		.byte	0x8
+ 621 0151 64       		.byte	0x64
+ 622 0152 07       		.uleb128 0x7
+ 623 0153 01       		.uleb128 0x1
+ 624 0154 51       		.byte	0x51
+ 625 0155 03       		.uleb128 0x3
+ 626 0156 0A       		.byte	0xa
+ 627 0157 280A     		.2byte	0xa28
+ 628 0159 00       		.byte	0
+ 629 015a 06       		.uleb128 0x6
+ 630 015b 34000000 		.4byte	.LVL5
+ 631 015f E3050000 		.4byte	0x5e3
+ 632 0163 79010000 		.4byte	0x179
+ 633 0167 07       		.uleb128 0x7
+ 634 0168 01       		.uleb128 0x1
+ 635 0169 50       		.byte	0x50
+ 636 016a 02       		.uleb128 0x2
+ 637 016b 09       		.byte	0x9
+ 638 016c FF       		.byte	0xff
+ 639 016d 07       		.uleb128 0x7
+ 640 016e 01       		.uleb128 0x1
+ 641 016f 51       		.byte	0x51
+ 642 0170 01       		.uleb128 0x1
+ 643 0171 30       		.byte	0x30
+ 644 0172 07       		.uleb128 0x7
+ 645 0173 01       		.uleb128 0x1
+ 646 0174 52       		.byte	0x52
+ 647 0175 02       		.uleb128 0x2
+ 648 0176 08       		.byte	0x8
+ 649 0177 CE       		.byte	0xce
+ 650 0178 00       		.byte	0
+ 651 0179 06       		.uleb128 0x6
+ 652 017a 3E000000 		.4byte	.LVL6
+ 653 017e D8050000 		.4byte	0x5d8
+ 654 0182 94010000 		.4byte	0x194
+ 655 0186 07       		.uleb128 0x7
+ 656 0187 01       		.uleb128 0x1
+ 657 0188 50       		.byte	0x50
+ 658 0189 02       		.uleb128 0x2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 16
+
+
+ 659 018a 08       		.byte	0x8
+ 660 018b 64       		.byte	0x64
+ 661 018c 07       		.uleb128 0x7
+ 662 018d 01       		.uleb128 0x1
+ 663 018e 51       		.byte	0x51
+ 664 018f 03       		.uleb128 0x3
+ 665 0190 0A       		.byte	0xa
+ 666 0191 960A     		.2byte	0xa96
+ 667 0193 00       		.byte	0
+ 668 0194 06       		.uleb128 0x6
+ 669 0195 48000000 		.4byte	.LVL7
+ 670 0199 E3050000 		.4byte	0x5e3
+ 671 019d B3010000 		.4byte	0x1b3
+ 672 01a1 07       		.uleb128 0x7
+ 673 01a2 01       		.uleb128 0x1
+ 674 01a3 50       		.byte	0x50
+ 675 01a4 02       		.uleb128 0x2
+ 676 01a5 09       		.byte	0x9
+ 677 01a6 FF       		.byte	0xff
+ 678 01a7 07       		.uleb128 0x7
+ 679 01a8 01       		.uleb128 0x1
+ 680 01a9 51       		.byte	0x51
+ 681 01aa 01       		.uleb128 0x1
+ 682 01ab 30       		.byte	0x30
+ 683 01ac 07       		.uleb128 0x7
+ 684 01ad 01       		.uleb128 0x1
+ 685 01ae 52       		.byte	0x52
+ 686 01af 02       		.uleb128 0x2
+ 687 01b0 08       		.byte	0x8
+ 688 01b1 F7       		.byte	0xf7
+ 689 01b2 00       		.byte	0
+ 690 01b3 06       		.uleb128 0x6
+ 691 01b4 54000000 		.4byte	.LVL8
+ 692 01b8 E3050000 		.4byte	0x5e3
+ 693 01bc D4010000 		.4byte	0x1d4
+ 694 01c0 07       		.uleb128 0x7
+ 695 01c1 01       		.uleb128 0x1
+ 696 01c2 50       		.byte	0x50
+ 697 01c3 02       		.uleb128 0x2
+ 698 01c4 09       		.byte	0x9
+ 699 01c5 FF       		.byte	0xff
+ 700 01c6 07       		.uleb128 0x7
+ 701 01c7 01       		.uleb128 0x1
+ 702 01c8 51       		.byte	0x51
+ 703 01c9 02       		.uleb128 0x2
+ 704 01ca 09       		.byte	0x9
+ 705 01cb E6       		.byte	0xe6
+ 706 01cc 07       		.uleb128 0x7
+ 707 01cd 01       		.uleb128 0x1
+ 708 01ce 52       		.byte	0x52
+ 709 01cf 03       		.uleb128 0x3
+ 710 01d0 0A       		.byte	0xa
+ 711 01d1 BC02     		.2byte	0x2bc
+ 712 01d3 00       		.byte	0
+ 713 01d4 06       		.uleb128 0x6
+ 714 01d5 5E000000 		.4byte	.LVL9
+ 715 01d9 E3050000 		.4byte	0x5e3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 17
+
+
+ 716 01dd F3010000 		.4byte	0x1f3
+ 717 01e1 07       		.uleb128 0x7
+ 718 01e2 01       		.uleb128 0x1
+ 719 01e3 50       		.byte	0x50
+ 720 01e4 02       		.uleb128 0x2
+ 721 01e5 08       		.byte	0x8
+ 722 01e6 64       		.byte	0x64
+ 723 01e7 07       		.uleb128 0x7
+ 724 01e8 01       		.uleb128 0x1
+ 725 01e9 51       		.byte	0x51
+ 726 01ea 01       		.uleb128 0x1
+ 727 01eb 30       		.byte	0x30
+ 728 01ec 07       		.uleb128 0x7
+ 729 01ed 01       		.uleb128 0x1
+ 730 01ee 52       		.byte	0x52
+ 731 01ef 02       		.uleb128 0x2
+ 732 01f0 08       		.byte	0x8
+ 733 01f1 DA       		.byte	0xda
+ 734 01f2 00       		.byte	0
+ 735 01f3 06       		.uleb128 0x6
+ 736 01f4 68000000 		.4byte	.LVL10
+ 737 01f8 D8050000 		.4byte	0x5d8
+ 738 01fc 0E020000 		.4byte	0x20e
+ 739 0200 07       		.uleb128 0x7
+ 740 0201 01       		.uleb128 0x1
+ 741 0202 50       		.byte	0x50
+ 742 0203 02       		.uleb128 0x2
+ 743 0204 08       		.byte	0x8
+ 744 0205 64       		.byte	0x64
+ 745 0206 07       		.uleb128 0x7
+ 746 0207 01       		.uleb128 0x1
+ 747 0208 51       		.byte	0x51
+ 748 0209 03       		.uleb128 0x3
+ 749 020a 0A       		.byte	0xa
+ 750 020b F401     		.2byte	0x1f4
+ 751 020d 00       		.byte	0
+ 752 020e 06       		.uleb128 0x6
+ 753 020f 72000000 		.4byte	.LVL11
+ 754 0213 E3050000 		.4byte	0x5e3
+ 755 0217 2C020000 		.4byte	0x22c
+ 756 021b 07       		.uleb128 0x7
+ 757 021c 01       		.uleb128 0x1
+ 758 021d 50       		.byte	0x50
+ 759 021e 02       		.uleb128 0x2
+ 760 021f 08       		.byte	0x8
+ 761 0220 64       		.byte	0x64
+ 762 0221 07       		.uleb128 0x7
+ 763 0222 01       		.uleb128 0x1
+ 764 0223 51       		.byte	0x51
+ 765 0224 01       		.uleb128 0x1
+ 766 0225 30       		.byte	0x30
+ 767 0226 07       		.uleb128 0x7
+ 768 0227 01       		.uleb128 0x1
+ 769 0228 52       		.byte	0x52
+ 770 0229 01       		.uleb128 0x1
+ 771 022a 4E       		.byte	0x4e
+ 772 022b 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 18
+
+
+ 773 022c 06       		.uleb128 0x6
+ 774 022d 7C000000 		.4byte	.LVL12
+ 775 0231 D8050000 		.4byte	0x5d8
+ 776 0235 47020000 		.4byte	0x247
+ 777 0239 07       		.uleb128 0x7
+ 778 023a 01       		.uleb128 0x1
+ 779 023b 50       		.byte	0x50
+ 780 023c 02       		.uleb128 0x2
+ 781 023d 08       		.byte	0x8
+ 782 023e 64       		.byte	0x64
+ 783 023f 07       		.uleb128 0x7
+ 784 0240 01       		.uleb128 0x1
+ 785 0241 51       		.byte	0x51
+ 786 0242 03       		.uleb128 0x3
+ 787 0243 0A       		.byte	0xa
+ 788 0244 BC02     		.2byte	0x2bc
+ 789 0246 00       		.byte	0
+ 790 0247 08       		.uleb128 0x8
+ 791 0248 80000000 		.4byte	.LVL13
+ 792 024c EE050000 		.4byte	0x5ee
+ 793 0250 09       		.uleb128 0x9
+ 794 0251 86000000 		.4byte	.LVL14
+ 795 0255 F9050000 		.4byte	0x5f9
+ 796 0259 07       		.uleb128 0x7
+ 797 025a 01       		.uleb128 0x1
+ 798 025b 50       		.byte	0x50
+ 799 025c 02       		.uleb128 0x2
+ 800 025d 08       		.byte	0x8
+ 801 025e 64       		.byte	0x64
+ 802 025f 00       		.byte	0
+ 803 0260 00       		.byte	0
+ 804 0261 0A       		.uleb128 0xa
+ 805 0262 31010000 		.4byte	.LASF23
+ 806 0266 01       		.byte	0x1
+ 807 0267 42       		.byte	0x42
+ 808 0268 00000000 		.4byte	.LFB86
+ 809 026c 58000000 		.4byte	.LFE86-.LFB86
+ 810 0270 01       		.uleb128 0x1
+ 811 0271 9C       		.byte	0x9c
+ 812 0272 51030000 		.4byte	0x351
+ 813 0276 0B       		.uleb128 0xb
+ 814 0277 5F000000 		.4byte	.LASF20
+ 815 027b 01       		.byte	0x1
+ 816 027c 43       		.byte	0x43
+ 817 027d 7E000000 		.4byte	0x7e
+ 818 0281 00000000 		.4byte	.LLST0
+ 819 0285 0C       		.uleb128 0xc
+ 820 0286 6D794400 		.ascii	"myD\000"
+ 821 028a 01       		.byte	0x1
+ 822 028b 44       		.byte	0x44
+ 823 028c 7E000000 		.4byte	0x7e
+ 824 0290 0A       		.byte	0xa
+ 825 0291 0B       		.uleb128 0xb
+ 826 0292 2E000000 		.4byte	.LASF21
+ 827 0296 01       		.byte	0x1
+ 828 0297 45       		.byte	0x45
+ 829 0298 51030000 		.4byte	0x351
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 19
+
+
+ 830 029c 13000000 		.4byte	.LLST1
+ 831 02a0 06       		.uleb128 0x6
+ 832 02a1 08000000 		.4byte	.LVL16
+ 833 02a5 BE050000 		.4byte	0x5be
+ 834 02a9 B7020000 		.4byte	0x2b7
+ 835 02ad 07       		.uleb128 0x7
+ 836 02ae 01       		.uleb128 0x1
+ 837 02af 50       		.byte	0x50
+ 838 02b0 05       		.uleb128 0x5
+ 839 02b1 03       		.byte	0x3
+ 840 02b2 10000000 		.4byte	.LC1
+ 841 02b6 00       		.byte	0
+ 842 02b7 08       		.uleb128 0x8
+ 843 02b8 0C000000 		.4byte	.LVL17
+ 844 02bc 05060000 		.4byte	0x605
+ 845 02c0 08       		.uleb128 0x8
+ 846 02c1 10000000 		.4byte	.LVL18
+ 847 02c5 CD050000 		.4byte	0x5cd
+ 848 02c9 06       		.uleb128 0x6
+ 849 02ca 1C000000 		.4byte	.LVL20
+ 850 02ce D8050000 		.4byte	0x5d8
+ 851 02d2 E3020000 		.4byte	0x2e3
+ 852 02d6 07       		.uleb128 0x7
+ 853 02d7 01       		.uleb128 0x1
+ 854 02d8 50       		.byte	0x50
+ 855 02d9 02       		.uleb128 0x2
+ 856 02da 08       		.byte	0x8
+ 857 02db 32       		.byte	0x32
+ 858 02dc 07       		.uleb128 0x7
+ 859 02dd 01       		.uleb128 0x1
+ 860 02de 51       		.byte	0x51
+ 861 02df 02       		.uleb128 0x2
+ 862 02e0 08       		.byte	0x8
+ 863 02e1 64       		.byte	0x64
+ 864 02e2 00       		.byte	0
+ 865 02e3 08       		.uleb128 0x8
+ 866 02e4 20000000 		.4byte	.LVL21
+ 867 02e8 10060000 		.4byte	0x610
+ 868 02ec 06       		.uleb128 0x6
+ 869 02ed 2C000000 		.4byte	.LVL23
+ 870 02f1 D8050000 		.4byte	0x5d8
+ 871 02f5 04030000 		.4byte	0x304
+ 872 02f9 07       		.uleb128 0x7
+ 873 02fa 01       		.uleb128 0x1
+ 874 02fb 50       		.byte	0x50
+ 875 02fc 01       		.uleb128 0x1
+ 876 02fd 30       		.byte	0x30
+ 877 02fe 07       		.uleb128 0x7
+ 878 02ff 01       		.uleb128 0x1
+ 879 0300 51       		.byte	0x51
+ 880 0301 01       		.uleb128 0x1
+ 881 0302 30       		.byte	0x30
+ 882 0303 00       		.byte	0
+ 883 0304 06       		.uleb128 0x6
+ 884 0305 34000000 		.4byte	.LVL24
+ 885 0309 1B060000 		.4byte	0x61b
+ 886 030d 1E030000 		.4byte	0x31e
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 20
+
+
+ 887 0311 07       		.uleb128 0x7
+ 888 0312 01       		.uleb128 0x1
+ 889 0313 50       		.byte	0x50
+ 890 0314 02       		.uleb128 0x2
+ 891 0315 08       		.byte	0x8
+ 892 0316 32       		.byte	0x32
+ 893 0317 07       		.uleb128 0x7
+ 894 0318 01       		.uleb128 0x1
+ 895 0319 51       		.byte	0x51
+ 896 031a 02       		.uleb128 0x2
+ 897 031b 08       		.byte	0x8
+ 898 031c 64       		.byte	0x64
+ 899 031d 00       		.byte	0
+ 900 031e 06       		.uleb128 0x6
+ 901 031f 40000000 		.4byte	.LVL25
+ 902 0323 E3050000 		.4byte	0x5e3
+ 903 0327 3E030000 		.4byte	0x33e
+ 904 032b 07       		.uleb128 0x7
+ 905 032c 01       		.uleb128 0x1
+ 906 032d 50       		.byte	0x50
+ 907 032e 01       		.uleb128 0x1
+ 908 032f 30       		.byte	0x30
+ 909 0330 07       		.uleb128 0x7
+ 910 0331 01       		.uleb128 0x1
+ 911 0332 51       		.byte	0x51
+ 912 0333 02       		.uleb128 0x2
+ 913 0334 09       		.byte	0x9
+ 914 0335 FF       		.byte	0xff
+ 915 0336 07       		.uleb128 0x7
+ 916 0337 01       		.uleb128 0x1
+ 917 0338 52       		.byte	0x52
+ 918 0339 03       		.uleb128 0x3
+ 919 033a 0A       		.byte	0xa
+ 920 033b 4001     		.2byte	0x140
+ 921 033d 00       		.byte	0
+ 922 033e 08       		.uleb128 0x8
+ 923 033f 44000000 		.4byte	.LVL26
+ 924 0343 26060000 		.4byte	0x626
+ 925 0347 08       		.uleb128 0x8
+ 926 0348 50000000 		.4byte	.LVL28
+ 927 034c EE050000 		.4byte	0x5ee
+ 928 0350 00       		.byte	0
+ 929 0351 02       		.uleb128 0x2
+ 930 0352 01       		.byte	0x1
+ 931 0353 02       		.byte	0x2
+ 932 0354 C2020000 		.4byte	.LASF22
+ 933 0358 0A       		.uleb128 0xa
+ 934 0359 00000000 		.4byte	.LASF24
+ 935 035d 01       		.byte	0x1
+ 936 035e 96       		.byte	0x96
+ 937 035f 00000000 		.4byte	.LFB88
+ 938 0363 18000000 		.4byte	.LFE88-.LFB88
+ 939 0367 01       		.uleb128 0x1
+ 940 0368 9C       		.byte	0x9c
+ 941 0369 A8030000 		.4byte	0x3a8
+ 942 036d 0D       		.uleb128 0xd
+ 943 036e 1E000000 		.4byte	.LASF25
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 21
+
+
+ 944 0372 01       		.byte	0x1
+ 945 0373 96       		.byte	0x96
+ 946 0374 8C000000 		.4byte	0x8c
+ 947 0378 32000000 		.4byte	.LLST2
+ 948 037c 0D       		.uleb128 0xd
+ 949 037d 84000000 		.4byte	.LASF26
+ 950 0381 01       		.byte	0x1
+ 951 0382 96       		.byte	0x96
+ 952 0383 A2000000 		.4byte	0xa2
+ 953 0387 53000000 		.4byte	.LLST3
+ 954 038b 09       		.uleb128 0x9
+ 955 038c 12000000 		.4byte	.LVL33
+ 956 0390 31060000 		.4byte	0x631
+ 957 0394 07       		.uleb128 0x7
+ 958 0395 01       		.uleb128 0x1
+ 959 0396 50       		.byte	0x50
+ 960 0397 01       		.uleb128 0x1
+ 961 0398 30       		.byte	0x30
+ 962 0399 07       		.uleb128 0x7
+ 963 039a 01       		.uleb128 0x1
+ 964 039b 51       		.byte	0x51
+ 965 039c 01       		.uleb128 0x1
+ 966 039d 31       		.byte	0x31
+ 967 039e 07       		.uleb128 0x7
+ 968 039f 02       		.uleb128 0x2
+ 969 03a0 7D       		.byte	0x7d
+ 970 03a1 00       		.sleb128 0
+ 971 03a2 03       		.uleb128 0x3
+ 972 03a3 F3       		.byte	0xf3
+ 973 03a4 01       		.uleb128 0x1
+ 974 03a5 51       		.byte	0x51
+ 975 03a6 00       		.byte	0
+ 976 03a7 00       		.byte	0
+ 977 03a8 0A       		.uleb128 0xa
+ 978 03a9 1B020000 		.4byte	.LASF27
+ 979 03ad 01       		.byte	0x1
+ 980 03ae 9A       		.byte	0x9a
+ 981 03af 00000000 		.4byte	.LFB89
+ 982 03b3 18000000 		.4byte	.LFE89-.LFB89
+ 983 03b7 01       		.uleb128 0x1
+ 984 03b8 9C       		.byte	0x9c
+ 985 03b9 F8030000 		.4byte	0x3f8
+ 986 03bd 0D       		.uleb128 0xd
+ 987 03be 1E000000 		.4byte	.LASF25
+ 988 03c2 01       		.byte	0x1
+ 989 03c3 9A       		.byte	0x9a
+ 990 03c4 8C000000 		.4byte	0x8c
+ 991 03c8 80000000 		.4byte	.LLST4
+ 992 03cc 0D       		.uleb128 0xd
+ 993 03cd 84000000 		.4byte	.LASF26
+ 994 03d1 01       		.byte	0x1
+ 995 03d2 9A       		.byte	0x9a
+ 996 03d3 A2000000 		.4byte	0xa2
+ 997 03d7 A1000000 		.4byte	.LLST5
+ 998 03db 09       		.uleb128 0x9
+ 999 03dc 12000000 		.4byte	.LVL37
+ 1000 03e0 31060000 		.4byte	0x631
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 22
+
+
+ 1001 03e4 07       		.uleb128 0x7
+ 1002 03e5 01       		.uleb128 0x1
+ 1003 03e6 50       		.byte	0x50
+ 1004 03e7 01       		.uleb128 0x1
+ 1005 03e8 31       		.byte	0x31
+ 1006 03e9 07       		.uleb128 0x7
+ 1007 03ea 01       		.uleb128 0x1
+ 1008 03eb 51       		.byte	0x51
+ 1009 03ec 01       		.uleb128 0x1
+ 1010 03ed 30       		.byte	0x30
+ 1011 03ee 07       		.uleb128 0x7
+ 1012 03ef 02       		.uleb128 0x2
+ 1013 03f0 7D       		.byte	0x7d
+ 1014 03f1 00       		.sleb128 0
+ 1015 03f2 03       		.uleb128 0x3
+ 1016 03f3 F3       		.byte	0xf3
+ 1017 03f4 01       		.uleb128 0x1
+ 1018 03f5 51       		.byte	0x51
+ 1019 03f6 00       		.byte	0
+ 1020 03f7 00       		.byte	0
+ 1021 03f8 0A       		.uleb128 0xa
+ 1022 03f9 3C010000 		.4byte	.LASF28
+ 1023 03fd 01       		.byte	0x1
+ 1024 03fe 61       		.byte	0x61
+ 1025 03ff 00000000 		.4byte	.LFB87
+ 1026 0403 C4000000 		.4byte	.LFE87-.LFB87
+ 1027 0407 01       		.uleb128 0x1
+ 1028 0408 9C       		.byte	0x9c
+ 1029 0409 AD050000 		.4byte	0x5ad
+ 1030 040d 0B       		.uleb128 0xb
+ 1031 040e 5F000000 		.4byte	.LASF20
+ 1032 0412 01       		.byte	0x1
+ 1033 0413 62       		.byte	0x62
+ 1034 0414 7E000000 		.4byte	0x7e
+ 1035 0418 CE000000 		.4byte	.LLST6
+ 1036 041c 0C       		.uleb128 0xc
+ 1037 041d 6D794400 		.ascii	"myD\000"
+ 1038 0421 01       		.byte	0x1
+ 1039 0422 63       		.byte	0x63
+ 1040 0423 7E000000 		.4byte	0x7e
+ 1041 0427 0A       		.byte	0xa
+ 1042 0428 0E       		.uleb128 0xe
+ 1043 0429 84000000 		.4byte	.LASF26
+ 1044 042d 01       		.byte	0x1
+ 1045 042e 64       		.byte	0x64
+ 1046 042f 7E000000 		.4byte	0x7e
+ 1047 0433 2201     		.2byte	0x122
+ 1048 0435 0B       		.uleb128 0xb
+ 1049 0436 54000000 		.4byte	.LASF29
+ 1050 043a 01       		.byte	0x1
+ 1051 043b 65       		.byte	0x65
+ 1052 043c 7E000000 		.4byte	0x7e
+ 1053 0440 E1000000 		.4byte	.LLST7
+ 1054 0444 0B       		.uleb128 0xb
+ 1055 0445 2E000000 		.4byte	.LASF21
+ 1056 0449 01       		.byte	0x1
+ 1057 044a 66       		.byte	0x66
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 23
+
+
+ 1058 044b 51030000 		.4byte	0x351
+ 1059 044f F4000000 		.4byte	.LLST8
+ 1060 0453 0B       		.uleb128 0xb
+ 1061 0454 4A000000 		.4byte	.LASF30
+ 1062 0458 01       		.byte	0x1
+ 1063 0459 67       		.byte	0x67
+ 1064 045a 51030000 		.4byte	0x351
+ 1065 045e 13010000 		.4byte	.LLST9
+ 1066 0462 06       		.uleb128 0x6
+ 1067 0463 08000000 		.4byte	.LVL39
+ 1068 0467 BE050000 		.4byte	0x5be
+ 1069 046b 79040000 		.4byte	0x479
+ 1070 046f 07       		.uleb128 0x7
+ 1071 0470 01       		.uleb128 0x1
+ 1072 0471 50       		.byte	0x50
+ 1073 0472 05       		.uleb128 0x5
+ 1074 0473 03       		.byte	0x3
+ 1075 0474 20000000 		.4byte	.LC2
+ 1076 0478 00       		.byte	0
+ 1077 0479 08       		.uleb128 0x8
+ 1078 047a 0C000000 		.4byte	.LVL40
+ 1079 047e 05060000 		.4byte	0x605
+ 1080 0482 08       		.uleb128 0x8
+ 1081 0483 10000000 		.4byte	.LVL41
+ 1082 0487 CD050000 		.4byte	0x5cd
+ 1083 048b 06       		.uleb128 0x6
+ 1084 048c 1C000000 		.4byte	.LVL43
+ 1085 0490 D8050000 		.4byte	0x5d8
+ 1086 0494 A5040000 		.4byte	0x4a5
+ 1087 0498 07       		.uleb128 0x7
+ 1088 0499 01       		.uleb128 0x1
+ 1089 049a 50       		.byte	0x50
+ 1090 049b 02       		.uleb128 0x2
+ 1091 049c 08       		.byte	0x8
+ 1092 049d 32       		.byte	0x32
+ 1093 049e 07       		.uleb128 0x7
+ 1094 049f 01       		.uleb128 0x1
+ 1095 04a0 51       		.byte	0x51
+ 1096 04a1 02       		.uleb128 0x2
+ 1097 04a2 08       		.byte	0x8
+ 1098 04a3 64       		.byte	0x64
+ 1099 04a4 00       		.byte	0
+ 1100 04a5 08       		.uleb128 0x8
+ 1101 04a6 20000000 		.4byte	.LVL44
+ 1102 04aa 10060000 		.4byte	0x610
+ 1103 04ae 06       		.uleb128 0x6
+ 1104 04af 2C000000 		.4byte	.LVL46
+ 1105 04b3 D8050000 		.4byte	0x5d8
+ 1106 04b7 C6040000 		.4byte	0x4c6
+ 1107 04bb 07       		.uleb128 0x7
+ 1108 04bc 01       		.uleb128 0x1
+ 1109 04bd 50       		.byte	0x50
+ 1110 04be 01       		.uleb128 0x1
+ 1111 04bf 30       		.byte	0x30
+ 1112 04c0 07       		.uleb128 0x7
+ 1113 04c1 01       		.uleb128 0x1
+ 1114 04c2 51       		.byte	0x51
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 24
+
+
+ 1115 04c3 01       		.uleb128 0x1
+ 1116 04c4 30       		.byte	0x30
+ 1117 04c5 00       		.byte	0
+ 1118 04c6 06       		.uleb128 0x6
+ 1119 04c7 34000000 		.4byte	.LVL47
+ 1120 04cb 1B060000 		.4byte	0x61b
+ 1121 04cf E0040000 		.4byte	0x4e0
+ 1122 04d3 07       		.uleb128 0x7
+ 1123 04d4 01       		.uleb128 0x1
+ 1124 04d5 50       		.byte	0x50
+ 1125 04d6 02       		.uleb128 0x2
+ 1126 04d7 08       		.byte	0x8
+ 1127 04d8 32       		.byte	0x32
+ 1128 04d9 07       		.uleb128 0x7
+ 1129 04da 01       		.uleb128 0x1
+ 1130 04db 51       		.byte	0x51
+ 1131 04dc 02       		.uleb128 0x2
+ 1132 04dd 08       		.byte	0x8
+ 1133 04de 64       		.byte	0x64
+ 1134 04df 00       		.byte	0
+ 1135 04e0 08       		.uleb128 0x8
+ 1136 04e1 38000000 		.4byte	.LVL48
+ 1137 04e5 3C060000 		.4byte	0x63c
+ 1138 04e9 08       		.uleb128 0x8
+ 1139 04ea 4A000000 		.4byte	.LVL50
+ 1140 04ee 3C060000 		.4byte	0x63c
+ 1141 04f2 06       		.uleb128 0x6
+ 1142 04f3 68000000 		.4byte	.LVL52
+ 1143 04f7 47060000 		.4byte	0x647
+ 1144 04fb 10050000 		.4byte	0x510
+ 1145 04ff 07       		.uleb128 0x7
+ 1146 0500 01       		.uleb128 0x1
+ 1147 0501 50       		.byte	0x50
+ 1148 0502 05       		.uleb128 0x5
+ 1149 0503 03       		.byte	0x3
+ 1150 0504 30000000 		.4byte	.LC3
+ 1151 0508 07       		.uleb128 0x7
+ 1152 0509 01       		.uleb128 0x1
+ 1153 050a 51       		.byte	0x51
+ 1154 050b 03       		.uleb128 0x3
+ 1155 050c 74       		.byte	0x74
+ 1156 050d DA00     		.sleb128 90
+ 1157 050f 00       		.byte	0
+ 1158 0510 06       		.uleb128 0x6
+ 1159 0511 72000000 		.4byte	.LVL53
+ 1160 0515 58030000 		.4byte	0x358
+ 1161 0519 2B050000 		.4byte	0x52b
+ 1162 051d 07       		.uleb128 0x7
+ 1163 051e 01       		.uleb128 0x1
+ 1164 051f 50       		.byte	0x50
+ 1165 0520 02       		.uleb128 0x2
+ 1166 0521 08       		.byte	0x8
+ 1167 0522 5A       		.byte	0x5a
+ 1168 0523 07       		.uleb128 0x7
+ 1169 0524 01       		.uleb128 0x1
+ 1170 0525 51       		.byte	0x51
+ 1171 0526 03       		.uleb128 0x3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 25
+
+
+ 1172 0527 0A       		.byte	0xa
+ 1173 0528 2201     		.2byte	0x122
+ 1174 052a 00       		.byte	0
+ 1175 052b 06       		.uleb128 0x6
+ 1176 052c 7C000000 		.4byte	.LVL54
+ 1177 0530 58030000 		.4byte	0x358
+ 1178 0534 46050000 		.4byte	0x546
+ 1179 0538 07       		.uleb128 0x7
+ 1180 0539 01       		.uleb128 0x1
+ 1181 053a 50       		.byte	0x50
+ 1182 053b 02       		.uleb128 0x2
+ 1183 053c 74       		.byte	0x74
+ 1184 053d 00       		.sleb128 0
+ 1185 053e 07       		.uleb128 0x7
+ 1186 053f 01       		.uleb128 0x1
+ 1187 0540 51       		.byte	0x51
+ 1188 0541 03       		.uleb128 0x3
+ 1189 0542 0A       		.byte	0xa
+ 1190 0543 2201     		.2byte	0x122
+ 1191 0545 00       		.byte	0
+ 1192 0546 06       		.uleb128 0x6
+ 1193 0547 88000000 		.4byte	.LVL55
+ 1194 054b 47060000 		.4byte	0x647
+ 1195 054f 64050000 		.4byte	0x564
+ 1196 0553 07       		.uleb128 0x7
+ 1197 0554 01       		.uleb128 0x1
+ 1198 0555 50       		.byte	0x50
+ 1199 0556 05       		.uleb128 0x5
+ 1200 0557 03       		.byte	0x3
+ 1201 0558 40000000 		.4byte	.LC4
+ 1202 055c 07       		.uleb128 0x7
+ 1203 055d 01       		.uleb128 0x1
+ 1204 055e 51       		.byte	0x51
+ 1205 055f 03       		.uleb128 0x3
+ 1206 0560 74       		.byte	0x74
+ 1207 0561 DA00     		.sleb128 90
+ 1208 0563 00       		.byte	0
+ 1209 0564 06       		.uleb128 0x6
+ 1210 0565 92000000 		.4byte	.LVL56
+ 1211 0569 A8030000 		.4byte	0x3a8
+ 1212 056d 7F050000 		.4byte	0x57f
+ 1213 0571 07       		.uleb128 0x7
+ 1214 0572 01       		.uleb128 0x1
+ 1215 0573 50       		.byte	0x50
+ 1216 0574 02       		.uleb128 0x2
+ 1217 0575 08       		.byte	0x8
+ 1218 0576 5A       		.byte	0x5a
+ 1219 0577 07       		.uleb128 0x7
+ 1220 0578 01       		.uleb128 0x1
+ 1221 0579 51       		.byte	0x51
+ 1222 057a 03       		.uleb128 0x3
+ 1223 057b 0A       		.byte	0xa
+ 1224 057c 2201     		.2byte	0x122
+ 1225 057e 00       		.byte	0
+ 1226 057f 06       		.uleb128 0x6
+ 1227 0580 9C000000 		.4byte	.LVL57
+ 1228 0584 A8030000 		.4byte	0x3a8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 26
+
+
+ 1229 0588 9A050000 		.4byte	0x59a
+ 1230 058c 07       		.uleb128 0x7
+ 1231 058d 01       		.uleb128 0x1
+ 1232 058e 50       		.byte	0x50
+ 1233 058f 02       		.uleb128 0x2
+ 1234 0590 74       		.byte	0x74
+ 1235 0591 00       		.sleb128 0
+ 1236 0592 07       		.uleb128 0x7
+ 1237 0593 01       		.uleb128 0x1
+ 1238 0594 51       		.byte	0x51
+ 1239 0595 03       		.uleb128 0x3
+ 1240 0596 0A       		.byte	0xa
+ 1241 0597 2201     		.2byte	0x122
+ 1242 0599 00       		.byte	0
+ 1243 059a 08       		.uleb128 0x8
+ 1244 059b A0000000 		.4byte	.LVL58
+ 1245 059f 26060000 		.4byte	0x626
+ 1246 05a3 08       		.uleb128 0x8
+ 1247 05a4 AC000000 		.4byte	.LVL60
+ 1248 05a8 EE050000 		.4byte	0x5ee
+ 1249 05ac 00       		.byte	0
+ 1250 05ad 0F       		.uleb128 0xf
+ 1251 05ae F5010000 		.4byte	.LASF47
+ 1252 05b2 0A       		.byte	0xa
+ 1253 05b3 1207     		.2byte	0x712
+ 1254 05b5 B9050000 		.4byte	0x5b9
+ 1255 05b9 10       		.uleb128 0x10
+ 1256 05ba 97000000 		.4byte	0x97
+ 1257 05be 11       		.uleb128 0x11
+ 1258 05bf 9F020000 		.4byte	.LASF48
+ 1259 05c3 75000000 		.4byte	.LASF49
+ 1260 05c7 0B       		.byte	0xb
+ 1261 05c8 00       		.byte	0
+ 1262 05c9 9F020000 		.4byte	.LASF48
+ 1263 05cd 12       		.uleb128 0x12
+ 1264 05ce 57020000 		.4byte	.LASF31
+ 1265 05d2 57020000 		.4byte	.LASF31
+ 1266 05d6 04       		.byte	0x4
+ 1267 05d7 0B       		.byte	0xb
+ 1268 05d8 12       		.uleb128 0x12
+ 1269 05d9 BE010000 		.4byte	.LASF32
+ 1270 05dd BE010000 		.4byte	.LASF32
+ 1271 05e1 04       		.byte	0x4
+ 1272 05e2 0F       		.byte	0xf
+ 1273 05e3 12       		.uleb128 0x12
+ 1274 05e4 64000000 		.4byte	.LASF33
+ 1275 05e8 64000000 		.4byte	.LASF33
+ 1276 05ec 04       		.byte	0x4
+ 1277 05ed 12       		.byte	0x12
+ 1278 05ee 12       		.uleb128 0x12
+ 1279 05ef DF010000 		.4byte	.LASF34
+ 1280 05f3 DF010000 		.4byte	.LASF34
+ 1281 05f7 04       		.byte	0x4
+ 1282 05f8 0C       		.byte	0xc
+ 1283 05f9 13       		.uleb128 0x13
+ 1284 05fa 94020000 		.4byte	.LASF35
+ 1285 05fe 94020000 		.4byte	.LASF35
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 27
+
+
+ 1286 0602 05       		.byte	0x5
+ 1287 0603 ED02     		.2byte	0x2ed
+ 1288 0605 12       		.uleb128 0x12
+ 1289 0606 02020000 		.4byte	.LASF36
+ 1290 060a 02020000 		.4byte	.LASF36
+ 1291 060e 06       		.byte	0x6
+ 1292 060f 0A       		.byte	0xa
+ 1293 0610 12       		.uleb128 0x12
+ 1294 0611 B0020000 		.4byte	.LASF37
+ 1295 0615 B0020000 		.4byte	.LASF37
+ 1296 0619 06       		.byte	0x6
+ 1297 061a 0D       		.byte	0xd
+ 1298 061b 12       		.uleb128 0x12
+ 1299 061c 33000000 		.4byte	.LASF38
+ 1300 0620 33000000 		.4byte	.LASF38
+ 1301 0624 04       		.byte	0x4
+ 1302 0625 15       		.byte	0x15
+ 1303 0626 12       		.uleb128 0x12
+ 1304 0627 33020000 		.4byte	.LASF39
+ 1305 062b 33020000 		.4byte	.LASF39
+ 1306 062f 07       		.byte	0x7
+ 1307 0630 29       		.byte	0x29
+ 1308 0631 12       		.uleb128 0x12
+ 1309 0632 3C020000 		.4byte	.LASF40
+ 1310 0636 3C020000 		.4byte	.LASF40
+ 1311 063a 04       		.byte	0x4
+ 1312 063b 18       		.byte	0x18
+ 1313 063c 12       		.uleb128 0x12
+ 1314 063d DF020000 		.4byte	.LASF41
+ 1315 0641 DF020000 		.4byte	.LASF41
+ 1316 0645 08       		.byte	0x8
+ 1317 0646 88       		.byte	0x88
+ 1318 0647 12       		.uleb128 0x12
+ 1319 0648 71020000 		.4byte	.LASF42
+ 1320 064c 71020000 		.4byte	.LASF42
+ 1321 0650 09       		.byte	0x9
+ 1322 0651 BB       		.byte	0xbb
+ 1323 0652 00       		.byte	0
+ 1324              		.section	.debug_abbrev,"",%progbits
+ 1325              	.Ldebug_abbrev0:
+ 1326 0000 01       		.uleb128 0x1
+ 1327 0001 11       		.uleb128 0x11
+ 1328 0002 01       		.byte	0x1
+ 1329 0003 25       		.uleb128 0x25
+ 1330 0004 0E       		.uleb128 0xe
+ 1331 0005 13       		.uleb128 0x13
+ 1332 0006 0B       		.uleb128 0xb
+ 1333 0007 03       		.uleb128 0x3
+ 1334 0008 0E       		.uleb128 0xe
+ 1335 0009 1B       		.uleb128 0x1b
+ 1336 000a 0E       		.uleb128 0xe
+ 1337 000b 55       		.uleb128 0x55
+ 1338 000c 17       		.uleb128 0x17
+ 1339 000d 11       		.uleb128 0x11
+ 1340 000e 01       		.uleb128 0x1
+ 1341 000f 10       		.uleb128 0x10
+ 1342 0010 17       		.uleb128 0x17
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 28
+
+
+ 1343 0011 00       		.byte	0
+ 1344 0012 00       		.byte	0
+ 1345 0013 02       		.uleb128 0x2
+ 1346 0014 24       		.uleb128 0x24
+ 1347 0015 00       		.byte	0
+ 1348 0016 0B       		.uleb128 0xb
+ 1349 0017 0B       		.uleb128 0xb
+ 1350 0018 3E       		.uleb128 0x3e
+ 1351 0019 0B       		.uleb128 0xb
+ 1352 001a 03       		.uleb128 0x3
+ 1353 001b 0E       		.uleb128 0xe
+ 1354 001c 00       		.byte	0
+ 1355 001d 00       		.byte	0
+ 1356 001e 03       		.uleb128 0x3
+ 1357 001f 16       		.uleb128 0x16
+ 1358 0020 00       		.byte	0
+ 1359 0021 03       		.uleb128 0x3
+ 1360 0022 0E       		.uleb128 0xe
+ 1361 0023 3A       		.uleb128 0x3a
+ 1362 0024 0B       		.uleb128 0xb
+ 1363 0025 3B       		.uleb128 0x3b
+ 1364 0026 0B       		.uleb128 0xb
+ 1365 0027 49       		.uleb128 0x49
+ 1366 0028 13       		.uleb128 0x13
+ 1367 0029 00       		.byte	0
+ 1368 002a 00       		.byte	0
+ 1369 002b 04       		.uleb128 0x4
+ 1370 002c 24       		.uleb128 0x24
+ 1371 002d 00       		.byte	0
+ 1372 002e 0B       		.uleb128 0xb
+ 1373 002f 0B       		.uleb128 0xb
+ 1374 0030 3E       		.uleb128 0x3e
+ 1375 0031 0B       		.uleb128 0xb
+ 1376 0032 03       		.uleb128 0x3
+ 1377 0033 08       		.uleb128 0x8
+ 1378 0034 00       		.byte	0
+ 1379 0035 00       		.byte	0
+ 1380 0036 05       		.uleb128 0x5
+ 1381 0037 2E       		.uleb128 0x2e
+ 1382 0038 01       		.byte	0x1
+ 1383 0039 3F       		.uleb128 0x3f
+ 1384 003a 19       		.uleb128 0x19
+ 1385 003b 03       		.uleb128 0x3
+ 1386 003c 0E       		.uleb128 0xe
+ 1387 003d 3A       		.uleb128 0x3a
+ 1388 003e 0B       		.uleb128 0xb
+ 1389 003f 3B       		.uleb128 0x3b
+ 1390 0040 0B       		.uleb128 0xb
+ 1391 0041 27       		.uleb128 0x27
+ 1392 0042 19       		.uleb128 0x19
+ 1393 0043 8701     		.uleb128 0x87
+ 1394 0045 19       		.uleb128 0x19
+ 1395 0046 11       		.uleb128 0x11
+ 1396 0047 01       		.uleb128 0x1
+ 1397 0048 12       		.uleb128 0x12
+ 1398 0049 06       		.uleb128 0x6
+ 1399 004a 40       		.uleb128 0x40
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 29
+
+
+ 1400 004b 18       		.uleb128 0x18
+ 1401 004c 9742     		.uleb128 0x2117
+ 1402 004e 19       		.uleb128 0x19
+ 1403 004f 01       		.uleb128 0x1
+ 1404 0050 13       		.uleb128 0x13
+ 1405 0051 00       		.byte	0
+ 1406 0052 00       		.byte	0
+ 1407 0053 06       		.uleb128 0x6
+ 1408 0054 898201   		.uleb128 0x4109
+ 1409 0057 01       		.byte	0x1
+ 1410 0058 11       		.uleb128 0x11
+ 1411 0059 01       		.uleb128 0x1
+ 1412 005a 31       		.uleb128 0x31
+ 1413 005b 13       		.uleb128 0x13
+ 1414 005c 01       		.uleb128 0x1
+ 1415 005d 13       		.uleb128 0x13
+ 1416 005e 00       		.byte	0
+ 1417 005f 00       		.byte	0
+ 1418 0060 07       		.uleb128 0x7
+ 1419 0061 8A8201   		.uleb128 0x410a
+ 1420 0064 00       		.byte	0
+ 1421 0065 02       		.uleb128 0x2
+ 1422 0066 18       		.uleb128 0x18
+ 1423 0067 9142     		.uleb128 0x2111
+ 1424 0069 18       		.uleb128 0x18
+ 1425 006a 00       		.byte	0
+ 1426 006b 00       		.byte	0
+ 1427 006c 08       		.uleb128 0x8
+ 1428 006d 898201   		.uleb128 0x4109
+ 1429 0070 00       		.byte	0
+ 1430 0071 11       		.uleb128 0x11
+ 1431 0072 01       		.uleb128 0x1
+ 1432 0073 31       		.uleb128 0x31
+ 1433 0074 13       		.uleb128 0x13
+ 1434 0075 00       		.byte	0
+ 1435 0076 00       		.byte	0
+ 1436 0077 09       		.uleb128 0x9
+ 1437 0078 898201   		.uleb128 0x4109
+ 1438 007b 01       		.byte	0x1
+ 1439 007c 11       		.uleb128 0x11
+ 1440 007d 01       		.uleb128 0x1
+ 1441 007e 31       		.uleb128 0x31
+ 1442 007f 13       		.uleb128 0x13
+ 1443 0080 00       		.byte	0
+ 1444 0081 00       		.byte	0
+ 1445 0082 0A       		.uleb128 0xa
+ 1446 0083 2E       		.uleb128 0x2e
+ 1447 0084 01       		.byte	0x1
+ 1448 0085 3F       		.uleb128 0x3f
+ 1449 0086 19       		.uleb128 0x19
+ 1450 0087 03       		.uleb128 0x3
+ 1451 0088 0E       		.uleb128 0xe
+ 1452 0089 3A       		.uleb128 0x3a
+ 1453 008a 0B       		.uleb128 0xb
+ 1454 008b 3B       		.uleb128 0x3b
+ 1455 008c 0B       		.uleb128 0xb
+ 1456 008d 27       		.uleb128 0x27
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 30
+
+
+ 1457 008e 19       		.uleb128 0x19
+ 1458 008f 11       		.uleb128 0x11
+ 1459 0090 01       		.uleb128 0x1
+ 1460 0091 12       		.uleb128 0x12
+ 1461 0092 06       		.uleb128 0x6
+ 1462 0093 40       		.uleb128 0x40
+ 1463 0094 18       		.uleb128 0x18
+ 1464 0095 9742     		.uleb128 0x2117
+ 1465 0097 19       		.uleb128 0x19
+ 1466 0098 01       		.uleb128 0x1
+ 1467 0099 13       		.uleb128 0x13
+ 1468 009a 00       		.byte	0
+ 1469 009b 00       		.byte	0
+ 1470 009c 0B       		.uleb128 0xb
+ 1471 009d 34       		.uleb128 0x34
+ 1472 009e 00       		.byte	0
+ 1473 009f 03       		.uleb128 0x3
+ 1474 00a0 0E       		.uleb128 0xe
+ 1475 00a1 3A       		.uleb128 0x3a
+ 1476 00a2 0B       		.uleb128 0xb
+ 1477 00a3 3B       		.uleb128 0x3b
+ 1478 00a4 0B       		.uleb128 0xb
+ 1479 00a5 49       		.uleb128 0x49
+ 1480 00a6 13       		.uleb128 0x13
+ 1481 00a7 02       		.uleb128 0x2
+ 1482 00a8 17       		.uleb128 0x17
+ 1483 00a9 00       		.byte	0
+ 1484 00aa 00       		.byte	0
+ 1485 00ab 0C       		.uleb128 0xc
+ 1486 00ac 34       		.uleb128 0x34
+ 1487 00ad 00       		.byte	0
+ 1488 00ae 03       		.uleb128 0x3
+ 1489 00af 08       		.uleb128 0x8
+ 1490 00b0 3A       		.uleb128 0x3a
+ 1491 00b1 0B       		.uleb128 0xb
+ 1492 00b2 3B       		.uleb128 0x3b
+ 1493 00b3 0B       		.uleb128 0xb
+ 1494 00b4 49       		.uleb128 0x49
+ 1495 00b5 13       		.uleb128 0x13
+ 1496 00b6 1C       		.uleb128 0x1c
+ 1497 00b7 0B       		.uleb128 0xb
+ 1498 00b8 00       		.byte	0
+ 1499 00b9 00       		.byte	0
+ 1500 00ba 0D       		.uleb128 0xd
+ 1501 00bb 05       		.uleb128 0x5
+ 1502 00bc 00       		.byte	0
+ 1503 00bd 03       		.uleb128 0x3
+ 1504 00be 0E       		.uleb128 0xe
+ 1505 00bf 3A       		.uleb128 0x3a
+ 1506 00c0 0B       		.uleb128 0xb
+ 1507 00c1 3B       		.uleb128 0x3b
+ 1508 00c2 0B       		.uleb128 0xb
+ 1509 00c3 49       		.uleb128 0x49
+ 1510 00c4 13       		.uleb128 0x13
+ 1511 00c5 02       		.uleb128 0x2
+ 1512 00c6 17       		.uleb128 0x17
+ 1513 00c7 00       		.byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 31
+
+
+ 1514 00c8 00       		.byte	0
+ 1515 00c9 0E       		.uleb128 0xe
+ 1516 00ca 34       		.uleb128 0x34
+ 1517 00cb 00       		.byte	0
+ 1518 00cc 03       		.uleb128 0x3
+ 1519 00cd 0E       		.uleb128 0xe
+ 1520 00ce 3A       		.uleb128 0x3a
+ 1521 00cf 0B       		.uleb128 0xb
+ 1522 00d0 3B       		.uleb128 0x3b
+ 1523 00d1 0B       		.uleb128 0xb
+ 1524 00d2 49       		.uleb128 0x49
+ 1525 00d3 13       		.uleb128 0x13
+ 1526 00d4 1C       		.uleb128 0x1c
+ 1527 00d5 05       		.uleb128 0x5
+ 1528 00d6 00       		.byte	0
+ 1529 00d7 00       		.byte	0
+ 1530 00d8 0F       		.uleb128 0xf
+ 1531 00d9 34       		.uleb128 0x34
+ 1532 00da 00       		.byte	0
+ 1533 00db 03       		.uleb128 0x3
+ 1534 00dc 0E       		.uleb128 0xe
+ 1535 00dd 3A       		.uleb128 0x3a
+ 1536 00de 0B       		.uleb128 0xb
+ 1537 00df 3B       		.uleb128 0x3b
+ 1538 00e0 05       		.uleb128 0x5
+ 1539 00e1 49       		.uleb128 0x49
+ 1540 00e2 13       		.uleb128 0x13
+ 1541 00e3 3F       		.uleb128 0x3f
+ 1542 00e4 19       		.uleb128 0x19
+ 1543 00e5 3C       		.uleb128 0x3c
+ 1544 00e6 19       		.uleb128 0x19
+ 1545 00e7 00       		.byte	0
+ 1546 00e8 00       		.byte	0
+ 1547 00e9 10       		.uleb128 0x10
+ 1548 00ea 35       		.uleb128 0x35
+ 1549 00eb 00       		.byte	0
+ 1550 00ec 49       		.uleb128 0x49
+ 1551 00ed 13       		.uleb128 0x13
+ 1552 00ee 00       		.byte	0
+ 1553 00ef 00       		.byte	0
+ 1554 00f0 11       		.uleb128 0x11
+ 1555 00f1 2E       		.uleb128 0x2e
+ 1556 00f2 00       		.byte	0
+ 1557 00f3 3F       		.uleb128 0x3f
+ 1558 00f4 19       		.uleb128 0x19
+ 1559 00f5 3C       		.uleb128 0x3c
+ 1560 00f6 19       		.uleb128 0x19
+ 1561 00f7 6E       		.uleb128 0x6e
+ 1562 00f8 0E       		.uleb128 0xe
+ 1563 00f9 03       		.uleb128 0x3
+ 1564 00fa 0E       		.uleb128 0xe
+ 1565 00fb 3A       		.uleb128 0x3a
+ 1566 00fc 0B       		.uleb128 0xb
+ 1567 00fd 3B       		.uleb128 0x3b
+ 1568 00fe 0B       		.uleb128 0xb
+ 1569 00ff 6E       		.uleb128 0x6e
+ 1570 0100 0E       		.uleb128 0xe
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 32
+
+
+ 1571 0101 00       		.byte	0
+ 1572 0102 00       		.byte	0
+ 1573 0103 12       		.uleb128 0x12
+ 1574 0104 2E       		.uleb128 0x2e
+ 1575 0105 00       		.byte	0
+ 1576 0106 3F       		.uleb128 0x3f
+ 1577 0107 19       		.uleb128 0x19
+ 1578 0108 3C       		.uleb128 0x3c
+ 1579 0109 19       		.uleb128 0x19
+ 1580 010a 6E       		.uleb128 0x6e
+ 1581 010b 0E       		.uleb128 0xe
+ 1582 010c 03       		.uleb128 0x3
+ 1583 010d 0E       		.uleb128 0xe
+ 1584 010e 3A       		.uleb128 0x3a
+ 1585 010f 0B       		.uleb128 0xb
+ 1586 0110 3B       		.uleb128 0x3b
+ 1587 0111 0B       		.uleb128 0xb
+ 1588 0112 00       		.byte	0
+ 1589 0113 00       		.byte	0
+ 1590 0114 13       		.uleb128 0x13
+ 1591 0115 2E       		.uleb128 0x2e
+ 1592 0116 00       		.byte	0
+ 1593 0117 3F       		.uleb128 0x3f
+ 1594 0118 19       		.uleb128 0x19
+ 1595 0119 3C       		.uleb128 0x3c
+ 1596 011a 19       		.uleb128 0x19
+ 1597 011b 6E       		.uleb128 0x6e
+ 1598 011c 0E       		.uleb128 0xe
+ 1599 011d 03       		.uleb128 0x3
+ 1600 011e 0E       		.uleb128 0xe
+ 1601 011f 3A       		.uleb128 0x3a
+ 1602 0120 0B       		.uleb128 0xb
+ 1603 0121 3B       		.uleb128 0x3b
+ 1604 0122 05       		.uleb128 0x5
+ 1605 0123 00       		.byte	0
+ 1606 0124 00       		.byte	0
+ 1607 0125 00       		.byte	0
+ 1608              		.section	.debug_loc,"",%progbits
+ 1609              	.Ldebug_loc0:
+ 1610              	.LLST0:
+ 1611 0000 20000000 		.4byte	.LVL21
+ 1612 0004 28000000 		.4byte	.LVL22
+ 1613 0008 0100     		.2byte	0x1
+ 1614 000a 50       		.byte	0x50
+ 1615 000b 00000000 		.4byte	0
+ 1616 000f 00000000 		.4byte	0
+ 1617              	.LLST1:
+ 1618 0013 02000000 		.4byte	.LVL15
+ 1619 0017 14000000 		.4byte	.LVL19
+ 1620 001b 0200     		.2byte	0x2
+ 1621 001d 31       		.byte	0x31
+ 1622 001e 9F       		.byte	0x9f
+ 1623 001f 14000000 		.4byte	.LVL19
+ 1624 0023 52000000 		.4byte	.LVL29
+ 1625 0027 0100     		.2byte	0x1
+ 1626 0029 54       		.byte	0x54
+ 1627 002a 00000000 		.4byte	0
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 33
+
+
+ 1628 002e 00000000 		.4byte	0
+ 1629              	.LLST2:
+ 1630 0032 00000000 		.4byte	.LVL30
+ 1631 0036 0E000000 		.4byte	.LVL32
+ 1632 003a 0100     		.2byte	0x1
+ 1633 003c 50       		.byte	0x50
+ 1634 003d 0E000000 		.4byte	.LVL32
+ 1635 0041 18000000 		.4byte	.LFE88
+ 1636 0045 0400     		.2byte	0x4
+ 1637 0047 F3       		.byte	0xf3
+ 1638 0048 01       		.uleb128 0x1
+ 1639 0049 50       		.byte	0x50
+ 1640 004a 9F       		.byte	0x9f
+ 1641 004b 00000000 		.4byte	0
+ 1642 004f 00000000 		.4byte	0
+ 1643              	.LLST3:
+ 1644 0053 00000000 		.4byte	.LVL30
+ 1645 0057 0C000000 		.4byte	.LVL31
+ 1646 005b 0100     		.2byte	0x1
+ 1647 005d 51       		.byte	0x51
+ 1648 005e 0C000000 		.4byte	.LVL31
+ 1649 0062 11000000 		.4byte	.LVL33-1
+ 1650 0066 0200     		.2byte	0x2
+ 1651 0068 7D       		.byte	0x7d
+ 1652 0069 00       		.sleb128 0
+ 1653 006a 11000000 		.4byte	.LVL33-1
+ 1654 006e 18000000 		.4byte	.LFE88
+ 1655 0072 0400     		.2byte	0x4
+ 1656 0074 F3       		.byte	0xf3
+ 1657 0075 01       		.uleb128 0x1
+ 1658 0076 51       		.byte	0x51
+ 1659 0077 9F       		.byte	0x9f
+ 1660 0078 00000000 		.4byte	0
+ 1661 007c 00000000 		.4byte	0
+ 1662              	.LLST4:
+ 1663 0080 00000000 		.4byte	.LVL34
+ 1664 0084 0E000000 		.4byte	.LVL36
+ 1665 0088 0100     		.2byte	0x1
+ 1666 008a 50       		.byte	0x50
+ 1667 008b 0E000000 		.4byte	.LVL36
+ 1668 008f 18000000 		.4byte	.LFE89
+ 1669 0093 0400     		.2byte	0x4
+ 1670 0095 F3       		.byte	0xf3
+ 1671 0096 01       		.uleb128 0x1
+ 1672 0097 50       		.byte	0x50
+ 1673 0098 9F       		.byte	0x9f
+ 1674 0099 00000000 		.4byte	0
+ 1675 009d 00000000 		.4byte	0
+ 1676              	.LLST5:
+ 1677 00a1 00000000 		.4byte	.LVL34
+ 1678 00a5 0C000000 		.4byte	.LVL35
+ 1679 00a9 0100     		.2byte	0x1
+ 1680 00ab 51       		.byte	0x51
+ 1681 00ac 0C000000 		.4byte	.LVL35
+ 1682 00b0 11000000 		.4byte	.LVL37-1
+ 1683 00b4 0200     		.2byte	0x2
+ 1684 00b6 7D       		.byte	0x7d
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 34
+
+
+ 1685 00b7 00       		.sleb128 0
+ 1686 00b8 11000000 		.4byte	.LVL37-1
+ 1687 00bc 18000000 		.4byte	.LFE89
+ 1688 00c0 0400     		.2byte	0x4
+ 1689 00c2 F3       		.byte	0xf3
+ 1690 00c3 01       		.uleb128 0x1
+ 1691 00c4 51       		.byte	0x51
+ 1692 00c5 9F       		.byte	0x9f
+ 1693 00c6 00000000 		.4byte	0
+ 1694 00ca 00000000 		.4byte	0
+ 1695              	.LLST6:
+ 1696 00ce 20000000 		.4byte	.LVL44
+ 1697 00d2 28000000 		.4byte	.LVL45
+ 1698 00d6 0100     		.2byte	0x1
+ 1699 00d8 50       		.byte	0x50
+ 1700 00d9 00000000 		.4byte	0
+ 1701 00dd 00000000 		.4byte	0
+ 1702              	.LLST7:
+ 1703 00e1 5C000000 		.4byte	.LVL51
+ 1704 00e5 9C000000 		.4byte	.LVL57
+ 1705 00e9 0100     		.2byte	0x1
+ 1706 00eb 54       		.byte	0x54
+ 1707 00ec 00000000 		.4byte	0
+ 1708 00f0 00000000 		.4byte	0
+ 1709              	.LLST8:
+ 1710 00f4 02000000 		.4byte	.LVL38
+ 1711 00f8 14000000 		.4byte	.LVL42
+ 1712 00fc 0200     		.2byte	0x2
+ 1713 00fe 31       		.byte	0x31
+ 1714 00ff 9F       		.byte	0x9f
+ 1715 0100 14000000 		.4byte	.LVL42
+ 1716 0104 AE000000 		.4byte	.LVL61
+ 1717 0108 0100     		.2byte	0x1
+ 1718 010a 56       		.byte	0x56
+ 1719 010b 00000000 		.4byte	0
+ 1720 010f 00000000 		.4byte	0
+ 1721              	.LLST9:
+ 1722 0113 46000000 		.4byte	.LVL49
+ 1723 0117 9C000000 		.4byte	.LVL57
+ 1724 011b 0500     		.2byte	0x5
+ 1725 011d 75       		.byte	0x75
+ 1726 011e 00       		.sleb128 0
+ 1727 011f 30       		.byte	0x30
+ 1728 0120 2E       		.byte	0x2e
+ 1729 0121 9F       		.byte	0x9f
+ 1730 0122 00000000 		.4byte	0
+ 1731 0126 00000000 		.4byte	0
+ 1732              		.section	.debug_aranges,"",%progbits
+ 1733 0000 3C000000 		.4byte	0x3c
+ 1734 0004 0200     		.2byte	0x2
+ 1735 0006 00000000 		.4byte	.Ldebug_info0
+ 1736 000a 04       		.byte	0x4
+ 1737 000b 00       		.byte	0
+ 1738 000c 0000     		.2byte	0
+ 1739 000e 0000     		.2byte	0
+ 1740 0010 00000000 		.4byte	.LFB85
+ 1741 0014 8C000000 		.4byte	.LFE85-.LFB85
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 35
+
+
+ 1742 0018 00000000 		.4byte	.LFB86
+ 1743 001c 58000000 		.4byte	.LFE86-.LFB86
+ 1744 0020 00000000 		.4byte	.LFB88
+ 1745 0024 18000000 		.4byte	.LFE88-.LFB88
+ 1746 0028 00000000 		.4byte	.LFB89
+ 1747 002c 18000000 		.4byte	.LFE89-.LFB89
+ 1748 0030 00000000 		.4byte	.LFB87
+ 1749 0034 C4000000 		.4byte	.LFE87-.LFB87
+ 1750 0038 00000000 		.4byte	0
+ 1751 003c 00000000 		.4byte	0
+ 1752              		.section	.debug_ranges,"",%progbits
+ 1753              	.Ldebug_ranges0:
+ 1754 0000 00000000 		.4byte	.LFB85
+ 1755 0004 8C000000 		.4byte	.LFE85
+ 1756 0008 00000000 		.4byte	.LFB86
+ 1757 000c 58000000 		.4byte	.LFE86
+ 1758 0010 00000000 		.4byte	.LFB88
+ 1759 0014 18000000 		.4byte	.LFE88
+ 1760 0018 00000000 		.4byte	.LFB89
+ 1761 001c 18000000 		.4byte	.LFE89
+ 1762 0020 00000000 		.4byte	.LFB87
+ 1763 0024 C4000000 		.4byte	.LFE87
+ 1764 0028 00000000 		.4byte	0
+ 1765 002c 00000000 		.4byte	0
+ 1766              		.section	.debug_line,"",%progbits
+ 1767              	.Ldebug_line0:
+ 1768 0000 B9020000 		.section	.debug_str,"MS",%progbits,1
+ 1768      02001F02 
+ 1768      00000201 
+ 1768      FB0E0D00 
+ 1768      01010101 
+ 1769              	.LASF24:
+ 1770 0000 616E6574 		.ascii	"aneta_tankTurnRight\000"
+ 1770      615F7461 
+ 1770      6E6B5475 
+ 1770      726E5269 
+ 1770      67687400 
+ 1771              	.LASF4:
+ 1772 0014 5F5F7569 		.ascii	"__uint8_t\000"
+ 1772      6E74385F 
+ 1772      7400
+ 1773              	.LASF25:
+ 1774 001e 73706565 		.ascii	"speed\000"
+ 1774      6400
+ 1775              	.LASF5:
+ 1776 0024 5F5F696E 		.ascii	"__int32_t\000"
+ 1776      7433325F 
+ 1776      7400
+ 1777              	.LASF21:
+ 1778 002e 6D6F7665 		.ascii	"move\000"
+ 1778      00
+ 1779              	.LASF38:
+ 1780 0033 6D6F746F 		.ascii	"motor_backward\000"
+ 1780      725F6261 
+ 1780      636B7761 
+ 1780      726400
+ 1781              	.LASF12:
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 36
+
+
+ 1782 0042 75696E74 		.ascii	"uint8_t\000"
+ 1782      385F7400 
+ 1783              	.LASF30:
+ 1784 004a 7475726E 		.ascii	"turnRight\000"
+ 1784      52696768 
+ 1784      7400
+ 1785              	.LASF29:
+ 1786 0054 64656772 		.ascii	"degreeTurn\000"
+ 1786      65655475 
+ 1786      726E00
+ 1787              	.LASF20:
+ 1788 005f 6F627344 		.ascii	"obsD\000"
+ 1788      00
+ 1789              	.LASF33:
+ 1790 0064 6D6F746F 		.ascii	"motor_turn\000"
+ 1790      725F7475 
+ 1790      726E00
+ 1791              	.LASF15:
+ 1792 006f 666C6F61 		.ascii	"float\000"
+ 1792      7400
+ 1793              	.LASF49:
+ 1794 0075 5F5F6275 		.ascii	"__builtin_puts\000"
+ 1794      696C7469 
+ 1794      6E5F7075 
+ 1794      747300
+ 1795              	.LASF26:
+ 1796 0084 64656C61 		.ascii	"delay\000"
+ 1796      7900
+ 1797              	.LASF1:
+ 1798 008a 756E7369 		.ascii	"unsigned char\000"
+ 1798      676E6564 
+ 1798      20636861 
+ 1798      7200
+ 1799              	.LASF43:
+ 1800 0098 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1800      43313120 
+ 1800      352E342E 
+ 1800      31203230 
+ 1800      31363036 
+ 1801 00cb 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1801      20726576 
+ 1801      6973696F 
+ 1801      6E203233 
+ 1801      37373135 
+ 1802 00fe 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1802      66756E63 
+ 1802      74696F6E 
+ 1802      2D736563 
+ 1802      74696F6E 
+ 1803              	.LASF46:
+ 1804 0126 616E6574 		.ascii	"aneta_w1a1\000"
+ 1804      615F7731 
+ 1804      613100
+ 1805              	.LASF23:
+ 1806 0131 616E6574 		.ascii	"aneta_w1a2\000"
+ 1806      615F7731 
+ 1806      613200
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 37
+
+
+ 1807              	.LASF28:
+ 1808 013c 616E6574 		.ascii	"aneta_w1a3\000"
+ 1808      615F7731 
+ 1808      613300
+ 1809              	.LASF8:
+ 1810 0147 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1810      20756E73 
+ 1810      69676E65 
+ 1810      6420696E 
+ 1810      7400
+ 1811              	.LASF3:
+ 1812 0159 73686F72 		.ascii	"short unsigned int\000"
+ 1812      7420756E 
+ 1812      7369676E 
+ 1812      65642069 
+ 1812      6E7400
+ 1813              	.LASF44:
+ 1814 016c 616E6574 		.ascii	"aneta.c\000"
+ 1814      612E6300 
+ 1815              	.LASF45:
+ 1816 0174 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
+ 1816      73657273 
+ 1816      5C457667 
+ 1816      656E7920 
+ 1816      4D657368 
+ 1817 01a3 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
+ 1817      746D705C 
+ 1817      5A756D6F 
+ 1817      5C5A756D 
+ 1817      6F426F74 
+ 1818              	.LASF32:
+ 1819 01be 6D6F746F 		.ascii	"motor_forward\000"
+ 1819      725F666F 
+ 1819      72776172 
+ 1819      6400
+ 1820              	.LASF16:
+ 1821 01cc 646F7562 		.ascii	"double\000"
+ 1821      6C6500
+ 1822              	.LASF18:
+ 1823 01d3 6C6F6E67 		.ascii	"long double\000"
+ 1823      20646F75 
+ 1823      626C6500 
+ 1824              	.LASF34:
+ 1825 01df 6D6F746F 		.ascii	"motor_stop\000"
+ 1825      725F7374 
+ 1825      6F7000
+ 1826              	.LASF7:
+ 1827 01ea 5F5F7569 		.ascii	"__uint32_t\000"
+ 1827      6E743332 
+ 1827      5F7400
+ 1828              	.LASF47:
+ 1829 01f5 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1829      52784275 
+ 1829      66666572 
+ 1829      00
+ 1830              	.LASF36:
+ 1831 0202 556C7472 		.ascii	"Ultra_Start\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 38
+
+
+ 1831      615F5374 
+ 1831      61727400 
+ 1832              	.LASF11:
+ 1833 020e 756E7369 		.ascii	"unsigned int\000"
+ 1833      676E6564 
+ 1833      20696E74 
+ 1833      00
+ 1834              	.LASF27:
+ 1835 021b 616E6574 		.ascii	"aneta_tankTurnLeft\000"
+ 1835      615F7461 
+ 1835      6E6B5475 
+ 1835      726E4C65 
+ 1835      667400
+ 1836              	.LASF17:
+ 1837 022e 63686172 		.ascii	"char\000"
+ 1837      00
+ 1838              	.LASF39:
+ 1839 0233 5357315F 		.ascii	"SW1_Read\000"
+ 1839      52656164 
+ 1839      00
+ 1840              	.LASF40:
+ 1841 023c 5365744D 		.ascii	"SetMotors\000"
+ 1841      6F746F72 
+ 1841      7300
+ 1842              	.LASF13:
+ 1843 0246 696E7433 		.ascii	"int32_t\000"
+ 1843      325F7400 
+ 1844              	.LASF19:
+ 1845 024e 73697A65 		.ascii	"sizetype\000"
+ 1845      74797065 
+ 1845      00
+ 1846              	.LASF31:
+ 1847 0257 6D6F746F 		.ascii	"motor_start\000"
+ 1847      725F7374 
+ 1847      61727400 
+ 1848              	.LASF9:
+ 1849 0263 6C6F6E67 		.ascii	"long long int\000"
+ 1849      206C6F6E 
+ 1849      6720696E 
+ 1849      7400
+ 1850              	.LASF42:
+ 1851 0271 7072696E 		.ascii	"printf\000"
+ 1851      746600
+ 1852              	.LASF2:
+ 1853 0278 73686F72 		.ascii	"short int\000"
+ 1853      7420696E 
+ 1853      7400
+ 1854              	.LASF14:
+ 1855 0282 75696E74 		.ascii	"uint32_t\000"
+ 1855      33325F74 
+ 1855      00
+ 1856              	.LASF6:
+ 1857 028b 6C6F6E67 		.ascii	"long int\000"
+ 1857      20696E74 
+ 1857      00
+ 1858              	.LASF35:
+ 1859 0294 76546173 		.ascii	"vTaskDelay\000"
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cc661M0c.s 			page 39
+
+
+ 1859      6B44656C 
+ 1859      617900
+ 1860              	.LASF48:
+ 1861 029f 70757473 		.ascii	"puts\000"
+ 1861      00
+ 1862              	.LASF0:
+ 1863 02a4 7369676E 		.ascii	"signed char\000"
+ 1863      65642063 
+ 1863      68617200 
+ 1864              	.LASF37:
+ 1865 02b0 556C7472 		.ascii	"Ultra_GetDistance\000"
+ 1865      615F4765 
+ 1865      74446973 
+ 1865      74616E63 
+ 1865      6500
+ 1866              	.LASF22:
+ 1867 02c2 5F426F6F 		.ascii	"_Bool\000"
+ 1867      6C00
+ 1868              	.LASF10:
+ 1869 02c8 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1869      206C6F6E 
+ 1869      6720756E 
+ 1869      7369676E 
+ 1869      65642069 
+ 1870              	.LASF41:
+ 1871 02df 72616E64 		.ascii	"rand\000"
+ 1871      00
+ 1872              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
