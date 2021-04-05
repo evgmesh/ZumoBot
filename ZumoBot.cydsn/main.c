@@ -47,9 +47,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-#include "evgenii.h"
-#include "Dongbin.h"
-#include "aneta.h"
+#include "group6.h"
 
 /**
  * @file    main.c
@@ -67,15 +65,16 @@
     void zmain(void) {
         
 /***********************************Test your function here**************************************/
-   //week3_2();         // Dongbin
-   //week3_3_evg();     // Evgenii
-    aneta_w1a3();       // Aneta
-    while(true) vTaskDelay(100);
+   //group6_Ex1();         // Dongbin
+   //group6_Ex2();     // Aneta
+    group6_Ex3();       // Evgenii
+    while(true) 
+    vTaskDelay(100);
     
     }
 #endif
 
-
+/************************************ Test your function here*************************************************/
 
 #if 0
 // Hello World!

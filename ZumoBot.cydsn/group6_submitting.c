@@ -35,7 +35,7 @@
 
 /************************ week3 Ex.1 ************************************/
 
-void week3_1_DB(void){
+void group6_Ex1(void){
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
    
@@ -70,7 +70,7 @@ void week3_1_DB(void){
 
 /************************ week3 Ex.2 ************************************/
 
-void aneta_w1a2(void){
+void group6_Ex2(void){
     int obsD;           // how far the obstacle is
     int myD = 10;       // how far should obstacle be when robot should turn
     bool move = true;   // if true robot keeps moving
@@ -101,7 +101,7 @@ void aneta_w1a2(void){
 
 /************************ week3 Ex.3 ************************************/
 
-void week3_3_evg(void) 
+void group6_Ex3(void) 
 {
     printf("Press IR send to start and button on PSoC to stop");
     Ultra_Start();              // Ultra Sonic Start function
@@ -137,100 +137,3 @@ void week3_3_evg(void)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*********************************** DB Custom Functions **************************/
-
-void progEnd_DB(uint32_t delay){
-    bool led = false;
-    while(true){
-        BatteryLed_Write(led^=1);
-        vTaskDelay(delay);
-    }
-}
-void tankTL_DB(uint8_t speed, uint32_t delay){
-    SetMotors(1,0,speed,speed,delay);
-}
-void tankTR_DB(uint8_t speed, uint32_t delay){
-    SetMotors(0,1,speed,speed,delay);
-}
-void softTR_DB(uint32_t delay){
-    SetMotors(0,1,80,80,delay); 
-}
-
-
-
-/******************************* Aneta Custom Functions *****************************/
-
-void aneta_tankTurnRight(uint8_t speed, uint32_t delay){
-    SetMotors(0, 1, speed, speed, delay);
-}
-
-void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
-    SetMotors(1, 0, speed, speed, delay);
-}
-
-/******************************** Evgenii Custom Functions ****************************/
-
-void progEndEvg(uint32_t delay) {
-    bool led = false;
-    while(true){
-     BatteryLed_Write(led^=1);
-     vTaskDelay(delay);   
-    }
-}
-void tankTLEvg(uint8_t speed, uint32_t delay) {
-    SetMotors(1, 0, speed, speed, delay);
-}
-
-void tankTREvg(uint8_t speed, uint32_t delay) {
-    SetMotors(0, 1, speed, speed, delay);
-}
-
-int randomEvg(int min, int max) {
-    srand(xTaskGetTickCount());
-    int random = (rand() % (max - min + 1)) + min;
-    return random;
-}
-
-void tankTurnEvg(uint8_t l_speed, uint8_t r_speed, uint32_t delay){
-    SetMotors(0,0, l_speed, r_speed, delay);
-}
