@@ -35,7 +35,7 @@
 
 /************************ week3 Ex.1 ************************************/
 
-void group6_Ex1(void){
+void group6_w3_Ex1(void){
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
    
@@ -70,7 +70,7 @@ void group6_Ex1(void){
 
 /************************ week3 Ex.2 ************************************/
 
-void group6_Ex2(void){
+void group6_w3_Ex2(void){
     int obsD;           // how far the obstacle is
     int myD = 10;       // how far should obstacle be when robot should turn
     bool move = true;   // if true robot keeps moving
@@ -101,7 +101,7 @@ void group6_Ex2(void){
 
 /************************ week3 Ex.3 ************************************/
 
-void group6_Ex3(void) 
+void group6_w3_Ex3(void) 
 {
     printf("Press IR send to start and button on PSoC to stop");
     Ultra_Start();              // Ultra Sonic Start function

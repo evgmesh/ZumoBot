@@ -48,6 +48,7 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "group6.h"
+#include "Dongbin.h" //temporarily for group test only
 
 /**
  * @file    main.c
@@ -65,9 +66,9 @@
     void zmain(void) {
         
 /***********************************Test your function here**************************************/
-   //group6_Ex1();         // Dongbin
+      week4_1_DB();         // Dongbin 
    //group6_Ex2();     // Aneta
-    group6_Ex3();       // Evgenii
+    //group6_Ex3();       // Evgenii
     while(true) 
     vTaskDelay(100);
     

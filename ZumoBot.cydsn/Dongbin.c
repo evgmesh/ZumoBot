@@ -142,7 +142,36 @@ void week3_3_DB(void){
     progEnd_DB(500);
 }
 
-
+/****************************** week 4 Assignment 1 ****************************************/
+void week4_1_DB(void){
+    
+    IR_Start();
+    onYourMark_DB();    //move the motor to first line
+    
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
+    
+    IR_wait();
+    motor_forward(125,0);
+    for(int i = 0; i < 4; i++){
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+            reflectance_digital(&dig);
+        }
+        motor_forward(0,0);
+        vTaskDelay(1000);
+        while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+            reflectance_digital(&dig);
+            motor_forward(125,0);
+        }
+        printf("loop i = %d\n",i); 
+    }
+    motor_forward(0,0);
+    motor_stop();
+  
+    progEnd_DB(500);
+    
+}
 
 
 
@@ -251,7 +280,26 @@ int randTurnDeg_DB(){
     };
 }
 
-
+void onYourMark_DB(){
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000); 
+    // set center sensor threshold to 11000 and others to 9000
+        
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+   
+    while(SW1_Read());
+    BatteryLed_Write(true);
+    vTaskDelay(200);
+    BatteryLed_Write(false);
+    reflectance_digital(&dig); 
+    motor_forward(125,0);
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        reflectance_digital(&dig);
+    }
+    motor_forward(0,0);  
+}
 
 
 //void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
