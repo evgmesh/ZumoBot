@@ -66,9 +66,9 @@
     void zmain(void) {
         
 /***********************************Test your function here**************************************/
-      week4_1_DB();         // Dongbin 
-   //group6_Ex2();     // Aneta
-    //group6_Ex3();       // Evgenii
+      week4_2_DB();         // Dongbin 
+   //group6_Ex2();          // Aneta
+    //group6_Ex3();         // Evgenii
     while(true) 
     vTaskDelay(100);
     

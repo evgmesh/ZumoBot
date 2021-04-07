@@ -173,7 +173,42 @@ void week4_1_DB(void){
     
 }
 
+/**************************** week 4 Assignment 2********************************/
 
+void week4_2_DB(void){
+    
+    IR_Start();
+    onYourMark_DB();  //move motor to the first line
+    
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
+    
+    IR_wait();
+    reflectance_digital(&dig);
+    
+    while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+        reflectance_digital(&dig);
+        motor_forward(125,0);
+    }
+    motor_forward(0,0);
+    vTaskDelay(300);
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        reflectance_digital(&dig);   
+        motor_forward(125,0);
+        if(dig.L1 != 1){
+            motor_turn(50,0,200);   
+        }else if(dig.R1 != 1){
+            motor_turn(0,50,204);   
+        }else{
+            motor_forward(125,0);   
+        }
+    }
+    motor_forward(0,0);
+    motor_stop();
+    
+    progEnd_DB(500);
+}
 
 
 
