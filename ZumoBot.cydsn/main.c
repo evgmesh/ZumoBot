@@ -72,8 +72,8 @@
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
     
-    week4_2_evg(); // Evgenii
-   // week4_2_DB();         // Dongbin 
+   week4_2_evg(); // Evgenii
+   //week4_2_DB();         // Dongbin 
    //group6_Ex2();          // Aneta
     //group6_Ex3();         // Evgenii
     while(true) 
