@@ -127,6 +127,45 @@ void week3_3_evg(void)
 
 }
 
+//week 4 Exercise 1
+
+void week4_1_evg(void) 
+{
+    struct sensors_ dig;
+    reflectance_start();
+    uint32_t count = 0;
+    reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000); // set center sensor threshold to 11000 and others to 9000
+    IR_Start();
+    motor_start();             
+    motor_forward(0,0);  
+    IR_wait();
+    reflectance_digital(&dig);
+    
+    while(count<5) {
+        while(dig.L3 == 1 && dig.L2 == 1 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 1 && dig.R3 == 1){
+        motor_forward(75,10);
+        reflectance_digital(&dig); 
+        }
+        while(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0){
+        motor_forward(75,10);
+        reflectance_digital(&dig); 
+        }
+        count++;
+    }
+     if(count == 1)
+        {
+        
+            IR_flush();
+            IR_wait();
+        }
+    printf("Number of lines is %i\n", count);
+    motor_forward(0,0);         
+    motor_stop();
+
+}
+
+
+
 
 
 /*   USEFUL functions
@@ -187,6 +226,10 @@ int randomEvg(int min, int max) {
 void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
 }
+
+
+
+
 
 
 /* [] END OF FILE */

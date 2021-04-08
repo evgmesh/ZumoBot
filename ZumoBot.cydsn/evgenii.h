@@ -10,8 +10,8 @@
  * ========================================
 */
 
-#ifndef CUSTOM_H_
-#define CUSTOM_H_
+#ifndef EVGENII_H_
+#define EVGENII_H_
 
 #include <stdint.h>
 
@@ -24,7 +24,7 @@ int randomEvg(int min, int max);
 void week3_1_evg(void);
 void week3_2_evg(void);
 void week3_3_evg(void);
-
+void week4_1_evg(void);
 
 #endif
 

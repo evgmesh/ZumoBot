@@ -48,6 +48,7 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "group6.h"
+#include "evgenii.h"
 
 /**
  * @file    main.c
@@ -67,7 +68,9 @@
 /***********************************Test your function here**************************************/
    //group6_Ex1();         // Dongbin
    //group6_Ex2();     // Aneta
-    group6_Ex3();       // Evgenii
+  // group6_Ex3();       // Evgenii
+    
+   week4_1_evg(); // Evgenii
     while(true) 
     vTaskDelay(100);
     
