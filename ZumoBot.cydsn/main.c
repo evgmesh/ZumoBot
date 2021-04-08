@@ -72,10 +72,10 @@
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
     
-   week4_3_evg(); // Evgenii
-   //week4_2_DB();         // Dongbin 
+   //week4_3_evg(); // Evgenii
+   week4_3_DB();         // Dongbin 
    //group6_Ex2();          // Aneta
-    //group6_Ex3();         // Evgenii
+    
     while(true) 
     vTaskDelay(100);
     

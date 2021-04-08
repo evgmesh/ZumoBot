@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
   28:evgenii.c     **** #include <time.h>
   29:evgenii.c     **** #include <sys/time.h>
   30:evgenii.c     **** #include "serial1.h"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 2
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 2
 
 
   31:evgenii.c     **** #include <unistd.h>
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
   44 000c FFF7FEFF 		bl	motor_start
   45              	.LVL2:
   69:evgenii.c     ****     motor_forward(0,0);         // set speed to zero to stop motors
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 3
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 3
 
 
   46              		.loc 1 69 0
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
   88 0048 9621     		movs	r1, #150
   89 004a 6420     		movs	r0, #100
   90 004c FFF7FEFF 		bl	motor_backward
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 4
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 4
 
 
   91              	.LVL13:
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
   96:evgenii.c     **** {
   97:evgenii.c     ****     printf("Press IR send to start and button on PSoC to stop");
   98:evgenii.c     ****     Ultra_Start();              // Ultra Sonic Start function
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 5
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 5
 
 
   99:evgenii.c     ****     motor_start();              // enable motor controller
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  146 0008 FFF7FEFF 		bl	IR_Start
  147              	.LVL21:
  138:evgenii.c     ****     motor_start();  
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 6
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 6
 
 
  148              		.loc 1 138 0
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  189              	.LVL29:
  190              	.L15:
  147:evgenii.c     ****         {
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 7
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 7
 
 
  191              		.loc 1 147 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  162:evgenii.c     ****             reflectance_digital(&dig); 
  231              		.loc 1 162 0
  232 008a 03A8     		add	r0, sp, #12
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 8
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 8
 
 
  233 008c FFF7FEFF 		bl	reflectance_digital
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  275              	.LVL40:
  276              	.L18:
  277              		.align	2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 9
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 9
 
 
  278              	.L17:
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  210:evgenii.c     ****                 tankTurnEvg(0,120,0);
  211:evgenii.c     ****                 reflectance_digital(&dig); 
  212:evgenii.c     ****             }
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 10
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 10
 
 
  213:evgenii.c     ****         }
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  267:evgenii.c     ****     }
  268:evgenii.c     ****     
  269:evgenii.c     ****     printf("end of loop");
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 11
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 11
 
 
  270:evgenii.c     ****     motor_forward(0,0);         
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  308              	.L20:
  308:evgenii.c     ****     while(true){
  309:evgenii.c     ****      BatteryLed_Write(led^=1);
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 12
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 12
 
 
  309              		.loc 1 309 0 discriminator 1
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  357              	.LFE92:
  358              		.size	tankTLEvg, .-tankTLEvg
  359              		.section	.text.tankTREvg,"ax",%progbits
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 13
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 13
 
 
  360              		.align	2
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  408 0000 38B5     		push	{r3, r4, r5, lr}
  409              		.cfi_def_cfa_offset 16
  410              		.cfi_offset 3, -16
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 14
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 14
 
 
  411              		.cfi_offset 4, -12
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
   98:evgenii.c     ****     motor_start();              // enable motor controller
  459              		.loc 1 98 0
  460 0008 FFF7FEFF 		bl	Ultra_Start
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 15
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 15
 
 
  461              	.LVL63:
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  505 0046 0020     		movs	r0, #0
  506              	.LVL75:
  507 0048 FFF7FEFF 		bl	motor_forward
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 16
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 16
 
 
  508              	.LVL76:
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  554 0090 0021     		movs	r1, #0
  555 0092 0846     		mov	r0, r1
  556 0094 FFF7FEFF 		bl	motor_forward
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 17
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 17
 
 
  557              	.LVL83:
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  604              		.cfi_def_cfa_offset 4
  605              		@ sp needed
  606 0014 5DF804FB 		ldr	pc, [sp], #4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 18
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 18
 
 
  607              		.cfi_endproc
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  653 002c 7D20     		movs	r0, #125
  654 002e FFF7FEFF 		bl	motor_forward
  655              	.LVL97:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 19
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 19
 
 
   51:evgenii.c     ****     motor_forward(125,2550);
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  702              		.type	week4_2_evg, %function
  703              	week4_2_evg:
  704              	.LFB89:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 20
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 20
 
 
  175:evgenii.c     ****     struct sensors_ dig;
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  187:evgenii.c     ****             reflectance_digital(&dig); 
  750              		.loc 1 187 0
  751 003a 0021     		movs	r1, #0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 21
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 21
 
 
  752 003c 2820     		movs	r0, #40
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  796 007e 2BD1     		bne	.L49
  193:evgenii.c     ****         {
  797              		.loc 1 193 0 is_stmt 0 discriminator 1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 22
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 22
 
 
  798 0080 BDF80E30 		ldrh	r3, [sp, #14]
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  843 00ce FFF7FEFF 		bl	tankTurnEvg
  844              	.LVL124:
  211:evgenii.c     ****             }
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 23
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 23
 
 
  845              		.loc 1 211 0
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  892              		@ args = 0, pretend = 0, frame = 16
  893              		@ frame_needed = 0, uses_anonymous_args = 0
  894 0000 00B5     		push	{lr}
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 24
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 24
 
 
  895              		.cfi_def_cfa_offset 4
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  939 003e 03A8     		add	r0, sp, #12
  940 0040 FFF7FEFF 		bl	reflectance_digital
  941              	.LVL138:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 25
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 25
 
 
  942              	.L56:
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  985 0086 012B     		cmp	r3, #1
  986 0088 0BD1     		bne	.L60
  241:evgenii.c     ****     {
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 26
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 26
 
 
  987              		.loc 1 241 0 discriminator 3
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1032              		.loc 1 254 0
  1033 00d4 BDF81030 		ldrh	r3, [sp, #16]
  1034 00d8 012B     		cmp	r3, #1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 27
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 27
 
 
  1035 00da F3D0     		beq	.L64
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1080              		.align	2
  1081              	.L69:
  1082 011c BC000000 		.word	.LC6
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 28
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 28
 
 
  1083              		.cfi_endproc
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1112              		.file 5 ".\\ZumoLibrary/Reflectance.h"
  1113              		.file 6 ".\\ZumoLibrary/Motor.h"
  1114              		.file 7 ".\\ZumoLibrary/Ultra.h"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 29
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 29
 
 
  1115              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
@@ -1695,68 +1695,68 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1126 0006 00000000 		.4byte	.Ldebug_abbrev0
  1127 000a 04       		.byte	0x4
  1128 000b 01       		.uleb128 0x1
- 1129 000c 1B030000 		.4byte	.LASF64
+ 1129 000c 05030000 		.4byte	.LASF64
  1130 0010 0C       		.byte	0xc
- 1131 0011 8E010000 		.4byte	.LASF65
- 1132 0015 33000000 		.4byte	.LASF66
+ 1131 0011 44010000 		.4byte	.LASF65
+ 1132 0015 C9020000 		.4byte	.LASF66
  1133 0019 00000000 		.4byte	.Ldebug_ranges0+0
  1134 001d 00000000 		.4byte	0
  1135 0021 00000000 		.4byte	.Ldebug_line0
  1136 0025 02       		.uleb128 0x2
  1137 0026 01       		.byte	0x1
  1138 0027 06       		.byte	0x6
- 1139 0028 D8010000 		.4byte	.LASF0
+ 1139 0028 8E010000 		.4byte	.LASF0
  1140 002c 03       		.uleb128 0x3
- 1141 002d 5D010000 		.4byte	.LASF3
+ 1141 002d 13010000 		.4byte	.LASF3
  1142 0031 02       		.byte	0x2
  1143 0032 1D       		.byte	0x1d
  1144 0033 37000000 		.4byte	0x37
  1145 0037 02       		.uleb128 0x2
  1146 0038 01       		.byte	0x1
  1147 0039 08       		.byte	0x8
- 1148 003a B0010000 		.4byte	.LASF1
+ 1148 003a 66010000 		.4byte	.LASF1
  1149 003e 02       		.uleb128 0x2
  1150 003f 02       		.byte	0x2
  1151 0040 05       		.byte	0x5
- 1152 0041 7D000000 		.4byte	.LASF2
+ 1152 0041 33000000 		.4byte	.LASF2
  1153 0045 03       		.uleb128 0x3
- 1154 0046 C0000000 		.4byte	.LASF4
+ 1154 0046 76000000 		.4byte	.LASF4
  1155 004a 02       		.byte	0x2
  1156 004b 2B       		.byte	0x2b
  1157 004c 50000000 		.4byte	0x50
  1158 0050 02       		.uleb128 0x2
  1159 0051 02       		.byte	0x2
  1160 0052 07       		.byte	0x7
- 1161 0053 4C020000 		.4byte	.LASF5
+ 1161 0053 02020000 		.4byte	.LASF5
  1162 0057 03       		.uleb128 0x3
- 1163 0058 FD020000 		.4byte	.LASF6
+ 1163 0058 B3020000 		.4byte	.LASF6
  1164 005c 02       		.byte	0x2
  1165 005d 3F       		.byte	0x3f
  1166 005e 62000000 		.4byte	0x62
  1167 0062 02       		.uleb128 0x2
  1168 0063 04       		.byte	0x4
  1169 0064 05       		.byte	0x5
- 1170 0065 72020000 		.4byte	.LASF7
+ 1170 0065 28020000 		.4byte	.LASF7
  1171 0069 03       		.uleb128 0x3
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 30
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 30
 
 
- 1172 006a A3000000 		.4byte	.LASF8
+ 1172 006a 59000000 		.4byte	.LASF8
  1173 006e 02       		.byte	0x2
  1174 006f 41       		.byte	0x41
  1175 0070 74000000 		.4byte	0x74
  1176 0074 02       		.uleb128 0x2
  1177 0075 04       		.byte	0x4
  1178 0076 07       		.byte	0x7
- 1179 0077 BF020000 		.4byte	.LASF9
+ 1179 0077 75020000 		.4byte	.LASF9
  1180 007b 02       		.uleb128 0x2
  1181 007c 08       		.byte	0x8
  1182 007d 05       		.byte	0x5
- 1183 007e 25010000 		.4byte	.LASF10
+ 1183 007e DB000000 		.4byte	.LASF10
  1184 0082 02       		.uleb128 0x2
  1185 0083 08       		.byte	0x8
  1186 0084 07       		.byte	0x7
- 1187 0085 F0010000 		.4byte	.LASF11
+ 1187 0085 A6010000 		.4byte	.LASF11
  1188 0089 04       		.uleb128 0x4
  1189 008a 04       		.byte	0x4
  1190 008b 05       		.byte	0x5
@@ -1764,62 +1764,62 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1192 0090 02       		.uleb128 0x2
  1193 0091 04       		.byte	0x4
  1194 0092 07       		.byte	0x7
- 1195 0093 1A020000 		.4byte	.LASF12
+ 1195 0093 D0010000 		.4byte	.LASF12
  1196 0097 03       		.uleb128 0x3
- 1197 0098 D4000000 		.4byte	.LASF13
+ 1197 0098 8A000000 		.4byte	.LASF13
  1198 009c 03       		.byte	0x3
  1199 009d 18       		.byte	0x18
  1200 009e 2C000000 		.4byte	0x2c
  1201 00a2 03       		.uleb128 0x3
- 1202 00a3 27020000 		.4byte	.LASF14
+ 1202 00a3 DD010000 		.4byte	.LASF14
  1203 00a7 03       		.byte	0x3
  1204 00a8 24       		.byte	0x24
  1205 00a9 45000000 		.4byte	0x45
  1206 00ad 03       		.uleb128 0x3
- 1207 00ae 7B020000 		.4byte	.LASF15
+ 1207 00ae 31020000 		.4byte	.LASF15
  1208 00b2 03       		.byte	0x3
  1209 00b3 2C       		.byte	0x2c
  1210 00b4 57000000 		.4byte	0x57
  1211 00b8 03       		.uleb128 0x3
- 1212 00b9 E7000000 		.4byte	.LASF16
+ 1212 00b9 9D000000 		.4byte	.LASF16
  1213 00bd 03       		.byte	0x3
  1214 00be 30       		.byte	0x30
  1215 00bf 69000000 		.4byte	0x69
  1216 00c3 05       		.uleb128 0x5
- 1217 00c4 83020000 		.4byte	.LASF17
+ 1217 00c4 39020000 		.4byte	.LASF17
  1218 00c8 04       		.byte	0x4
  1219 00c9 E401     		.2byte	0x1e4
  1220 00cb 37000000 		.4byte	0x37
  1221 00cf 05       		.uleb128 0x5
- 1222 00d0 AE020000 		.4byte	.LASF18
+ 1222 00d0 64020000 		.4byte	.LASF18
  1223 00d4 04       		.byte	0x4
  1224 00d5 E601     		.2byte	0x1e6
  1225 00d7 74000000 		.4byte	0x74
  1226 00db 02       		.uleb128 0x2
  1227 00dc 04       		.byte	0x4
  1228 00dd 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 31
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 31
 
 
- 1229 00de 1F010000 		.4byte	.LASF19
+ 1229 00de D5000000 		.4byte	.LASF19
  1230 00e2 02       		.uleb128 0x2
  1231 00e3 08       		.byte	0x8
  1232 00e4 04       		.byte	0x4
- 1233 00e5 D1020000 		.4byte	.LASF20
+ 1233 00e5 87020000 		.4byte	.LASF20
  1234 00e9 02       		.uleb128 0x2
  1235 00ea 01       		.byte	0x1
  1236 00eb 08       		.byte	0x8
- 1237 00ec 6D020000 		.4byte	.LASF21
+ 1237 00ec 23020000 		.4byte	.LASF21
  1238 00f0 02       		.uleb128 0x2
  1239 00f1 08       		.byte	0x8
  1240 00f2 04       		.byte	0x4
- 1241 00f3 98010000 		.4byte	.LASF22
+ 1241 00f3 4E010000 		.4byte	.LASF22
  1242 00f7 02       		.uleb128 0x2
  1243 00f8 04       		.byte	0x4
  1244 00f9 07       		.byte	0x7
- 1245 00fa 87000000 		.4byte	.LASF23
+ 1245 00fa 3D000000 		.4byte	.LASF23
  1246 00fe 06       		.uleb128 0x6
- 1247 00ff CB000000 		.4byte	.LASF67
+ 1247 00ff 81000000 		.4byte	.LASF67
  1248 0103 0C       		.byte	0xc
  1249 0104 05       		.byte	0x5
  1250 0105 0E       		.byte	0xe
@@ -1858,14 +1858,14 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1283 0142 523300   		.ascii	"R3\000"
  1284 0145 05       		.byte	0x5
  1285 0146 14       		.byte	0x14
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 32
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 32
 
 
  1286 0147 A2000000 		.4byte	0xa2
  1287 014b 0A       		.byte	0xa
  1288 014c 00       		.byte	0
  1289 014d 08       		.uleb128 0x8
- 1290 014e E4010000 		.4byte	.LASF24
+ 1290 014e 9A010000 		.4byte	.LASF24
  1291 0152 01       		.byte	0x1
  1292 0153 40       		.byte	0x40
  1293 0154 00000000 		.4byte	.LFB86
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1340 01b7 51       		.byte	0x51
  1341 01b8 02       		.uleb128 0x2
  1342 01b9 74       		.byte	0x74
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 33
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 33
 
 
  1343 01ba 00       		.sleb128 0
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1397 0214 0C       		.uleb128 0xc
  1398 0215 01       		.uleb128 0x1
  1399 0216 51       		.byte	0x51
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 34
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 34
 
 
  1400 0217 02       		.uleb128 0x2
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1454 0284 3E0D0000 		.4byte	0xd3e
  1455 0288 97020000 		.4byte	0x297
  1456 028c 0C       		.uleb128 0xc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 35
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 35
 
 
  1457 028d 01       		.uleb128 0x1
@@ -2056,7 +2056,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1469 029c B80D0000 		.4byte	0xdb8
  1470 02a0 00       		.byte	0
  1471 02a1 08       		.uleb128 0x8
- 1472 02a2 99020000 		.4byte	.LASF25
+ 1472 02a2 4F020000 		.4byte	.LASF25
  1473 02a6 01       		.byte	0x1
  1474 02a7 84       		.byte	0x84
  1475 02a8 00000000 		.4byte	.LFB88
@@ -2065,7 +2065,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1478 02b1 9C       		.byte	0x9c
  1479 02b2 34040000 		.4byte	0x434
  1480 02b6 0E       		.uleb128 0xe
- 1481 02b7 DC000000 		.4byte	.LASF26
+ 1481 02b7 92000000 		.4byte	.LASF26
  1482 02bb 01       		.byte	0x1
  1483 02bc 86       		.byte	0x86
  1484 02bd B8000000 		.4byte	0xb8
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1511 02ff 30       		.byte	0x30
  1512 0300 0C       		.uleb128 0xc
  1513 0301 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 36
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 36
 
 
  1514 0302 51       		.byte	0x51
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1568 0356 0C       		.uleb128 0xc
  1569 0357 01       		.uleb128 0x1
  1570 0358 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 37
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 37
 
 
  1571 0359 02       		.uleb128 0x2
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1625 03b6 50       		.byte	0x50
  1626 03b7 01       		.uleb128 0x1
  1627 03b8 30       		.byte	0x30
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 38
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 38
 
 
  1628 03b9 0C       		.uleb128 0xc
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1682 0413 C4000000 		.4byte	.LVL38
  1683 0417 3E0D0000 		.4byte	0xd3e
  1684 041b 2A040000 		.4byte	0x42a
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 39
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 39
 
 
  1685 041f 0C       		.uleb128 0xc
@@ -2297,7 +2297,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1698 042f B80D0000 		.4byte	0xdb8
  1699 0433 00       		.byte	0
  1700 0434 10       		.uleb128 0x10
- 1701 0435 F0000000 		.4byte	.LASF32
+ 1701 0435 A6000000 		.4byte	.LASF32
  1702 0439 01       		.byte	0x1
  1703 043a 3201     		.2byte	0x132
  1704 043c 00000000 		.4byte	.LFB91
@@ -2306,7 +2306,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1707 0445 9C       		.byte	0x9c
  1708 0446 8F040000 		.4byte	0x48f
  1709 044a 11       		.uleb128 0x11
- 1710 044b AE000000 		.4byte	.LASF29
+ 1710 044b 64000000 		.4byte	.LASF29
  1711 044f 01       		.byte	0x1
  1712 0450 3201     		.2byte	0x132
  1713 0452 B8000000 		.4byte	0xb8
@@ -2338,16 +2338,16 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1739 048b 75       		.byte	0x75
  1740 048c 00       		.sleb128 0
  1741 048d 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 40
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 40
 
 
  1742 048e 00       		.byte	0
  1743 048f 02       		.uleb128 0x2
  1744 0490 01       		.byte	0x1
  1745 0491 02       		.byte	0x2
- 1746 0492 89020000 		.4byte	.LASF27
+ 1746 0492 3F020000 		.4byte	.LASF27
  1747 0496 14       		.uleb128 0x14
- 1748 0497 90000000 		.4byte	.LASF28
+ 1748 0497 46000000 		.4byte	.LASF28
  1749 049b 01       		.byte	0x1
  1750 049c 3901     		.2byte	0x139
  1751 049e 00000000 		.4byte	.LFB92
@@ -2356,13 +2356,13 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1754 04a7 9C       		.byte	0x9c
  1755 04a8 E9040000 		.4byte	0x4e9
  1756 04ac 11       		.uleb128 0x11
- 1757 04ad 35020000 		.4byte	.LASF30
+ 1757 04ad EB010000 		.4byte	.LASF30
  1758 04b1 01       		.byte	0x1
  1759 04b2 3901     		.2byte	0x139
  1760 04b4 97000000 		.4byte	0x97
  1761 04b8 85000000 		.4byte	.LLST4
  1762 04bc 11       		.uleb128 0x11
- 1763 04bd AE000000 		.4byte	.LASF29
+ 1763 04bd 64000000 		.4byte	.LASF29
  1764 04c1 01       		.byte	0x1
  1765 04c2 3901     		.2byte	0x139
  1766 04c4 B8000000 		.4byte	0xb8
@@ -2391,25 +2391,25 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1789 04e7 00       		.byte	0
  1790 04e8 00       		.byte	0
  1791 04e9 14       		.uleb128 0x14
- 1792 04ea 8F020000 		.4byte	.LASF31
+ 1792 04ea 45020000 		.4byte	.LASF31
  1793 04ee 01       		.byte	0x1
  1794 04ef 3D01     		.2byte	0x13d
  1795 04f1 00000000 		.4byte	.LFB93
  1796 04f5 18000000 		.4byte	.LFE93-.LFB93
  1797 04f9 01       		.uleb128 0x1
  1798 04fa 9C       		.byte	0x9c
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 41
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 41
 
 
  1799 04fb 3C050000 		.4byte	0x53c
  1800 04ff 11       		.uleb128 0x11
- 1801 0500 35020000 		.4byte	.LASF30
+ 1801 0500 EB010000 		.4byte	.LASF30
  1802 0504 01       		.byte	0x1
  1803 0505 3D01     		.2byte	0x13d
  1804 0507 97000000 		.4byte	0x97
  1805 050b D3000000 		.4byte	.LLST6
  1806 050f 11       		.uleb128 0x11
- 1807 0510 AE000000 		.4byte	.LASF29
+ 1807 0510 64000000 		.4byte	.LASF29
  1808 0514 01       		.byte	0x1
  1809 0515 3D01     		.2byte	0x13d
  1810 0517 B8000000 		.4byte	0xb8
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1853 056b 01       		.byte	0x1
  1854 056c 4101     		.2byte	0x141
  1855 056e 89000000 		.4byte	0x89
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 42
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 42
 
 
  1856 0572 3F010000 		.4byte	.LLST9
@@ -2479,7 +2479,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1871 059d 110E0000 		.4byte	0xe11
  1872 05a1 00       		.byte	0
  1873 05a2 08       		.uleb128 0x8
- 1874 05a3 07030000 		.4byte	.LASF35
+ 1874 05a3 BD020000 		.4byte	.LASF35
  1875 05a7 01       		.byte	0x1
  1876 05a8 5F       		.byte	0x5f
  1877 05a9 00000000 		.4byte	.LFB87
@@ -2498,7 +2498,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1890 05c9 89000000 		.4byte	0x89
  1891 05cd 8E010000 		.4byte	.LLST11
  1892 05d1 0E       		.uleb128 0xe
- 1893 05d2 30020000 		.4byte	.LASF36
+ 1893 05d2 E6010000 		.4byte	.LASF36
  1894 05d6 01       		.byte	0x1
  1895 05d7 6D       		.byte	0x6d
  1896 05d8 89000000 		.4byte	0x89
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1910 05f5 51       		.byte	0x51
  1911 05f6 02       		.uleb128 0x2
  1912 05f7 08       		.byte	0x8
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 43
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 43
 
 
  1913 05f8 32       		.byte	0x32
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  1967 0659 50       		.byte	0x50
  1968 065a 02       		.uleb128 0x2
  1969 065b 08       		.byte	0x8
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 44
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 44
 
 
  1970 065c 64       		.byte	0x64
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2024 06b0 51       		.byte	0x51
  2025 06b1 02       		.uleb128 0x2
  2026 06b2 74       		.byte	0x74
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 45
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 45
 
 
  2027 06b3 00       		.sleb128 0
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2081 071c 00       		.byte	0
  2082 071d 0D       		.uleb128 0xd
  2083 071e 1C000000 		.4byte	.LVL66
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 46
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 46
 
 
  2084 0722 A20D0000 		.4byte	0xda2
@@ -2725,7 +2725,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2105 074c B80D0000 		.4byte	0xdb8
  2106 0750 00       		.byte	0
  2107 0751 14       		.uleb128 0x14
- 2108 0752 F1020000 		.4byte	.LASF37
+ 2108 0752 A7020000 		.4byte	.LASF37
  2109 0756 01       		.byte	0x1
  2110 0757 4901     		.2byte	0x149
  2111 0759 00000000 		.4byte	.LFB95
@@ -2734,19 +2734,19 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2114 0762 9C       		.byte	0x9c
  2115 0763 B4070000 		.4byte	0x7b4
  2116 0767 11       		.uleb128 0x11
- 2117 0768 AF030000 		.4byte	.LASF38
+ 2117 0768 99030000 		.4byte	.LASF38
  2118 076c 01       		.byte	0x1
  2119 076d 4901     		.2byte	0x149
  2120 076f C3000000 		.4byte	0xc3
  2121 0773 CA010000 		.4byte	.LLST13
  2122 0777 11       		.uleb128 0x11
- 2123 0778 12020000 		.4byte	.LASF39
+ 2123 0778 C8010000 		.4byte	.LASF39
  2124 077c 01       		.byte	0x1
  2125 077d 4901     		.2byte	0x149
  2126 077f C3000000 		.4byte	0xc3
  2127 0783 EB010000 		.4byte	.LLST14
  2128 0787 11       		.uleb128 0x11
- 2129 0788 AE000000 		.4byte	.LASF29
+ 2129 0788 64000000 		.4byte	.LASF29
  2130 078c 01       		.byte	0x1
  2131 078d 4901     		.2byte	0x149
  2132 078f CF000000 		.4byte	0xcf
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2138 07a1 01       		.uleb128 0x1
  2139 07a2 50       		.byte	0x50
  2140 07a3 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 47
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 47
 
 
  2141 07a4 30       		.byte	0x30
@@ -2778,7 +2778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2155 07b2 00       		.byte	0
  2156 07b3 00       		.byte	0
  2157 07b4 18       		.uleb128 0x18
- 2158 07b5 B4000000 		.4byte	.LASF40
+ 2158 07b5 6A000000 		.4byte	.LASF40
  2159 07b9 01       		.byte	0x1
  2160 07ba 28       		.byte	0x28
  2161 07bb 00000000 		.4byte	.LFB85
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2195 080a 01       		.uleb128 0x1
  2196 080b 50       		.byte	0x50
  2197 080c 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 48
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 48
 
 
  2198 080d 08       		.byte	0x8
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2252 0860 01       		.uleb128 0x1
  2253 0861 51       		.byte	0x51
  2254 0862 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 49
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 49
 
 
  2255 0863 08       		.byte	0x8
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2309 08b5 01       		.uleb128 0x1
  2310 08b6 52       		.byte	0x52
  2311 08b7 03       		.uleb128 0x3
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 50
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 50
 
 
  2312 08b8 0A       		.byte	0xa
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2366 0914 04010000 		.4byte	.LFE89-.LFB89
  2367 0918 01       		.uleb128 0x1
  2368 0919 9C       		.byte	0x9c
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 51
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 51
 
 
  2369 091a 0F0B0000 		.4byte	0xb0f
@@ -3058,7 +3058,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2423 097f F82A     		.2byte	0x2af8
  2424 0981 0C       		.uleb128 0xc
  2425 0982 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 52
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 52
 
 
  2426 0983 53       		.byte	0x53
@@ -3118,7 +3118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2480 09dd 01       		.uleb128 0x1
  2481 09de 50       		.byte	0x50
  2482 09df 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 53
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 53
 
 
  2483 09e0 91       		.byte	0x91
@@ -3178,7 +3178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2537 0a40 50       		.byte	0x50
  2538 0a41 02       		.uleb128 0x2
  2539 0a42 91       		.byte	0x91
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 54
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 54
 
 
  2540 0a43 6C       		.sleb128 -20
@@ -3238,7 +3238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2594 0a9d 0C       		.uleb128 0xc
  2595 0a9e 01       		.uleb128 0x1
  2596 0a9f 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 55
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 55
 
 
  2597 0aa0 02       		.uleb128 0x2
@@ -3298,7 +3298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2651 0afd 01       		.uleb128 0x1
  2652 0afe 30       		.byte	0x30
  2653 0aff 0C       		.uleb128 0xc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 56
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 56
 
 
  2654 0b00 01       		.uleb128 0x1
@@ -3311,7 +3311,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2661 0b0a B80D0000 		.4byte	0xdb8
  2662 0b0e 00       		.byte	0
  2663 0b0f 08       		.uleb128 0x8
- 2664 0b10 79010000 		.4byte	.LASF42
+ 2664 0b10 2F010000 		.4byte	.LASF42
  2665 0b14 01       		.byte	0x1
  2666 0b15 DC       		.byte	0xdc
  2667 0b16 00000000 		.4byte	.LFB90
@@ -3320,7 +3320,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2670 0b1f 9C       		.byte	0x9c
  2671 0b20 2D0D0000 		.4byte	0xd2d
  2672 0b24 19       		.uleb128 0x19
- 2673 0b25 DC000000 		.4byte	.LASF26
+ 2673 0b25 92000000 		.4byte	.LASF26
  2674 0b29 01       		.byte	0x1
  2675 0b2a DE       		.byte	0xde
  2676 0b2b B8000000 		.4byte	0xb8
@@ -3358,7 +3358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2708 0b6f 30       		.byte	0x30
  2709 0b70 00       		.byte	0
  2710 0b71 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 57
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 57
 
 
  2711 0b72 2A000000 		.4byte	.LVL134
@@ -3418,7 +3418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2765 0bc6 6C       		.sleb128 -20
  2766 0bc7 00       		.byte	0
  2767 0bc8 0B       		.uleb128 0xb
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 58
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 58
 
 
  2768 0bc9 3E000000 		.4byte	.LVL137
@@ -3478,7 +3478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2822 0c2f 02       		.uleb128 0x2
  2823 0c30 08       		.byte	0x8
  2824 0c31 64       		.byte	0x64
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 59
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 59
 
 
  2825 0c32 0C       		.uleb128 0xc
@@ -3538,7 +3538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2879 0c8c 01       		.uleb128 0x1
  2880 0c8d 51       		.byte	0x51
  2881 0c8e 01       		.uleb128 0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 60
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 60
 
 
  2882 0c8f 3A       		.byte	0x3a
@@ -3598,7 +3598,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2936 0ce9 0C       		.uleb128 0xc
  2937 0cea 01       		.uleb128 0x1
  2938 0ceb 50       		.byte	0x50
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 61
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 61
 
 
  2939 0cec 01       		.uleb128 0x1
@@ -3640,38 +3640,38 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  2975 0d28 B80D0000 		.4byte	0xdb8
  2976 0d2c 00       		.byte	0
  2977 0d2d 1A       		.uleb128 0x1a
- 2978 0d2e E4020000 		.4byte	.LASF68
+ 2978 0d2e 9A020000 		.4byte	.LASF68
  2979 0d32 0E       		.byte	0xe
  2980 0d33 1207     		.2byte	0x712
  2981 0d35 390D0000 		.4byte	0xd39
  2982 0d39 1B       		.uleb128 0x1b
  2983 0d3a AD000000 		.4byte	0xad
  2984 0d3e 1C       		.uleb128 0x1c
- 2985 0d3f 5F020000 		.4byte	.LASF43
- 2986 0d43 5F020000 		.4byte	.LASF43
+ 2985 0d3f 15020000 		.4byte	.LASF43
+ 2986 0d43 15020000 		.4byte	.LASF43
  2987 0d47 06       		.byte	0x6
  2988 0d48 0F       		.byte	0xf
  2989 0d49 1C       		.uleb128 0x1c
- 2990 0d4a 0D010000 		.4byte	.LASF44
- 2991 0d4e 0D010000 		.4byte	.LASF44
+ 2990 0d4a C3000000 		.4byte	.LASF44
+ 2991 0d4e C3000000 		.4byte	.LASF44
  2992 0d52 07       		.byte	0x7
  2993 0d53 0D       		.byte	0xd
  2994 0d54 1C       		.uleb128 0x1c
- 2995 0d55 56010000 		.4byte	.LASF45
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 62
+ 2995 0d55 0C010000 		.4byte	.LASF45
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 62
 
 
- 2996 0d59 56010000 		.4byte	.LASF45
+ 2996 0d59 0C010000 		.4byte	.LASF45
  2997 0d5d 08       		.byte	0x8
  2998 0d5e BB       		.byte	0xbb
  2999 0d5f 1D       		.uleb128 0x1d
- 3000 0d60 07020000 		.4byte	.LASF46
- 3001 0d64 07020000 		.4byte	.LASF46
+ 3000 0d60 BD010000 		.4byte	.LASF46
+ 3001 0d64 BD010000 		.4byte	.LASF46
  3002 0d68 09       		.byte	0x9
  3003 0d69 ED02     		.2byte	0x2ed
  3004 0d6b 1C       		.uleb128 0x1c
- 3005 0d6c 47010000 		.4byte	.LASF47
- 3006 0d70 47010000 		.4byte	.LASF47
+ 3005 0d6c FD000000 		.4byte	.LASF47
+ 3006 0d70 FD000000 		.4byte	.LASF47
  3007 0d74 06       		.byte	0x6
  3008 0d75 15       		.byte	0x15
  3009 0d76 1C       		.uleb128 0x1c
@@ -3680,28 +3680,28 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3012 0d7f 06       		.byte	0x6
  3013 0d80 12       		.byte	0x12
  3014 0d81 1C       		.uleb128 0x1c
- 3015 0d82 A5020000 		.4byte	.LASF49
- 3016 0d86 A5020000 		.4byte	.LASF49
+ 3015 0d82 5B020000 		.4byte	.LASF49
+ 3016 0d86 5B020000 		.4byte	.LASF49
  3017 0d8a 0A       		.byte	0xa
  3018 0d8b 29       		.byte	0x29
  3019 0d8c 1C       		.uleb128 0x1c
- 3020 0d8d A4010000 		.4byte	.LASF50
- 3021 0d91 A4010000 		.4byte	.LASF50
+ 3020 0d8d 5A010000 		.4byte	.LASF50
+ 3021 0d91 5A010000 		.4byte	.LASF50
  3022 0d95 07       		.byte	0x7
  3023 0d96 0A       		.byte	0xa
  3024 0d97 1C       		.uleb128 0x1c
- 3025 0d98 D8020000 		.4byte	.LASF51
- 3026 0d9c D8020000 		.4byte	.LASF51
+ 3025 0d98 8E020000 		.4byte	.LASF51
+ 3026 0d9c 8E020000 		.4byte	.LASF51
  3027 0da0 06       		.byte	0x6
  3028 0da1 0B       		.byte	0xb
  3029 0da2 1C       		.uleb128 0x1c
- 3030 0da3 85010000 		.4byte	.LASF52
- 3031 0da7 85010000 		.4byte	.LASF52
+ 3030 0da3 3B010000 		.4byte	.LASF52
+ 3031 0da7 3B010000 		.4byte	.LASF52
  3032 0dab 0B       		.byte	0xb
  3033 0dac 11       		.byte	0x11
  3034 0dad 1C       		.uleb128 0x1c
- 3035 0dae 13030000 		.4byte	.LASF53
- 3036 0db2 13030000 		.4byte	.LASF53
+ 3035 0dae FD020000 		.4byte	.LASF53
+ 3036 0db2 FD020000 		.4byte	.LASF53
  3037 0db6 0B       		.byte	0xb
  3038 0db7 1B       		.byte	0x1b
  3039 0db8 1C       		.uleb128 0x1c
@@ -3710,51 +3710,51 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3042 0dc1 06       		.byte	0x6
  3043 0dc2 0C       		.byte	0xc
  3044 0dc3 1C       		.uleb128 0x1c
- 3045 0dc4 FB000000 		.4byte	.LASF55
- 3046 0dc8 FB000000 		.4byte	.LASF55
+ 3045 0dc4 B1000000 		.4byte	.LASF55
+ 3046 0dc8 B1000000 		.4byte	.LASF55
  3047 0dcc 05       		.byte	0x5
  3048 0dcd 17       		.byte	0x17
  3049 0dce 1C       		.uleb128 0x1c
- 3050 0dcf BE010000 		.4byte	.LASF56
- 3051 0dd3 BE010000 		.4byte	.LASF56
+ 3050 0dcf 74010000 		.4byte	.LASF56
+ 3051 0dd3 74010000 		.4byte	.LASF56
  3052 0dd7 05       		.byte	0x5
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 63
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 63
 
 
  3053 0dd8 1A       		.byte	0x1a
  3054 0dd9 1C       		.uleb128 0x1c
- 3055 0dda 33010000 		.4byte	.LASF57
- 3056 0dde 33010000 		.4byte	.LASF57
+ 3055 0dda E9000000 		.4byte	.LASF57
+ 3056 0dde E9000000 		.4byte	.LASF57
  3057 0de2 05       		.byte	0x5
  3058 0de3 19       		.byte	0x19
  3059 0de4 1C       		.uleb128 0x1c
- 3060 0de5 3B020000 		.4byte	.LASF58
- 3061 0de9 3B020000 		.4byte	.LASF58
+ 3060 0de5 F1010000 		.4byte	.LASF58
+ 3061 0de9 F1010000 		.4byte	.LASF58
  3062 0ded 0C       		.byte	0xc
  3063 0dee 26       		.byte	0x26
  3064 0def 1C       		.uleb128 0x1c
- 3065 0df0 B5020000 		.4byte	.LASF59
- 3066 0df4 B5020000 		.4byte	.LASF59
+ 3065 0df0 6B020000 		.4byte	.LASF59
+ 3066 0df4 6B020000 		.4byte	.LASF59
  3067 0df8 06       		.byte	0x6
  3068 0df9 18       		.byte	0x18
  3069 0dfa 1D       		.uleb128 0x1d
- 3070 0dfb 67010000 		.4byte	.LASF60
- 3071 0dff 67010000 		.4byte	.LASF60
+ 3070 0dfb 1D010000 		.4byte	.LASF60
+ 3071 0dff 1D010000 		.4byte	.LASF60
  3072 0e03 09       		.byte	0x9
  3073 0e04 3E05     		.2byte	0x53e
  3074 0e06 1C       		.uleb128 0x1c
- 3075 0e07 A9030000 		.4byte	.LASF61
- 3076 0e0b A9030000 		.4byte	.LASF61
+ 3075 0e07 93030000 		.4byte	.LASF61
+ 3076 0e0b 93030000 		.4byte	.LASF61
  3077 0e0f 0D       		.byte	0xd
  3078 0e10 96       		.byte	0x96
  3079 0e11 1C       		.uleb128 0x1c
- 3080 0e12 E2000000 		.4byte	.LASF62
- 3081 0e16 E2000000 		.4byte	.LASF62
+ 3080 0e12 98000000 		.4byte	.LASF62
+ 3081 0e16 98000000 		.4byte	.LASF62
  3082 0e1a 0D       		.byte	0xd
  3083 0e1b 88       		.byte	0x88
  3084 0e1c 1C       		.uleb128 0x1c
- 3085 0e1d 9A000000 		.4byte	.LASF63
- 3086 0e21 9A000000 		.4byte	.LASF63
+ 3085 0e1d 50000000 		.4byte	.LASF63
+ 3086 0e21 50000000 		.4byte	.LASF63
  3087 0e25 0B       		.byte	0xb
  3088 0e26 18       		.byte	0x18
  3089 0e27 00       		.byte	0
@@ -3778,7 +3778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3107 000f 10       		.uleb128 0x10
  3108 0010 17       		.uleb128 0x17
  3109 0011 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 64
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 64
 
 
  3110 0012 00       		.byte	0
@@ -3838,7 +3838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3164 0048 0B       		.uleb128 0xb
  3165 0049 0B       		.uleb128 0xb
  3166 004a 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 65
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 65
 
 
  3167 004b 0B       		.uleb128 0xb
@@ -3898,7 +3898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3221 0082 01       		.uleb128 0x1
  3222 0083 13       		.uleb128 0x13
  3223 0084 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 66
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 66
 
 
  3224 0085 00       		.byte	0
@@ -3958,7 +3958,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3278 00c2 49       		.uleb128 0x49
  3279 00c3 13       		.uleb128 0x13
  3280 00c4 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 67
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 67
 
 
  3281 00c5 17       		.uleb128 0x17
@@ -4018,7 +4018,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3335 00fd 49       		.uleb128 0x49
  3336 00fe 13       		.uleb128 0x13
  3337 00ff 02       		.uleb128 0x2
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 68
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 68
 
 
  3338 0100 17       		.uleb128 0x17
@@ -4078,7 +4078,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3392 0139 01       		.byte	0x1
  3393 013a 3F       		.uleb128 0x3f
  3394 013b 19       		.uleb128 0x19
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 69
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 69
 
 
  3395 013c 03       		.uleb128 0x3
@@ -4138,7 +4138,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3449 0173 01       		.byte	0x1
  3450 0174 3F       		.uleb128 0x3f
  3451 0175 19       		.uleb128 0x19
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 70
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 70
 
 
  3452 0176 03       		.uleb128 0x3
@@ -4198,7 +4198,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3506 01ae 1B       		.uleb128 0x1b
  3507 01af 35       		.uleb128 0x35
  3508 01b0 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 71
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 71
 
 
  3509 01b1 49       		.uleb128 0x49
@@ -4258,7 +4258,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3563 0021 00000000 		.4byte	0
  3564 0025 00000000 		.4byte	0
  3565              	.LLST1:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 72
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 72
 
 
  3566 0029 04000000 		.4byte	.LVL19
@@ -4318,7 +4318,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3620 00b5 11000000 		.4byte	.LVL50-1
  3621 00b9 0200     		.2byte	0x2
  3622 00bb 7D       		.byte	0x7d
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 73
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 73
 
 
  3623 00bc 00       		.sleb128 0
@@ -4378,7 +4378,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3677              	.LLST9:
  3678 013f 00000000 		.4byte	.LVL55
  3679 0143 09000000 		.4byte	.LVL56-1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 74
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 74
 
 
  3680 0147 0100     		.2byte	0x1
@@ -4438,7 +4438,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3734 01ca 00000000 		.4byte	.LVL86
  3735 01ce 0E000000 		.4byte	.LVL89
  3736 01d2 0100     		.2byte	0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 75
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 75
 
 
  3737 01d4 50       		.byte	0x50
@@ -4498,7 +4498,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3791 001c D4000000 		.4byte	.LFE88-.LFB88
  3792 0020 00000000 		.4byte	.LFB91
  3793 0024 18000000 		.4byte	.LFE91-.LFB91
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 76
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 76
 
 
  3794 0028 00000000 		.4byte	.LFB92
@@ -4558,7 +4558,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3842      726E00
  3843              	.LASF33:
  3844 000b 72616E64 		.ascii	"randomEvg\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 77
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 77
 
 
  3844      6F6D4576 
@@ -4574,300 +4574,297 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 1
  3850 0028 6D6F746F 		.ascii	"motor_stop\000"
  3850      725F7374 
  3850      6F7000
- 3851              	.LASF66:
- 3852 0033 433A5C55 		.ascii	"C:\\Users\\Evgeny Meshcheryakov\\Documents\\metropo"
- 3852      73657273 
- 3852      5C457667 
- 3852      656E7920 
- 3852      4D657368 
- 3853 0062 6C69615C 		.ascii	"lia\\tmp\\Zumo\\ZumoBot.cydsn\000"
- 3853      746D705C 
- 3853      5A756D6F 
- 3853      5C5A756D 
- 3853      6F426F74 
- 3854              	.LASF2:
- 3855 007d 73686F72 		.ascii	"short int\000"
- 3855      7420696E 
- 3855      7400
- 3856              	.LASF23:
- 3857 0087 73697A65 		.ascii	"sizetype\000"
- 3857      74797065 
- 3857      00
- 3858              	.LASF28:
- 3859 0090 74616E6B 		.ascii	"tankTLEvg\000"
- 3859      544C4576 
- 3859      6700
- 3860              	.LASF63:
- 3861 009a 49525F66 		.ascii	"IR_flush\000"
- 3861      6C757368 
- 3861      00
- 3862              	.LASF8:
- 3863 00a3 5F5F7569 		.ascii	"__uint32_t\000"
- 3863      6E743332 
- 3863      5F7400
- 3864              	.LASF29:
- 3865 00ae 64656C61 		.ascii	"delay\000"
- 3865      7900
- 3866              	.LASF40:
- 3867 00b4 7765656B 		.ascii	"week3_1_evg\000"
- 3867      335F315F 
- 3867      65766700 
- 3868              	.LASF4:
- 3869 00c0 5F5F7569 		.ascii	"__uint16_t\000"
- 3869      6E743136 
- 3869      5F7400
- 3870              	.LASF67:
- 3871 00cb 73656E73 		.ascii	"sensors_\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 78
+ 3851              	.LASF2:
+ 3852 0033 73686F72 		.ascii	"short int\000"
+ 3852      7420696E 
+ 3852      7400
+ 3853              	.LASF23:
+ 3854 003d 73697A65 		.ascii	"sizetype\000"
+ 3854      74797065 
+ 3854      00
+ 3855              	.LASF28:
+ 3856 0046 74616E6B 		.ascii	"tankTLEvg\000"
+ 3856      544C4576 
+ 3856      6700
+ 3857              	.LASF63:
+ 3858 0050 49525F66 		.ascii	"IR_flush\000"
+ 3858      6C757368 
+ 3858      00
+ 3859              	.LASF8:
+ 3860 0059 5F5F7569 		.ascii	"__uint32_t\000"
+ 3860      6E743332 
+ 3860      5F7400
+ 3861              	.LASF29:
+ 3862 0064 64656C61 		.ascii	"delay\000"
+ 3862      7900
+ 3863              	.LASF40:
+ 3864 006a 7765656B 		.ascii	"week3_1_evg\000"
+ 3864      335F315F 
+ 3864      65766700 
+ 3865              	.LASF4:
+ 3866 0076 5F5F7569 		.ascii	"__uint16_t\000"
+ 3866      6E743136 
+ 3866      5F7400
+ 3867              	.LASF67:
+ 3868 0081 73656E73 		.ascii	"sensors_\000"
+ 3868      6F72735F 
+ 3868      00
+ 3869              	.LASF13:
+ 3870 008a 75696E74 		.ascii	"uint8_t\000"
+ 3870      385F7400 
+ 3871              	.LASF26:
+ 3872 0092 636F756E 		.ascii	"count\000"
+ 3872      7400
+ 3873              	.LASF62:
+ 3874 0098 72616E64 		.ascii	"rand\000"
+ 3874      00
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 78
 
 
- 3871      6F72735F 
- 3871      00
- 3872              	.LASF13:
- 3873 00d4 75696E74 		.ascii	"uint8_t\000"
- 3873      385F7400 
- 3874              	.LASF26:
- 3875 00dc 636F756E 		.ascii	"count\000"
- 3875      7400
- 3876              	.LASF62:
- 3877 00e2 72616E64 		.ascii	"rand\000"
- 3877      00
- 3878              	.LASF16:
- 3879 00e7 75696E74 		.ascii	"uint32_t\000"
- 3879      33325F74 
- 3879      00
- 3880              	.LASF32:
- 3881 00f0 70726F67 		.ascii	"progEndEvg\000"
- 3881      456E6445 
- 3881      766700
- 3882              	.LASF55:
- 3883 00fb 7265666C 		.ascii	"reflectance_start\000"
- 3883      65637461 
- 3883      6E63655F 
- 3883      73746172 
- 3883      7400
- 3884              	.LASF44:
- 3885 010d 556C7472 		.ascii	"Ultra_GetDistance\000"
- 3885      615F4765 
- 3885      74446973 
- 3885      74616E63 
- 3885      6500
- 3886              	.LASF19:
- 3887 011f 666C6F61 		.ascii	"float\000"
- 3887      7400
- 3888              	.LASF10:
- 3889 0125 6C6F6E67 		.ascii	"long long int\000"
- 3889      206C6F6E 
- 3889      6720696E 
- 3889      7400
- 3890              	.LASF57:
- 3891 0133 7265666C 		.ascii	"reflectance_digital\000"
- 3891      65637461 
- 3891      6E63655F 
- 3891      64696769 
- 3891      74616C00 
- 3892              	.LASF47:
- 3893 0147 6D6F746F 		.ascii	"motor_backward\000"
- 3893      725F6261 
- 3893      636B7761 
- 3893      726400
- 3894              	.LASF45:
- 3895 0156 7072696E 		.ascii	"printf\000"
- 3895      746600
- 3896              	.LASF3:
- 3897 015d 5F5F7569 		.ascii	"__uint8_t\000"
- 3897      6E74385F 
- 3897      7400
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 79
+ 3875              	.LASF16:
+ 3876 009d 75696E74 		.ascii	"uint32_t\000"
+ 3876      33325F74 
+ 3876      00
+ 3877              	.LASF32:
+ 3878 00a6 70726F67 		.ascii	"progEndEvg\000"
+ 3878      456E6445 
+ 3878      766700
+ 3879              	.LASF55:
+ 3880 00b1 7265666C 		.ascii	"reflectance_start\000"
+ 3880      65637461 
+ 3880      6E63655F 
+ 3880      73746172 
+ 3880      7400
+ 3881              	.LASF44:
+ 3882 00c3 556C7472 		.ascii	"Ultra_GetDistance\000"
+ 3882      615F4765 
+ 3882      74446973 
+ 3882      74616E63 
+ 3882      6500
+ 3883              	.LASF19:
+ 3884 00d5 666C6F61 		.ascii	"float\000"
+ 3884      7400
+ 3885              	.LASF10:
+ 3886 00db 6C6F6E67 		.ascii	"long long int\000"
+ 3886      206C6F6E 
+ 3886      6720696E 
+ 3886      7400
+ 3887              	.LASF57:
+ 3888 00e9 7265666C 		.ascii	"reflectance_digital\000"
+ 3888      65637461 
+ 3888      6E63655F 
+ 3888      64696769 
+ 3888      74616C00 
+ 3889              	.LASF47:
+ 3890 00fd 6D6F746F 		.ascii	"motor_backward\000"
+ 3890      725F6261 
+ 3890      636B7761 
+ 3890      726400
+ 3891              	.LASF45:
+ 3892 010c 7072696E 		.ascii	"printf\000"
+ 3892      746600
+ 3893              	.LASF3:
+ 3894 0113 5F5F7569 		.ascii	"__uint8_t\000"
+ 3894      6E74385F 
+ 3894      7400
+ 3895              	.LASF60:
+ 3896 011d 78546173 		.ascii	"xTaskGetTickCount\000"
+ 3896      6B476574 
+ 3896      5469636B 
+ 3896      436F756E 
+ 3896      7400
+ 3897              	.LASF42:
+ 3898 012f 7765656B 		.ascii	"week4_3_evg\000"
+ 3898      345F335F 
+ 3898      65766700 
+ 3899              	.LASF52:
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 79
 
 
- 3898              	.LASF60:
- 3899 0167 78546173 		.ascii	"xTaskGetTickCount\000"
- 3899      6B476574 
- 3899      5469636B 
- 3899      436F756E 
- 3899      7400
- 3900              	.LASF42:
- 3901 0179 7765656B 		.ascii	"week4_3_evg\000"
- 3901      345F335F 
- 3901      65766700 
- 3902              	.LASF52:
- 3903 0185 49525F53 		.ascii	"IR_Start\000"
- 3903      74617274 
- 3903      00
- 3904              	.LASF65:
- 3905 018e 65766765 		.ascii	"evgenii.c\000"
- 3905      6E69692E 
- 3905      6300
- 3906              	.LASF22:
- 3907 0198 6C6F6E67 		.ascii	"long double\000"
- 3907      20646F75 
- 3907      626C6500 
- 3908              	.LASF50:
- 3909 01a4 556C7472 		.ascii	"Ultra_Start\000"
- 3909      615F5374 
- 3909      61727400 
- 3910              	.LASF1:
- 3911 01b0 756E7369 		.ascii	"unsigned char\000"
- 3911      676E6564 
- 3911      20636861 
- 3911      7200
- 3912              	.LASF56:
- 3913 01be 7265666C 		.ascii	"reflectance_set_threshold\000"
- 3913      65637461 
- 3913      6E63655F 
- 3913      7365745F 
- 3913      74687265 
- 3914              	.LASF0:
- 3915 01d8 7369676E 		.ascii	"signed char\000"
- 3915      65642063 
- 3915      68617200 
- 3916              	.LASF24:
- 3917 01e4 7765656B 		.ascii	"week3_2_evg\000"
- 3917      335F325F 
- 3917      65766700 
- 3918              	.LASF11:
- 3919 01f0 6C6F6E67 		.ascii	"long long unsigned int\000"
- 3919      206C6F6E 
- 3919      6720756E 
- 3919      7369676E 
- 3919      65642069 
- 3920              	.LASF46:
- 3921 0207 76546173 		.ascii	"vTaskDelay\000"
- 3921      6B44656C 
- 3921      617900
- 3922              	.LASF39:
- 3923 0212 725F7370 		.ascii	"r_speed\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 80
+ 3900 013b 49525F53 		.ascii	"IR_Start\000"
+ 3900      74617274 
+ 3900      00
+ 3901              	.LASF65:
+ 3902 0144 65766765 		.ascii	"evgenii.c\000"
+ 3902      6E69692E 
+ 3902      6300
+ 3903              	.LASF22:
+ 3904 014e 6C6F6E67 		.ascii	"long double\000"
+ 3904      20646F75 
+ 3904      626C6500 
+ 3905              	.LASF50:
+ 3906 015a 556C7472 		.ascii	"Ultra_Start\000"
+ 3906      615F5374 
+ 3906      61727400 
+ 3907              	.LASF1:
+ 3908 0166 756E7369 		.ascii	"unsigned char\000"
+ 3908      676E6564 
+ 3908      20636861 
+ 3908      7200
+ 3909              	.LASF56:
+ 3910 0174 7265666C 		.ascii	"reflectance_set_threshold\000"
+ 3910      65637461 
+ 3910      6E63655F 
+ 3910      7365745F 
+ 3910      74687265 
+ 3911              	.LASF0:
+ 3912 018e 7369676E 		.ascii	"signed char\000"
+ 3912      65642063 
+ 3912      68617200 
+ 3913              	.LASF24:
+ 3914 019a 7765656B 		.ascii	"week3_2_evg\000"
+ 3914      335F325F 
+ 3914      65766700 
+ 3915              	.LASF11:
+ 3916 01a6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3916      206C6F6E 
+ 3916      6720756E 
+ 3916      7369676E 
+ 3916      65642069 
+ 3917              	.LASF46:
+ 3918 01bd 76546173 		.ascii	"vTaskDelay\000"
+ 3918      6B44656C 
+ 3918      617900
+ 3919              	.LASF39:
+ 3920 01c8 725F7370 		.ascii	"r_speed\000"
+ 3920      65656400 
+ 3921              	.LASF12:
+ 3922 01d0 756E7369 		.ascii	"unsigned int\000"
+ 3922      676E6564 
+ 3922      20696E74 
+ 3922      00
+ 3923              	.LASF14:
+ 3924 01dd 75696E74 		.ascii	"uint16_t\000"
+ 3924      31365F74 
+ 3924      00
+ 3925              	.LASF36:
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 80
 
 
- 3923      65656400 
- 3924              	.LASF12:
- 3925 021a 756E7369 		.ascii	"unsigned int\000"
- 3925      676E6564 
- 3925      20696E74 
- 3925      00
- 3926              	.LASF14:
- 3927 0227 75696E74 		.ascii	"uint16_t\000"
- 3927      31365F74 
- 3927      00
- 3928              	.LASF36:
- 3929 0230 7475726E 		.ascii	"turn\000"
- 3929      00
- 3930              	.LASF30:
- 3931 0235 73706565 		.ascii	"speed\000"
- 3931      6400
- 3932              	.LASF58:
- 3933 023b 42617474 		.ascii	"BatteryLed_Write\000"
- 3933      6572794C 
- 3933      65645F57 
- 3933      72697465 
- 3933      00
- 3934              	.LASF5:
- 3935 024c 73686F72 		.ascii	"short unsigned int\000"
- 3935      7420756E 
- 3935      7369676E 
- 3935      65642069 
- 3935      6E7400
- 3936              	.LASF43:
- 3937 025f 6D6F746F 		.ascii	"motor_forward\000"
- 3937      725F666F 
- 3937      72776172 
- 3937      6400
- 3938              	.LASF21:
- 3939 026d 63686172 		.ascii	"char\000"
- 3939      00
- 3940              	.LASF7:
- 3941 0272 6C6F6E67 		.ascii	"long int\000"
- 3941      20696E74 
- 3941      00
- 3942              	.LASF15:
- 3943 027b 696E7433 		.ascii	"int32_t\000"
- 3943      325F7400 
- 3944              	.LASF17:
- 3945 0283 75696E74 		.ascii	"uint8\000"
- 3945      3800
- 3946              	.LASF27:
- 3947 0289 5F426F6F 		.ascii	"_Bool\000"
- 3947      6C00
- 3948              	.LASF31:
- 3949 028f 74616E6B 		.ascii	"tankTREvg\000"
- 3949      54524576 
- 3949      6700
- 3950              	.LASF25:
- 3951 0299 7765656B 		.ascii	"week4_1_evg\000"
- 3951      345F315F 
- 3951      65766700 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 81
+ 3926 01e6 7475726E 		.ascii	"turn\000"
+ 3926      00
+ 3927              	.LASF30:
+ 3928 01eb 73706565 		.ascii	"speed\000"
+ 3928      6400
+ 3929              	.LASF58:
+ 3930 01f1 42617474 		.ascii	"BatteryLed_Write\000"
+ 3930      6572794C 
+ 3930      65645F57 
+ 3930      72697465 
+ 3930      00
+ 3931              	.LASF5:
+ 3932 0202 73686F72 		.ascii	"short unsigned int\000"
+ 3932      7420756E 
+ 3932      7369676E 
+ 3932      65642069 
+ 3932      6E7400
+ 3933              	.LASF43:
+ 3934 0215 6D6F746F 		.ascii	"motor_forward\000"
+ 3934      725F666F 
+ 3934      72776172 
+ 3934      6400
+ 3935              	.LASF21:
+ 3936 0223 63686172 		.ascii	"char\000"
+ 3936      00
+ 3937              	.LASF7:
+ 3938 0228 6C6F6E67 		.ascii	"long int\000"
+ 3938      20696E74 
+ 3938      00
+ 3939              	.LASF15:
+ 3940 0231 696E7433 		.ascii	"int32_t\000"
+ 3940      325F7400 
+ 3941              	.LASF17:
+ 3942 0239 75696E74 		.ascii	"uint8\000"
+ 3942      3800
+ 3943              	.LASF27:
+ 3944 023f 5F426F6F 		.ascii	"_Bool\000"
+ 3944      6C00
+ 3945              	.LASF31:
+ 3946 0245 74616E6B 		.ascii	"tankTREvg\000"
+ 3946      54524576 
+ 3946      6700
+ 3947              	.LASF25:
+ 3948 024f 7765656B 		.ascii	"week4_1_evg\000"
+ 3948      345F315F 
+ 3948      65766700 
+ 3949              	.LASF49:
+ 3950 025b 5357315F 		.ascii	"SW1_Read\000"
+ 3950      52656164 
+ 3950      00
+ 3951              	.LASF18:
+ 3952 0264 75696E74 		.ascii	"uint32\000"
+ 3952      333200
+ 3953              	.LASF59:
+ 3954 026b 5365744D 		.ascii	"SetMotors\000"
+ 3954      6F746F72 
+ 3954      7300
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 81
 
 
- 3952              	.LASF49:
- 3953 02a5 5357315F 		.ascii	"SW1_Read\000"
- 3953      52656164 
- 3953      00
- 3954              	.LASF18:
- 3955 02ae 75696E74 		.ascii	"uint32\000"
- 3955      333200
- 3956              	.LASF59:
- 3957 02b5 5365744D 		.ascii	"SetMotors\000"
- 3957      6F746F72 
- 3957      7300
- 3958              	.LASF9:
- 3959 02bf 6C6F6E67 		.ascii	"long unsigned int\000"
- 3959      20756E73 
- 3959      69676E65 
- 3959      6420696E 
- 3959      7400
- 3960              	.LASF20:
- 3961 02d1 646F7562 		.ascii	"double\000"
- 3961      6C6500
- 3962              	.LASF51:
- 3963 02d8 6D6F746F 		.ascii	"motor_start\000"
- 3963      725F7374 
- 3963      61727400 
- 3964              	.LASF68:
- 3965 02e4 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 3965      52784275 
- 3965      66666572 
- 3965      00
- 3966              	.LASF37:
- 3967 02f1 74616E6B 		.ascii	"tankTurnEvg\000"
- 3967      5475726E 
- 3967      45766700 
- 3968              	.LASF6:
- 3969 02fd 5F5F696E 		.ascii	"__int32_t\000"
- 3969      7433325F 
- 3969      7400
- 3970              	.LASF35:
- 3971 0307 7765656B 		.ascii	"week3_3_evg\000"
- 3971      335F335F 
- 3971      65766700 
+ 3955              	.LASF9:
+ 3956 0275 6C6F6E67 		.ascii	"long unsigned int\000"
+ 3956      20756E73 
+ 3956      69676E65 
+ 3956      6420696E 
+ 3956      7400
+ 3957              	.LASF20:
+ 3958 0287 646F7562 		.ascii	"double\000"
+ 3958      6C6500
+ 3959              	.LASF51:
+ 3960 028e 6D6F746F 		.ascii	"motor_start\000"
+ 3960      725F7374 
+ 3960      61727400 
+ 3961              	.LASF68:
+ 3962 029a 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3962      52784275 
+ 3962      66666572 
+ 3962      00
+ 3963              	.LASF37:
+ 3964 02a7 74616E6B 		.ascii	"tankTurnEvg\000"
+ 3964      5475726E 
+ 3964      45766700 
+ 3965              	.LASF6:
+ 3966 02b3 5F5F696E 		.ascii	"__int32_t\000"
+ 3966      7433325F 
+ 3966      7400
+ 3967              	.LASF35:
+ 3968 02bd 7765656B 		.ascii	"week3_3_evg\000"
+ 3968      335F335F 
+ 3968      65766700 
+ 3969              	.LASF66:
+ 3970 02c9 433A5C55 		.ascii	"C:\\Users\\DBY\\Documents\\group6\\ZumoBot\\ZumoBot"
+ 3970      73657273 
+ 3970      5C444259 
+ 3970      5C446F63 
+ 3970      756D656E 
+ 3971 02f6 2E637964 		.ascii	".cydsn\000"
+ 3971      736E00
  3972              	.LASF53:
- 3973 0313 49525F77 		.ascii	"IR_wait\000"
+ 3973 02fd 49525F77 		.ascii	"IR_wait\000"
  3973      61697400 
  3974              	.LASF64:
- 3975 031b 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 3975 0305 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
  3975      43313120 
  3975      352E342E 
  3975      31203230 
  3975      31363036 
- 3976 034e 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 3976 0338 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
  3976      20726576 
  3976      6973696F 
  3976      6E203233 
  3976      37373135 
- 3977 0381 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3977 036b 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
  3977      66756E63 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cctYjZfM.s 			page 82
-
-
  3977      74696F6E 
  3977      2D736563 
  3977      74696F6E 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccIt1eY4.s 			page 82
+
+
  3978              	.LASF61:
- 3979 03a9 7372616E 		.ascii	"srand\000"
+ 3979 0393 7372616E 		.ascii	"srand\000"
  3979      6400
  3980              	.LASF38:
- 3981 03af 6C5F7370 		.ascii	"l_speed\000"
+ 3981 0399 6C5F7370 		.ascii	"l_speed\000"
  3981      65656400 
  3982              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

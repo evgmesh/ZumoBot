@@ -210,6 +210,63 @@ void week4_2_DB(void){
     progEnd_DB(500);
 }
 
+/******************************* week 4 Assignment 3 ****************************************/
+void week4_3_DB(void){
+    
+    IR_Start();
+    onYourMark_DB();       //move motor to the first line
+    
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
+    
+    IR_wait();
+    uint32_t line = 0; 
+    //reflectance_digital(&dig);
+    motor_forward(50,1300);
+    
+    while(line < 5){
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+        reflectance_digital(&dig);
+        motor_forward(50,0);
+        }
+        line++;
+        if(line == 2){
+            motor_turn(0,75,700);
+            while(dig.L2 == 0 || dig.R2 == 0){
+                reflectance_digital(&dig);
+                if(dig.L1 != 1 && dig.L2 == 0){
+                    motor_turn(50,0,100);   
+                }else if(dig.R1 != 1 && dig.R2 == 0){
+                    motor_turn(0,50,100);   
+                }else if(dig.L1 != 0 && dig.R1 != 0){
+                    motor_forward(50,0); 
+                }   
+            }
+        }
+        //motor_forward(0,0);
+        //vTaskDelay(1000);
+        if(line == 3 || line == 4){
+            motor_turn(75,0,600);
+            while(dig.L2 == 0 || dig.R2 ==0){
+                reflectance_digital(&dig);
+                if(dig.L1 != 1 && dig.L2 == 0 ){
+                    motor_turn(50,0,100);   
+                }else if(dig.R1 != 1 && dig.R2 == 0 ){
+                    motor_turn(0,50,100);   
+                }else if(dig.L1 != 0 && dig.R1 != 0){
+                    motor_forward(50,0);   
+                }
+            }
+        }
+    }
+    
+    motor_forward(0,0);
+    motor_stop();
+    
+    progEnd_DB(500);
+    
+}
 
 
 
