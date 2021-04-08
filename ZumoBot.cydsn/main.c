@@ -48,7 +48,11 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "group6.h"
+<<<<<<< HEAD
 #include "evgenii.h"
+=======
+#include "Dongbin.h" //temporarily for group test only
+>>>>>>> 98821068c57679955a797109a329c1aa9bfdcb1e
 
 /**
  * @file    main.c
@@ -66,11 +70,17 @@
     void zmain(void) {
         
 /***********************************Test your function here**************************************/
+<<<<<<< HEAD
    //group6_Ex1();         // Dongbin
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
     
    week4_1_evg(); // Evgenii
+=======
+      week4_2_DB();         // Dongbin 
+   //group6_Ex2();          // Aneta
+    //group6_Ex3();         // Evgenii
+>>>>>>> 98821068c57679955a797109a329c1aa9bfdcb1e
     while(true) 
     vTaskDelay(100);
     
