@@ -25,6 +25,7 @@ void week3_1_evg(void);
 void week3_2_evg(void);
 void week3_3_evg(void);
 void week4_1_evg(void);
+void week4_2_evg(void);
 
 #endif
 
