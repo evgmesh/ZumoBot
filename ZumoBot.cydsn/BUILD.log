@@ -1,6 +1,5 @@
---------------- Build Started: 04/08/2021 20:44:51 Project: ZumoBot, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
+--------------- Build Started: 04/08/2021 21:39:10 Project: ZumoBot, Configuration: ARM GCC 5.4-2016-q2-update Debug ---------------
 The code generation step is up to date.
-arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I.\ZumoLibrary -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\GCC\ARM_CM3 -I..\paho.mqtt.embedded-c\MQTTClient-C\src -I..\paho.mqtt.embedded-c\MQTTClient-C\src\FreeRTOS -I..\paho.mqtt.embedded-c\MQTTPacket\src -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/main.lst -g -D DEBUG -D MQTT_TASK -D MQTTCLIENT_PLATFORM_HEADER=MQTTFreeRTOS.h -Wall -ffunction-sections -ffat-lto-objects -Og -c main.c -o .\CortexM3\ARM_GCC_541\Debug\main.o
 arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I.\ZumoLibrary -I..\FreeRTOS\Source\include -I..\FreeRTOS\Source\portable\GCC\ARM_CM3 -I..\paho.mqtt.embedded-c\MQTTClient-C\src -I..\paho.mqtt.embedded-c\MQTTClient-C\src\FreeRTOS -I..\paho.mqtt.embedded-c\MQTTPacket\src -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_541\Debug/evgenii.lst -g -D DEBUG -D MQTT_TASK -D MQTTCLIENT_PLATFORM_HEADER=MQTTFreeRTOS.h -Wall -ffunction-sections -ffat-lto-objects -Og -c evgenii.c -o .\CortexM3\ARM_GCC_541\Debug\evgenii.o
 evgenii.c: In function 'week4_1_evg':
 evgenii.c:154:16: warning: format '%i' expects argument of type 'int', but argument 2 has type 'uint32_t {aka long unsigned int}' [-Wformat=]
@@ -19,6 +18,6 @@ No ELF section .cychecksum found, creating one
 Application checksum calculated and stored in ELF section .cychecksum
 Checksum calculated and stored in ELF section .cymeta
 cyelftool.exe -S "C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\CortexM3\ARM_GCC_541\Debug\ZumoBot.elf"
-Flash used: 35836 of 262144 bytes (13.7%).
+Flash used: 35812 of 262144 bytes (13.7%).
 SRAM used: 52553 of 65536 bytes (80.2%). Stack: 2048 bytes. Heap: 8192 bytes.
---------------- Build Succeeded: 04/08/2021 20:44:54 ---------------
+--------------- Build Succeeded: 04/08/2021 21:39:12 ---------------

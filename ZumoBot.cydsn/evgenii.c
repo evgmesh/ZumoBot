@@ -180,16 +180,15 @@ void week4_2_evg(void)
     motor_forward(0,0);
     reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
     
-     while(SW1_Read());
+    while(SW1_Read());
     reflectance_digital(&dig); 
-     while(dig.L3 == 0 && dig.R3 == 0)
+    while(dig.L3 == 0 && dig.R3 == 0)
         {
             motor_forward(40,0);
             reflectance_digital(&dig); 
         }
         motor_forward(0,0);
-        IR_wait();
-        //motor_forward(50,0);
+        IR_wait();  
         reflectance_digital(&dig); 
         while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
         {
@@ -203,13 +202,11 @@ void week4_2_evg(void)
             
             if(dig.R2 == 1)
             {   
-                printf("in if-1 loop");
                 tankTurnEvg(80,0,0);
                 reflectance_digital(&dig); 
             }
             if(dig.L2 == 1)
             {   
-                printf("in if-2 loop");
                 tankTurnEvg(0,120,0);
                 reflectance_digital(&dig); 
             }
@@ -222,42 +219,53 @@ void week4_2_evg(void)
 
 void week4_3_evg(void) 
 {
+    uint32_t count = 0;
     struct sensors_ dig;
     reflectance_start(); 
     IR_Start();
     motor_start();  
     motor_forward(0,0);
     reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
-    
-    IR_wait();       
-    
-        motor_forward(50,0);
+    IR_wait();
+   // while(SW1_Read());
+    reflectance_digital(&dig); 
+    while(dig.L3 == 0 && dig.R3 == 0)
+    {
+        motor_forward(40,0);
         reflectance_digital(&dig); 
-    //motor_forward(200,0);  
-    reflectance_digital(&dig);
-        while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
-        {
-            motor_forward(100,0);
-            reflectance_digital(&dig); 
-        }
-        while(dig.L3 == 0 && dig.R3 == 0)
-        {
-            motor_forward(40,0);
-            reflectance_digital(&dig); 
-            
-            if(dig.R2 == 1)
+    }
+      motor_forward(0,0);
+    IR_flush();  
+    IR_wait();  
+        
+    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+    {
+        motor_forward(100,0);
+        reflectance_digital(&dig); 
+    }
+      count++;
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    {
+        motor_forward(40,0);
+        reflectance_digital(&dig); 
+    }
+    if(count == 1)
+    {
+        while(dig.L1 == 1)
             {   
-                printf("in if-1 loop");
-                tankTurnEvg(80,0,0);
+                tankTurnEvg(0,10,0);
                 reflectance_digital(&dig); 
+                
             }
-            if(dig.L2 == 1)
-            {   
-                printf("in if-2 loop");
-                tankTurnEvg(0,120,0);
-                reflectance_digital(&dig); 
+            while(dig.L3 == 0 && dig.R3 == 0)
+            {
+            motor_turn(8,9,100);
+            reflectance_digital(&dig);
             }
-        }
+            motor_forward(0,0);
+        
+    }
+    
     printf("end of loop");
     motor_forward(0,0);         
     motor_stop();
