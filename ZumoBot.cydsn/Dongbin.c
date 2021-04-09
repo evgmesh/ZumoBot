@@ -233,40 +233,23 @@ void week4_3_DB(void){
         line++;
         if(line == 2){
             motor_turn(0,75,700);
-            while(dig.L2 == 0 || dig.R2 == 0){
-                reflectance_digital(&dig);
-                if(dig.L1 != 1 && dig.L2 == 0){
-                    motor_turn(50,0,100);   
-                }else if(dig.R1 != 1 && dig.R2 == 0){
-                    motor_turn(0,50,100);   
-                }else if(dig.L1 != 0 && dig.R1 != 0){
-                    motor_forward(50,0); 
-                }   
-            }
+            followTheLine();
         }
         //motor_forward(0,0);
         //vTaskDelay(1000);
         if(line == 3 || line == 4){
             motor_turn(75,0,600);
-            while(dig.L2 == 0 || dig.R2 ==0){
-                reflectance_digital(&dig);
-                if(dig.L1 != 1 && dig.L2 == 0 ){
-                    motor_turn(50,0,100);   
-                }else if(dig.R1 != 1 && dig.R2 == 0 ){
-                    motor_turn(0,50,100);   
-                }else if(dig.L1 != 0 && dig.R1 != 0){
-                    motor_forward(50,0);   
-                }
-            }
+            followTheLine();
         }
     }
-    
     motor_forward(0,0);
     motor_stop();
     
     progEnd_DB(500);
     
 }
+    
+
 
 
 
@@ -393,6 +376,19 @@ void onYourMark_DB(){
     motor_forward(0,0);  
 }
 
+void followTheLine(void){
+    struct sensors_ dig;
+    while(dig.L2 == 0 || dig.R2 == 0){
+        reflectance_digital(&dig);
+        if(dig.L1 != 1 && dig.L2 == 0){
+            motor_turn(50,0,100);   
+        }else if(dig.R1 != 1 && dig.R2 == 0){
+            motor_turn(0,50,100);   
+        }else if(dig.L1 != 0 && dig.R1 != 0){
+            motor_forward(50,0); 
+        }   
+    }   
+}
 
 //void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
 

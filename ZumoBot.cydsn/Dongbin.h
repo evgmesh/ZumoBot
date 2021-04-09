@@ -24,6 +24,7 @@ void tankRandTR_DB(uint32_t delay);
 int randTurnDeg_DB();
 int randTurnLR_DB();
 void onYourMark_DB();
+void followTheLine(void);
 
 /********************* Ex.functions **********************/
 void week3_1_DB(void);

@@ -75,15 +75,17 @@
   // group6_Ex3();       // Evgenii
     
    //week4_3_evg(); // Evgenii
-   //week4_3_DB();         // Dongbin 
+   week4_3_DB();         // Dongbin 
    //group6_Ex2();          // Aneta
     
+ /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
     while(true){
     if(SW1_Read() == PRESSED){
     print_mqtt(TIME_TOPIC, "%u", xTaskGetTickCount());
     }
     }
+        */
     while(true) 
     vTaskDelay(100);
     
