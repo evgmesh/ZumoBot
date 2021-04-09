@@ -237,7 +237,7 @@ void week4_3_evg(void)
       motor_forward(0,0);
     IR_flush();  
     IR_wait();  
-        
+    while(count <5){
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
         motor_forward(100,0);
@@ -246,26 +246,32 @@ void week4_3_evg(void)
       count++;
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
     {
-        motor_forward(40,0);
+        motor_forward(80,0);
         reflectance_digital(&dig); 
     }
     if(count == 1)
     {
         while(dig.L1 == 1)
             {   
-                tankTurnEvg(0,10,0);
+                tankTurnEvg(0,80,0);
                 reflectance_digital(&dig); 
                 
             }
             while(dig.L3 == 0 && dig.R3 == 0)
             {
-            motor_turn(8,9,100);
+            motor_turn(80,90,100);
             reflectance_digital(&dig);
             }
+            while(dig.L1 == 1 && dig.R2 == 1)
+            {   
+                tankTurnEvg(8,0,0);
+                reflectance_digital(&dig); 
+                
+            }
             motor_forward(0,0);
-        
+       
     }
-    
+    }
     printf("end of loop");
     motor_forward(0,0);         
     motor_stop();
