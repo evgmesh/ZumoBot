@@ -144,22 +144,15 @@ void week4_1_evg(void)
     reflectance_digital(&dig);
     while(count<5) 
     {
-        while(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)
-        {
-            motor_forward(60,0);
-            reflectance_digital(&dig); 
-        }
+        driveForward();
         
         count++;
         printf("one loop, lines is %i\n", count);
+        motor_forward(0,0);
+        IR_wait();
         if(count == 1){
             motor_forward(0,0);
             IR_wait();
-        }
-        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
-        {
-            motor_forward(40,0);
-            reflectance_digital(&dig); 
         }
        
     }
@@ -237,75 +230,60 @@ void week4_3_evg(void)
       motor_forward(0,0);
     IR_flush();  
     IR_wait();  
-    while(count <5){
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
         motor_forward(100,0);
         reflectance_digital(&dig); 
     }
-      count++;
+     count++;
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
     {
         motor_forward(80,0);
         reflectance_digital(&dig); 
     }
-    if(count == 1)
+    if(count == 1){
+        while(!(dig.L1 == 1 && dig.R1 == 1))
     {
-        while(dig.L1 == 1)
-            {   
-                tankTurnEvg(0,80,0);
-                reflectance_digital(&dig); 
-                
-            }
-            while(dig.L3 == 0 && dig.R3 == 0)
-            {
-            motor_turn(80,90,100);
-            reflectance_digital(&dig);
-            }
-            while(dig.L1 == 1 && dig.R2 == 1)
-            {   
-                tankTurnEvg(8,0,0);
-                reflectance_digital(&dig); 
-                
-            }
-            motor_forward(0,0);
-       
+        motor_turn(10,200,10);
+        reflectance_digital(&dig); 
     }
+        
+        
+        
     }
     printf("end of loop");
     motor_forward(0,0);         
     motor_stop();
 }
 
-/*   USEFUL functions
 
-void week3_1(void)
-{
-    
-    motor_start();              // enable motor controller
-    IR_Start();
-    motor_forward(0,0);         // set speed to zero to stop motors
-   // while(SW1_Read() != PRESSED);
+
+
+void driveForward(void){
+    struct sensors_ dig;
+    reflectance_start(); 
+    reflectance_digital(&dig);
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    {
+        printf("inside first loop\n");
+        motor_forward(7,0);
+        reflectance_digital(&dig); 
+    }
+    printf("out of first loop\n");
+    motor_forward(0,0);
     IR_wait();
-    BatteryLed_Write(true);
-    vTaskDelay(500);
-    BatteryLed_Write(false);
-    motor_forward(125,2750);     // moving forward from starting point
-    tankTR(255, 103);           // 1st turning right 
-    
-    motor_forward(125,2350);    // forward on horisontal line
-    tankTR(255, 103);           // 2nd turn
-    motor_forward(125,2550);
-    tankTR(255, 103);           // 2nd turn
-    tankTurn(164,135,1780);
-    motor_forward(125,570);     // moving forward from starting point
-    
-    motor_forward(0,0);         // stop motors
-    motor_stop();               // disable motor controller
-    
-    progEnd(100);
+    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+    {
+         printf("inside second loop\n");
+        motor_forward(7,0);
+        reflectance_digital(&dig); 
+    }
+    printf("out of second loop\n");
+    motor_forward(0,0);
+    IR_wait();
 }
-*/
+
+
 
 
 
