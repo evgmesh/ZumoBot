@@ -50,6 +50,7 @@
 #include "group6.h"
 #include "Dongbin.h" //temporarily for group test only
 #include "evgenii.h"
+#include "aneta.h"
 
 /**
  * @file    main.c
@@ -73,14 +74,20 @@
    //group6_Ex1();         // Dongbin
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
+<<<<<<< HEAD
     
    week4_3_evg(); // Evgenii
+=======
+    week4_3_evg(); // Evgenii
+
+>>>>>>> 1ce730b376360a3e9992620d5ca133909bd31b5d
    //week4_3_DB();         // Dongbin 
-   //group6_Ex2();          // Aneta
+  //aneta_w4a2();          // Aneta
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
     while(true){
+
     if(SW1_Read() == PRESSED){
     print_mqtt(TIME_TOPIC, "%u", xTaskGetTickCount());
     }

@@ -133,32 +133,22 @@ void week4_1_evg(void)
 {
     uint32_t count = 0;
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(14000, 14000, 11000, 11000, 14000, 14000);  
     
-    while(SW1_Read());
-      
+    startUp(1,0,1,1);
+    
     reflectance_digital(&dig);
     while(count<5) 
     {
         driveForward();
-        
         count++;
-        printf("one loop, lines is %i\n", count);
-        motor_forward(0,0);
-        IR_wait();
-        if(count == 1){
-            motor_forward(0,0);
-            IR_wait();
+      if(count == 1)
+        {
+         motor_forward(0,0);
+         startUp(0,1,0,0);
         }
-       
     }
     printf("Number of lines is %i\n", count);
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
 
 
@@ -167,93 +157,83 @@ void week4_1_evg(void)
 void week4_2_evg(void) 
 {
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
+    startUp(1,1,1, 1);
     
-    while(SW1_Read());
     reflectance_digital(&dig); 
-    while(dig.L3 == 0 && dig.R3 == 0)
-        {
-            motor_forward(40,0);
-            reflectance_digital(&dig); 
-        }
-        motor_forward(0,0);
-        IR_wait();  
+    driveForward();
+    
         reflectance_digital(&dig); 
-        while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
         {
-            motor_forward(100,0);
-            reflectance_digital(&dig); 
+             reflectance_digital(&dig);
+             motor_forward(125,0);
         }
+        reflectance_digital(&dig); 
         while(dig.L3 == 0 && dig.R3 == 0)
         {
-            motor_forward(40,0);
+            motor_forward(50,0);
             reflectance_digital(&dig); 
             
             if(dig.R2 == 1)
             {   
-                tankTurnEvg(80,0,0);
+                tankTurnEvg(150,0,0);
                 reflectance_digital(&dig); 
-            }
-            if(dig.L2 == 1)
-            {   
-                tankTurnEvg(0,120,0);
+            }else if(dig.L2 == 1)
+             {   
+                tankTurnEvg(0,200,0);
                 reflectance_digital(&dig); 
-            }
+             }
         }
-    printf("end of loop");
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
-//week 4 Exercise 2
+//week 4 Exercise 3
 
 void week4_3_evg(void) 
 {
     uint32_t count = 0;
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
-    IR_wait();
-   // while(SW1_Read());
-    reflectance_digital(&dig); 
-    while(dig.L3 == 0 && dig.R3 == 0)
+    
+    startUp(1, 0, 1, 1);
+
+    reflectance_digital(&dig);
+    while(count<5) 
     {
-        motor_forward(40,0);
-        reflectance_digital(&dig); 
+        driveForward();
+        count++;
+        printf("one loop, %i lines passed by\n", count);
+        reflectance_digital(&dig);
+        // wait on first line
+        if(count == 1)
+        {
+            motor_forward(0,0);
+            startUp(0,1,0,0);
+        } else if(count == 2) 
+          {
+              //turn left on second line  
+              while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)  ) 
+              {
+                    motor_turn(4,250,50);
+                    reflectance_digital(&dig);
+              }
+        } else if(count == 3) 
+          {
+            //turn right on third line
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0) ) 
+            {
+                motor_turn(230,10,70);
+                reflectance_digital(&dig);
+            }
+        } else if(count == 4) 
+          {
+            //turn right on fourth line
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)) 
+            {
+                motor_turn(230,10,50);
+                reflectance_digital(&dig);
+            }
+          } 
     }
-      motor_forward(0,0);
-    IR_flush();  
-    IR_wait();  
-    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
-    {
-        motor_forward(100,0);
-        reflectance_digital(&dig); 
-    }
-     count++;
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
-    {
-        motor_forward(80,0);
-        reflectance_digital(&dig); 
-    }
-    if(count == 1){
-        while(!(dig.L1 == 1 && dig.R1 == 1))
-    {
-        motor_turn(10,200,10);
-        reflectance_digital(&dig); 
-    }
-        
-        
-        
-    }
-    printf("end of loop");
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
 
 
@@ -263,24 +243,19 @@ void driveForward(void){
     struct sensors_ dig;
     reflectance_start(); 
     reflectance_digital(&dig);
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
-    {
-        printf("inside first loop\n");
-        motor_forward(7,0);
-        reflectance_digital(&dig); 
-    }
-    printf("out of first loop\n");
-    motor_forward(0,0);
-    IR_wait();
+    //drives forward when sensors 2 and 3 are on black
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
-         printf("inside second loop\n");
-        motor_forward(7,0);
+        motor_forward(100,0);
         reflectance_digital(&dig); 
     }
-    printf("out of second loop\n");
+    //drives forward when sensors 2 and 3 are on white
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    {
+        motor_forward(100,0);
+        reflectance_digital(&dig); 
+    }
     motor_forward(0,0);
-    IR_wait();
 }
 
 
@@ -314,9 +289,30 @@ void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
 }
 
+void end(void) {
+    motor_forward(0,0);         
+    motor_stop();
+}
 
-
-
+// function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
+void startUp(int motor, int IR, int reflectance, int button) {
+    if(motor == 1){
+        motor_start();  
+        motor_forward(0,0);
+    }
+    if(IR == 1){
+        IR_Start();
+        IR_wait();    
+    }
+    if(reflectance == 1){
+        reflectance_start(); 
+        reflectance_set_threshold(11000, 11000, 14000, 14000, 11000, 11000);
+    }
+    if(button == 1) {
+        while(SW1_Read());
+    }
+    // more to add here
+}
 
 
 /* [] END OF FILE */

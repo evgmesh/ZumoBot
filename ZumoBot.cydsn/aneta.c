@@ -32,8 +32,8 @@
 #include "aneta.h"
 #include <stdlib.h>
 
-//WEEK 1 ASSIGNMENT 1 *****************************************************************************************
-void aneta_w1a1(void){
+//WEEK 3 ASSIGNMENT 1 *****************************************************************************************
+void aneta_w3a1(void){
     
     printf("ASSIGNMENT 1\n");
     motor_start();
@@ -62,8 +62,8 @@ void aneta_w1a1(void){
 }
 
 
-//WEEK 1 ASSIGNMENT 2 *****************************************************************************************
-void aneta_w1a2(void){
+//WEEK 3 ASSIGNMENT 2 *****************************************************************************************
+void aneta_w3a2(void){
     int obsD;           // how far the obstacle is
     int myD = 10;       // how far should obstacle be when robot should turn
     bool move = true;   // if true robot keeps moving
@@ -93,8 +93,8 @@ void aneta_w1a2(void){
 }
 
 
-//WEEK 1 ASSIGNMENT 3 *****************************************************************************************
-void aneta_w1a3(void){
+//WEEK 3 ASSIGNMENT 3 *****************************************************************************************
+void aneta_w3a3(void){
     int obsD;           // how far the obstacle is
     int myD = 10;       // how far should obstacle be when robot should turn
     int delay = 290;    // delay for motors; if delay is 290 and speed of motors is X, then robot turns X degrees (left/right)
@@ -140,6 +140,76 @@ void aneta_w1a3(void){
 }
 
 
+//WEEK 4 ASSIGNMENT 1 *****************************************************************************************
+void aneta_w4a1(void){
+    bool wait=1;
+    
+    printf("ASSIGNMENT 1\n");
+    motor_start();
+    IR_Start();
+    
+    while(wait)
+    {
+        vTaskDelay(100);
+        if (!SW1_Read()){               //if button is pressed
+            wait=0;                     //then end the loop
+            motor_forward(100,200);     // and move forward to the first line
+        }
+    }
+    
+    motor_forward(0,0);                 //stop
+    IR_wait();                          //and wait for IR signal
+    
+    motor_forward(122,1000);            //then move to the last line
+    printf("My job is done \n");
+
+    motor_stop();
+
+}
+
+//WEEK 4 ASSIGNMENT 2 *****************************************************************************************
+void aneta_w4a2(void){
+    bool wait=1;
+    
+    printf("ASSIGNMENT 2\n");
+    motor_start();
+    IR_Start();
+    
+    while(wait)
+    {
+        vTaskDelay(100);
+        if (!SW1_Read()){               //if button is pressed
+            wait=0;                     //then end the loop
+            motor_forward(100,180);     //and move forward to the first line
+        }
+    }
+    
+    motor_forward(0,0);                 //stop
+    IR_wait();                          //and wait for IR signal
+                                        //then move to the last line
+    motor_forward(100,280); 
+    motor_turn(92,40,700);
+    motor_forward(100,245); 
+    motor_turn(36,100,1380);
+    motor_forward(100,288); 
+    
+    
+    printf("My job is done \n");
+
+    motor_stop();
+
+}
+
+//WEEK 4 ASSIGNMENT 3 *****************************************************************************************
+void aneta_w4a3(void){
+    
+    printf("ASSIGNMENT 3\n");
+    motor_start();
+    
+
+    motor_stop();
+
+}
 
 
 
