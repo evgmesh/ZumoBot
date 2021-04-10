@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 1
 
 
    1              		.syntax unified
@@ -19,13 +19,13 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
   16              		.text
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
-  19              		.section	.text.aneta_w1a1,"ax",%progbits
+  19              		.section	.text.aneta_w3a1,"ax",%progbits
   20              		.align	2
-  21              		.global	aneta_w1a1
+  21              		.global	aneta_w3a1
   22              		.thumb
   23              		.thumb_func
-  24              		.type	aneta_w1a1, %function
-  25              	aneta_w1a1:
+  24              		.type	aneta_w3a1, %function
+  25              	aneta_w3a1:
   26              	.LFB85:
   27              		.file 1 "aneta.c"
    1:aneta.c       **** /* ========================================
@@ -58,15 +58,15 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
   28:aneta.c       **** #include <time.h>
   29:aneta.c       **** #include <sys/time.h>
   30:aneta.c       **** #include "serial1.h"
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 2
 
 
   31:aneta.c       **** #include <unistd.h>
   32:aneta.c       **** #include "aneta.h"
   33:aneta.c       **** #include <stdlib.h>
   34:aneta.c       **** 
-  35:aneta.c       **** //WEEK 1 ASSIGNMENT 1 *****************************************************************************
-  36:aneta.c       **** void aneta_w1a1(void){
+  35:aneta.c       **** //WEEK 3 ASSIGNMENT 1 *****************************************************************************
+  36:aneta.c       **** void aneta_w3a1(void){
   28              		.loc 1 36 0
   29              		.cfi_startproc
   30              		@ Volatile: function does not return.
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
   47:aneta.c       ****     motor_forward(100,2710);
   66              		.loc 1 47 0
   67 0034 40F69621 		movw	r1, #2710
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 3
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 3
 
 
   68 0038 6420     		movs	r0, #100
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  109              		.loc 1 60 0 discriminator 1
  110 0080 6420     		movs	r0, #100
  111 0082 FFF7FEFF 		bl	vTaskDelay
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 4
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 4
 
 
  112              	.LVL14:
@@ -189,21 +189,21 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  117 0088 00000000 		.word	.LC0
  118              		.cfi_endproc
  119              	.LFE85:
- 120              		.size	aneta_w1a1, .-aneta_w1a1
- 121              		.section	.text.aneta_w1a2,"ax",%progbits
+ 120              		.size	aneta_w3a1, .-aneta_w3a1
+ 121              		.section	.text.aneta_w3a2,"ax",%progbits
  122              		.align	2
- 123              		.global	aneta_w1a2
+ 123              		.global	aneta_w3a2
  124              		.thumb
  125              		.thumb_func
- 126              		.type	aneta_w1a2, %function
- 127              	aneta_w1a2:
+ 126              		.type	aneta_w3a2, %function
+ 127              	aneta_w3a2:
  128              	.LFB86:
   61:aneta.c       ****     }
   62:aneta.c       **** }
   63:aneta.c       **** 
   64:aneta.c       **** 
-  65:aneta.c       **** //WEEK 1 ASSIGNMENT 2 *****************************************************************************
-  66:aneta.c       **** void aneta_w1a2(void){
+  65:aneta.c       **** //WEEK 3 ASSIGNMENT 2 *****************************************************************************
+  66:aneta.c       **** void aneta_w3a2(void){
  129              		.loc 1 66 0
  130              		.cfi_startproc
  131              		@ args = 0, pretend = 0, frame = 0
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  150              		.loc 1 75 0
  151 0012 19E0     		b	.L7
  152              	.LVL19:
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 5
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 5
 
 
  153              	.L10:
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
   88:aneta.c       ****     
   89:aneta.c       ****     }
   90:aneta.c       **** 
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 6
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 6
 
 
   91:aneta.c       ****     motor_stop();
@@ -313,21 +313,21 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  202 0054 10000000 		.word	.LC1
  203              		.cfi_endproc
  204              	.LFE86:
- 205              		.size	aneta_w1a2, .-aneta_w1a2
- 206              		.section	.text.aneta_tankTurnRight,"ax",%progbits
+ 205              		.size	aneta_w3a2, .-aneta_w3a2
+ 206              		.section	.text.aneta_w4a1,"ax",%progbits
  207              		.align	2
- 208              		.global	aneta_tankTurnRight
+ 208              		.global	aneta_w4a1
  209              		.thumb
  210              		.thumb_func
- 211              		.type	aneta_tankTurnRight, %function
- 212              	aneta_tankTurnRight:
+ 211              		.type	aneta_w4a1, %function
+ 212              	aneta_w4a1:
  213              	.LFB88:
   92:aneta.c       **** 
   93:aneta.c       **** }
   94:aneta.c       **** 
   95:aneta.c       **** 
-  96:aneta.c       **** //WEEK 1 ASSIGNMENT 3 *****************************************************************************
-  97:aneta.c       **** void aneta_w1a3(void){
+  96:aneta.c       **** //WEEK 3 ASSIGNMENT 3 *****************************************************************************
+  97:aneta.c       **** void aneta_w3a3(void){
   98:aneta.c       ****     int obsD;           // how far the obstacle is
   99:aneta.c       ****     int myD = 10;       // how far should obstacle be when robot should turn
  100:aneta.c       ****     int delay = 290;    // delay for motors; if delay is 290 and speed of motors is X, then robot t
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  125:aneta.c       ****                 printf("Left turn %d\n", (degreeTurn+90));
  126:aneta.c       ****                 aneta_tankTurnLeft(90,delay);
  127:aneta.c       ****                 aneta_tankTurnLeft(degreeTurn,delay);
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 7
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 7
 
 
  128:aneta.c       ****             }
@@ -376,1933 +376,2700 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 1
  140:aneta.c       **** }
  141:aneta.c       **** 
  142:aneta.c       **** 
- 143:aneta.c       **** 
- 144:aneta.c       **** 
- 145:aneta.c       **** 
- 146:aneta.c       **** 
- 147:aneta.c       **** 
- 148:aneta.c       **** //OTHER FUNCTIONS *********************************************************************************
- 149:aneta.c       **** 
- 150:aneta.c       **** void aneta_tankTurnRight(uint8_t speed, uint32_t delay){
- 214              		.loc 1 150 0
+ 143:aneta.c       **** //WEEK 4 ASSIGNMENT 1 *****************************************************************************
+ 144:aneta.c       **** void aneta_w4a1(void){
+ 214              		.loc 1 144 0
  215              		.cfi_startproc
  216              		@ args = 0, pretend = 0, frame = 0
  217              		@ frame_needed = 0, uses_anonymous_args = 0
- 218              	.LVL30:
- 219 0000 00B5     		push	{lr}
- 220              		.cfi_def_cfa_offset 4
+ 218 0000 10B5     		push	{r4, lr}
+ 219              		.cfi_def_cfa_offset 8
+ 220              		.cfi_offset 4, -8
  221              		.cfi_offset 14, -4
- 222 0002 83B0     		sub	sp, sp, #12
- 223              		.cfi_def_cfa_offset 16
- 224 0004 0246     		mov	r2, r0
- 151:aneta.c       ****     SetMotors(0, 1, speed, speed, delay);
- 225              		.loc 1 151 0
- 226 0006 0091     		str	r1, [sp]
- 227 0008 0346     		mov	r3, r0
- 228 000a 0121     		movs	r1, #1
- 229              	.LVL31:
- 230 000c 0020     		movs	r0, #0
- 231              	.LVL32:
- 232 000e FFF7FEFF 		bl	SetMotors
- 233              	.LVL33:
- 152:aneta.c       **** }
- 234              		.loc 1 152 0
- 235 0012 03B0     		add	sp, sp, #12
- 236              		.cfi_def_cfa_offset 4
- 237              		@ sp needed
- 238 0014 5DF804FB 		ldr	pc, [sp], #4
- 239              		.cfi_endproc
- 240              	.LFE88:
- 241              		.size	aneta_tankTurnRight, .-aneta_tankTurnRight
- 242              		.section	.text.aneta_tankTurnLeft,"ax",%progbits
- 243              		.align	2
- 244              		.global	aneta_tankTurnLeft
- 245              		.thumb
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 8
+ 222              	.LVL30:
+ 145:aneta.c       ****     bool wait=1;
+ 146:aneta.c       ****     
+ 147:aneta.c       ****     printf("ASSIGNMENT 1\n");
+ 223              		.loc 1 147 0
+ 224 0002 1348     		ldr	r0, .L20
+ 225 0004 FFF7FEFF 		bl	puts
+ 226              	.LVL31:
+ 148:aneta.c       ****     motor_start();
+ 227              		.loc 1 148 0
+ 228 0008 FFF7FEFF 		bl	motor_start
+ 229              	.LVL32:
+ 149:aneta.c       ****     IR_Start();
+ 230              		.loc 1 149 0
+ 231 000c FFF7FEFF 		bl	IR_Start
+ 232              	.LVL33:
+ 145:aneta.c       ****     bool wait=1;
+ 233              		.loc 1 145 0
+ 234 0010 0124     		movs	r4, #1
+ 150:aneta.c       ****     
+ 151:aneta.c       ****     while(wait)
+ 235              		.loc 1 151 0
+ 236 0012 0AE0     		b	.L17
+ 237              	.LVL34:
+ 238              	.L18:
+ 152:aneta.c       ****     {
+ 153:aneta.c       ****         vTaskDelay(100);
+ 239              		.loc 1 153 0
+ 240 0014 6420     		movs	r0, #100
+ 241 0016 FFF7FEFF 		bl	vTaskDelay
+ 242              	.LVL35:
+ 154:aneta.c       ****         if (!SW1_Read()){               //if button is pressed
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 8
 
 
- 246              		.thumb_func
- 247              		.type	aneta_tankTurnLeft, %function
- 248              	aneta_tankTurnLeft:
- 249              	.LFB89:
- 153:aneta.c       **** 
- 154:aneta.c       **** void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
- 250              		.loc 1 154 0
- 251              		.cfi_startproc
- 252              		@ args = 0, pretend = 0, frame = 0
- 253              		@ frame_needed = 0, uses_anonymous_args = 0
- 254              	.LVL34:
- 255 0000 00B5     		push	{lr}
- 256              		.cfi_def_cfa_offset 4
- 257              		.cfi_offset 14, -4
- 258 0002 83B0     		sub	sp, sp, #12
- 259              		.cfi_def_cfa_offset 16
- 260 0004 0246     		mov	r2, r0
- 155:aneta.c       ****     SetMotors(1, 0, speed, speed, delay);
- 261              		.loc 1 155 0
- 262 0006 0091     		str	r1, [sp]
- 263 0008 0346     		mov	r3, r0
- 264 000a 0021     		movs	r1, #0
- 265              	.LVL35:
- 266 000c 0120     		movs	r0, #1
- 267              	.LVL36:
- 268 000e FFF7FEFF 		bl	SetMotors
- 269              	.LVL37:
- 156:aneta.c       **** }
- 270              		.loc 1 156 0
- 271 0012 03B0     		add	sp, sp, #12
- 272              		.cfi_def_cfa_offset 4
- 273              		@ sp needed
- 274 0014 5DF804FB 		ldr	pc, [sp], #4
- 275              		.cfi_endproc
- 276              	.LFE89:
- 277              		.size	aneta_tankTurnLeft, .-aneta_tankTurnLeft
- 278              		.section	.text.aneta_w1a3,"ax",%progbits
- 279              		.align	2
- 280              		.global	aneta_w1a3
- 281              		.thumb
- 282              		.thumb_func
- 283              		.type	aneta_w1a3, %function
- 284              	aneta_w1a3:
- 285              	.LFB87:
+ 243              		.loc 1 154 0
+ 244 001a FFF7FEFF 		bl	SW1_Read
+ 245              	.LVL36:
+ 246 001e 20B9     		cbnz	r0, .L17
+ 247              	.LVL37:
+ 155:aneta.c       ****             wait=0;                     //then end the loop
+ 156:aneta.c       ****             motor_forward(100,200);     // and move forward to the first line
+ 248              		.loc 1 156 0
+ 249 0020 C821     		movs	r1, #200
+ 250 0022 6420     		movs	r0, #100
+ 251 0024 FFF7FEFF 		bl	motor_forward
+ 252              	.LVL38:
+ 155:aneta.c       ****             wait=0;                     //then end the loop
+ 253              		.loc 1 155 0
+ 254 0028 0024     		movs	r4, #0
+ 255              	.LVL39:
+ 256              	.L17:
+ 151:aneta.c       ****     {
+ 257              		.loc 1 151 0
+ 258 002a 002C     		cmp	r4, #0
+ 259 002c F2D1     		bne	.L18
+ 157:aneta.c       ****         }
+ 158:aneta.c       ****     }
+ 159:aneta.c       ****     
+ 160:aneta.c       ****     motor_forward(0,0);                 //stop
+ 260              		.loc 1 160 0
+ 261 002e 0021     		movs	r1, #0
+ 262 0030 0846     		mov	r0, r1
+ 263 0032 FFF7FEFF 		bl	motor_forward
+ 264              	.LVL40:
+ 161:aneta.c       ****     IR_wait();                          //and wait for IR signal
+ 265              		.loc 1 161 0
+ 266 0036 FFF7FEFF 		bl	IR_wait
+ 267              	.LVL41:
+ 162:aneta.c       ****     
+ 163:aneta.c       ****     motor_forward(122,1000);            //then move to the last line
+ 268              		.loc 1 163 0
+ 269 003a 4FF47A71 		mov	r1, #1000
+ 270 003e 7A20     		movs	r0, #122
+ 271 0040 FFF7FEFF 		bl	motor_forward
+ 272              	.LVL42:
+ 164:aneta.c       ****     printf("My job is done \n");
+ 273              		.loc 1 164 0
+ 274 0044 0348     		ldr	r0, .L20+4
+ 275 0046 FFF7FEFF 		bl	puts
+ 276              	.LVL43:
+ 165:aneta.c       **** 
+ 166:aneta.c       ****     motor_stop();
+ 277              		.loc 1 166 0
+ 278 004a FFF7FEFF 		bl	motor_stop
+ 279              	.LVL44:
+ 280 004e 10BD     		pop	{r4, pc}
+ 281              	.LVL45:
+ 282              	.L21:
+ 283              		.align	2
+ 284              	.L20:
+ 285 0050 00000000 		.word	.LC0
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 9
+
+
+ 286 0054 20000000 		.word	.LC2
+ 287              		.cfi_endproc
+ 288              	.LFE88:
+ 289              		.size	aneta_w4a1, .-aneta_w4a1
+ 290              		.section	.text.aneta_w4a2,"ax",%progbits
+ 291              		.align	2
+ 292              		.global	aneta_w4a2
+ 293              		.thumb
+ 294              		.thumb_func
+ 295              		.type	aneta_w4a2, %function
+ 296              	aneta_w4a2:
+ 297              	.LFB89:
+ 167:aneta.c       **** 
+ 168:aneta.c       **** }
+ 169:aneta.c       **** 
+ 170:aneta.c       **** //WEEK 4 ASSIGNMENT 2 *****************************************************************************
+ 171:aneta.c       **** void aneta_w4a2(void){
+ 298              		.loc 1 171 0
+ 299              		.cfi_startproc
+ 300              		@ args = 0, pretend = 0, frame = 0
+ 301              		@ frame_needed = 0, uses_anonymous_args = 0
+ 302 0000 10B5     		push	{r4, lr}
+ 303              		.cfi_def_cfa_offset 8
+ 304              		.cfi_offset 4, -8
+ 305              		.cfi_offset 14, -4
+ 306              	.LVL46:
+ 172:aneta.c       ****     bool wait=1;
+ 173:aneta.c       ****     
+ 174:aneta.c       ****     printf("ASSIGNMENT 2\n");
+ 307              		.loc 1 174 0
+ 308 0002 1E48     		ldr	r0, .L27
+ 309 0004 FFF7FEFF 		bl	puts
+ 310              	.LVL47:
+ 175:aneta.c       ****     motor_start();
+ 311              		.loc 1 175 0
+ 312 0008 FFF7FEFF 		bl	motor_start
+ 313              	.LVL48:
+ 176:aneta.c       ****     IR_Start();
+ 314              		.loc 1 176 0
+ 315 000c FFF7FEFF 		bl	IR_Start
+ 316              	.LVL49:
+ 172:aneta.c       ****     bool wait=1;
+ 317              		.loc 1 172 0
+ 318 0010 0124     		movs	r4, #1
+ 177:aneta.c       ****     
+ 178:aneta.c       ****     while(wait)
+ 319              		.loc 1 178 0
+ 320 0012 0AE0     		b	.L24
+ 321              	.LVL50:
+ 322              	.L25:
+ 179:aneta.c       ****     {
+ 180:aneta.c       ****         vTaskDelay(100);
+ 323              		.loc 1 180 0
+ 324 0014 6420     		movs	r0, #100
+ 325 0016 FFF7FEFF 		bl	vTaskDelay
+ 326              	.LVL51:
+ 181:aneta.c       ****         if (!SW1_Read()){               //if button is pressed
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 10
+
+
+ 327              		.loc 1 181 0
+ 328 001a FFF7FEFF 		bl	SW1_Read
+ 329              	.LVL52:
+ 330 001e 20B9     		cbnz	r0, .L24
+ 331              	.LVL53:
+ 182:aneta.c       ****             wait=0;                     //then end the loop
+ 183:aneta.c       ****             motor_forward(100,180);     //and move forward to the first line
+ 332              		.loc 1 183 0
+ 333 0020 B421     		movs	r1, #180
+ 334 0022 6420     		movs	r0, #100
+ 335 0024 FFF7FEFF 		bl	motor_forward
+ 336              	.LVL54:
+ 182:aneta.c       ****             wait=0;                     //then end the loop
+ 337              		.loc 1 182 0
+ 338 0028 0024     		movs	r4, #0
+ 339              	.LVL55:
+ 340              	.L24:
+ 178:aneta.c       ****     {
+ 341              		.loc 1 178 0
+ 342 002a 002C     		cmp	r4, #0
+ 343 002c F2D1     		bne	.L25
+ 184:aneta.c       ****         }
+ 185:aneta.c       ****     }
+ 186:aneta.c       ****     
+ 187:aneta.c       ****     motor_forward(0,0);                 //stop
+ 344              		.loc 1 187 0
+ 345 002e 0021     		movs	r1, #0
+ 346 0030 0846     		mov	r0, r1
+ 347 0032 FFF7FEFF 		bl	motor_forward
+ 348              	.LVL56:
+ 188:aneta.c       ****     IR_wait();                          //and wait for IR signal
+ 349              		.loc 1 188 0
+ 350 0036 FFF7FEFF 		bl	IR_wait
+ 351              	.LVL57:
+ 189:aneta.c       ****                                         //then move to the last line
+ 190:aneta.c       ****     motor_forward(100,280); 
+ 352              		.loc 1 190 0
+ 353 003a 4FF48C71 		mov	r1, #280
+ 354 003e 6420     		movs	r0, #100
+ 355 0040 FFF7FEFF 		bl	motor_forward
+ 356              	.LVL58:
+ 191:aneta.c       ****     motor_turn(92,40,700);
+ 357              		.loc 1 191 0
+ 358 0044 4FF42F72 		mov	r2, #700
+ 359 0048 2821     		movs	r1, #40
+ 360 004a 5C20     		movs	r0, #92
+ 361 004c FFF7FEFF 		bl	motor_turn
+ 362              	.LVL59:
+ 192:aneta.c       ****     motor_forward(100,245); 
+ 363              		.loc 1 192 0
+ 364 0050 F521     		movs	r1, #245
+ 365 0052 6420     		movs	r0, #100
+ 366 0054 FFF7FEFF 		bl	motor_forward
+ 367              	.LVL60:
+ 193:aneta.c       ****     motor_turn(36,100,1380);
+ 368              		.loc 1 193 0
+ 369 0058 40F26452 		movw	r2, #1380
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 11
+
+
+ 370 005c 6421     		movs	r1, #100
+ 371 005e 2420     		movs	r0, #36
+ 372 0060 FFF7FEFF 		bl	motor_turn
+ 373              	.LVL61:
+ 194:aneta.c       ****     motor_forward(100,288); 
+ 374              		.loc 1 194 0
+ 375 0064 4FF49071 		mov	r1, #288
+ 376 0068 6420     		movs	r0, #100
+ 377 006a FFF7FEFF 		bl	motor_forward
+ 378              	.LVL62:
+ 195:aneta.c       ****     
+ 196:aneta.c       ****     
+ 197:aneta.c       ****     printf("My job is done \n");
+ 379              		.loc 1 197 0
+ 380 006e 0448     		ldr	r0, .L27+4
+ 381 0070 FFF7FEFF 		bl	puts
+ 382              	.LVL63:
+ 198:aneta.c       **** 
+ 199:aneta.c       ****     motor_stop();
+ 383              		.loc 1 199 0
+ 384 0074 FFF7FEFF 		bl	motor_stop
+ 385              	.LVL64:
+ 386 0078 10BD     		pop	{r4, pc}
+ 387              	.LVL65:
+ 388              	.L28:
+ 389 007a 00BF     		.align	2
+ 390              	.L27:
+ 391 007c 10000000 		.word	.LC1
+ 392 0080 20000000 		.word	.LC2
+ 393              		.cfi_endproc
+ 394              	.LFE89:
+ 395              		.size	aneta_w4a2, .-aneta_w4a2
+ 396              		.section	.text.aneta_w4a3,"ax",%progbits
+ 397              		.align	2
+ 398              		.global	aneta_w4a3
+ 399              		.thumb
+ 400              		.thumb_func
+ 401              		.type	aneta_w4a3, %function
+ 402              	aneta_w4a3:
+ 403              	.LFB90:
+ 200:aneta.c       **** 
+ 201:aneta.c       **** }
+ 202:aneta.c       **** 
+ 203:aneta.c       **** //WEEK 4 ASSIGNMENT 3 *****************************************************************************
+ 204:aneta.c       **** void aneta_w4a3(void){
+ 404              		.loc 1 204 0
+ 405              		.cfi_startproc
+ 406              		@ args = 0, pretend = 0, frame = 0
+ 407              		@ frame_needed = 0, uses_anonymous_args = 0
+ 408 0000 08B5     		push	{r3, lr}
+ 409              		.cfi_def_cfa_offset 8
+ 410              		.cfi_offset 3, -8
+ 411              		.cfi_offset 14, -4
+ 205:aneta.c       ****     
+ 206:aneta.c       ****     printf("ASSIGNMENT 3\n");
+ 412              		.loc 1 206 0
+ 413 0002 0448     		ldr	r0, .L31
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 12
+
+
+ 414 0004 FFF7FEFF 		bl	puts
+ 415              	.LVL66:
+ 207:aneta.c       ****     motor_start();
+ 416              		.loc 1 207 0
+ 417 0008 FFF7FEFF 		bl	motor_start
+ 418              	.LVL67:
+ 208:aneta.c       ****     
+ 209:aneta.c       **** 
+ 210:aneta.c       ****     motor_stop();
+ 419              		.loc 1 210 0
+ 420 000c FFF7FEFF 		bl	motor_stop
+ 421              	.LVL68:
+ 422 0010 08BD     		pop	{r3, pc}
+ 423              	.L32:
+ 424 0012 00BF     		.align	2
+ 425              	.L31:
+ 426 0014 30000000 		.word	.LC3
+ 427              		.cfi_endproc
+ 428              	.LFE90:
+ 429              		.size	aneta_w4a3, .-aneta_w4a3
+ 430              		.section	.text.aneta_tankTurnRight,"ax",%progbits
+ 431              		.align	2
+ 432              		.global	aneta_tankTurnRight
+ 433              		.thumb
+ 434              		.thumb_func
+ 435              		.type	aneta_tankTurnRight, %function
+ 436              	aneta_tankTurnRight:
+ 437              	.LFB91:
+ 211:aneta.c       **** 
+ 212:aneta.c       **** }
+ 213:aneta.c       **** 
+ 214:aneta.c       **** 
+ 215:aneta.c       **** 
+ 216:aneta.c       **** 
+ 217:aneta.c       **** 
+ 218:aneta.c       **** //OTHER FUNCTIONS *********************************************************************************
+ 219:aneta.c       **** 
+ 220:aneta.c       **** void aneta_tankTurnRight(uint8_t speed, uint32_t delay){
+ 438              		.loc 1 220 0
+ 439              		.cfi_startproc
+ 440              		@ args = 0, pretend = 0, frame = 0
+ 441              		@ frame_needed = 0, uses_anonymous_args = 0
+ 442              	.LVL69:
+ 443 0000 00B5     		push	{lr}
+ 444              		.cfi_def_cfa_offset 4
+ 445              		.cfi_offset 14, -4
+ 446 0002 83B0     		sub	sp, sp, #12
+ 447              		.cfi_def_cfa_offset 16
+ 448 0004 0246     		mov	r2, r0
+ 221:aneta.c       ****     SetMotors(0, 1, speed, speed, delay);
+ 449              		.loc 1 221 0
+ 450 0006 0091     		str	r1, [sp]
+ 451 0008 0346     		mov	r3, r0
+ 452 000a 0121     		movs	r1, #1
+ 453              	.LVL70:
+ 454 000c 0020     		movs	r0, #0
+ 455              	.LVL71:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 13
+
+
+ 456 000e FFF7FEFF 		bl	SetMotors
+ 457              	.LVL72:
+ 222:aneta.c       **** }
+ 458              		.loc 1 222 0
+ 459 0012 03B0     		add	sp, sp, #12
+ 460              		.cfi_def_cfa_offset 4
+ 461              		@ sp needed
+ 462 0014 5DF804FB 		ldr	pc, [sp], #4
+ 463              		.cfi_endproc
+ 464              	.LFE91:
+ 465              		.size	aneta_tankTurnRight, .-aneta_tankTurnRight
+ 466              		.section	.text.aneta_tankTurnLeft,"ax",%progbits
+ 467              		.align	2
+ 468              		.global	aneta_tankTurnLeft
+ 469              		.thumb
+ 470              		.thumb_func
+ 471              		.type	aneta_tankTurnLeft, %function
+ 472              	aneta_tankTurnLeft:
+ 473              	.LFB92:
+ 223:aneta.c       **** 
+ 224:aneta.c       **** void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
+ 474              		.loc 1 224 0
+ 475              		.cfi_startproc
+ 476              		@ args = 0, pretend = 0, frame = 0
+ 477              		@ frame_needed = 0, uses_anonymous_args = 0
+ 478              	.LVL73:
+ 479 0000 00B5     		push	{lr}
+ 480              		.cfi_def_cfa_offset 4
+ 481              		.cfi_offset 14, -4
+ 482 0002 83B0     		sub	sp, sp, #12
+ 483              		.cfi_def_cfa_offset 16
+ 484 0004 0246     		mov	r2, r0
+ 225:aneta.c       ****     SetMotors(1, 0, speed, speed, delay);
+ 485              		.loc 1 225 0
+ 486 0006 0091     		str	r1, [sp]
+ 487 0008 0346     		mov	r3, r0
+ 488 000a 0021     		movs	r1, #0
+ 489              	.LVL74:
+ 490 000c 0120     		movs	r0, #1
+ 491              	.LVL75:
+ 492 000e FFF7FEFF 		bl	SetMotors
+ 493              	.LVL76:
+ 226:aneta.c       **** }
+ 494              		.loc 1 226 0
+ 495 0012 03B0     		add	sp, sp, #12
+ 496              		.cfi_def_cfa_offset 4
+ 497              		@ sp needed
+ 498 0014 5DF804FB 		ldr	pc, [sp], #4
+ 499              		.cfi_endproc
+ 500              	.LFE92:
+ 501              		.size	aneta_tankTurnLeft, .-aneta_tankTurnLeft
+ 502              		.section	.text.aneta_w3a3,"ax",%progbits
+ 503              		.align	2
+ 504              		.global	aneta_w3a3
+ 505              		.thumb
+ 506              		.thumb_func
+ 507              		.type	aneta_w3a3, %function
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 14
+
+
+ 508              	aneta_w3a3:
+ 509              	.LFB87:
   97:aneta.c       ****     int obsD;           // how far the obstacle is
- 286              		.loc 1 97 0
- 287              		.cfi_startproc
- 288              		@ args = 0, pretend = 0, frame = 0
- 289              		@ frame_needed = 0, uses_anonymous_args = 0
- 290 0000 70B5     		push	{r4, r5, r6, lr}
- 291              		.cfi_def_cfa_offset 16
- 292              		.cfi_offset 4, -16
- 293              		.cfi_offset 5, -12
- 294              		.cfi_offset 6, -8
- 295              		.cfi_offset 14, -4
- 296              	.LVL38:
+ 510              		.loc 1 97 0
+ 511              		.cfi_startproc
+ 512              		@ args = 0, pretend = 0, frame = 0
+ 513              		@ frame_needed = 0, uses_anonymous_args = 0
+ 514 0000 70B5     		push	{r4, r5, r6, lr}
+ 515              		.cfi_def_cfa_offset 16
+ 516              		.cfi_offset 4, -16
+ 517              		.cfi_offset 5, -12
+ 518              		.cfi_offset 6, -8
+ 519              		.cfi_offset 14, -4
+ 520              	.LVL77:
  105:aneta.c       ****     Ultra_Start();
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 9
-
-
- 297              		.loc 1 105 0
- 298 0002 2B48     		ldr	r0, .L28
- 299 0004 FFF7FEFF 		bl	puts
- 300              	.LVL39:
+ 521              		.loc 1 105 0
+ 522 0002 2B48     		ldr	r0, .L46
+ 523 0004 FFF7FEFF 		bl	puts
+ 524              	.LVL78:
  106:aneta.c       ****     motor_start();
- 301              		.loc 1 106 0
- 302 0008 FFF7FEFF 		bl	Ultra_Start
- 303              	.LVL40:
+ 525              		.loc 1 106 0
+ 526 0008 FFF7FEFF 		bl	Ultra_Start
+ 527              	.LVL79:
  107:aneta.c       ****     
- 304              		.loc 1 107 0
- 305 000c FFF7FEFF 		bl	motor_start
- 306              	.LVL41:
+ 528              		.loc 1 107 0
+ 529 000c FFF7FEFF 		bl	motor_start
+ 530              	.LVL80:
  102:aneta.c       ****     bool turnRight;     // if true robot turns right, else turns left
- 307              		.loc 1 102 0
- 308 0010 0126     		movs	r6, #1
+ 531              		.loc 1 102 0
+ 532 0010 0126     		movs	r6, #1
  109:aneta.c       ****         motor_forward(50, 100);
- 309              		.loc 1 109 0
- 310 0012 47E0     		b	.L20
- 311              	.LVL42:
- 312              	.L25:
+ 533              		.loc 1 109 0
+ 534 0012 47E0     		b	.L38
+ 535              	.LVL81:
+ 536              	.L43:
  110:aneta.c       ****         obsD = Ultra_GetDistance();
- 313              		.loc 1 110 0
- 314 0014 6421     		movs	r1, #100
- 315 0016 3220     		movs	r0, #50
- 316 0018 FFF7FEFF 		bl	motor_forward
- 317              	.LVL43:
+ 537              		.loc 1 110 0
+ 538 0014 6421     		movs	r1, #100
+ 539 0016 3220     		movs	r0, #50
+ 540 0018 FFF7FEFF 		bl	motor_forward
+ 541              	.LVL82:
  111:aneta.c       ****        
- 318              		.loc 1 111 0
- 319 001c FFF7FEFF 		bl	Ultra_GetDistance
- 320              	.LVL44:
+ 542              		.loc 1 111 0
+ 543 001c FFF7FEFF 		bl	Ultra_GetDistance
+ 544              	.LVL83:
  113:aneta.c       ****             motor_forward(0,0);         
- 321              		.loc 1 113 0
- 322 0020 0928     		cmp	r0, #9
- 323 0022 3BDC     		bgt	.L21
+ 545              		.loc 1 113 0
+ 546 0020 0928     		cmp	r0, #9
+ 547 0022 3BDC     		bgt	.L39
  114:aneta.c       ****             motor_backward(50,100);
- 324              		.loc 1 114 0
- 325 0024 0021     		movs	r1, #0
- 326 0026 0846     		mov	r0, r1
- 327              	.LVL45:
- 328 0028 FFF7FEFF 		bl	motor_forward
- 329              	.LVL46:
+ 548              		.loc 1 114 0
+ 549 0024 0021     		movs	r1, #0
+ 550 0026 0846     		mov	r0, r1
+ 551              	.LVL84:
+ 552 0028 FFF7FEFF 		bl	motor_forward
+ 553              	.LVL85:
  115:aneta.c       ****             turnRight = rand() % 2;
- 330              		.loc 1 115 0
- 331 002c 6421     		movs	r1, #100
- 332 002e 3220     		movs	r0, #50
- 333 0030 FFF7FEFF 		bl	motor_backward
- 334              	.LVL47:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 15
+
+
+ 554              		.loc 1 115 0
+ 555 002c 6421     		movs	r1, #100
+ 556 002e 3220     		movs	r0, #50
+ 557 0030 FFF7FEFF 		bl	motor_backward
+ 558              	.LVL86:
  116:aneta.c       ****             
- 335              		.loc 1 116 0
- 336 0034 FFF7FEFF 		bl	rand
- 337              	.LVL48:
- 338 0038 1E4D     		ldr	r5, .L28+4
- 339 003a 0540     		ands	r5, r0, r5
- 340 003c 03D5     		bpl	.L22
- 341 003e 013D     		subs	r5, r5, #1
- 342 0040 65F00105 		orn	r5, r5, #1
- 343 0044 0135     		adds	r5, r5, #1
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 10
-
-
- 344              	.L22:
- 345              	.LVL49:
+ 559              		.loc 1 116 0
+ 560 0034 FFF7FEFF 		bl	rand
+ 561              	.LVL87:
+ 562 0038 1E4D     		ldr	r5, .L46+4
+ 563 003a 0540     		ands	r5, r0, r5
+ 564 003c 03D5     		bpl	.L40
+ 565 003e 013D     		subs	r5, r5, #1
+ 566 0040 65F00105 		orn	r5, r5, #1
+ 567 0044 0135     		adds	r5, r5, #1
+ 568              	.L40:
+ 569              	.LVL88:
  118:aneta.c       ****             
- 346              		.loc 1 118 0
- 347 0046 FFF7FEFF 		bl	rand
- 348              	.LVL50:
- 349 004a 1B4C     		ldr	r4, .L28+8
- 350 004c 84FB0034 		smull	r3, r4, r4, r0
- 351 0050 C317     		asrs	r3, r0, #31
- 352 0052 C3EB6414 		rsb	r4, r3, r4, asr #5
- 353 0056 B523     		movs	r3, #181
- 354 0058 03FB1404 		mls	r4, r3, r4, r0
- 355              	.LVL51:
+ 570              		.loc 1 118 0
+ 571 0046 FFF7FEFF 		bl	rand
+ 572              	.LVL89:
+ 573 004a 1B4C     		ldr	r4, .L46+8
+ 574 004c 84FB0034 		smull	r3, r4, r4, r0
+ 575 0050 C317     		asrs	r3, r0, #31
+ 576 0052 C3EB6414 		rsb	r4, r3, r4, asr #5
+ 577 0056 B523     		movs	r3, #181
+ 578 0058 03FB1404 		mls	r4, r3, r4, r0
+ 579              	.LVL90:
  120:aneta.c       ****                 printf("Right turn %d\n", (degreeTurn+90));
- 356              		.loc 1 120 0
- 357 005c 7DB1     		cbz	r5, .L23
+ 580              		.loc 1 120 0
+ 581 005c 7DB1     		cbz	r5, .L41
  121:aneta.c       ****                 aneta_tankTurnRight(90,delay);              //90 deg turn
- 358              		.loc 1 121 0
- 359 005e 04F15A01 		add	r1, r4, #90
- 360 0062 1648     		ldr	r0, .L28+12
- 361 0064 FFF7FEFF 		bl	printf
- 362              	.LVL52:
+ 582              		.loc 1 121 0
+ 583 005e 04F15A01 		add	r1, r4, #90
+ 584 0062 1648     		ldr	r0, .L46+12
+ 585 0064 FFF7FEFF 		bl	printf
+ 586              	.LVL91:
  122:aneta.c       ****                 aneta_tankTurnRight(degreeTurn,delay);      //plus 0 to 180 turn
- 363              		.loc 1 122 0
- 364 0068 4FF49171 		mov	r1, #290
- 365 006c 5A20     		movs	r0, #90
- 366 006e FFF7FEFF 		bl	aneta_tankTurnRight
- 367              	.LVL53:
+ 587              		.loc 1 122 0
+ 588 0068 4FF49171 		mov	r1, #290
+ 589 006c 5A20     		movs	r0, #90
+ 590 006e FFF7FEFF 		bl	aneta_tankTurnRight
+ 591              	.LVL92:
  123:aneta.c       ****             } else {
- 368              		.loc 1 123 0
- 369 0072 4FF49171 		mov	r1, #290
- 370 0076 E0B2     		uxtb	r0, r4
- 371 0078 FFF7FEFF 		bl	aneta_tankTurnRight
- 372              	.LVL54:
- 373 007c 0EE0     		b	.L21
- 374              	.L23:
+ 592              		.loc 1 123 0
+ 593 0072 4FF49171 		mov	r1, #290
+ 594 0076 E0B2     		uxtb	r0, r4
+ 595 0078 FFF7FEFF 		bl	aneta_tankTurnRight
+ 596              	.LVL93:
+ 597 007c 0EE0     		b	.L39
+ 598              	.L41:
  125:aneta.c       ****                 aneta_tankTurnLeft(90,delay);
- 375              		.loc 1 125 0
- 376 007e 04F15A01 		add	r1, r4, #90
- 377 0082 0F48     		ldr	r0, .L28+16
- 378 0084 FFF7FEFF 		bl	printf
- 379              	.LVL55:
+ 599              		.loc 1 125 0
+ 600 007e 04F15A01 		add	r1, r4, #90
+ 601 0082 0F48     		ldr	r0, .L46+16
+ 602 0084 FFF7FEFF 		bl	printf
+ 603              	.LVL94:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 16
+
+
  126:aneta.c       ****                 aneta_tankTurnLeft(degreeTurn,delay);
- 380              		.loc 1 126 0
- 381 0088 4FF49171 		mov	r1, #290
- 382 008c 5A20     		movs	r0, #90
- 383 008e FFF7FEFF 		bl	aneta_tankTurnLeft
- 384              	.LVL56:
+ 604              		.loc 1 126 0
+ 605 0088 4FF49171 		mov	r1, #290
+ 606 008c 5A20     		movs	r0, #90
+ 607 008e FFF7FEFF 		bl	aneta_tankTurnLeft
+ 608              	.LVL95:
  127:aneta.c       ****             }
- 385              		.loc 1 127 0
- 386 0092 4FF49171 		mov	r1, #290
- 387 0096 E0B2     		uxtb	r0, r4
- 388 0098 FFF7FEFF 		bl	aneta_tankTurnLeft
- 389              	.LVL57:
- 390              	.L21:
+ 609              		.loc 1 127 0
+ 610 0092 4FF49171 		mov	r1, #290
+ 611 0096 E0B2     		uxtb	r0, r4
+ 612 0098 FFF7FEFF 		bl	aneta_tankTurnLeft
+ 613              	.LVL96:
+ 614              	.L39:
  132:aneta.c       ****              move = false;
- 391              		.loc 1 132 0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 11
-
-
- 392 009c FFF7FEFF 		bl	SW1_Read
- 393              	.LVL58:
- 394 00a0 00B9     		cbnz	r0, .L20
+ 615              		.loc 1 132 0
+ 616 009c FFF7FEFF 		bl	SW1_Read
+ 617              	.LVL97:
+ 618 00a0 00B9     		cbnz	r0, .L38
  133:aneta.c       ****         }
- 395              		.loc 1 133 0
- 396 00a2 0026     		movs	r6, #0
- 397              	.LVL59:
- 398              	.L20:
+ 619              		.loc 1 133 0
+ 620 00a2 0026     		movs	r6, #0
+ 621              	.LVL98:
+ 622              	.L38:
  109:aneta.c       ****         motor_forward(50, 100);
- 399              		.loc 1 109 0
- 400 00a4 002E     		cmp	r6, #0
- 401 00a6 B5D1     		bne	.L25
+ 623              		.loc 1 109 0
+ 624 00a4 002E     		cmp	r6, #0
+ 625 00a6 B5D1     		bne	.L43
  138:aneta.c       **** 
- 402              		.loc 1 138 0
- 403 00a8 FFF7FEFF 		bl	motor_stop
- 404              	.LVL60:
- 405 00ac 70BD     		pop	{r4, r5, r6, pc}
- 406              	.LVL61:
- 407              	.L29:
- 408 00ae 00BF     		.align	2
- 409              	.L28:
- 410 00b0 20000000 		.word	.LC2
- 411 00b4 01000080 		.word	-2147483647
- 412 00b8 A379422D 		.word	759331235
- 413 00bc 30000000 		.word	.LC3
- 414 00c0 40000000 		.word	.LC4
- 415              		.cfi_endproc
- 416              	.LFE87:
- 417              		.size	aneta_w1a3, .-aneta_w1a3
- 418              		.section	.rodata.str1.4,"aMS",%progbits,1
- 419              		.align	2
- 420              	.LC0:
- 421 0000 41535349 		.ascii	"ASSIGNMENT 1\000"
- 421      474E4D45 
- 421      4E542031 
- 421      00
- 422 000d 000000   		.space	3
- 423              	.LC1:
- 424 0010 41535349 		.ascii	"ASSIGNMENT 2\000"
- 424      474E4D45 
- 424      4E542032 
- 424      00
- 425 001d 000000   		.space	3
- 426              	.LC2:
- 427 0020 41535349 		.ascii	"ASSIGNMENT 3\000"
- 427      474E4D45 
- 427      4E542033 
- 427      00
- 428 002d 000000   		.space	3
- 429              	.LC3:
- 430 0030 52696768 		.ascii	"Right turn %d\012\000"
- 430      74207475 
- 430      726E2025 
- 430      640A00
- 431 003f 00       		.space	1
- 432              	.LC4:
- 433 0040 4C656674 		.ascii	"Left turn %d\012\000"
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 12
+ 626              		.loc 1 138 0
+ 627 00a8 FFF7FEFF 		bl	motor_stop
+ 628              	.LVL99:
+ 629 00ac 70BD     		pop	{r4, r5, r6, pc}
+ 630              	.LVL100:
+ 631              	.L47:
+ 632 00ae 00BF     		.align	2
+ 633              	.L46:
+ 634 00b0 30000000 		.word	.LC3
+ 635 00b4 01000080 		.word	-2147483647
+ 636 00b8 A379422D 		.word	759331235
+ 637 00bc 40000000 		.word	.LC4
+ 638 00c0 50000000 		.word	.LC5
+ 639              		.cfi_endproc
+ 640              	.LFE87:
+ 641              		.size	aneta_w3a3, .-aneta_w3a3
+ 642              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 643              		.align	2
+ 644              	.LC0:
+ 645 0000 41535349 		.ascii	"ASSIGNMENT 1\000"
+ 645      474E4D45 
+ 645      4E542031 
+ 645      00
+ 646 000d 000000   		.space	3
+ 647              	.LC1:
+ 648 0010 41535349 		.ascii	"ASSIGNMENT 2\000"
+ 648      474E4D45 
+ 648      4E542032 
+ 648      00
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 17
 
 
- 433      20747572 
- 433      6E202564 
- 433      0A00
- 434              		.text
- 435              	.Letext0:
- 436              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
- 437              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
- 438              		.file 4 ".\\ZumoLibrary/Motor.h"
- 439              		.file 5 "..\\FreeRTOS\\Source\\include/task.h"
- 440              		.file 6 ".\\ZumoLibrary/Ultra.h"
- 441              		.file 7 "Generated_Source\\PSoC5/SW1.h"
- 442              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
- 443              		.file 9 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
- 444              		.file 10 "Generated_Source\\PSoC5/core_cm3.h"
- 445              		.file 11 "<built-in>"
- 446              		.section	.debug_info,"",%progbits
- 447              	.Ldebug_info0:
- 448 0000 4F060000 		.4byte	0x64f
- 449 0004 0400     		.2byte	0x4
- 450 0006 00000000 		.4byte	.Ldebug_abbrev0
- 451 000a 04       		.byte	0x4
- 452 000b 01       		.uleb128 0x1
- 453 000c CC000000 		.4byte	.LASF43
- 454 0010 0C       		.byte	0xc
- 455 0011 A0010000 		.4byte	.LASF44
- 456 0015 24000000 		.4byte	.LASF45
- 457 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 458 001d 00000000 		.4byte	0
- 459 0021 00000000 		.4byte	.Ldebug_line0
- 460 0025 02       		.uleb128 0x2
- 461 0026 01       		.byte	0x1
- 462 0027 06       		.byte	0x6
- 463 0028 8E020000 		.4byte	.LASF0
- 464 002c 03       		.uleb128 0x3
- 465 002d 14000000 		.4byte	.LASF4
- 466 0031 02       		.byte	0x2
- 467 0032 1D       		.byte	0x1d
- 468 0033 37000000 		.4byte	0x37
- 469 0037 02       		.uleb128 0x2
- 470 0038 01       		.byte	0x1
- 471 0039 08       		.byte	0x8
- 472 003a BE000000 		.4byte	.LASF1
- 473 003e 02       		.uleb128 0x2
- 474 003f 02       		.byte	0x2
- 475 0040 05       		.byte	0x5
- 476 0041 62020000 		.4byte	.LASF2
- 477 0045 02       		.uleb128 0x2
- 478 0046 02       		.byte	0x2
- 479 0047 07       		.byte	0x7
- 480 0048 8D010000 		.4byte	.LASF3
- 481 004c 03       		.uleb128 0x3
- 482 004d 58000000 		.4byte	.LASF5
- 483 0051 02       		.byte	0x2
- 484 0052 3F       		.byte	0x3f
- 485 0053 57000000 		.4byte	0x57
- 486 0057 02       		.uleb128 0x2
- 487 0058 04       		.byte	0x4
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 13
+ 649 001d 000000   		.space	3
+ 650              	.LC2:
+ 651 0020 4D79206A 		.ascii	"My job is done \000"
+ 651      6F622069 
+ 651      7320646F 
+ 651      6E652000 
+ 652              	.LC3:
+ 653 0030 41535349 		.ascii	"ASSIGNMENT 3\000"
+ 653      474E4D45 
+ 653      4E542033 
+ 653      00
+ 654 003d 000000   		.space	3
+ 655              	.LC4:
+ 656 0040 52696768 		.ascii	"Right turn %d\012\000"
+ 656      74207475 
+ 656      726E2025 
+ 656      640A00
+ 657 004f 00       		.space	1
+ 658              	.LC5:
+ 659 0050 4C656674 		.ascii	"Left turn %d\012\000"
+ 659      20747572 
+ 659      6E202564 
+ 659      0A00
+ 660              		.text
+ 661              	.Letext0:
+ 662              		.file 2 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eab
+ 663              		.file 3 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eab
+ 664              		.file 4 ".\\ZumoLibrary/Motor.h"
+ 665              		.file 5 "..\\FreeRTOS\\Source\\include/task.h"
+ 666              		.file 6 ".\\ZumoLibrary/Ultra.h"
+ 667              		.file 7 "Generated_Source\\PSoC5/SW1.h"
+ 668              		.file 8 ".\\ZumoLibrary/IR.h"
+ 669              		.file 9 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eab
+ 670              		.file 10 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-ea
+ 671              		.file 11 "Generated_Source\\PSoC5/core_cm3.h"
+ 672              		.file 12 "<built-in>"
+ 673              		.section	.debug_info,"",%progbits
+ 674              	.Ldebug_info0:
+ 675 0000 DD080000 		.4byte	0x8dd
+ 676 0004 0400     		.2byte	0x4
+ 677 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 678 000a 04       		.byte	0x4
+ 679 000b 01       		.uleb128 0x1
+ 680 000c B9000000 		.4byte	.LASF49
+ 681 0010 0C       		.byte	0xc
+ 682 0011 7A010000 		.4byte	.LASF50
+ 683 0015 38020000 		.4byte	.LASF51
+ 684 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 685 001d 00000000 		.4byte	0
+ 686 0021 00000000 		.4byte	.Ldebug_line0
+ 687 0025 02       		.uleb128 0x2
+ 688 0026 01       		.byte	0x1
+ 689 0027 06       		.byte	0x6
+ 690 0028 D4020000 		.4byte	.LASF0
+ 691 002c 03       		.uleb128 0x3
+ 692 002d 3B000000 		.4byte	.LASF4
+ 693 0031 02       		.byte	0x2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 18
 
 
- 488 0059 05       		.byte	0x5
- 489 005a 75020000 		.4byte	.LASF6
- 490 005e 03       		.uleb128 0x3
- 491 005f E1010000 		.4byte	.LASF7
- 492 0063 02       		.byte	0x2
- 493 0064 41       		.byte	0x41
- 494 0065 69000000 		.4byte	0x69
- 495 0069 02       		.uleb128 0x2
- 496 006a 04       		.byte	0x4
- 497 006b 07       		.byte	0x7
- 498 006c 7B010000 		.4byte	.LASF8
- 499 0070 02       		.uleb128 0x2
- 500 0071 08       		.byte	0x8
- 501 0072 05       		.byte	0x5
- 502 0073 4D020000 		.4byte	.LASF9
- 503 0077 02       		.uleb128 0x2
- 504 0078 08       		.byte	0x8
- 505 0079 07       		.byte	0x7
- 506 007a B2020000 		.4byte	.LASF10
- 507 007e 04       		.uleb128 0x4
- 508 007f 04       		.byte	0x4
- 509 0080 05       		.byte	0x5
- 510 0081 696E7400 		.ascii	"int\000"
- 511 0085 02       		.uleb128 0x2
- 512 0086 04       		.byte	0x4
- 513 0087 07       		.byte	0x7
- 514 0088 F8010000 		.4byte	.LASF11
- 515 008c 03       		.uleb128 0x3
- 516 008d 76000000 		.4byte	.LASF12
- 517 0091 03       		.byte	0x3
- 518 0092 18       		.byte	0x18
- 519 0093 2C000000 		.4byte	0x2c
- 520 0097 03       		.uleb128 0x3
- 521 0098 30020000 		.4byte	.LASF13
- 522 009c 03       		.byte	0x3
- 523 009d 2C       		.byte	0x2c
- 524 009e 4C000000 		.4byte	0x4c
- 525 00a2 03       		.uleb128 0x3
- 526 00a3 6C020000 		.4byte	.LASF14
- 527 00a7 03       		.byte	0x3
- 528 00a8 30       		.byte	0x30
- 529 00a9 5E000000 		.4byte	0x5e
- 530 00ad 02       		.uleb128 0x2
- 531 00ae 04       		.byte	0x4
- 532 00af 04       		.byte	0x4
- 533 00b0 A3000000 		.4byte	.LASF15
- 534 00b4 02       		.uleb128 0x2
- 535 00b5 08       		.byte	0x8
- 536 00b6 04       		.byte	0x4
- 537 00b7 C3010000 		.4byte	.LASF16
- 538 00bb 02       		.uleb128 0x2
- 539 00bc 01       		.byte	0x1
- 540 00bd 08       		.byte	0x8
- 541 00be 18020000 		.4byte	.LASF17
- 542 00c2 02       		.uleb128 0x2
- 543 00c3 08       		.byte	0x8
- 544 00c4 04       		.byte	0x4
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 14
+ 694 0032 1D       		.byte	0x1d
+ 695 0033 37000000 		.4byte	0x37
+ 696 0037 02       		.uleb128 0x2
+ 697 0038 01       		.byte	0x1
+ 698 0039 08       		.byte	0x8
+ 699 003a AB000000 		.4byte	.LASF1
+ 700 003e 02       		.uleb128 0x2
+ 701 003f 02       		.byte	0x2
+ 702 0040 05       		.byte	0x5
+ 703 0041 A8020000 		.4byte	.LASF2
+ 704 0045 02       		.uleb128 0x2
+ 705 0046 02       		.byte	0x2
+ 706 0047 07       		.byte	0x7
+ 707 0048 E0020000 		.4byte	.LASF3
+ 708 004c 03       		.uleb128 0x3
+ 709 004d 45000000 		.4byte	.LASF5
+ 710 0051 02       		.byte	0x2
+ 711 0052 3F       		.byte	0x3f
+ 712 0053 57000000 		.4byte	0x57
+ 713 0057 02       		.uleb128 0x2
+ 714 0058 04       		.byte	0x4
+ 715 0059 05       		.byte	0x5
+ 716 005a BB020000 		.4byte	.LASF6
+ 717 005e 03       		.uleb128 0x3
+ 718 005f BB010000 		.4byte	.LASF7
+ 719 0063 02       		.byte	0x2
+ 720 0064 41       		.byte	0x41
+ 721 0065 69000000 		.4byte	0x69
+ 722 0069 02       		.uleb128 0x2
+ 723 006a 04       		.byte	0x4
+ 724 006b 07       		.byte	0x7
+ 725 006c 47010000 		.4byte	.LASF8
+ 726 0070 02       		.uleb128 0x2
+ 727 0071 08       		.byte	0x8
+ 728 0072 05       		.byte	0x5
+ 729 0073 2A020000 		.4byte	.LASF9
+ 730 0077 02       		.uleb128 0x2
+ 731 0078 08       		.byte	0x8
+ 732 0079 07       		.byte	0x7
+ 733 007a 0B030000 		.4byte	.LASF10
+ 734 007e 04       		.uleb128 0x4
+ 735 007f 04       		.byte	0x4
+ 736 0080 05       		.byte	0x5
+ 737 0081 696E7400 		.ascii	"int\000"
+ 738 0085 02       		.uleb128 0x2
+ 739 0086 04       		.byte	0x4
+ 740 0087 07       		.byte	0x7
+ 741 0088 D7010000 		.4byte	.LASF11
+ 742 008c 03       		.uleb128 0x3
+ 743 008d 63000000 		.4byte	.LASF12
+ 744 0091 03       		.byte	0x3
+ 745 0092 18       		.byte	0x18
+ 746 0093 2C000000 		.4byte	0x2c
+ 747 0097 03       		.uleb128 0x3
+ 748 0098 0D020000 		.4byte	.LASF13
+ 749 009c 03       		.byte	0x3
+ 750 009d 2C       		.byte	0x2c
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 19
 
 
- 545 00c5 CA010000 		.4byte	.LASF18
- 546 00c9 02       		.uleb128 0x2
- 547 00ca 04       		.byte	0x4
- 548 00cb 07       		.byte	0x7
- 549 00cc 38020000 		.4byte	.LASF19
- 550 00d0 05       		.uleb128 0x5
- 551 00d1 5A010000 		.4byte	.LASF46
- 552 00d5 01       		.byte	0x1
- 553 00d6 24       		.byte	0x24
- 554 00d7 00000000 		.4byte	.LFB85
- 555 00db 8C000000 		.4byte	.LFE85-.LFB85
- 556 00df 01       		.uleb128 0x1
- 557 00e0 9C       		.byte	0x9c
- 558 00e1 61020000 		.4byte	0x261
- 559 00e5 06       		.uleb128 0x6
- 560 00e6 08000000 		.4byte	.LVL0
- 561 00ea BE050000 		.4byte	0x5be
- 562 00ee FC000000 		.4byte	0xfc
- 563 00f2 07       		.uleb128 0x7
- 564 00f3 01       		.uleb128 0x1
- 565 00f4 50       		.byte	0x50
- 566 00f5 05       		.uleb128 0x5
- 567 00f6 03       		.byte	0x3
- 568 00f7 00000000 		.4byte	.LC0
- 569 00fb 00       		.byte	0
- 570 00fc 08       		.uleb128 0x8
- 571 00fd 0C000000 		.4byte	.LVL1
- 572 0101 CD050000 		.4byte	0x5cd
- 573 0105 06       		.uleb128 0x6
- 574 0106 16000000 		.4byte	.LVL2
- 575 010a D8050000 		.4byte	0x5d8
- 576 010e 20010000 		.4byte	0x120
- 577 0112 07       		.uleb128 0x7
- 578 0113 01       		.uleb128 0x1
- 579 0114 50       		.byte	0x50
- 580 0115 02       		.uleb128 0x2
- 581 0116 08       		.byte	0x8
- 582 0117 64       		.byte	0x64
- 583 0118 07       		.uleb128 0x7
- 584 0119 01       		.uleb128 0x1
- 585 011a 51       		.byte	0x51
- 586 011b 03       		.uleb128 0x3
- 587 011c 0A       		.byte	0xa
- 588 011d 160D     		.2byte	0xd16
- 589 011f 00       		.byte	0
- 590 0120 06       		.uleb128 0x6
- 591 0121 20000000 		.4byte	.LVL3
- 592 0125 E3050000 		.4byte	0x5e3
- 593 0129 3F010000 		.4byte	0x13f
- 594 012d 07       		.uleb128 0x7
- 595 012e 01       		.uleb128 0x1
- 596 012f 50       		.byte	0x50
- 597 0130 02       		.uleb128 0x2
- 598 0131 09       		.byte	0x9
- 599 0132 FF       		.byte	0xff
- 600 0133 07       		.uleb128 0x7
- 601 0134 01       		.uleb128 0x1
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 15
+ 751 009e 4C000000 		.4byte	0x4c
+ 752 00a2 03       		.uleb128 0x3
+ 753 00a3 B2020000 		.4byte	.LASF14
+ 754 00a7 03       		.byte	0x3
+ 755 00a8 30       		.byte	0x30
+ 756 00a9 5E000000 		.4byte	0x5e
+ 757 00ad 02       		.uleb128 0x2
+ 758 00ae 04       		.byte	0x4
+ 759 00af 04       		.byte	0x4
+ 760 00b0 90000000 		.4byte	.LASF15
+ 761 00b4 02       		.uleb128 0x2
+ 762 00b5 08       		.byte	0x8
+ 763 00b6 04       		.byte	0x4
+ 764 00b7 9D010000 		.4byte	.LASF16
+ 765 00bb 02       		.uleb128 0x2
+ 766 00bc 01       		.byte	0x1
+ 767 00bd 08       		.byte	0x8
+ 768 00be ED010000 		.4byte	.LASF17
+ 769 00c2 02       		.uleb128 0x2
+ 770 00c3 08       		.byte	0x8
+ 771 00c4 04       		.byte	0x4
+ 772 00c5 A4010000 		.4byte	.LASF18
+ 773 00c9 02       		.uleb128 0x2
+ 774 00ca 04       		.byte	0x4
+ 775 00cb 07       		.byte	0x7
+ 776 00cc 15020000 		.4byte	.LASF19
+ 777 00d0 05       		.uleb128 0x5
+ 778 00d1 14000000 		.4byte	.LASF52
+ 779 00d5 01       		.byte	0x1
+ 780 00d6 24       		.byte	0x24
+ 781 00d7 00000000 		.4byte	.LFB85
+ 782 00db 8C000000 		.4byte	.LFE85-.LFB85
+ 783 00df 01       		.uleb128 0x1
+ 784 00e0 9C       		.byte	0x9c
+ 785 00e1 61020000 		.4byte	0x261
+ 786 00e5 06       		.uleb128 0x6
+ 787 00e6 08000000 		.4byte	.LVL0
+ 788 00ea 36080000 		.4byte	0x836
+ 789 00ee FC000000 		.4byte	0xfc
+ 790 00f2 07       		.uleb128 0x7
+ 791 00f3 01       		.uleb128 0x1
+ 792 00f4 50       		.byte	0x50
+ 793 00f5 05       		.uleb128 0x5
+ 794 00f6 03       		.byte	0x3
+ 795 00f7 00000000 		.4byte	.LC0
+ 796 00fb 00       		.byte	0
+ 797 00fc 08       		.uleb128 0x8
+ 798 00fd 0C000000 		.4byte	.LVL1
+ 799 0101 45080000 		.4byte	0x845
+ 800 0105 06       		.uleb128 0x6
+ 801 0106 16000000 		.4byte	.LVL2
+ 802 010a 50080000 		.4byte	0x850
+ 803 010e 20010000 		.4byte	0x120
+ 804 0112 07       		.uleb128 0x7
+ 805 0113 01       		.uleb128 0x1
+ 806 0114 50       		.byte	0x50
+ 807 0115 02       		.uleb128 0x2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 20
 
 
- 602 0135 51       		.byte	0x51
- 603 0136 01       		.uleb128 0x1
- 604 0137 30       		.byte	0x30
- 605 0138 07       		.uleb128 0x7
- 606 0139 01       		.uleb128 0x1
- 607 013a 52       		.byte	0x52
- 608 013b 02       		.uleb128 0x2
- 609 013c 08       		.byte	0x8
- 610 013d CD       		.byte	0xcd
- 611 013e 00       		.byte	0
- 612 013f 06       		.uleb128 0x6
- 613 0140 2A000000 		.4byte	.LVL4
- 614 0144 D8050000 		.4byte	0x5d8
- 615 0148 5A010000 		.4byte	0x15a
- 616 014c 07       		.uleb128 0x7
- 617 014d 01       		.uleb128 0x1
- 618 014e 50       		.byte	0x50
- 619 014f 02       		.uleb128 0x2
- 620 0150 08       		.byte	0x8
- 621 0151 64       		.byte	0x64
- 622 0152 07       		.uleb128 0x7
- 623 0153 01       		.uleb128 0x1
- 624 0154 51       		.byte	0x51
- 625 0155 03       		.uleb128 0x3
- 626 0156 0A       		.byte	0xa
- 627 0157 280A     		.2byte	0xa28
- 628 0159 00       		.byte	0
- 629 015a 06       		.uleb128 0x6
- 630 015b 34000000 		.4byte	.LVL5
- 631 015f E3050000 		.4byte	0x5e3
- 632 0163 79010000 		.4byte	0x179
- 633 0167 07       		.uleb128 0x7
- 634 0168 01       		.uleb128 0x1
- 635 0169 50       		.byte	0x50
- 636 016a 02       		.uleb128 0x2
- 637 016b 09       		.byte	0x9
- 638 016c FF       		.byte	0xff
- 639 016d 07       		.uleb128 0x7
- 640 016e 01       		.uleb128 0x1
- 641 016f 51       		.byte	0x51
- 642 0170 01       		.uleb128 0x1
- 643 0171 30       		.byte	0x30
- 644 0172 07       		.uleb128 0x7
- 645 0173 01       		.uleb128 0x1
- 646 0174 52       		.byte	0x52
- 647 0175 02       		.uleb128 0x2
- 648 0176 08       		.byte	0x8
- 649 0177 CE       		.byte	0xce
- 650 0178 00       		.byte	0
- 651 0179 06       		.uleb128 0x6
- 652 017a 3E000000 		.4byte	.LVL6
- 653 017e D8050000 		.4byte	0x5d8
- 654 0182 94010000 		.4byte	0x194
- 655 0186 07       		.uleb128 0x7
- 656 0187 01       		.uleb128 0x1
- 657 0188 50       		.byte	0x50
- 658 0189 02       		.uleb128 0x2
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 16
+ 808 0116 08       		.byte	0x8
+ 809 0117 64       		.byte	0x64
+ 810 0118 07       		.uleb128 0x7
+ 811 0119 01       		.uleb128 0x1
+ 812 011a 51       		.byte	0x51
+ 813 011b 03       		.uleb128 0x3
+ 814 011c 0A       		.byte	0xa
+ 815 011d 160D     		.2byte	0xd16
+ 816 011f 00       		.byte	0
+ 817 0120 06       		.uleb128 0x6
+ 818 0121 20000000 		.4byte	.LVL3
+ 819 0125 5B080000 		.4byte	0x85b
+ 820 0129 3F010000 		.4byte	0x13f
+ 821 012d 07       		.uleb128 0x7
+ 822 012e 01       		.uleb128 0x1
+ 823 012f 50       		.byte	0x50
+ 824 0130 02       		.uleb128 0x2
+ 825 0131 09       		.byte	0x9
+ 826 0132 FF       		.byte	0xff
+ 827 0133 07       		.uleb128 0x7
+ 828 0134 01       		.uleb128 0x1
+ 829 0135 51       		.byte	0x51
+ 830 0136 01       		.uleb128 0x1
+ 831 0137 30       		.byte	0x30
+ 832 0138 07       		.uleb128 0x7
+ 833 0139 01       		.uleb128 0x1
+ 834 013a 52       		.byte	0x52
+ 835 013b 02       		.uleb128 0x2
+ 836 013c 08       		.byte	0x8
+ 837 013d CD       		.byte	0xcd
+ 838 013e 00       		.byte	0
+ 839 013f 06       		.uleb128 0x6
+ 840 0140 2A000000 		.4byte	.LVL4
+ 841 0144 50080000 		.4byte	0x850
+ 842 0148 5A010000 		.4byte	0x15a
+ 843 014c 07       		.uleb128 0x7
+ 844 014d 01       		.uleb128 0x1
+ 845 014e 50       		.byte	0x50
+ 846 014f 02       		.uleb128 0x2
+ 847 0150 08       		.byte	0x8
+ 848 0151 64       		.byte	0x64
+ 849 0152 07       		.uleb128 0x7
+ 850 0153 01       		.uleb128 0x1
+ 851 0154 51       		.byte	0x51
+ 852 0155 03       		.uleb128 0x3
+ 853 0156 0A       		.byte	0xa
+ 854 0157 280A     		.2byte	0xa28
+ 855 0159 00       		.byte	0
+ 856 015a 06       		.uleb128 0x6
+ 857 015b 34000000 		.4byte	.LVL5
+ 858 015f 5B080000 		.4byte	0x85b
+ 859 0163 79010000 		.4byte	0x179
+ 860 0167 07       		.uleb128 0x7
+ 861 0168 01       		.uleb128 0x1
+ 862 0169 50       		.byte	0x50
+ 863 016a 02       		.uleb128 0x2
+ 864 016b 09       		.byte	0x9
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 21
 
 
- 659 018a 08       		.byte	0x8
- 660 018b 64       		.byte	0x64
- 661 018c 07       		.uleb128 0x7
- 662 018d 01       		.uleb128 0x1
- 663 018e 51       		.byte	0x51
- 664 018f 03       		.uleb128 0x3
- 665 0190 0A       		.byte	0xa
- 666 0191 960A     		.2byte	0xa96
- 667 0193 00       		.byte	0
- 668 0194 06       		.uleb128 0x6
- 669 0195 48000000 		.4byte	.LVL7
- 670 0199 E3050000 		.4byte	0x5e3
- 671 019d B3010000 		.4byte	0x1b3
- 672 01a1 07       		.uleb128 0x7
- 673 01a2 01       		.uleb128 0x1
- 674 01a3 50       		.byte	0x50
- 675 01a4 02       		.uleb128 0x2
- 676 01a5 09       		.byte	0x9
- 677 01a6 FF       		.byte	0xff
- 678 01a7 07       		.uleb128 0x7
- 679 01a8 01       		.uleb128 0x1
- 680 01a9 51       		.byte	0x51
- 681 01aa 01       		.uleb128 0x1
- 682 01ab 30       		.byte	0x30
- 683 01ac 07       		.uleb128 0x7
- 684 01ad 01       		.uleb128 0x1
- 685 01ae 52       		.byte	0x52
- 686 01af 02       		.uleb128 0x2
- 687 01b0 08       		.byte	0x8
- 688 01b1 F7       		.byte	0xf7
- 689 01b2 00       		.byte	0
- 690 01b3 06       		.uleb128 0x6
- 691 01b4 54000000 		.4byte	.LVL8
- 692 01b8 E3050000 		.4byte	0x5e3
- 693 01bc D4010000 		.4byte	0x1d4
- 694 01c0 07       		.uleb128 0x7
- 695 01c1 01       		.uleb128 0x1
- 696 01c2 50       		.byte	0x50
- 697 01c3 02       		.uleb128 0x2
- 698 01c4 09       		.byte	0x9
- 699 01c5 FF       		.byte	0xff
- 700 01c6 07       		.uleb128 0x7
- 701 01c7 01       		.uleb128 0x1
- 702 01c8 51       		.byte	0x51
- 703 01c9 02       		.uleb128 0x2
- 704 01ca 09       		.byte	0x9
- 705 01cb E6       		.byte	0xe6
- 706 01cc 07       		.uleb128 0x7
- 707 01cd 01       		.uleb128 0x1
- 708 01ce 52       		.byte	0x52
- 709 01cf 03       		.uleb128 0x3
- 710 01d0 0A       		.byte	0xa
- 711 01d1 BC02     		.2byte	0x2bc
- 712 01d3 00       		.byte	0
- 713 01d4 06       		.uleb128 0x6
- 714 01d5 5E000000 		.4byte	.LVL9
- 715 01d9 E3050000 		.4byte	0x5e3
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 17
+ 865 016c FF       		.byte	0xff
+ 866 016d 07       		.uleb128 0x7
+ 867 016e 01       		.uleb128 0x1
+ 868 016f 51       		.byte	0x51
+ 869 0170 01       		.uleb128 0x1
+ 870 0171 30       		.byte	0x30
+ 871 0172 07       		.uleb128 0x7
+ 872 0173 01       		.uleb128 0x1
+ 873 0174 52       		.byte	0x52
+ 874 0175 02       		.uleb128 0x2
+ 875 0176 08       		.byte	0x8
+ 876 0177 CE       		.byte	0xce
+ 877 0178 00       		.byte	0
+ 878 0179 06       		.uleb128 0x6
+ 879 017a 3E000000 		.4byte	.LVL6
+ 880 017e 50080000 		.4byte	0x850
+ 881 0182 94010000 		.4byte	0x194
+ 882 0186 07       		.uleb128 0x7
+ 883 0187 01       		.uleb128 0x1
+ 884 0188 50       		.byte	0x50
+ 885 0189 02       		.uleb128 0x2
+ 886 018a 08       		.byte	0x8
+ 887 018b 64       		.byte	0x64
+ 888 018c 07       		.uleb128 0x7
+ 889 018d 01       		.uleb128 0x1
+ 890 018e 51       		.byte	0x51
+ 891 018f 03       		.uleb128 0x3
+ 892 0190 0A       		.byte	0xa
+ 893 0191 960A     		.2byte	0xa96
+ 894 0193 00       		.byte	0
+ 895 0194 06       		.uleb128 0x6
+ 896 0195 48000000 		.4byte	.LVL7
+ 897 0199 5B080000 		.4byte	0x85b
+ 898 019d B3010000 		.4byte	0x1b3
+ 899 01a1 07       		.uleb128 0x7
+ 900 01a2 01       		.uleb128 0x1
+ 901 01a3 50       		.byte	0x50
+ 902 01a4 02       		.uleb128 0x2
+ 903 01a5 09       		.byte	0x9
+ 904 01a6 FF       		.byte	0xff
+ 905 01a7 07       		.uleb128 0x7
+ 906 01a8 01       		.uleb128 0x1
+ 907 01a9 51       		.byte	0x51
+ 908 01aa 01       		.uleb128 0x1
+ 909 01ab 30       		.byte	0x30
+ 910 01ac 07       		.uleb128 0x7
+ 911 01ad 01       		.uleb128 0x1
+ 912 01ae 52       		.byte	0x52
+ 913 01af 02       		.uleb128 0x2
+ 914 01b0 08       		.byte	0x8
+ 915 01b1 F7       		.byte	0xf7
+ 916 01b2 00       		.byte	0
+ 917 01b3 06       		.uleb128 0x6
+ 918 01b4 54000000 		.4byte	.LVL8
+ 919 01b8 5B080000 		.4byte	0x85b
+ 920 01bc D4010000 		.4byte	0x1d4
+ 921 01c0 07       		.uleb128 0x7
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 22
 
 
- 716 01dd F3010000 		.4byte	0x1f3
- 717 01e1 07       		.uleb128 0x7
- 718 01e2 01       		.uleb128 0x1
- 719 01e3 50       		.byte	0x50
- 720 01e4 02       		.uleb128 0x2
- 721 01e5 08       		.byte	0x8
- 722 01e6 64       		.byte	0x64
- 723 01e7 07       		.uleb128 0x7
- 724 01e8 01       		.uleb128 0x1
- 725 01e9 51       		.byte	0x51
- 726 01ea 01       		.uleb128 0x1
- 727 01eb 30       		.byte	0x30
- 728 01ec 07       		.uleb128 0x7
- 729 01ed 01       		.uleb128 0x1
- 730 01ee 52       		.byte	0x52
- 731 01ef 02       		.uleb128 0x2
- 732 01f0 08       		.byte	0x8
- 733 01f1 DA       		.byte	0xda
- 734 01f2 00       		.byte	0
- 735 01f3 06       		.uleb128 0x6
- 736 01f4 68000000 		.4byte	.LVL10
- 737 01f8 D8050000 		.4byte	0x5d8
- 738 01fc 0E020000 		.4byte	0x20e
- 739 0200 07       		.uleb128 0x7
- 740 0201 01       		.uleb128 0x1
- 741 0202 50       		.byte	0x50
- 742 0203 02       		.uleb128 0x2
- 743 0204 08       		.byte	0x8
- 744 0205 64       		.byte	0x64
- 745 0206 07       		.uleb128 0x7
- 746 0207 01       		.uleb128 0x1
- 747 0208 51       		.byte	0x51
- 748 0209 03       		.uleb128 0x3
- 749 020a 0A       		.byte	0xa
- 750 020b F401     		.2byte	0x1f4
- 751 020d 00       		.byte	0
- 752 020e 06       		.uleb128 0x6
- 753 020f 72000000 		.4byte	.LVL11
- 754 0213 E3050000 		.4byte	0x5e3
- 755 0217 2C020000 		.4byte	0x22c
- 756 021b 07       		.uleb128 0x7
- 757 021c 01       		.uleb128 0x1
- 758 021d 50       		.byte	0x50
- 759 021e 02       		.uleb128 0x2
- 760 021f 08       		.byte	0x8
- 761 0220 64       		.byte	0x64
- 762 0221 07       		.uleb128 0x7
- 763 0222 01       		.uleb128 0x1
- 764 0223 51       		.byte	0x51
- 765 0224 01       		.uleb128 0x1
- 766 0225 30       		.byte	0x30
- 767 0226 07       		.uleb128 0x7
- 768 0227 01       		.uleb128 0x1
- 769 0228 52       		.byte	0x52
- 770 0229 01       		.uleb128 0x1
- 771 022a 4E       		.byte	0x4e
- 772 022b 00       		.byte	0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 18
+ 922 01c1 01       		.uleb128 0x1
+ 923 01c2 50       		.byte	0x50
+ 924 01c3 02       		.uleb128 0x2
+ 925 01c4 09       		.byte	0x9
+ 926 01c5 FF       		.byte	0xff
+ 927 01c6 07       		.uleb128 0x7
+ 928 01c7 01       		.uleb128 0x1
+ 929 01c8 51       		.byte	0x51
+ 930 01c9 02       		.uleb128 0x2
+ 931 01ca 09       		.byte	0x9
+ 932 01cb E6       		.byte	0xe6
+ 933 01cc 07       		.uleb128 0x7
+ 934 01cd 01       		.uleb128 0x1
+ 935 01ce 52       		.byte	0x52
+ 936 01cf 03       		.uleb128 0x3
+ 937 01d0 0A       		.byte	0xa
+ 938 01d1 BC02     		.2byte	0x2bc
+ 939 01d3 00       		.byte	0
+ 940 01d4 06       		.uleb128 0x6
+ 941 01d5 5E000000 		.4byte	.LVL9
+ 942 01d9 5B080000 		.4byte	0x85b
+ 943 01dd F3010000 		.4byte	0x1f3
+ 944 01e1 07       		.uleb128 0x7
+ 945 01e2 01       		.uleb128 0x1
+ 946 01e3 50       		.byte	0x50
+ 947 01e4 02       		.uleb128 0x2
+ 948 01e5 08       		.byte	0x8
+ 949 01e6 64       		.byte	0x64
+ 950 01e7 07       		.uleb128 0x7
+ 951 01e8 01       		.uleb128 0x1
+ 952 01e9 51       		.byte	0x51
+ 953 01ea 01       		.uleb128 0x1
+ 954 01eb 30       		.byte	0x30
+ 955 01ec 07       		.uleb128 0x7
+ 956 01ed 01       		.uleb128 0x1
+ 957 01ee 52       		.byte	0x52
+ 958 01ef 02       		.uleb128 0x2
+ 959 01f0 08       		.byte	0x8
+ 960 01f1 DA       		.byte	0xda
+ 961 01f2 00       		.byte	0
+ 962 01f3 06       		.uleb128 0x6
+ 963 01f4 68000000 		.4byte	.LVL10
+ 964 01f8 50080000 		.4byte	0x850
+ 965 01fc 0E020000 		.4byte	0x20e
+ 966 0200 07       		.uleb128 0x7
+ 967 0201 01       		.uleb128 0x1
+ 968 0202 50       		.byte	0x50
+ 969 0203 02       		.uleb128 0x2
+ 970 0204 08       		.byte	0x8
+ 971 0205 64       		.byte	0x64
+ 972 0206 07       		.uleb128 0x7
+ 973 0207 01       		.uleb128 0x1
+ 974 0208 51       		.byte	0x51
+ 975 0209 03       		.uleb128 0x3
+ 976 020a 0A       		.byte	0xa
+ 977 020b F401     		.2byte	0x1f4
+ 978 020d 00       		.byte	0
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 23
 
 
- 773 022c 06       		.uleb128 0x6
- 774 022d 7C000000 		.4byte	.LVL12
- 775 0231 D8050000 		.4byte	0x5d8
- 776 0235 47020000 		.4byte	0x247
- 777 0239 07       		.uleb128 0x7
- 778 023a 01       		.uleb128 0x1
- 779 023b 50       		.byte	0x50
- 780 023c 02       		.uleb128 0x2
- 781 023d 08       		.byte	0x8
- 782 023e 64       		.byte	0x64
- 783 023f 07       		.uleb128 0x7
- 784 0240 01       		.uleb128 0x1
- 785 0241 51       		.byte	0x51
- 786 0242 03       		.uleb128 0x3
- 787 0243 0A       		.byte	0xa
- 788 0244 BC02     		.2byte	0x2bc
- 789 0246 00       		.byte	0
- 790 0247 08       		.uleb128 0x8
- 791 0248 80000000 		.4byte	.LVL13
- 792 024c EE050000 		.4byte	0x5ee
- 793 0250 09       		.uleb128 0x9
- 794 0251 86000000 		.4byte	.LVL14
- 795 0255 F9050000 		.4byte	0x5f9
- 796 0259 07       		.uleb128 0x7
- 797 025a 01       		.uleb128 0x1
- 798 025b 50       		.byte	0x50
- 799 025c 02       		.uleb128 0x2
- 800 025d 08       		.byte	0x8
- 801 025e 64       		.byte	0x64
- 802 025f 00       		.byte	0
- 803 0260 00       		.byte	0
- 804 0261 0A       		.uleb128 0xa
- 805 0262 65010000 		.4byte	.LASF23
- 806 0266 01       		.byte	0x1
- 807 0267 42       		.byte	0x42
- 808 0268 00000000 		.4byte	.LFB86
- 809 026c 58000000 		.4byte	.LFE86-.LFB86
- 810 0270 01       		.uleb128 0x1
- 811 0271 9C       		.byte	0x9c
- 812 0272 51030000 		.4byte	0x351
- 813 0276 0B       		.uleb128 0xb
- 814 0277 93000000 		.4byte	.LASF20
- 815 027b 01       		.byte	0x1
- 816 027c 43       		.byte	0x43
- 817 027d 7E000000 		.4byte	0x7e
- 818 0281 00000000 		.4byte	.LLST0
- 819 0285 0C       		.uleb128 0xc
- 820 0286 6D794400 		.ascii	"myD\000"
- 821 028a 01       		.byte	0x1
- 822 028b 44       		.byte	0x44
- 823 028c 7E000000 		.4byte	0x7e
- 824 0290 0A       		.byte	0xa
- 825 0291 0B       		.uleb128 0xb
- 826 0292 62000000 		.4byte	.LASF21
- 827 0296 01       		.byte	0x1
- 828 0297 45       		.byte	0x45
- 829 0298 51030000 		.4byte	0x351
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 19
+ 979 020e 06       		.uleb128 0x6
+ 980 020f 72000000 		.4byte	.LVL11
+ 981 0213 5B080000 		.4byte	0x85b
+ 982 0217 2C020000 		.4byte	0x22c
+ 983 021b 07       		.uleb128 0x7
+ 984 021c 01       		.uleb128 0x1
+ 985 021d 50       		.byte	0x50
+ 986 021e 02       		.uleb128 0x2
+ 987 021f 08       		.byte	0x8
+ 988 0220 64       		.byte	0x64
+ 989 0221 07       		.uleb128 0x7
+ 990 0222 01       		.uleb128 0x1
+ 991 0223 51       		.byte	0x51
+ 992 0224 01       		.uleb128 0x1
+ 993 0225 30       		.byte	0x30
+ 994 0226 07       		.uleb128 0x7
+ 995 0227 01       		.uleb128 0x1
+ 996 0228 52       		.byte	0x52
+ 997 0229 01       		.uleb128 0x1
+ 998 022a 4E       		.byte	0x4e
+ 999 022b 00       		.byte	0
+ 1000 022c 06       		.uleb128 0x6
+ 1001 022d 7C000000 		.4byte	.LVL12
+ 1002 0231 50080000 		.4byte	0x850
+ 1003 0235 47020000 		.4byte	0x247
+ 1004 0239 07       		.uleb128 0x7
+ 1005 023a 01       		.uleb128 0x1
+ 1006 023b 50       		.byte	0x50
+ 1007 023c 02       		.uleb128 0x2
+ 1008 023d 08       		.byte	0x8
+ 1009 023e 64       		.byte	0x64
+ 1010 023f 07       		.uleb128 0x7
+ 1011 0240 01       		.uleb128 0x1
+ 1012 0241 51       		.byte	0x51
+ 1013 0242 03       		.uleb128 0x3
+ 1014 0243 0A       		.byte	0xa
+ 1015 0244 BC02     		.2byte	0x2bc
+ 1016 0246 00       		.byte	0
+ 1017 0247 08       		.uleb128 0x8
+ 1018 0248 80000000 		.4byte	.LVL13
+ 1019 024c 66080000 		.4byte	0x866
+ 1020 0250 09       		.uleb128 0x9
+ 1021 0251 86000000 		.4byte	.LVL14
+ 1022 0255 71080000 		.4byte	0x871
+ 1023 0259 07       		.uleb128 0x7
+ 1024 025a 01       		.uleb128 0x1
+ 1025 025b 50       		.byte	0x50
+ 1026 025c 02       		.uleb128 0x2
+ 1027 025d 08       		.byte	0x8
+ 1028 025e 64       		.byte	0x64
+ 1029 025f 00       		.byte	0
+ 1030 0260 00       		.byte	0
+ 1031 0261 0A       		.uleb128 0xa
+ 1032 0262 1F000000 		.4byte	.LASF23
+ 1033 0266 01       		.byte	0x1
+ 1034 0267 42       		.byte	0x42
+ 1035 0268 00000000 		.4byte	.LFB86
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 24
 
 
- 830 029c 13000000 		.4byte	.LLST1
- 831 02a0 06       		.uleb128 0x6
- 832 02a1 08000000 		.4byte	.LVL16
- 833 02a5 BE050000 		.4byte	0x5be
- 834 02a9 B7020000 		.4byte	0x2b7
- 835 02ad 07       		.uleb128 0x7
- 836 02ae 01       		.uleb128 0x1
- 837 02af 50       		.byte	0x50
- 838 02b0 05       		.uleb128 0x5
- 839 02b1 03       		.byte	0x3
- 840 02b2 10000000 		.4byte	.LC1
- 841 02b6 00       		.byte	0
- 842 02b7 08       		.uleb128 0x8
- 843 02b8 0C000000 		.4byte	.LVL17
- 844 02bc 05060000 		.4byte	0x605
- 845 02c0 08       		.uleb128 0x8
- 846 02c1 10000000 		.4byte	.LVL18
- 847 02c5 CD050000 		.4byte	0x5cd
- 848 02c9 06       		.uleb128 0x6
- 849 02ca 1C000000 		.4byte	.LVL20
- 850 02ce D8050000 		.4byte	0x5d8
- 851 02d2 E3020000 		.4byte	0x2e3
- 852 02d6 07       		.uleb128 0x7
- 853 02d7 01       		.uleb128 0x1
- 854 02d8 50       		.byte	0x50
- 855 02d9 02       		.uleb128 0x2
- 856 02da 08       		.byte	0x8
- 857 02db 32       		.byte	0x32
- 858 02dc 07       		.uleb128 0x7
- 859 02dd 01       		.uleb128 0x1
- 860 02de 51       		.byte	0x51
- 861 02df 02       		.uleb128 0x2
- 862 02e0 08       		.byte	0x8
- 863 02e1 64       		.byte	0x64
- 864 02e2 00       		.byte	0
- 865 02e3 08       		.uleb128 0x8
- 866 02e4 20000000 		.4byte	.LVL21
- 867 02e8 10060000 		.4byte	0x610
- 868 02ec 06       		.uleb128 0x6
- 869 02ed 2C000000 		.4byte	.LVL23
- 870 02f1 D8050000 		.4byte	0x5d8
- 871 02f5 04030000 		.4byte	0x304
- 872 02f9 07       		.uleb128 0x7
- 873 02fa 01       		.uleb128 0x1
- 874 02fb 50       		.byte	0x50
- 875 02fc 01       		.uleb128 0x1
- 876 02fd 30       		.byte	0x30
- 877 02fe 07       		.uleb128 0x7
- 878 02ff 01       		.uleb128 0x1
- 879 0300 51       		.byte	0x51
- 880 0301 01       		.uleb128 0x1
- 881 0302 30       		.byte	0x30
- 882 0303 00       		.byte	0
- 883 0304 06       		.uleb128 0x6
- 884 0305 34000000 		.4byte	.LVL24
- 885 0309 1B060000 		.4byte	0x61b
- 886 030d 1E030000 		.4byte	0x31e
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 20
+ 1036 026c 58000000 		.4byte	.LFE86-.LFB86
+ 1037 0270 01       		.uleb128 0x1
+ 1038 0271 9C       		.byte	0x9c
+ 1039 0272 51030000 		.4byte	0x351
+ 1040 0276 0B       		.uleb128 0xb
+ 1041 0277 80000000 		.4byte	.LASF20
+ 1042 027b 01       		.byte	0x1
+ 1043 027c 43       		.byte	0x43
+ 1044 027d 7E000000 		.4byte	0x7e
+ 1045 0281 00000000 		.4byte	.LLST0
+ 1046 0285 0C       		.uleb128 0xc
+ 1047 0286 6D794400 		.ascii	"myD\000"
+ 1048 028a 01       		.byte	0x1
+ 1049 028b 44       		.byte	0x44
+ 1050 028c 7E000000 		.4byte	0x7e
+ 1051 0290 0A       		.byte	0xa
+ 1052 0291 0B       		.uleb128 0xb
+ 1053 0292 4F000000 		.4byte	.LASF21
+ 1054 0296 01       		.byte	0x1
+ 1055 0297 45       		.byte	0x45
+ 1056 0298 51030000 		.4byte	0x351
+ 1057 029c 13000000 		.4byte	.LLST1
+ 1058 02a0 06       		.uleb128 0x6
+ 1059 02a1 08000000 		.4byte	.LVL16
+ 1060 02a5 36080000 		.4byte	0x836
+ 1061 02a9 B7020000 		.4byte	0x2b7
+ 1062 02ad 07       		.uleb128 0x7
+ 1063 02ae 01       		.uleb128 0x1
+ 1064 02af 50       		.byte	0x50
+ 1065 02b0 05       		.uleb128 0x5
+ 1066 02b1 03       		.byte	0x3
+ 1067 02b2 10000000 		.4byte	.LC1
+ 1068 02b6 00       		.byte	0
+ 1069 02b7 08       		.uleb128 0x8
+ 1070 02b8 0C000000 		.4byte	.LVL17
+ 1071 02bc 7D080000 		.4byte	0x87d
+ 1072 02c0 08       		.uleb128 0x8
+ 1073 02c1 10000000 		.4byte	.LVL18
+ 1074 02c5 45080000 		.4byte	0x845
+ 1075 02c9 06       		.uleb128 0x6
+ 1076 02ca 1C000000 		.4byte	.LVL20
+ 1077 02ce 50080000 		.4byte	0x850
+ 1078 02d2 E3020000 		.4byte	0x2e3
+ 1079 02d6 07       		.uleb128 0x7
+ 1080 02d7 01       		.uleb128 0x1
+ 1081 02d8 50       		.byte	0x50
+ 1082 02d9 02       		.uleb128 0x2
+ 1083 02da 08       		.byte	0x8
+ 1084 02db 32       		.byte	0x32
+ 1085 02dc 07       		.uleb128 0x7
+ 1086 02dd 01       		.uleb128 0x1
+ 1087 02de 51       		.byte	0x51
+ 1088 02df 02       		.uleb128 0x2
+ 1089 02e0 08       		.byte	0x8
+ 1090 02e1 64       		.byte	0x64
+ 1091 02e2 00       		.byte	0
+ 1092 02e3 08       		.uleb128 0x8
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 25
 
 
- 887 0311 07       		.uleb128 0x7
- 888 0312 01       		.uleb128 0x1
- 889 0313 50       		.byte	0x50
- 890 0314 02       		.uleb128 0x2
- 891 0315 08       		.byte	0x8
- 892 0316 32       		.byte	0x32
- 893 0317 07       		.uleb128 0x7
- 894 0318 01       		.uleb128 0x1
- 895 0319 51       		.byte	0x51
- 896 031a 02       		.uleb128 0x2
- 897 031b 08       		.byte	0x8
- 898 031c 64       		.byte	0x64
- 899 031d 00       		.byte	0
- 900 031e 06       		.uleb128 0x6
- 901 031f 40000000 		.4byte	.LVL25
- 902 0323 E3050000 		.4byte	0x5e3
- 903 0327 3E030000 		.4byte	0x33e
- 904 032b 07       		.uleb128 0x7
- 905 032c 01       		.uleb128 0x1
- 906 032d 50       		.byte	0x50
- 907 032e 01       		.uleb128 0x1
- 908 032f 30       		.byte	0x30
- 909 0330 07       		.uleb128 0x7
- 910 0331 01       		.uleb128 0x1
- 911 0332 51       		.byte	0x51
- 912 0333 02       		.uleb128 0x2
- 913 0334 09       		.byte	0x9
- 914 0335 FF       		.byte	0xff
- 915 0336 07       		.uleb128 0x7
- 916 0337 01       		.uleb128 0x1
- 917 0338 52       		.byte	0x52
- 918 0339 03       		.uleb128 0x3
- 919 033a 0A       		.byte	0xa
- 920 033b 4001     		.2byte	0x140
- 921 033d 00       		.byte	0
- 922 033e 08       		.uleb128 0x8
- 923 033f 44000000 		.4byte	.LVL26
- 924 0343 26060000 		.4byte	0x626
- 925 0347 08       		.uleb128 0x8
- 926 0348 50000000 		.4byte	.LVL28
- 927 034c EE050000 		.4byte	0x5ee
- 928 0350 00       		.byte	0
- 929 0351 02       		.uleb128 0x2
- 930 0352 01       		.byte	0x1
- 931 0353 02       		.byte	0x2
- 932 0354 AC020000 		.4byte	.LASF22
- 933 0358 0A       		.uleb128 0xa
- 934 0359 00000000 		.4byte	.LASF24
- 935 035d 01       		.byte	0x1
- 936 035e 96       		.byte	0x96
- 937 035f 00000000 		.4byte	.LFB88
- 938 0363 18000000 		.4byte	.LFE88-.LFB88
- 939 0367 01       		.uleb128 0x1
- 940 0368 9C       		.byte	0x9c
- 941 0369 A8030000 		.4byte	0x3a8
- 942 036d 0D       		.uleb128 0xd
- 943 036e 1E000000 		.4byte	.LASF25
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 21
+ 1093 02e4 20000000 		.4byte	.LVL21
+ 1094 02e8 88080000 		.4byte	0x888
+ 1095 02ec 06       		.uleb128 0x6
+ 1096 02ed 2C000000 		.4byte	.LVL23
+ 1097 02f1 50080000 		.4byte	0x850
+ 1098 02f5 04030000 		.4byte	0x304
+ 1099 02f9 07       		.uleb128 0x7
+ 1100 02fa 01       		.uleb128 0x1
+ 1101 02fb 50       		.byte	0x50
+ 1102 02fc 01       		.uleb128 0x1
+ 1103 02fd 30       		.byte	0x30
+ 1104 02fe 07       		.uleb128 0x7
+ 1105 02ff 01       		.uleb128 0x1
+ 1106 0300 51       		.byte	0x51
+ 1107 0301 01       		.uleb128 0x1
+ 1108 0302 30       		.byte	0x30
+ 1109 0303 00       		.byte	0
+ 1110 0304 06       		.uleb128 0x6
+ 1111 0305 34000000 		.4byte	.LVL24
+ 1112 0309 93080000 		.4byte	0x893
+ 1113 030d 1E030000 		.4byte	0x31e
+ 1114 0311 07       		.uleb128 0x7
+ 1115 0312 01       		.uleb128 0x1
+ 1116 0313 50       		.byte	0x50
+ 1117 0314 02       		.uleb128 0x2
+ 1118 0315 08       		.byte	0x8
+ 1119 0316 32       		.byte	0x32
+ 1120 0317 07       		.uleb128 0x7
+ 1121 0318 01       		.uleb128 0x1
+ 1122 0319 51       		.byte	0x51
+ 1123 031a 02       		.uleb128 0x2
+ 1124 031b 08       		.byte	0x8
+ 1125 031c 64       		.byte	0x64
+ 1126 031d 00       		.byte	0
+ 1127 031e 06       		.uleb128 0x6
+ 1128 031f 40000000 		.4byte	.LVL25
+ 1129 0323 5B080000 		.4byte	0x85b
+ 1130 0327 3E030000 		.4byte	0x33e
+ 1131 032b 07       		.uleb128 0x7
+ 1132 032c 01       		.uleb128 0x1
+ 1133 032d 50       		.byte	0x50
+ 1134 032e 01       		.uleb128 0x1
+ 1135 032f 30       		.byte	0x30
+ 1136 0330 07       		.uleb128 0x7
+ 1137 0331 01       		.uleb128 0x1
+ 1138 0332 51       		.byte	0x51
+ 1139 0333 02       		.uleb128 0x2
+ 1140 0334 09       		.byte	0x9
+ 1141 0335 FF       		.byte	0xff
+ 1142 0336 07       		.uleb128 0x7
+ 1143 0337 01       		.uleb128 0x1
+ 1144 0338 52       		.byte	0x52
+ 1145 0339 03       		.uleb128 0x3
+ 1146 033a 0A       		.byte	0xa
+ 1147 033b 4001     		.2byte	0x140
+ 1148 033d 00       		.byte	0
+ 1149 033e 08       		.uleb128 0x8
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 26
 
 
- 944 0372 01       		.byte	0x1
- 945 0373 96       		.byte	0x96
- 946 0374 8C000000 		.4byte	0x8c
- 947 0378 32000000 		.4byte	.LLST2
- 948 037c 0D       		.uleb128 0xd
- 949 037d B8000000 		.4byte	.LASF26
- 950 0381 01       		.byte	0x1
- 951 0382 96       		.byte	0x96
- 952 0383 A2000000 		.4byte	0xa2
- 953 0387 53000000 		.4byte	.LLST3
- 954 038b 09       		.uleb128 0x9
- 955 038c 12000000 		.4byte	.LVL33
- 956 0390 31060000 		.4byte	0x631
- 957 0394 07       		.uleb128 0x7
- 958 0395 01       		.uleb128 0x1
- 959 0396 50       		.byte	0x50
- 960 0397 01       		.uleb128 0x1
- 961 0398 30       		.byte	0x30
- 962 0399 07       		.uleb128 0x7
- 963 039a 01       		.uleb128 0x1
- 964 039b 51       		.byte	0x51
- 965 039c 01       		.uleb128 0x1
- 966 039d 31       		.byte	0x31
- 967 039e 07       		.uleb128 0x7
- 968 039f 02       		.uleb128 0x2
- 969 03a0 7D       		.byte	0x7d
- 970 03a1 00       		.sleb128 0
- 971 03a2 03       		.uleb128 0x3
- 972 03a3 F3       		.byte	0xf3
- 973 03a4 01       		.uleb128 0x1
- 974 03a5 51       		.byte	0x51
- 975 03a6 00       		.byte	0
- 976 03a7 00       		.byte	0
- 977 03a8 0A       		.uleb128 0xa
- 978 03a9 05020000 		.4byte	.LASF27
- 979 03ad 01       		.byte	0x1
- 980 03ae 9A       		.byte	0x9a
- 981 03af 00000000 		.4byte	.LFB89
- 982 03b3 18000000 		.4byte	.LFE89-.LFB89
- 983 03b7 01       		.uleb128 0x1
- 984 03b8 9C       		.byte	0x9c
- 985 03b9 F8030000 		.4byte	0x3f8
- 986 03bd 0D       		.uleb128 0xd
- 987 03be 1E000000 		.4byte	.LASF25
- 988 03c2 01       		.byte	0x1
- 989 03c3 9A       		.byte	0x9a
- 990 03c4 8C000000 		.4byte	0x8c
- 991 03c8 80000000 		.4byte	.LLST4
- 992 03cc 0D       		.uleb128 0xd
- 993 03cd B8000000 		.4byte	.LASF26
- 994 03d1 01       		.byte	0x1
- 995 03d2 9A       		.byte	0x9a
- 996 03d3 A2000000 		.4byte	0xa2
- 997 03d7 A1000000 		.4byte	.LLST5
- 998 03db 09       		.uleb128 0x9
- 999 03dc 12000000 		.4byte	.LVL37
- 1000 03e0 31060000 		.4byte	0x631
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 22
+ 1150 033f 44000000 		.4byte	.LVL26
+ 1151 0343 9E080000 		.4byte	0x89e
+ 1152 0347 08       		.uleb128 0x8
+ 1153 0348 50000000 		.4byte	.LVL28
+ 1154 034c 66080000 		.4byte	0x866
+ 1155 0350 00       		.byte	0
+ 1156 0351 02       		.uleb128 0x2
+ 1157 0352 01       		.byte	0x1
+ 1158 0353 02       		.byte	0x2
+ 1159 0354 05030000 		.4byte	.LASF22
+ 1160 0358 0A       		.uleb128 0xa
+ 1161 0359 59010000 		.4byte	.LASF24
+ 1162 035d 01       		.byte	0x1
+ 1163 035e 90       		.byte	0x90
+ 1164 035f 00000000 		.4byte	.LFB88
+ 1165 0363 58000000 		.4byte	.LFE88-.LFB88
+ 1166 0367 01       		.uleb128 0x1
+ 1167 0368 9C       		.byte	0x9c
+ 1168 0369 39040000 		.4byte	0x439
+ 1169 036d 0B       		.uleb128 0xb
+ 1170 036e C6010000 		.4byte	.LASF25
+ 1171 0372 01       		.byte	0x1
+ 1172 0373 91       		.byte	0x91
+ 1173 0374 51030000 		.4byte	0x351
+ 1174 0378 32000000 		.4byte	.LLST2
+ 1175 037c 06       		.uleb128 0x6
+ 1176 037d 08000000 		.4byte	.LVL31
+ 1177 0381 36080000 		.4byte	0x836
+ 1178 0385 93030000 		.4byte	0x393
+ 1179 0389 07       		.uleb128 0x7
+ 1180 038a 01       		.uleb128 0x1
+ 1181 038b 50       		.byte	0x50
+ 1182 038c 05       		.uleb128 0x5
+ 1183 038d 03       		.byte	0x3
+ 1184 038e 00000000 		.4byte	.LC0
+ 1185 0392 00       		.byte	0
+ 1186 0393 08       		.uleb128 0x8
+ 1187 0394 0C000000 		.4byte	.LVL32
+ 1188 0398 45080000 		.4byte	0x845
+ 1189 039c 08       		.uleb128 0x8
+ 1190 039d 10000000 		.4byte	.LVL33
+ 1191 03a1 A9080000 		.4byte	0x8a9
+ 1192 03a5 06       		.uleb128 0x6
+ 1193 03a6 1A000000 		.4byte	.LVL35
+ 1194 03aa 71080000 		.4byte	0x871
+ 1195 03ae B9030000 		.4byte	0x3b9
+ 1196 03b2 07       		.uleb128 0x7
+ 1197 03b3 01       		.uleb128 0x1
+ 1198 03b4 50       		.byte	0x50
+ 1199 03b5 02       		.uleb128 0x2
+ 1200 03b6 08       		.byte	0x8
+ 1201 03b7 64       		.byte	0x64
+ 1202 03b8 00       		.byte	0
+ 1203 03b9 08       		.uleb128 0x8
+ 1204 03ba 1E000000 		.4byte	.LVL36
+ 1205 03be 9E080000 		.4byte	0x89e
+ 1206 03c2 06       		.uleb128 0x6
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 27
 
 
- 1001 03e4 07       		.uleb128 0x7
- 1002 03e5 01       		.uleb128 0x1
- 1003 03e6 50       		.byte	0x50
- 1004 03e7 01       		.uleb128 0x1
- 1005 03e8 31       		.byte	0x31
- 1006 03e9 07       		.uleb128 0x7
- 1007 03ea 01       		.uleb128 0x1
- 1008 03eb 51       		.byte	0x51
- 1009 03ec 01       		.uleb128 0x1
- 1010 03ed 30       		.byte	0x30
- 1011 03ee 07       		.uleb128 0x7
- 1012 03ef 02       		.uleb128 0x2
- 1013 03f0 7D       		.byte	0x7d
- 1014 03f1 00       		.sleb128 0
- 1015 03f2 03       		.uleb128 0x3
- 1016 03f3 F3       		.byte	0xf3
- 1017 03f4 01       		.uleb128 0x1
- 1018 03f5 51       		.byte	0x51
- 1019 03f6 00       		.byte	0
- 1020 03f7 00       		.byte	0
- 1021 03f8 0A       		.uleb128 0xa
- 1022 03f9 70010000 		.4byte	.LASF28
- 1023 03fd 01       		.byte	0x1
- 1024 03fe 61       		.byte	0x61
- 1025 03ff 00000000 		.4byte	.LFB87
- 1026 0403 C4000000 		.4byte	.LFE87-.LFB87
- 1027 0407 01       		.uleb128 0x1
- 1028 0408 9C       		.byte	0x9c
- 1029 0409 AD050000 		.4byte	0x5ad
- 1030 040d 0B       		.uleb128 0xb
- 1031 040e 93000000 		.4byte	.LASF20
- 1032 0412 01       		.byte	0x1
- 1033 0413 62       		.byte	0x62
- 1034 0414 7E000000 		.4byte	0x7e
- 1035 0418 CE000000 		.4byte	.LLST6
- 1036 041c 0C       		.uleb128 0xc
- 1037 041d 6D794400 		.ascii	"myD\000"
- 1038 0421 01       		.byte	0x1
- 1039 0422 63       		.byte	0x63
- 1040 0423 7E000000 		.4byte	0x7e
- 1041 0427 0A       		.byte	0xa
- 1042 0428 0E       		.uleb128 0xe
- 1043 0429 B8000000 		.4byte	.LASF26
- 1044 042d 01       		.byte	0x1
- 1045 042e 64       		.byte	0x64
- 1046 042f 7E000000 		.4byte	0x7e
- 1047 0433 2201     		.2byte	0x122
- 1048 0435 0B       		.uleb128 0xb
- 1049 0436 88000000 		.4byte	.LASF29
- 1050 043a 01       		.byte	0x1
- 1051 043b 65       		.byte	0x65
- 1052 043c 7E000000 		.4byte	0x7e
- 1053 0440 E1000000 		.4byte	.LLST7
- 1054 0444 0B       		.uleb128 0xb
- 1055 0445 62000000 		.4byte	.LASF21
- 1056 0449 01       		.byte	0x1
- 1057 044a 66       		.byte	0x66
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 23
+ 1207 03c3 28000000 		.4byte	.LVL38
+ 1208 03c7 50080000 		.4byte	0x850
+ 1209 03cb DC030000 		.4byte	0x3dc
+ 1210 03cf 07       		.uleb128 0x7
+ 1211 03d0 01       		.uleb128 0x1
+ 1212 03d1 50       		.byte	0x50
+ 1213 03d2 02       		.uleb128 0x2
+ 1214 03d3 08       		.byte	0x8
+ 1215 03d4 64       		.byte	0x64
+ 1216 03d5 07       		.uleb128 0x7
+ 1217 03d6 01       		.uleb128 0x1
+ 1218 03d7 51       		.byte	0x51
+ 1219 03d8 02       		.uleb128 0x2
+ 1220 03d9 08       		.byte	0x8
+ 1221 03da C8       		.byte	0xc8
+ 1222 03db 00       		.byte	0
+ 1223 03dc 06       		.uleb128 0x6
+ 1224 03dd 36000000 		.4byte	.LVL40
+ 1225 03e1 50080000 		.4byte	0x850
+ 1226 03e5 F4030000 		.4byte	0x3f4
+ 1227 03e9 07       		.uleb128 0x7
+ 1228 03ea 01       		.uleb128 0x1
+ 1229 03eb 50       		.byte	0x50
+ 1230 03ec 01       		.uleb128 0x1
+ 1231 03ed 30       		.byte	0x30
+ 1232 03ee 07       		.uleb128 0x7
+ 1233 03ef 01       		.uleb128 0x1
+ 1234 03f0 51       		.byte	0x51
+ 1235 03f1 01       		.uleb128 0x1
+ 1236 03f2 30       		.byte	0x30
+ 1237 03f3 00       		.byte	0
+ 1238 03f4 08       		.uleb128 0x8
+ 1239 03f5 3A000000 		.4byte	.LVL41
+ 1240 03f9 B4080000 		.4byte	0x8b4
+ 1241 03fd 06       		.uleb128 0x6
+ 1242 03fe 44000000 		.4byte	.LVL42
+ 1243 0402 50080000 		.4byte	0x850
+ 1244 0406 18040000 		.4byte	0x418
+ 1245 040a 07       		.uleb128 0x7
+ 1246 040b 01       		.uleb128 0x1
+ 1247 040c 50       		.byte	0x50
+ 1248 040d 02       		.uleb128 0x2
+ 1249 040e 08       		.byte	0x8
+ 1250 040f 7A       		.byte	0x7a
+ 1251 0410 07       		.uleb128 0x7
+ 1252 0411 01       		.uleb128 0x1
+ 1253 0412 51       		.byte	0x51
+ 1254 0413 03       		.uleb128 0x3
+ 1255 0414 0A       		.byte	0xa
+ 1256 0415 E803     		.2byte	0x3e8
+ 1257 0417 00       		.byte	0
+ 1258 0418 06       		.uleb128 0x6
+ 1259 0419 4A000000 		.4byte	.LVL43
+ 1260 041d 36080000 		.4byte	0x836
+ 1261 0421 2F040000 		.4byte	0x42f
+ 1262 0425 07       		.uleb128 0x7
+ 1263 0426 01       		.uleb128 0x1
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 28
 
 
- 1058 044b 51030000 		.4byte	0x351
- 1059 044f F4000000 		.4byte	.LLST8
- 1060 0453 0B       		.uleb128 0xb
- 1061 0454 7E000000 		.4byte	.LASF30
- 1062 0458 01       		.byte	0x1
- 1063 0459 67       		.byte	0x67
- 1064 045a 51030000 		.4byte	0x351
- 1065 045e 13010000 		.4byte	.LLST9
- 1066 0462 06       		.uleb128 0x6
- 1067 0463 08000000 		.4byte	.LVL39
- 1068 0467 BE050000 		.4byte	0x5be
- 1069 046b 79040000 		.4byte	0x479
- 1070 046f 07       		.uleb128 0x7
- 1071 0470 01       		.uleb128 0x1
- 1072 0471 50       		.byte	0x50
- 1073 0472 05       		.uleb128 0x5
- 1074 0473 03       		.byte	0x3
- 1075 0474 20000000 		.4byte	.LC2
- 1076 0478 00       		.byte	0
- 1077 0479 08       		.uleb128 0x8
- 1078 047a 0C000000 		.4byte	.LVL40
- 1079 047e 05060000 		.4byte	0x605
- 1080 0482 08       		.uleb128 0x8
- 1081 0483 10000000 		.4byte	.LVL41
- 1082 0487 CD050000 		.4byte	0x5cd
- 1083 048b 06       		.uleb128 0x6
- 1084 048c 1C000000 		.4byte	.LVL43
- 1085 0490 D8050000 		.4byte	0x5d8
- 1086 0494 A5040000 		.4byte	0x4a5
- 1087 0498 07       		.uleb128 0x7
- 1088 0499 01       		.uleb128 0x1
- 1089 049a 50       		.byte	0x50
- 1090 049b 02       		.uleb128 0x2
- 1091 049c 08       		.byte	0x8
- 1092 049d 32       		.byte	0x32
- 1093 049e 07       		.uleb128 0x7
- 1094 049f 01       		.uleb128 0x1
- 1095 04a0 51       		.byte	0x51
- 1096 04a1 02       		.uleb128 0x2
- 1097 04a2 08       		.byte	0x8
- 1098 04a3 64       		.byte	0x64
- 1099 04a4 00       		.byte	0
- 1100 04a5 08       		.uleb128 0x8
- 1101 04a6 20000000 		.4byte	.LVL44
- 1102 04aa 10060000 		.4byte	0x610
- 1103 04ae 06       		.uleb128 0x6
- 1104 04af 2C000000 		.4byte	.LVL46
- 1105 04b3 D8050000 		.4byte	0x5d8
- 1106 04b7 C6040000 		.4byte	0x4c6
- 1107 04bb 07       		.uleb128 0x7
- 1108 04bc 01       		.uleb128 0x1
- 1109 04bd 50       		.byte	0x50
- 1110 04be 01       		.uleb128 0x1
- 1111 04bf 30       		.byte	0x30
- 1112 04c0 07       		.uleb128 0x7
- 1113 04c1 01       		.uleb128 0x1
- 1114 04c2 51       		.byte	0x51
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 24
+ 1264 0427 50       		.byte	0x50
+ 1265 0428 05       		.uleb128 0x5
+ 1266 0429 03       		.byte	0x3
+ 1267 042a 20000000 		.4byte	.LC2
+ 1268 042e 00       		.byte	0
+ 1269 042f 08       		.uleb128 0x8
+ 1270 0430 4E000000 		.4byte	.LVL44
+ 1271 0434 66080000 		.4byte	0x866
+ 1272 0438 00       		.byte	0
+ 1273 0439 0A       		.uleb128 0xa
+ 1274 043a 64010000 		.4byte	.LASF26
+ 1275 043e 01       		.byte	0x1
+ 1276 043f AB       		.byte	0xab
+ 1277 0440 00000000 		.4byte	.LFB89
+ 1278 0444 84000000 		.4byte	.LFE89-.LFB89
+ 1279 0448 01       		.uleb128 0x1
+ 1280 0449 9C       		.byte	0x9c
+ 1281 044a 91050000 		.4byte	0x591
+ 1282 044e 0B       		.uleb128 0xb
+ 1283 044f C6010000 		.4byte	.LASF25
+ 1284 0453 01       		.byte	0x1
+ 1285 0454 AC       		.byte	0xac
+ 1286 0455 51030000 		.4byte	0x351
+ 1287 0459 68000000 		.4byte	.LLST3
+ 1288 045d 06       		.uleb128 0x6
+ 1289 045e 08000000 		.4byte	.LVL47
+ 1290 0462 36080000 		.4byte	0x836
+ 1291 0466 74040000 		.4byte	0x474
+ 1292 046a 07       		.uleb128 0x7
+ 1293 046b 01       		.uleb128 0x1
+ 1294 046c 50       		.byte	0x50
+ 1295 046d 05       		.uleb128 0x5
+ 1296 046e 03       		.byte	0x3
+ 1297 046f 10000000 		.4byte	.LC1
+ 1298 0473 00       		.byte	0
+ 1299 0474 08       		.uleb128 0x8
+ 1300 0475 0C000000 		.4byte	.LVL48
+ 1301 0479 45080000 		.4byte	0x845
+ 1302 047d 08       		.uleb128 0x8
+ 1303 047e 10000000 		.4byte	.LVL49
+ 1304 0482 A9080000 		.4byte	0x8a9
+ 1305 0486 06       		.uleb128 0x6
+ 1306 0487 1A000000 		.4byte	.LVL51
+ 1307 048b 71080000 		.4byte	0x871
+ 1308 048f 9A040000 		.4byte	0x49a
+ 1309 0493 07       		.uleb128 0x7
+ 1310 0494 01       		.uleb128 0x1
+ 1311 0495 50       		.byte	0x50
+ 1312 0496 02       		.uleb128 0x2
+ 1313 0497 08       		.byte	0x8
+ 1314 0498 64       		.byte	0x64
+ 1315 0499 00       		.byte	0
+ 1316 049a 08       		.uleb128 0x8
+ 1317 049b 1E000000 		.4byte	.LVL52
+ 1318 049f 9E080000 		.4byte	0x89e
+ 1319 04a3 06       		.uleb128 0x6
+ 1320 04a4 28000000 		.4byte	.LVL54
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 29
 
 
- 1115 04c3 01       		.uleb128 0x1
- 1116 04c4 30       		.byte	0x30
- 1117 04c5 00       		.byte	0
- 1118 04c6 06       		.uleb128 0x6
- 1119 04c7 34000000 		.4byte	.LVL47
- 1120 04cb 1B060000 		.4byte	0x61b
- 1121 04cf E0040000 		.4byte	0x4e0
- 1122 04d3 07       		.uleb128 0x7
- 1123 04d4 01       		.uleb128 0x1
- 1124 04d5 50       		.byte	0x50
- 1125 04d6 02       		.uleb128 0x2
- 1126 04d7 08       		.byte	0x8
- 1127 04d8 32       		.byte	0x32
- 1128 04d9 07       		.uleb128 0x7
- 1129 04da 01       		.uleb128 0x1
- 1130 04db 51       		.byte	0x51
- 1131 04dc 02       		.uleb128 0x2
- 1132 04dd 08       		.byte	0x8
- 1133 04de 64       		.byte	0x64
- 1134 04df 00       		.byte	0
- 1135 04e0 08       		.uleb128 0x8
- 1136 04e1 38000000 		.4byte	.LVL48
- 1137 04e5 3C060000 		.4byte	0x63c
- 1138 04e9 08       		.uleb128 0x8
- 1139 04ea 4A000000 		.4byte	.LVL50
- 1140 04ee 3C060000 		.4byte	0x63c
- 1141 04f2 06       		.uleb128 0x6
- 1142 04f3 68000000 		.4byte	.LVL52
- 1143 04f7 47060000 		.4byte	0x647
- 1144 04fb 10050000 		.4byte	0x510
- 1145 04ff 07       		.uleb128 0x7
- 1146 0500 01       		.uleb128 0x1
- 1147 0501 50       		.byte	0x50
- 1148 0502 05       		.uleb128 0x5
- 1149 0503 03       		.byte	0x3
- 1150 0504 30000000 		.4byte	.LC3
- 1151 0508 07       		.uleb128 0x7
- 1152 0509 01       		.uleb128 0x1
- 1153 050a 51       		.byte	0x51
- 1154 050b 03       		.uleb128 0x3
- 1155 050c 74       		.byte	0x74
- 1156 050d DA00     		.sleb128 90
- 1157 050f 00       		.byte	0
- 1158 0510 06       		.uleb128 0x6
- 1159 0511 72000000 		.4byte	.LVL53
- 1160 0515 58030000 		.4byte	0x358
- 1161 0519 2B050000 		.4byte	0x52b
- 1162 051d 07       		.uleb128 0x7
- 1163 051e 01       		.uleb128 0x1
- 1164 051f 50       		.byte	0x50
- 1165 0520 02       		.uleb128 0x2
- 1166 0521 08       		.byte	0x8
- 1167 0522 5A       		.byte	0x5a
- 1168 0523 07       		.uleb128 0x7
- 1169 0524 01       		.uleb128 0x1
- 1170 0525 51       		.byte	0x51
- 1171 0526 03       		.uleb128 0x3
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 25
+ 1321 04a8 50080000 		.4byte	0x850
+ 1322 04ac BD040000 		.4byte	0x4bd
+ 1323 04b0 07       		.uleb128 0x7
+ 1324 04b1 01       		.uleb128 0x1
+ 1325 04b2 50       		.byte	0x50
+ 1326 04b3 02       		.uleb128 0x2
+ 1327 04b4 08       		.byte	0x8
+ 1328 04b5 64       		.byte	0x64
+ 1329 04b6 07       		.uleb128 0x7
+ 1330 04b7 01       		.uleb128 0x1
+ 1331 04b8 51       		.byte	0x51
+ 1332 04b9 02       		.uleb128 0x2
+ 1333 04ba 08       		.byte	0x8
+ 1334 04bb B4       		.byte	0xb4
+ 1335 04bc 00       		.byte	0
+ 1336 04bd 06       		.uleb128 0x6
+ 1337 04be 36000000 		.4byte	.LVL56
+ 1338 04c2 50080000 		.4byte	0x850
+ 1339 04c6 D5040000 		.4byte	0x4d5
+ 1340 04ca 07       		.uleb128 0x7
+ 1341 04cb 01       		.uleb128 0x1
+ 1342 04cc 50       		.byte	0x50
+ 1343 04cd 01       		.uleb128 0x1
+ 1344 04ce 30       		.byte	0x30
+ 1345 04cf 07       		.uleb128 0x7
+ 1346 04d0 01       		.uleb128 0x1
+ 1347 04d1 51       		.byte	0x51
+ 1348 04d2 01       		.uleb128 0x1
+ 1349 04d3 30       		.byte	0x30
+ 1350 04d4 00       		.byte	0
+ 1351 04d5 08       		.uleb128 0x8
+ 1352 04d6 3A000000 		.4byte	.LVL57
+ 1353 04da B4080000 		.4byte	0x8b4
+ 1354 04de 06       		.uleb128 0x6
+ 1355 04df 44000000 		.4byte	.LVL58
+ 1356 04e3 50080000 		.4byte	0x850
+ 1357 04e7 F9040000 		.4byte	0x4f9
+ 1358 04eb 07       		.uleb128 0x7
+ 1359 04ec 01       		.uleb128 0x1
+ 1360 04ed 50       		.byte	0x50
+ 1361 04ee 02       		.uleb128 0x2
+ 1362 04ef 08       		.byte	0x8
+ 1363 04f0 64       		.byte	0x64
+ 1364 04f1 07       		.uleb128 0x7
+ 1365 04f2 01       		.uleb128 0x1
+ 1366 04f3 51       		.byte	0x51
+ 1367 04f4 03       		.uleb128 0x3
+ 1368 04f5 0A       		.byte	0xa
+ 1369 04f6 1801     		.2byte	0x118
+ 1370 04f8 00       		.byte	0
+ 1371 04f9 06       		.uleb128 0x6
+ 1372 04fa 50000000 		.4byte	.LVL59
+ 1373 04fe 5B080000 		.4byte	0x85b
+ 1374 0502 1A050000 		.4byte	0x51a
+ 1375 0506 07       		.uleb128 0x7
+ 1376 0507 01       		.uleb128 0x1
+ 1377 0508 50       		.byte	0x50
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 30
 
 
- 1172 0527 0A       		.byte	0xa
- 1173 0528 2201     		.2byte	0x122
- 1174 052a 00       		.byte	0
- 1175 052b 06       		.uleb128 0x6
- 1176 052c 7C000000 		.4byte	.LVL54
- 1177 0530 58030000 		.4byte	0x358
- 1178 0534 46050000 		.4byte	0x546
- 1179 0538 07       		.uleb128 0x7
- 1180 0539 01       		.uleb128 0x1
- 1181 053a 50       		.byte	0x50
- 1182 053b 02       		.uleb128 0x2
- 1183 053c 74       		.byte	0x74
- 1184 053d 00       		.sleb128 0
- 1185 053e 07       		.uleb128 0x7
- 1186 053f 01       		.uleb128 0x1
- 1187 0540 51       		.byte	0x51
- 1188 0541 03       		.uleb128 0x3
- 1189 0542 0A       		.byte	0xa
- 1190 0543 2201     		.2byte	0x122
- 1191 0545 00       		.byte	0
- 1192 0546 06       		.uleb128 0x6
- 1193 0547 88000000 		.4byte	.LVL55
- 1194 054b 47060000 		.4byte	0x647
- 1195 054f 64050000 		.4byte	0x564
- 1196 0553 07       		.uleb128 0x7
- 1197 0554 01       		.uleb128 0x1
- 1198 0555 50       		.byte	0x50
- 1199 0556 05       		.uleb128 0x5
- 1200 0557 03       		.byte	0x3
- 1201 0558 40000000 		.4byte	.LC4
- 1202 055c 07       		.uleb128 0x7
- 1203 055d 01       		.uleb128 0x1
- 1204 055e 51       		.byte	0x51
- 1205 055f 03       		.uleb128 0x3
- 1206 0560 74       		.byte	0x74
- 1207 0561 DA00     		.sleb128 90
- 1208 0563 00       		.byte	0
- 1209 0564 06       		.uleb128 0x6
- 1210 0565 92000000 		.4byte	.LVL56
- 1211 0569 A8030000 		.4byte	0x3a8
- 1212 056d 7F050000 		.4byte	0x57f
- 1213 0571 07       		.uleb128 0x7
- 1214 0572 01       		.uleb128 0x1
- 1215 0573 50       		.byte	0x50
- 1216 0574 02       		.uleb128 0x2
- 1217 0575 08       		.byte	0x8
- 1218 0576 5A       		.byte	0x5a
- 1219 0577 07       		.uleb128 0x7
- 1220 0578 01       		.uleb128 0x1
- 1221 0579 51       		.byte	0x51
- 1222 057a 03       		.uleb128 0x3
- 1223 057b 0A       		.byte	0xa
- 1224 057c 2201     		.2byte	0x122
- 1225 057e 00       		.byte	0
- 1226 057f 06       		.uleb128 0x6
- 1227 0580 9C000000 		.4byte	.LVL57
- 1228 0584 A8030000 		.4byte	0x3a8
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 26
+ 1378 0509 02       		.uleb128 0x2
+ 1379 050a 08       		.byte	0x8
+ 1380 050b 5C       		.byte	0x5c
+ 1381 050c 07       		.uleb128 0x7
+ 1382 050d 01       		.uleb128 0x1
+ 1383 050e 51       		.byte	0x51
+ 1384 050f 02       		.uleb128 0x2
+ 1385 0510 08       		.byte	0x8
+ 1386 0511 28       		.byte	0x28
+ 1387 0512 07       		.uleb128 0x7
+ 1388 0513 01       		.uleb128 0x1
+ 1389 0514 52       		.byte	0x52
+ 1390 0515 03       		.uleb128 0x3
+ 1391 0516 0A       		.byte	0xa
+ 1392 0517 BC02     		.2byte	0x2bc
+ 1393 0519 00       		.byte	0
+ 1394 051a 06       		.uleb128 0x6
+ 1395 051b 58000000 		.4byte	.LVL60
+ 1396 051f 50080000 		.4byte	0x850
+ 1397 0523 34050000 		.4byte	0x534
+ 1398 0527 07       		.uleb128 0x7
+ 1399 0528 01       		.uleb128 0x1
+ 1400 0529 50       		.byte	0x50
+ 1401 052a 02       		.uleb128 0x2
+ 1402 052b 08       		.byte	0x8
+ 1403 052c 64       		.byte	0x64
+ 1404 052d 07       		.uleb128 0x7
+ 1405 052e 01       		.uleb128 0x1
+ 1406 052f 51       		.byte	0x51
+ 1407 0530 02       		.uleb128 0x2
+ 1408 0531 08       		.byte	0x8
+ 1409 0532 F5       		.byte	0xf5
+ 1410 0533 00       		.byte	0
+ 1411 0534 06       		.uleb128 0x6
+ 1412 0535 64000000 		.4byte	.LVL61
+ 1413 0539 5B080000 		.4byte	0x85b
+ 1414 053d 55050000 		.4byte	0x555
+ 1415 0541 07       		.uleb128 0x7
+ 1416 0542 01       		.uleb128 0x1
+ 1417 0543 50       		.byte	0x50
+ 1418 0544 02       		.uleb128 0x2
+ 1419 0545 08       		.byte	0x8
+ 1420 0546 24       		.byte	0x24
+ 1421 0547 07       		.uleb128 0x7
+ 1422 0548 01       		.uleb128 0x1
+ 1423 0549 51       		.byte	0x51
+ 1424 054a 02       		.uleb128 0x2
+ 1425 054b 08       		.byte	0x8
+ 1426 054c 64       		.byte	0x64
+ 1427 054d 07       		.uleb128 0x7
+ 1428 054e 01       		.uleb128 0x1
+ 1429 054f 52       		.byte	0x52
+ 1430 0550 03       		.uleb128 0x3
+ 1431 0551 0A       		.byte	0xa
+ 1432 0552 6405     		.2byte	0x564
+ 1433 0554 00       		.byte	0
+ 1434 0555 06       		.uleb128 0x6
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 31
 
 
- 1229 0588 9A050000 		.4byte	0x59a
- 1230 058c 07       		.uleb128 0x7
- 1231 058d 01       		.uleb128 0x1
- 1232 058e 50       		.byte	0x50
- 1233 058f 02       		.uleb128 0x2
- 1234 0590 74       		.byte	0x74
- 1235 0591 00       		.sleb128 0
- 1236 0592 07       		.uleb128 0x7
- 1237 0593 01       		.uleb128 0x1
- 1238 0594 51       		.byte	0x51
- 1239 0595 03       		.uleb128 0x3
- 1240 0596 0A       		.byte	0xa
- 1241 0597 2201     		.2byte	0x122
- 1242 0599 00       		.byte	0
- 1243 059a 08       		.uleb128 0x8
- 1244 059b A0000000 		.4byte	.LVL58
- 1245 059f 26060000 		.4byte	0x626
- 1246 05a3 08       		.uleb128 0x8
- 1247 05a4 AC000000 		.4byte	.LVL60
- 1248 05a8 EE050000 		.4byte	0x5ee
- 1249 05ac 00       		.byte	0
- 1250 05ad 0F       		.uleb128 0xf
- 1251 05ae A8010000 		.4byte	.LASF47
- 1252 05b2 0A       		.byte	0xa
- 1253 05b3 1207     		.2byte	0x712
- 1254 05b5 B9050000 		.4byte	0x5b9
- 1255 05b9 10       		.uleb128 0x10
- 1256 05ba 97000000 		.4byte	0x97
- 1257 05be 11       		.uleb128 0x11
- 1258 05bf 89020000 		.4byte	.LASF48
- 1259 05c3 A9000000 		.4byte	.LASF49
- 1260 05c7 0B       		.byte	0xb
- 1261 05c8 00       		.byte	0
- 1262 05c9 89020000 		.4byte	.LASF48
- 1263 05cd 12       		.uleb128 0x12
- 1264 05ce 41020000 		.4byte	.LASF31
- 1265 05d2 41020000 		.4byte	.LASF31
- 1266 05d6 04       		.byte	0x4
- 1267 05d7 0B       		.byte	0xb
- 1268 05d8 12       		.uleb128 0x12
- 1269 05d9 B5010000 		.4byte	.LASF32
- 1270 05dd B5010000 		.4byte	.LASF32
- 1271 05e1 04       		.byte	0x4
- 1272 05e2 0F       		.byte	0xf
- 1273 05e3 12       		.uleb128 0x12
- 1274 05e4 98000000 		.4byte	.LASF33
- 1275 05e8 98000000 		.4byte	.LASF33
- 1276 05ec 04       		.byte	0x4
- 1277 05ed 12       		.byte	0x12
- 1278 05ee 12       		.uleb128 0x12
- 1279 05ef D6010000 		.4byte	.LASF34
- 1280 05f3 D6010000 		.4byte	.LASF34
- 1281 05f7 04       		.byte	0x4
- 1282 05f8 0C       		.byte	0xc
- 1283 05f9 13       		.uleb128 0x13
- 1284 05fa 7E020000 		.4byte	.LASF35
- 1285 05fe 7E020000 		.4byte	.LASF35
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 27
+ 1435 0556 6E000000 		.4byte	.LVL62
+ 1436 055a 50080000 		.4byte	0x850
+ 1437 055e 70050000 		.4byte	0x570
+ 1438 0562 07       		.uleb128 0x7
+ 1439 0563 01       		.uleb128 0x1
+ 1440 0564 50       		.byte	0x50
+ 1441 0565 02       		.uleb128 0x2
+ 1442 0566 08       		.byte	0x8
+ 1443 0567 64       		.byte	0x64
+ 1444 0568 07       		.uleb128 0x7
+ 1445 0569 01       		.uleb128 0x1
+ 1446 056a 51       		.byte	0x51
+ 1447 056b 03       		.uleb128 0x3
+ 1448 056c 0A       		.byte	0xa
+ 1449 056d 2001     		.2byte	0x120
+ 1450 056f 00       		.byte	0
+ 1451 0570 06       		.uleb128 0x6
+ 1452 0571 74000000 		.4byte	.LVL63
+ 1453 0575 36080000 		.4byte	0x836
+ 1454 0579 87050000 		.4byte	0x587
+ 1455 057d 07       		.uleb128 0x7
+ 1456 057e 01       		.uleb128 0x1
+ 1457 057f 50       		.byte	0x50
+ 1458 0580 05       		.uleb128 0x5
+ 1459 0581 03       		.byte	0x3
+ 1460 0582 20000000 		.4byte	.LC2
+ 1461 0586 00       		.byte	0
+ 1462 0587 08       		.uleb128 0x8
+ 1463 0588 78000000 		.4byte	.LVL64
+ 1464 058c 66080000 		.4byte	0x866
+ 1465 0590 00       		.byte	0
+ 1466 0591 0A       		.uleb128 0xa
+ 1467 0592 6F010000 		.4byte	.LASF27
+ 1468 0596 01       		.byte	0x1
+ 1469 0597 CC       		.byte	0xcc
+ 1470 0598 00000000 		.4byte	.LFB90
+ 1471 059c 18000000 		.4byte	.LFE90-.LFB90
+ 1472 05a0 01       		.uleb128 0x1
+ 1473 05a1 9C       		.byte	0x9c
+ 1474 05a2 D0050000 		.4byte	0x5d0
+ 1475 05a6 06       		.uleb128 0x6
+ 1476 05a7 08000000 		.4byte	.LVL66
+ 1477 05ab 36080000 		.4byte	0x836
+ 1478 05af BD050000 		.4byte	0x5bd
+ 1479 05b3 07       		.uleb128 0x7
+ 1480 05b4 01       		.uleb128 0x1
+ 1481 05b5 50       		.byte	0x50
+ 1482 05b6 05       		.uleb128 0x5
+ 1483 05b7 03       		.byte	0x3
+ 1484 05b8 30000000 		.4byte	.LC3
+ 1485 05bc 00       		.byte	0
+ 1486 05bd 08       		.uleb128 0x8
+ 1487 05be 0C000000 		.4byte	.LVL67
+ 1488 05c2 45080000 		.4byte	0x845
+ 1489 05c6 08       		.uleb128 0x8
+ 1490 05c7 10000000 		.4byte	.LVL68
+ 1491 05cb 66080000 		.4byte	0x866
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 32
 
 
- 1286 0602 05       		.byte	0x5
- 1287 0603 ED02     		.2byte	0x2ed
- 1288 0605 12       		.uleb128 0x12
- 1289 0606 EC010000 		.4byte	.LASF36
- 1290 060a EC010000 		.4byte	.LASF36
- 1291 060e 06       		.byte	0x6
- 1292 060f 0A       		.byte	0xa
- 1293 0610 12       		.uleb128 0x12
- 1294 0611 9A020000 		.4byte	.LASF37
- 1295 0615 9A020000 		.4byte	.LASF37
- 1296 0619 06       		.byte	0x6
- 1297 061a 0D       		.byte	0xd
- 1298 061b 12       		.uleb128 0x12
- 1299 061c 67000000 		.4byte	.LASF38
- 1300 0620 67000000 		.4byte	.LASF38
- 1301 0624 04       		.byte	0x4
- 1302 0625 15       		.byte	0x15
- 1303 0626 12       		.uleb128 0x12
- 1304 0627 1D020000 		.4byte	.LASF39
- 1305 062b 1D020000 		.4byte	.LASF39
- 1306 062f 07       		.byte	0x7
- 1307 0630 29       		.byte	0x29
- 1308 0631 12       		.uleb128 0x12
- 1309 0632 26020000 		.4byte	.LASF40
- 1310 0636 26020000 		.4byte	.LASF40
- 1311 063a 04       		.byte	0x4
- 1312 063b 18       		.byte	0x18
- 1313 063c 12       		.uleb128 0x12
- 1314 063d C9020000 		.4byte	.LASF41
- 1315 0641 C9020000 		.4byte	.LASF41
- 1316 0645 08       		.byte	0x8
- 1317 0646 88       		.byte	0x88
- 1318 0647 12       		.uleb128 0x12
- 1319 0648 5B020000 		.4byte	.LASF42
- 1320 064c 5B020000 		.4byte	.LASF42
- 1321 0650 09       		.byte	0x9
- 1322 0651 BB       		.byte	0xbb
- 1323 0652 00       		.byte	0
- 1324              		.section	.debug_abbrev,"",%progbits
- 1325              	.Ldebug_abbrev0:
- 1326 0000 01       		.uleb128 0x1
- 1327 0001 11       		.uleb128 0x11
- 1328 0002 01       		.byte	0x1
- 1329 0003 25       		.uleb128 0x25
- 1330 0004 0E       		.uleb128 0xe
- 1331 0005 13       		.uleb128 0x13
- 1332 0006 0B       		.uleb128 0xb
- 1333 0007 03       		.uleb128 0x3
- 1334 0008 0E       		.uleb128 0xe
- 1335 0009 1B       		.uleb128 0x1b
- 1336 000a 0E       		.uleb128 0xe
- 1337 000b 55       		.uleb128 0x55
- 1338 000c 17       		.uleb128 0x17
- 1339 000d 11       		.uleb128 0x11
- 1340 000e 01       		.uleb128 0x1
- 1341 000f 10       		.uleb128 0x10
- 1342 0010 17       		.uleb128 0x17
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 28
+ 1492 05cf 00       		.byte	0
+ 1493 05d0 0A       		.uleb128 0xa
+ 1494 05d1 00000000 		.4byte	.LASF28
+ 1495 05d5 01       		.byte	0x1
+ 1496 05d6 DC       		.byte	0xdc
+ 1497 05d7 00000000 		.4byte	.LFB91
+ 1498 05db 18000000 		.4byte	.LFE91-.LFB91
+ 1499 05df 01       		.uleb128 0x1
+ 1500 05e0 9C       		.byte	0x9c
+ 1501 05e1 20060000 		.4byte	0x620
+ 1502 05e5 0D       		.uleb128 0xd
+ 1503 05e6 35000000 		.4byte	.LASF29
+ 1504 05ea 01       		.byte	0x1
+ 1505 05eb DC       		.byte	0xdc
+ 1506 05ec 8C000000 		.4byte	0x8c
+ 1507 05f0 9E000000 		.4byte	.LLST4
+ 1508 05f4 0D       		.uleb128 0xd
+ 1509 05f5 A5000000 		.4byte	.LASF30
+ 1510 05f9 01       		.byte	0x1
+ 1511 05fa DC       		.byte	0xdc
+ 1512 05fb A2000000 		.4byte	0xa2
+ 1513 05ff BF000000 		.4byte	.LLST5
+ 1514 0603 09       		.uleb128 0x9
+ 1515 0604 12000000 		.4byte	.LVL72
+ 1516 0608 BF080000 		.4byte	0x8bf
+ 1517 060c 07       		.uleb128 0x7
+ 1518 060d 01       		.uleb128 0x1
+ 1519 060e 50       		.byte	0x50
+ 1520 060f 01       		.uleb128 0x1
+ 1521 0610 30       		.byte	0x30
+ 1522 0611 07       		.uleb128 0x7
+ 1523 0612 01       		.uleb128 0x1
+ 1524 0613 51       		.byte	0x51
+ 1525 0614 01       		.uleb128 0x1
+ 1526 0615 31       		.byte	0x31
+ 1527 0616 07       		.uleb128 0x7
+ 1528 0617 02       		.uleb128 0x2
+ 1529 0618 7D       		.byte	0x7d
+ 1530 0619 00       		.sleb128 0
+ 1531 061a 03       		.uleb128 0x3
+ 1532 061b F3       		.byte	0xf3
+ 1533 061c 01       		.uleb128 0x1
+ 1534 061d 51       		.byte	0x51
+ 1535 061e 00       		.byte	0
+ 1536 061f 00       		.byte	0
+ 1537 0620 0A       		.uleb128 0xa
+ 1538 0621 8E020000 		.4byte	.LASF31
+ 1539 0625 01       		.byte	0x1
+ 1540 0626 E0       		.byte	0xe0
+ 1541 0627 00000000 		.4byte	.LFB92
+ 1542 062b 18000000 		.4byte	.LFE92-.LFB92
+ 1543 062f 01       		.uleb128 0x1
+ 1544 0630 9C       		.byte	0x9c
+ 1545 0631 70060000 		.4byte	0x670
+ 1546 0635 0D       		.uleb128 0xd
+ 1547 0636 35000000 		.4byte	.LASF29
+ 1548 063a 01       		.byte	0x1
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 33
 
 
- 1343 0011 00       		.byte	0
- 1344 0012 00       		.byte	0
- 1345 0013 02       		.uleb128 0x2
- 1346 0014 24       		.uleb128 0x24
- 1347 0015 00       		.byte	0
- 1348 0016 0B       		.uleb128 0xb
- 1349 0017 0B       		.uleb128 0xb
- 1350 0018 3E       		.uleb128 0x3e
- 1351 0019 0B       		.uleb128 0xb
- 1352 001a 03       		.uleb128 0x3
- 1353 001b 0E       		.uleb128 0xe
- 1354 001c 00       		.byte	0
- 1355 001d 00       		.byte	0
- 1356 001e 03       		.uleb128 0x3
- 1357 001f 16       		.uleb128 0x16
- 1358 0020 00       		.byte	0
- 1359 0021 03       		.uleb128 0x3
- 1360 0022 0E       		.uleb128 0xe
- 1361 0023 3A       		.uleb128 0x3a
- 1362 0024 0B       		.uleb128 0xb
- 1363 0025 3B       		.uleb128 0x3b
- 1364 0026 0B       		.uleb128 0xb
- 1365 0027 49       		.uleb128 0x49
- 1366 0028 13       		.uleb128 0x13
- 1367 0029 00       		.byte	0
- 1368 002a 00       		.byte	0
- 1369 002b 04       		.uleb128 0x4
- 1370 002c 24       		.uleb128 0x24
- 1371 002d 00       		.byte	0
- 1372 002e 0B       		.uleb128 0xb
- 1373 002f 0B       		.uleb128 0xb
- 1374 0030 3E       		.uleb128 0x3e
- 1375 0031 0B       		.uleb128 0xb
- 1376 0032 03       		.uleb128 0x3
- 1377 0033 08       		.uleb128 0x8
- 1378 0034 00       		.byte	0
- 1379 0035 00       		.byte	0
- 1380 0036 05       		.uleb128 0x5
- 1381 0037 2E       		.uleb128 0x2e
- 1382 0038 01       		.byte	0x1
- 1383 0039 3F       		.uleb128 0x3f
- 1384 003a 19       		.uleb128 0x19
- 1385 003b 03       		.uleb128 0x3
- 1386 003c 0E       		.uleb128 0xe
- 1387 003d 3A       		.uleb128 0x3a
- 1388 003e 0B       		.uleb128 0xb
- 1389 003f 3B       		.uleb128 0x3b
- 1390 0040 0B       		.uleb128 0xb
- 1391 0041 27       		.uleb128 0x27
- 1392 0042 19       		.uleb128 0x19
- 1393 0043 8701     		.uleb128 0x87
- 1394 0045 19       		.uleb128 0x19
- 1395 0046 11       		.uleb128 0x11
- 1396 0047 01       		.uleb128 0x1
- 1397 0048 12       		.uleb128 0x12
- 1398 0049 06       		.uleb128 0x6
- 1399 004a 40       		.uleb128 0x40
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 29
+ 1549 063b E0       		.byte	0xe0
+ 1550 063c 8C000000 		.4byte	0x8c
+ 1551 0640 EC000000 		.4byte	.LLST6
+ 1552 0644 0D       		.uleb128 0xd
+ 1553 0645 A5000000 		.4byte	.LASF30
+ 1554 0649 01       		.byte	0x1
+ 1555 064a E0       		.byte	0xe0
+ 1556 064b A2000000 		.4byte	0xa2
+ 1557 064f 0D010000 		.4byte	.LLST7
+ 1558 0653 09       		.uleb128 0x9
+ 1559 0654 12000000 		.4byte	.LVL76
+ 1560 0658 BF080000 		.4byte	0x8bf
+ 1561 065c 07       		.uleb128 0x7
+ 1562 065d 01       		.uleb128 0x1
+ 1563 065e 50       		.byte	0x50
+ 1564 065f 01       		.uleb128 0x1
+ 1565 0660 31       		.byte	0x31
+ 1566 0661 07       		.uleb128 0x7
+ 1567 0662 01       		.uleb128 0x1
+ 1568 0663 51       		.byte	0x51
+ 1569 0664 01       		.uleb128 0x1
+ 1570 0665 30       		.byte	0x30
+ 1571 0666 07       		.uleb128 0x7
+ 1572 0667 02       		.uleb128 0x2
+ 1573 0668 7D       		.byte	0x7d
+ 1574 0669 00       		.sleb128 0
+ 1575 066a 03       		.uleb128 0x3
+ 1576 066b F3       		.byte	0xf3
+ 1577 066c 01       		.uleb128 0x1
+ 1578 066d 51       		.byte	0x51
+ 1579 066e 00       		.byte	0
+ 1580 066f 00       		.byte	0
+ 1581 0670 0A       		.uleb128 0xa
+ 1582 0671 2A000000 		.4byte	.LASF32
+ 1583 0675 01       		.byte	0x1
+ 1584 0676 61       		.byte	0x61
+ 1585 0677 00000000 		.4byte	.LFB87
+ 1586 067b C4000000 		.4byte	.LFE87-.LFB87
+ 1587 067f 01       		.uleb128 0x1
+ 1588 0680 9C       		.byte	0x9c
+ 1589 0681 25080000 		.4byte	0x825
+ 1590 0685 0B       		.uleb128 0xb
+ 1591 0686 80000000 		.4byte	.LASF20
+ 1592 068a 01       		.byte	0x1
+ 1593 068b 62       		.byte	0x62
+ 1594 068c 7E000000 		.4byte	0x7e
+ 1595 0690 3A010000 		.4byte	.LLST8
+ 1596 0694 0C       		.uleb128 0xc
+ 1597 0695 6D794400 		.ascii	"myD\000"
+ 1598 0699 01       		.byte	0x1
+ 1599 069a 63       		.byte	0x63
+ 1600 069b 7E000000 		.4byte	0x7e
+ 1601 069f 0A       		.byte	0xa
+ 1602 06a0 0E       		.uleb128 0xe
+ 1603 06a1 A5000000 		.4byte	.LASF30
+ 1604 06a5 01       		.byte	0x1
+ 1605 06a6 64       		.byte	0x64
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 34
 
 
- 1400 004b 18       		.uleb128 0x18
- 1401 004c 9742     		.uleb128 0x2117
- 1402 004e 19       		.uleb128 0x19
- 1403 004f 01       		.uleb128 0x1
- 1404 0050 13       		.uleb128 0x13
- 1405 0051 00       		.byte	0
- 1406 0052 00       		.byte	0
- 1407 0053 06       		.uleb128 0x6
- 1408 0054 898201   		.uleb128 0x4109
- 1409 0057 01       		.byte	0x1
- 1410 0058 11       		.uleb128 0x11
- 1411 0059 01       		.uleb128 0x1
- 1412 005a 31       		.uleb128 0x31
- 1413 005b 13       		.uleb128 0x13
- 1414 005c 01       		.uleb128 0x1
- 1415 005d 13       		.uleb128 0x13
- 1416 005e 00       		.byte	0
- 1417 005f 00       		.byte	0
- 1418 0060 07       		.uleb128 0x7
- 1419 0061 8A8201   		.uleb128 0x410a
- 1420 0064 00       		.byte	0
- 1421 0065 02       		.uleb128 0x2
- 1422 0066 18       		.uleb128 0x18
- 1423 0067 9142     		.uleb128 0x2111
- 1424 0069 18       		.uleb128 0x18
- 1425 006a 00       		.byte	0
- 1426 006b 00       		.byte	0
- 1427 006c 08       		.uleb128 0x8
- 1428 006d 898201   		.uleb128 0x4109
- 1429 0070 00       		.byte	0
- 1430 0071 11       		.uleb128 0x11
- 1431 0072 01       		.uleb128 0x1
- 1432 0073 31       		.uleb128 0x31
- 1433 0074 13       		.uleb128 0x13
- 1434 0075 00       		.byte	0
- 1435 0076 00       		.byte	0
- 1436 0077 09       		.uleb128 0x9
- 1437 0078 898201   		.uleb128 0x4109
- 1438 007b 01       		.byte	0x1
- 1439 007c 11       		.uleb128 0x11
- 1440 007d 01       		.uleb128 0x1
- 1441 007e 31       		.uleb128 0x31
- 1442 007f 13       		.uleb128 0x13
- 1443 0080 00       		.byte	0
- 1444 0081 00       		.byte	0
- 1445 0082 0A       		.uleb128 0xa
- 1446 0083 2E       		.uleb128 0x2e
- 1447 0084 01       		.byte	0x1
- 1448 0085 3F       		.uleb128 0x3f
- 1449 0086 19       		.uleb128 0x19
- 1450 0087 03       		.uleb128 0x3
- 1451 0088 0E       		.uleb128 0xe
- 1452 0089 3A       		.uleb128 0x3a
- 1453 008a 0B       		.uleb128 0xb
- 1454 008b 3B       		.uleb128 0x3b
- 1455 008c 0B       		.uleb128 0xb
- 1456 008d 27       		.uleb128 0x27
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 30
+ 1606 06a7 7E000000 		.4byte	0x7e
+ 1607 06ab 2201     		.2byte	0x122
+ 1608 06ad 0B       		.uleb128 0xb
+ 1609 06ae 75000000 		.4byte	.LASF33
+ 1610 06b2 01       		.byte	0x1
+ 1611 06b3 65       		.byte	0x65
+ 1612 06b4 7E000000 		.4byte	0x7e
+ 1613 06b8 4D010000 		.4byte	.LLST9
+ 1614 06bc 0B       		.uleb128 0xb
+ 1615 06bd 4F000000 		.4byte	.LASF21
+ 1616 06c1 01       		.byte	0x1
+ 1617 06c2 66       		.byte	0x66
+ 1618 06c3 51030000 		.4byte	0x351
+ 1619 06c7 60010000 		.4byte	.LLST10
+ 1620 06cb 0B       		.uleb128 0xb
+ 1621 06cc 6B000000 		.4byte	.LASF34
+ 1622 06d0 01       		.byte	0x1
+ 1623 06d1 67       		.byte	0x67
+ 1624 06d2 51030000 		.4byte	0x351
+ 1625 06d6 7F010000 		.4byte	.LLST11
+ 1626 06da 06       		.uleb128 0x6
+ 1627 06db 08000000 		.4byte	.LVL78
+ 1628 06df 36080000 		.4byte	0x836
+ 1629 06e3 F1060000 		.4byte	0x6f1
+ 1630 06e7 07       		.uleb128 0x7
+ 1631 06e8 01       		.uleb128 0x1
+ 1632 06e9 50       		.byte	0x50
+ 1633 06ea 05       		.uleb128 0x5
+ 1634 06eb 03       		.byte	0x3
+ 1635 06ec 30000000 		.4byte	.LC3
+ 1636 06f0 00       		.byte	0
+ 1637 06f1 08       		.uleb128 0x8
+ 1638 06f2 0C000000 		.4byte	.LVL79
+ 1639 06f6 7D080000 		.4byte	0x87d
+ 1640 06fa 08       		.uleb128 0x8
+ 1641 06fb 10000000 		.4byte	.LVL80
+ 1642 06ff 45080000 		.4byte	0x845
+ 1643 0703 06       		.uleb128 0x6
+ 1644 0704 1C000000 		.4byte	.LVL82
+ 1645 0708 50080000 		.4byte	0x850
+ 1646 070c 1D070000 		.4byte	0x71d
+ 1647 0710 07       		.uleb128 0x7
+ 1648 0711 01       		.uleb128 0x1
+ 1649 0712 50       		.byte	0x50
+ 1650 0713 02       		.uleb128 0x2
+ 1651 0714 08       		.byte	0x8
+ 1652 0715 32       		.byte	0x32
+ 1653 0716 07       		.uleb128 0x7
+ 1654 0717 01       		.uleb128 0x1
+ 1655 0718 51       		.byte	0x51
+ 1656 0719 02       		.uleb128 0x2
+ 1657 071a 08       		.byte	0x8
+ 1658 071b 64       		.byte	0x64
+ 1659 071c 00       		.byte	0
+ 1660 071d 08       		.uleb128 0x8
+ 1661 071e 20000000 		.4byte	.LVL83
+ 1662 0722 88080000 		.4byte	0x888
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 35
 
 
- 1457 008e 19       		.uleb128 0x19
- 1458 008f 11       		.uleb128 0x11
- 1459 0090 01       		.uleb128 0x1
- 1460 0091 12       		.uleb128 0x12
- 1461 0092 06       		.uleb128 0x6
- 1462 0093 40       		.uleb128 0x40
- 1463 0094 18       		.uleb128 0x18
- 1464 0095 9742     		.uleb128 0x2117
- 1465 0097 19       		.uleb128 0x19
- 1466 0098 01       		.uleb128 0x1
- 1467 0099 13       		.uleb128 0x13
- 1468 009a 00       		.byte	0
- 1469 009b 00       		.byte	0
- 1470 009c 0B       		.uleb128 0xb
- 1471 009d 34       		.uleb128 0x34
- 1472 009e 00       		.byte	0
- 1473 009f 03       		.uleb128 0x3
- 1474 00a0 0E       		.uleb128 0xe
- 1475 00a1 3A       		.uleb128 0x3a
- 1476 00a2 0B       		.uleb128 0xb
- 1477 00a3 3B       		.uleb128 0x3b
- 1478 00a4 0B       		.uleb128 0xb
- 1479 00a5 49       		.uleb128 0x49
- 1480 00a6 13       		.uleb128 0x13
- 1481 00a7 02       		.uleb128 0x2
- 1482 00a8 17       		.uleb128 0x17
- 1483 00a9 00       		.byte	0
- 1484 00aa 00       		.byte	0
- 1485 00ab 0C       		.uleb128 0xc
- 1486 00ac 34       		.uleb128 0x34
- 1487 00ad 00       		.byte	0
- 1488 00ae 03       		.uleb128 0x3
- 1489 00af 08       		.uleb128 0x8
- 1490 00b0 3A       		.uleb128 0x3a
- 1491 00b1 0B       		.uleb128 0xb
- 1492 00b2 3B       		.uleb128 0x3b
- 1493 00b3 0B       		.uleb128 0xb
- 1494 00b4 49       		.uleb128 0x49
- 1495 00b5 13       		.uleb128 0x13
- 1496 00b6 1C       		.uleb128 0x1c
- 1497 00b7 0B       		.uleb128 0xb
- 1498 00b8 00       		.byte	0
- 1499 00b9 00       		.byte	0
- 1500 00ba 0D       		.uleb128 0xd
- 1501 00bb 05       		.uleb128 0x5
- 1502 00bc 00       		.byte	0
- 1503 00bd 03       		.uleb128 0x3
- 1504 00be 0E       		.uleb128 0xe
- 1505 00bf 3A       		.uleb128 0x3a
- 1506 00c0 0B       		.uleb128 0xb
- 1507 00c1 3B       		.uleb128 0x3b
- 1508 00c2 0B       		.uleb128 0xb
- 1509 00c3 49       		.uleb128 0x49
- 1510 00c4 13       		.uleb128 0x13
- 1511 00c5 02       		.uleb128 0x2
- 1512 00c6 17       		.uleb128 0x17
- 1513 00c7 00       		.byte	0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 31
+ 1663 0726 06       		.uleb128 0x6
+ 1664 0727 2C000000 		.4byte	.LVL85
+ 1665 072b 50080000 		.4byte	0x850
+ 1666 072f 3E070000 		.4byte	0x73e
+ 1667 0733 07       		.uleb128 0x7
+ 1668 0734 01       		.uleb128 0x1
+ 1669 0735 50       		.byte	0x50
+ 1670 0736 01       		.uleb128 0x1
+ 1671 0737 30       		.byte	0x30
+ 1672 0738 07       		.uleb128 0x7
+ 1673 0739 01       		.uleb128 0x1
+ 1674 073a 51       		.byte	0x51
+ 1675 073b 01       		.uleb128 0x1
+ 1676 073c 30       		.byte	0x30
+ 1677 073d 00       		.byte	0
+ 1678 073e 06       		.uleb128 0x6
+ 1679 073f 34000000 		.4byte	.LVL86
+ 1680 0743 93080000 		.4byte	0x893
+ 1681 0747 58070000 		.4byte	0x758
+ 1682 074b 07       		.uleb128 0x7
+ 1683 074c 01       		.uleb128 0x1
+ 1684 074d 50       		.byte	0x50
+ 1685 074e 02       		.uleb128 0x2
+ 1686 074f 08       		.byte	0x8
+ 1687 0750 32       		.byte	0x32
+ 1688 0751 07       		.uleb128 0x7
+ 1689 0752 01       		.uleb128 0x1
+ 1690 0753 51       		.byte	0x51
+ 1691 0754 02       		.uleb128 0x2
+ 1692 0755 08       		.byte	0x8
+ 1693 0756 64       		.byte	0x64
+ 1694 0757 00       		.byte	0
+ 1695 0758 08       		.uleb128 0x8
+ 1696 0759 38000000 		.4byte	.LVL87
+ 1697 075d CA080000 		.4byte	0x8ca
+ 1698 0761 08       		.uleb128 0x8
+ 1699 0762 4A000000 		.4byte	.LVL89
+ 1700 0766 CA080000 		.4byte	0x8ca
+ 1701 076a 06       		.uleb128 0x6
+ 1702 076b 68000000 		.4byte	.LVL91
+ 1703 076f D5080000 		.4byte	0x8d5
+ 1704 0773 88070000 		.4byte	0x788
+ 1705 0777 07       		.uleb128 0x7
+ 1706 0778 01       		.uleb128 0x1
+ 1707 0779 50       		.byte	0x50
+ 1708 077a 05       		.uleb128 0x5
+ 1709 077b 03       		.byte	0x3
+ 1710 077c 40000000 		.4byte	.LC4
+ 1711 0780 07       		.uleb128 0x7
+ 1712 0781 01       		.uleb128 0x1
+ 1713 0782 51       		.byte	0x51
+ 1714 0783 03       		.uleb128 0x3
+ 1715 0784 74       		.byte	0x74
+ 1716 0785 DA00     		.sleb128 90
+ 1717 0787 00       		.byte	0
+ 1718 0788 06       		.uleb128 0x6
+ 1719 0789 72000000 		.4byte	.LVL92
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 36
 
 
- 1514 00c8 00       		.byte	0
- 1515 00c9 0E       		.uleb128 0xe
- 1516 00ca 34       		.uleb128 0x34
- 1517 00cb 00       		.byte	0
- 1518 00cc 03       		.uleb128 0x3
- 1519 00cd 0E       		.uleb128 0xe
- 1520 00ce 3A       		.uleb128 0x3a
- 1521 00cf 0B       		.uleb128 0xb
- 1522 00d0 3B       		.uleb128 0x3b
- 1523 00d1 0B       		.uleb128 0xb
- 1524 00d2 49       		.uleb128 0x49
- 1525 00d3 13       		.uleb128 0x13
- 1526 00d4 1C       		.uleb128 0x1c
- 1527 00d5 05       		.uleb128 0x5
- 1528 00d6 00       		.byte	0
- 1529 00d7 00       		.byte	0
- 1530 00d8 0F       		.uleb128 0xf
- 1531 00d9 34       		.uleb128 0x34
- 1532 00da 00       		.byte	0
- 1533 00db 03       		.uleb128 0x3
- 1534 00dc 0E       		.uleb128 0xe
- 1535 00dd 3A       		.uleb128 0x3a
- 1536 00de 0B       		.uleb128 0xb
- 1537 00df 3B       		.uleb128 0x3b
- 1538 00e0 05       		.uleb128 0x5
- 1539 00e1 49       		.uleb128 0x49
- 1540 00e2 13       		.uleb128 0x13
- 1541 00e3 3F       		.uleb128 0x3f
- 1542 00e4 19       		.uleb128 0x19
- 1543 00e5 3C       		.uleb128 0x3c
- 1544 00e6 19       		.uleb128 0x19
- 1545 00e7 00       		.byte	0
- 1546 00e8 00       		.byte	0
- 1547 00e9 10       		.uleb128 0x10
- 1548 00ea 35       		.uleb128 0x35
- 1549 00eb 00       		.byte	0
- 1550 00ec 49       		.uleb128 0x49
- 1551 00ed 13       		.uleb128 0x13
- 1552 00ee 00       		.byte	0
- 1553 00ef 00       		.byte	0
- 1554 00f0 11       		.uleb128 0x11
- 1555 00f1 2E       		.uleb128 0x2e
- 1556 00f2 00       		.byte	0
- 1557 00f3 3F       		.uleb128 0x3f
- 1558 00f4 19       		.uleb128 0x19
- 1559 00f5 3C       		.uleb128 0x3c
- 1560 00f6 19       		.uleb128 0x19
- 1561 00f7 6E       		.uleb128 0x6e
- 1562 00f8 0E       		.uleb128 0xe
- 1563 00f9 03       		.uleb128 0x3
- 1564 00fa 0E       		.uleb128 0xe
- 1565 00fb 3A       		.uleb128 0x3a
- 1566 00fc 0B       		.uleb128 0xb
- 1567 00fd 3B       		.uleb128 0x3b
- 1568 00fe 0B       		.uleb128 0xb
- 1569 00ff 6E       		.uleb128 0x6e
- 1570 0100 0E       		.uleb128 0xe
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 32
+ 1720 078d D0050000 		.4byte	0x5d0
+ 1721 0791 A3070000 		.4byte	0x7a3
+ 1722 0795 07       		.uleb128 0x7
+ 1723 0796 01       		.uleb128 0x1
+ 1724 0797 50       		.byte	0x50
+ 1725 0798 02       		.uleb128 0x2
+ 1726 0799 08       		.byte	0x8
+ 1727 079a 5A       		.byte	0x5a
+ 1728 079b 07       		.uleb128 0x7
+ 1729 079c 01       		.uleb128 0x1
+ 1730 079d 51       		.byte	0x51
+ 1731 079e 03       		.uleb128 0x3
+ 1732 079f 0A       		.byte	0xa
+ 1733 07a0 2201     		.2byte	0x122
+ 1734 07a2 00       		.byte	0
+ 1735 07a3 06       		.uleb128 0x6
+ 1736 07a4 7C000000 		.4byte	.LVL93
+ 1737 07a8 D0050000 		.4byte	0x5d0
+ 1738 07ac BE070000 		.4byte	0x7be
+ 1739 07b0 07       		.uleb128 0x7
+ 1740 07b1 01       		.uleb128 0x1
+ 1741 07b2 50       		.byte	0x50
+ 1742 07b3 02       		.uleb128 0x2
+ 1743 07b4 74       		.byte	0x74
+ 1744 07b5 00       		.sleb128 0
+ 1745 07b6 07       		.uleb128 0x7
+ 1746 07b7 01       		.uleb128 0x1
+ 1747 07b8 51       		.byte	0x51
+ 1748 07b9 03       		.uleb128 0x3
+ 1749 07ba 0A       		.byte	0xa
+ 1750 07bb 2201     		.2byte	0x122
+ 1751 07bd 00       		.byte	0
+ 1752 07be 06       		.uleb128 0x6
+ 1753 07bf 88000000 		.4byte	.LVL94
+ 1754 07c3 D5080000 		.4byte	0x8d5
+ 1755 07c7 DC070000 		.4byte	0x7dc
+ 1756 07cb 07       		.uleb128 0x7
+ 1757 07cc 01       		.uleb128 0x1
+ 1758 07cd 50       		.byte	0x50
+ 1759 07ce 05       		.uleb128 0x5
+ 1760 07cf 03       		.byte	0x3
+ 1761 07d0 50000000 		.4byte	.LC5
+ 1762 07d4 07       		.uleb128 0x7
+ 1763 07d5 01       		.uleb128 0x1
+ 1764 07d6 51       		.byte	0x51
+ 1765 07d7 03       		.uleb128 0x3
+ 1766 07d8 74       		.byte	0x74
+ 1767 07d9 DA00     		.sleb128 90
+ 1768 07db 00       		.byte	0
+ 1769 07dc 06       		.uleb128 0x6
+ 1770 07dd 92000000 		.4byte	.LVL95
+ 1771 07e1 20060000 		.4byte	0x620
+ 1772 07e5 F7070000 		.4byte	0x7f7
+ 1773 07e9 07       		.uleb128 0x7
+ 1774 07ea 01       		.uleb128 0x1
+ 1775 07eb 50       		.byte	0x50
+ 1776 07ec 02       		.uleb128 0x2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 37
 
 
- 1571 0101 00       		.byte	0
- 1572 0102 00       		.byte	0
- 1573 0103 12       		.uleb128 0x12
- 1574 0104 2E       		.uleb128 0x2e
- 1575 0105 00       		.byte	0
- 1576 0106 3F       		.uleb128 0x3f
- 1577 0107 19       		.uleb128 0x19
- 1578 0108 3C       		.uleb128 0x3c
- 1579 0109 19       		.uleb128 0x19
- 1580 010a 6E       		.uleb128 0x6e
- 1581 010b 0E       		.uleb128 0xe
- 1582 010c 03       		.uleb128 0x3
- 1583 010d 0E       		.uleb128 0xe
- 1584 010e 3A       		.uleb128 0x3a
- 1585 010f 0B       		.uleb128 0xb
- 1586 0110 3B       		.uleb128 0x3b
- 1587 0111 0B       		.uleb128 0xb
- 1588 0112 00       		.byte	0
- 1589 0113 00       		.byte	0
- 1590 0114 13       		.uleb128 0x13
- 1591 0115 2E       		.uleb128 0x2e
- 1592 0116 00       		.byte	0
- 1593 0117 3F       		.uleb128 0x3f
- 1594 0118 19       		.uleb128 0x19
- 1595 0119 3C       		.uleb128 0x3c
- 1596 011a 19       		.uleb128 0x19
- 1597 011b 6E       		.uleb128 0x6e
- 1598 011c 0E       		.uleb128 0xe
- 1599 011d 03       		.uleb128 0x3
- 1600 011e 0E       		.uleb128 0xe
- 1601 011f 3A       		.uleb128 0x3a
- 1602 0120 0B       		.uleb128 0xb
- 1603 0121 3B       		.uleb128 0x3b
- 1604 0122 05       		.uleb128 0x5
- 1605 0123 00       		.byte	0
- 1606 0124 00       		.byte	0
- 1607 0125 00       		.byte	0
- 1608              		.section	.debug_loc,"",%progbits
- 1609              	.Ldebug_loc0:
- 1610              	.LLST0:
- 1611 0000 20000000 		.4byte	.LVL21
- 1612 0004 28000000 		.4byte	.LVL22
- 1613 0008 0100     		.2byte	0x1
- 1614 000a 50       		.byte	0x50
- 1615 000b 00000000 		.4byte	0
- 1616 000f 00000000 		.4byte	0
- 1617              	.LLST1:
- 1618 0013 02000000 		.4byte	.LVL15
- 1619 0017 14000000 		.4byte	.LVL19
- 1620 001b 0200     		.2byte	0x2
- 1621 001d 31       		.byte	0x31
- 1622 001e 9F       		.byte	0x9f
- 1623 001f 14000000 		.4byte	.LVL19
- 1624 0023 52000000 		.4byte	.LVL29
- 1625 0027 0100     		.2byte	0x1
- 1626 0029 54       		.byte	0x54
- 1627 002a 00000000 		.4byte	0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 33
+ 1777 07ed 08       		.byte	0x8
+ 1778 07ee 5A       		.byte	0x5a
+ 1779 07ef 07       		.uleb128 0x7
+ 1780 07f0 01       		.uleb128 0x1
+ 1781 07f1 51       		.byte	0x51
+ 1782 07f2 03       		.uleb128 0x3
+ 1783 07f3 0A       		.byte	0xa
+ 1784 07f4 2201     		.2byte	0x122
+ 1785 07f6 00       		.byte	0
+ 1786 07f7 06       		.uleb128 0x6
+ 1787 07f8 9C000000 		.4byte	.LVL96
+ 1788 07fc 20060000 		.4byte	0x620
+ 1789 0800 12080000 		.4byte	0x812
+ 1790 0804 07       		.uleb128 0x7
+ 1791 0805 01       		.uleb128 0x1
+ 1792 0806 50       		.byte	0x50
+ 1793 0807 02       		.uleb128 0x2
+ 1794 0808 74       		.byte	0x74
+ 1795 0809 00       		.sleb128 0
+ 1796 080a 07       		.uleb128 0x7
+ 1797 080b 01       		.uleb128 0x1
+ 1798 080c 51       		.byte	0x51
+ 1799 080d 03       		.uleb128 0x3
+ 1800 080e 0A       		.byte	0xa
+ 1801 080f 2201     		.2byte	0x122
+ 1802 0811 00       		.byte	0
+ 1803 0812 08       		.uleb128 0x8
+ 1804 0813 A0000000 		.4byte	.LVL97
+ 1805 0817 9E080000 		.4byte	0x89e
+ 1806 081b 08       		.uleb128 0x8
+ 1807 081c AC000000 		.4byte	.LVL99
+ 1808 0820 66080000 		.4byte	0x866
+ 1809 0824 00       		.byte	0
+ 1810 0825 0F       		.uleb128 0xf
+ 1811 0826 82010000 		.4byte	.LASF53
+ 1812 082a 0B       		.byte	0xb
+ 1813 082b 1207     		.2byte	0x712
+ 1814 082d 31080000 		.4byte	0x831
+ 1815 0831 10       		.uleb128 0x10
+ 1816 0832 97000000 		.4byte	0x97
+ 1817 0836 11       		.uleb128 0x11
+ 1818 0837 CF020000 		.4byte	.LASF54
+ 1819 083b 96000000 		.4byte	.LASF55
+ 1820 083f 0C       		.byte	0xc
+ 1821 0840 00       		.byte	0
+ 1822 0841 CF020000 		.4byte	.LASF54
+ 1823 0845 12       		.uleb128 0x12
+ 1824 0846 1E020000 		.4byte	.LASF35
+ 1825 084a 1E020000 		.4byte	.LASF35
+ 1826 084e 04       		.byte	0x4
+ 1827 084f 0B       		.byte	0xb
+ 1828 0850 12       		.uleb128 0x12
+ 1829 0851 8F010000 		.4byte	.LASF36
+ 1830 0855 8F010000 		.4byte	.LASF36
+ 1831 0859 04       		.byte	0x4
+ 1832 085a 0F       		.byte	0xf
+ 1833 085b 12       		.uleb128 0x12
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 38
 
 
- 1628 002e 00000000 		.4byte	0
- 1629              	.LLST2:
- 1630 0032 00000000 		.4byte	.LVL30
- 1631 0036 0E000000 		.4byte	.LVL32
- 1632 003a 0100     		.2byte	0x1
- 1633 003c 50       		.byte	0x50
- 1634 003d 0E000000 		.4byte	.LVL32
- 1635 0041 18000000 		.4byte	.LFE88
- 1636 0045 0400     		.2byte	0x4
- 1637 0047 F3       		.byte	0xf3
- 1638 0048 01       		.uleb128 0x1
- 1639 0049 50       		.byte	0x50
- 1640 004a 9F       		.byte	0x9f
- 1641 004b 00000000 		.4byte	0
- 1642 004f 00000000 		.4byte	0
- 1643              	.LLST3:
- 1644 0053 00000000 		.4byte	.LVL30
- 1645 0057 0C000000 		.4byte	.LVL31
- 1646 005b 0100     		.2byte	0x1
- 1647 005d 51       		.byte	0x51
- 1648 005e 0C000000 		.4byte	.LVL31
- 1649 0062 11000000 		.4byte	.LVL33-1
- 1650 0066 0200     		.2byte	0x2
- 1651 0068 7D       		.byte	0x7d
- 1652 0069 00       		.sleb128 0
- 1653 006a 11000000 		.4byte	.LVL33-1
- 1654 006e 18000000 		.4byte	.LFE88
- 1655 0072 0400     		.2byte	0x4
- 1656 0074 F3       		.byte	0xf3
- 1657 0075 01       		.uleb128 0x1
- 1658 0076 51       		.byte	0x51
- 1659 0077 9F       		.byte	0x9f
- 1660 0078 00000000 		.4byte	0
- 1661 007c 00000000 		.4byte	0
- 1662              	.LLST4:
- 1663 0080 00000000 		.4byte	.LVL34
- 1664 0084 0E000000 		.4byte	.LVL36
- 1665 0088 0100     		.2byte	0x1
- 1666 008a 50       		.byte	0x50
- 1667 008b 0E000000 		.4byte	.LVL36
- 1668 008f 18000000 		.4byte	.LFE89
- 1669 0093 0400     		.2byte	0x4
- 1670 0095 F3       		.byte	0xf3
- 1671 0096 01       		.uleb128 0x1
- 1672 0097 50       		.byte	0x50
- 1673 0098 9F       		.byte	0x9f
- 1674 0099 00000000 		.4byte	0
- 1675 009d 00000000 		.4byte	0
- 1676              	.LLST5:
- 1677 00a1 00000000 		.4byte	.LVL34
- 1678 00a5 0C000000 		.4byte	.LVL35
- 1679 00a9 0100     		.2byte	0x1
- 1680 00ab 51       		.byte	0x51
- 1681 00ac 0C000000 		.4byte	.LVL35
- 1682 00b0 11000000 		.4byte	.LVL37-1
- 1683 00b4 0200     		.2byte	0x2
- 1684 00b6 7D       		.byte	0x7d
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 34
+ 1834 085c 85000000 		.4byte	.LASF37
+ 1835 0860 85000000 		.4byte	.LASF37
+ 1836 0864 04       		.byte	0x4
+ 1837 0865 12       		.byte	0x12
+ 1838 0866 12       		.uleb128 0x12
+ 1839 0867 B0010000 		.4byte	.LASF38
+ 1840 086b B0010000 		.4byte	.LASF38
+ 1841 086f 04       		.byte	0x4
+ 1842 0870 0C       		.byte	0xc
+ 1843 0871 13       		.uleb128 0x13
+ 1844 0872 C4020000 		.4byte	.LASF39
+ 1845 0876 C4020000 		.4byte	.LASF39
+ 1846 087a 05       		.byte	0x5
+ 1847 087b ED02     		.2byte	0x2ed
+ 1848 087d 12       		.uleb128 0x12
+ 1849 087e CB010000 		.4byte	.LASF40
+ 1850 0882 CB010000 		.4byte	.LASF40
+ 1851 0886 06       		.byte	0x6
+ 1852 0887 0A       		.byte	0xa
+ 1853 0888 12       		.uleb128 0x12
+ 1854 0889 F3020000 		.4byte	.LASF41
+ 1855 088d F3020000 		.4byte	.LASF41
+ 1856 0891 06       		.byte	0x6
+ 1857 0892 0D       		.byte	0xd
+ 1858 0893 12       		.uleb128 0x12
+ 1859 0894 54000000 		.4byte	.LASF42
+ 1860 0898 54000000 		.4byte	.LASF42
+ 1861 089c 04       		.byte	0x4
+ 1862 089d 15       		.byte	0x15
+ 1863 089e 12       		.uleb128 0x12
+ 1864 089f FA010000 		.4byte	.LASF43
+ 1865 08a3 FA010000 		.4byte	.LASF43
+ 1866 08a7 07       		.byte	0x7
+ 1867 08a8 29       		.byte	0x29
+ 1868 08a9 12       		.uleb128 0x12
+ 1869 08aa E4010000 		.4byte	.LASF44
+ 1870 08ae E4010000 		.4byte	.LASF44
+ 1871 08b2 08       		.byte	0x8
+ 1872 08b3 11       		.byte	0x11
+ 1873 08b4 12       		.uleb128 0x12
+ 1874 08b5 F2010000 		.4byte	.LASF45
+ 1875 08b9 F2010000 		.4byte	.LASF45
+ 1876 08bd 08       		.byte	0x8
+ 1877 08be 1B       		.byte	0x1b
+ 1878 08bf 12       		.uleb128 0x12
+ 1879 08c0 03020000 		.4byte	.LASF46
+ 1880 08c4 03020000 		.4byte	.LASF46
+ 1881 08c8 04       		.byte	0x4
+ 1882 08c9 18       		.byte	0x18
+ 1883 08ca 12       		.uleb128 0x12
+ 1884 08cb 22030000 		.4byte	.LASF47
+ 1885 08cf 22030000 		.4byte	.LASF47
+ 1886 08d3 09       		.byte	0x9
+ 1887 08d4 88       		.byte	0x88
+ 1888 08d5 12       		.uleb128 0x12
+ 1889 08d6 A1020000 		.4byte	.LASF48
+ 1890 08da A1020000 		.4byte	.LASF48
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 39
 
 
- 1685 00b7 00       		.sleb128 0
- 1686 00b8 11000000 		.4byte	.LVL37-1
- 1687 00bc 18000000 		.4byte	.LFE89
- 1688 00c0 0400     		.2byte	0x4
- 1689 00c2 F3       		.byte	0xf3
- 1690 00c3 01       		.uleb128 0x1
- 1691 00c4 51       		.byte	0x51
- 1692 00c5 9F       		.byte	0x9f
- 1693 00c6 00000000 		.4byte	0
- 1694 00ca 00000000 		.4byte	0
- 1695              	.LLST6:
- 1696 00ce 20000000 		.4byte	.LVL44
- 1697 00d2 28000000 		.4byte	.LVL45
- 1698 00d6 0100     		.2byte	0x1
- 1699 00d8 50       		.byte	0x50
- 1700 00d9 00000000 		.4byte	0
- 1701 00dd 00000000 		.4byte	0
- 1702              	.LLST7:
- 1703 00e1 5C000000 		.4byte	.LVL51
- 1704 00e5 9C000000 		.4byte	.LVL57
- 1705 00e9 0100     		.2byte	0x1
- 1706 00eb 54       		.byte	0x54
- 1707 00ec 00000000 		.4byte	0
- 1708 00f0 00000000 		.4byte	0
- 1709              	.LLST8:
- 1710 00f4 02000000 		.4byte	.LVL38
- 1711 00f8 14000000 		.4byte	.LVL42
- 1712 00fc 0200     		.2byte	0x2
- 1713 00fe 31       		.byte	0x31
- 1714 00ff 9F       		.byte	0x9f
- 1715 0100 14000000 		.4byte	.LVL42
- 1716 0104 AE000000 		.4byte	.LVL61
- 1717 0108 0100     		.2byte	0x1
- 1718 010a 56       		.byte	0x56
- 1719 010b 00000000 		.4byte	0
- 1720 010f 00000000 		.4byte	0
- 1721              	.LLST9:
- 1722 0113 46000000 		.4byte	.LVL49
- 1723 0117 9C000000 		.4byte	.LVL57
- 1724 011b 0500     		.2byte	0x5
- 1725 011d 75       		.byte	0x75
- 1726 011e 00       		.sleb128 0
- 1727 011f 30       		.byte	0x30
- 1728 0120 2E       		.byte	0x2e
- 1729 0121 9F       		.byte	0x9f
- 1730 0122 00000000 		.4byte	0
- 1731 0126 00000000 		.4byte	0
- 1732              		.section	.debug_aranges,"",%progbits
- 1733 0000 3C000000 		.4byte	0x3c
- 1734 0004 0200     		.2byte	0x2
- 1735 0006 00000000 		.4byte	.Ldebug_info0
- 1736 000a 04       		.byte	0x4
- 1737 000b 00       		.byte	0
- 1738 000c 0000     		.2byte	0
- 1739 000e 0000     		.2byte	0
- 1740 0010 00000000 		.4byte	.LFB85
- 1741 0014 8C000000 		.4byte	.LFE85-.LFB85
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 35
+ 1891 08de 0A       		.byte	0xa
+ 1892 08df BB       		.byte	0xbb
+ 1893 08e0 00       		.byte	0
+ 1894              		.section	.debug_abbrev,"",%progbits
+ 1895              	.Ldebug_abbrev0:
+ 1896 0000 01       		.uleb128 0x1
+ 1897 0001 11       		.uleb128 0x11
+ 1898 0002 01       		.byte	0x1
+ 1899 0003 25       		.uleb128 0x25
+ 1900 0004 0E       		.uleb128 0xe
+ 1901 0005 13       		.uleb128 0x13
+ 1902 0006 0B       		.uleb128 0xb
+ 1903 0007 03       		.uleb128 0x3
+ 1904 0008 0E       		.uleb128 0xe
+ 1905 0009 1B       		.uleb128 0x1b
+ 1906 000a 0E       		.uleb128 0xe
+ 1907 000b 55       		.uleb128 0x55
+ 1908 000c 17       		.uleb128 0x17
+ 1909 000d 11       		.uleb128 0x11
+ 1910 000e 01       		.uleb128 0x1
+ 1911 000f 10       		.uleb128 0x10
+ 1912 0010 17       		.uleb128 0x17
+ 1913 0011 00       		.byte	0
+ 1914 0012 00       		.byte	0
+ 1915 0013 02       		.uleb128 0x2
+ 1916 0014 24       		.uleb128 0x24
+ 1917 0015 00       		.byte	0
+ 1918 0016 0B       		.uleb128 0xb
+ 1919 0017 0B       		.uleb128 0xb
+ 1920 0018 3E       		.uleb128 0x3e
+ 1921 0019 0B       		.uleb128 0xb
+ 1922 001a 03       		.uleb128 0x3
+ 1923 001b 0E       		.uleb128 0xe
+ 1924 001c 00       		.byte	0
+ 1925 001d 00       		.byte	0
+ 1926 001e 03       		.uleb128 0x3
+ 1927 001f 16       		.uleb128 0x16
+ 1928 0020 00       		.byte	0
+ 1929 0021 03       		.uleb128 0x3
+ 1930 0022 0E       		.uleb128 0xe
+ 1931 0023 3A       		.uleb128 0x3a
+ 1932 0024 0B       		.uleb128 0xb
+ 1933 0025 3B       		.uleb128 0x3b
+ 1934 0026 0B       		.uleb128 0xb
+ 1935 0027 49       		.uleb128 0x49
+ 1936 0028 13       		.uleb128 0x13
+ 1937 0029 00       		.byte	0
+ 1938 002a 00       		.byte	0
+ 1939 002b 04       		.uleb128 0x4
+ 1940 002c 24       		.uleb128 0x24
+ 1941 002d 00       		.byte	0
+ 1942 002e 0B       		.uleb128 0xb
+ 1943 002f 0B       		.uleb128 0xb
+ 1944 0030 3E       		.uleb128 0x3e
+ 1945 0031 0B       		.uleb128 0xb
+ 1946 0032 03       		.uleb128 0x3
+ 1947 0033 08       		.uleb128 0x8
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 40
 
 
- 1742 0018 00000000 		.4byte	.LFB86
- 1743 001c 58000000 		.4byte	.LFE86-.LFB86
- 1744 0020 00000000 		.4byte	.LFB88
- 1745 0024 18000000 		.4byte	.LFE88-.LFB88
- 1746 0028 00000000 		.4byte	.LFB89
- 1747 002c 18000000 		.4byte	.LFE89-.LFB89
- 1748 0030 00000000 		.4byte	.LFB87
- 1749 0034 C4000000 		.4byte	.LFE87-.LFB87
- 1750 0038 00000000 		.4byte	0
- 1751 003c 00000000 		.4byte	0
- 1752              		.section	.debug_ranges,"",%progbits
- 1753              	.Ldebug_ranges0:
- 1754 0000 00000000 		.4byte	.LFB85
- 1755 0004 8C000000 		.4byte	.LFE85
- 1756 0008 00000000 		.4byte	.LFB86
- 1757 000c 58000000 		.4byte	.LFE86
- 1758 0010 00000000 		.4byte	.LFB88
- 1759 0014 18000000 		.4byte	.LFE88
- 1760 0018 00000000 		.4byte	.LFB89
- 1761 001c 18000000 		.4byte	.LFE89
- 1762 0020 00000000 		.4byte	.LFB87
- 1763 0024 C4000000 		.4byte	.LFE87
- 1764 0028 00000000 		.4byte	0
- 1765 002c 00000000 		.4byte	0
- 1766              		.section	.debug_line,"",%progbits
- 1767              	.Ldebug_line0:
- 1768 0000 B9020000 		.section	.debug_str,"MS",%progbits,1
- 1768      02001F02 
- 1768      00000201 
- 1768      FB0E0D00 
- 1768      01010101 
- 1769              	.LASF24:
- 1770 0000 616E6574 		.ascii	"aneta_tankTurnRight\000"
- 1770      615F7461 
- 1770      6E6B5475 
- 1770      726E5269 
- 1770      67687400 
- 1771              	.LASF4:
- 1772 0014 5F5F7569 		.ascii	"__uint8_t\000"
- 1772      6E74385F 
- 1772      7400
- 1773              	.LASF25:
- 1774 001e 73706565 		.ascii	"speed\000"
- 1774      6400
- 1775              	.LASF45:
- 1776 0024 433A5C55 		.ascii	"C:\\Users\\DBY\\Documents\\group6\\ZumoBot\\ZumoBot"
- 1776      73657273 
- 1776      5C444259 
- 1776      5C446F63 
- 1776      756D656E 
- 1777 0051 2E637964 		.ascii	".cydsn\000"
- 1777      736E00
- 1778              	.LASF5:
- 1779 0058 5F5F696E 		.ascii	"__int32_t\000"
- 1779      7433325F 
- 1779      7400
- 1780              	.LASF21:
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 36
+ 1948 0034 00       		.byte	0
+ 1949 0035 00       		.byte	0
+ 1950 0036 05       		.uleb128 0x5
+ 1951 0037 2E       		.uleb128 0x2e
+ 1952 0038 01       		.byte	0x1
+ 1953 0039 3F       		.uleb128 0x3f
+ 1954 003a 19       		.uleb128 0x19
+ 1955 003b 03       		.uleb128 0x3
+ 1956 003c 0E       		.uleb128 0xe
+ 1957 003d 3A       		.uleb128 0x3a
+ 1958 003e 0B       		.uleb128 0xb
+ 1959 003f 3B       		.uleb128 0x3b
+ 1960 0040 0B       		.uleb128 0xb
+ 1961 0041 27       		.uleb128 0x27
+ 1962 0042 19       		.uleb128 0x19
+ 1963 0043 8701     		.uleb128 0x87
+ 1964 0045 19       		.uleb128 0x19
+ 1965 0046 11       		.uleb128 0x11
+ 1966 0047 01       		.uleb128 0x1
+ 1967 0048 12       		.uleb128 0x12
+ 1968 0049 06       		.uleb128 0x6
+ 1969 004a 40       		.uleb128 0x40
+ 1970 004b 18       		.uleb128 0x18
+ 1971 004c 9742     		.uleb128 0x2117
+ 1972 004e 19       		.uleb128 0x19
+ 1973 004f 01       		.uleb128 0x1
+ 1974 0050 13       		.uleb128 0x13
+ 1975 0051 00       		.byte	0
+ 1976 0052 00       		.byte	0
+ 1977 0053 06       		.uleb128 0x6
+ 1978 0054 898201   		.uleb128 0x4109
+ 1979 0057 01       		.byte	0x1
+ 1980 0058 11       		.uleb128 0x11
+ 1981 0059 01       		.uleb128 0x1
+ 1982 005a 31       		.uleb128 0x31
+ 1983 005b 13       		.uleb128 0x13
+ 1984 005c 01       		.uleb128 0x1
+ 1985 005d 13       		.uleb128 0x13
+ 1986 005e 00       		.byte	0
+ 1987 005f 00       		.byte	0
+ 1988 0060 07       		.uleb128 0x7
+ 1989 0061 8A8201   		.uleb128 0x410a
+ 1990 0064 00       		.byte	0
+ 1991 0065 02       		.uleb128 0x2
+ 1992 0066 18       		.uleb128 0x18
+ 1993 0067 9142     		.uleb128 0x2111
+ 1994 0069 18       		.uleb128 0x18
+ 1995 006a 00       		.byte	0
+ 1996 006b 00       		.byte	0
+ 1997 006c 08       		.uleb128 0x8
+ 1998 006d 898201   		.uleb128 0x4109
+ 1999 0070 00       		.byte	0
+ 2000 0071 11       		.uleb128 0x11
+ 2001 0072 01       		.uleb128 0x1
+ 2002 0073 31       		.uleb128 0x31
+ 2003 0074 13       		.uleb128 0x13
+ 2004 0075 00       		.byte	0
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 41
 
 
- 1781 0062 6D6F7665 		.ascii	"move\000"
- 1781      00
- 1782              	.LASF38:
- 1783 0067 6D6F746F 		.ascii	"motor_backward\000"
- 1783      725F6261 
- 1783      636B7761 
- 1783      726400
- 1784              	.LASF12:
- 1785 0076 75696E74 		.ascii	"uint8_t\000"
- 1785      385F7400 
- 1786              	.LASF30:
- 1787 007e 7475726E 		.ascii	"turnRight\000"
- 1787      52696768 
- 1787      7400
- 1788              	.LASF29:
- 1789 0088 64656772 		.ascii	"degreeTurn\000"
- 1789      65655475 
- 1789      726E00
- 1790              	.LASF20:
- 1791 0093 6F627344 		.ascii	"obsD\000"
- 1791      00
- 1792              	.LASF33:
- 1793 0098 6D6F746F 		.ascii	"motor_turn\000"
- 1793      725F7475 
- 1793      726E00
- 1794              	.LASF15:
- 1795 00a3 666C6F61 		.ascii	"float\000"
- 1795      7400
- 1796              	.LASF49:
- 1797 00a9 5F5F6275 		.ascii	"__builtin_puts\000"
- 1797      696C7469 
- 1797      6E5F7075 
- 1797      747300
- 1798              	.LASF26:
- 1799 00b8 64656C61 		.ascii	"delay\000"
- 1799      7900
- 1800              	.LASF1:
- 1801 00be 756E7369 		.ascii	"unsigned char\000"
- 1801      676E6564 
- 1801      20636861 
- 1801      7200
- 1802              	.LASF43:
- 1803 00cc 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 1803      43313120 
- 1803      352E342E 
- 1803      31203230 
- 1803      31363036 
- 1804 00ff 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 1804      20726576 
- 1804      6973696F 
- 1804      6E203233 
- 1804      37373135 
- 1805 0132 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 1805      66756E63 
- 1805      74696F6E 
- 1805      2D736563 
- 1805      74696F6E 
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 37
+ 2005 0076 00       		.byte	0
+ 2006 0077 09       		.uleb128 0x9
+ 2007 0078 898201   		.uleb128 0x4109
+ 2008 007b 01       		.byte	0x1
+ 2009 007c 11       		.uleb128 0x11
+ 2010 007d 01       		.uleb128 0x1
+ 2011 007e 31       		.uleb128 0x31
+ 2012 007f 13       		.uleb128 0x13
+ 2013 0080 00       		.byte	0
+ 2014 0081 00       		.byte	0
+ 2015 0082 0A       		.uleb128 0xa
+ 2016 0083 2E       		.uleb128 0x2e
+ 2017 0084 01       		.byte	0x1
+ 2018 0085 3F       		.uleb128 0x3f
+ 2019 0086 19       		.uleb128 0x19
+ 2020 0087 03       		.uleb128 0x3
+ 2021 0088 0E       		.uleb128 0xe
+ 2022 0089 3A       		.uleb128 0x3a
+ 2023 008a 0B       		.uleb128 0xb
+ 2024 008b 3B       		.uleb128 0x3b
+ 2025 008c 0B       		.uleb128 0xb
+ 2026 008d 27       		.uleb128 0x27
+ 2027 008e 19       		.uleb128 0x19
+ 2028 008f 11       		.uleb128 0x11
+ 2029 0090 01       		.uleb128 0x1
+ 2030 0091 12       		.uleb128 0x12
+ 2031 0092 06       		.uleb128 0x6
+ 2032 0093 40       		.uleb128 0x40
+ 2033 0094 18       		.uleb128 0x18
+ 2034 0095 9742     		.uleb128 0x2117
+ 2035 0097 19       		.uleb128 0x19
+ 2036 0098 01       		.uleb128 0x1
+ 2037 0099 13       		.uleb128 0x13
+ 2038 009a 00       		.byte	0
+ 2039 009b 00       		.byte	0
+ 2040 009c 0B       		.uleb128 0xb
+ 2041 009d 34       		.uleb128 0x34
+ 2042 009e 00       		.byte	0
+ 2043 009f 03       		.uleb128 0x3
+ 2044 00a0 0E       		.uleb128 0xe
+ 2045 00a1 3A       		.uleb128 0x3a
+ 2046 00a2 0B       		.uleb128 0xb
+ 2047 00a3 3B       		.uleb128 0x3b
+ 2048 00a4 0B       		.uleb128 0xb
+ 2049 00a5 49       		.uleb128 0x49
+ 2050 00a6 13       		.uleb128 0x13
+ 2051 00a7 02       		.uleb128 0x2
+ 2052 00a8 17       		.uleb128 0x17
+ 2053 00a9 00       		.byte	0
+ 2054 00aa 00       		.byte	0
+ 2055 00ab 0C       		.uleb128 0xc
+ 2056 00ac 34       		.uleb128 0x34
+ 2057 00ad 00       		.byte	0
+ 2058 00ae 03       		.uleb128 0x3
+ 2059 00af 08       		.uleb128 0x8
+ 2060 00b0 3A       		.uleb128 0x3a
+ 2061 00b1 0B       		.uleb128 0xb
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 42
 
 
- 1806              	.LASF46:
- 1807 015a 616E6574 		.ascii	"aneta_w1a1\000"
- 1807      615F7731 
- 1807      613100
- 1808              	.LASF23:
- 1809 0165 616E6574 		.ascii	"aneta_w1a2\000"
- 1809      615F7731 
- 1809      613200
- 1810              	.LASF28:
- 1811 0170 616E6574 		.ascii	"aneta_w1a3\000"
- 1811      615F7731 
- 1811      613300
- 1812              	.LASF8:
- 1813 017b 6C6F6E67 		.ascii	"long unsigned int\000"
- 1813      20756E73 
- 1813      69676E65 
- 1813      6420696E 
- 1813      7400
- 1814              	.LASF3:
- 1815 018d 73686F72 		.ascii	"short unsigned int\000"
- 1815      7420756E 
- 1815      7369676E 
- 1815      65642069 
- 1815      6E7400
- 1816              	.LASF44:
- 1817 01a0 616E6574 		.ascii	"aneta.c\000"
- 1817      612E6300 
- 1818              	.LASF47:
- 1819 01a8 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 1819      52784275 
- 1819      66666572 
- 1819      00
- 1820              	.LASF32:
- 1821 01b5 6D6F746F 		.ascii	"motor_forward\000"
- 1821      725F666F 
- 1821      72776172 
- 1821      6400
- 1822              	.LASF16:
- 1823 01c3 646F7562 		.ascii	"double\000"
- 1823      6C6500
- 1824              	.LASF18:
- 1825 01ca 6C6F6E67 		.ascii	"long double\000"
- 1825      20646F75 
- 1825      626C6500 
- 1826              	.LASF34:
- 1827 01d6 6D6F746F 		.ascii	"motor_stop\000"
- 1827      725F7374 
- 1827      6F7000
- 1828              	.LASF7:
- 1829 01e1 5F5F7569 		.ascii	"__uint32_t\000"
- 1829      6E743332 
- 1829      5F7400
- 1830              	.LASF36:
- 1831 01ec 556C7472 		.ascii	"Ultra_Start\000"
- 1831      615F5374 
- 1831      61727400 
- 1832              	.LASF11:
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 38
+ 2062 00b2 3B       		.uleb128 0x3b
+ 2063 00b3 0B       		.uleb128 0xb
+ 2064 00b4 49       		.uleb128 0x49
+ 2065 00b5 13       		.uleb128 0x13
+ 2066 00b6 1C       		.uleb128 0x1c
+ 2067 00b7 0B       		.uleb128 0xb
+ 2068 00b8 00       		.byte	0
+ 2069 00b9 00       		.byte	0
+ 2070 00ba 0D       		.uleb128 0xd
+ 2071 00bb 05       		.uleb128 0x5
+ 2072 00bc 00       		.byte	0
+ 2073 00bd 03       		.uleb128 0x3
+ 2074 00be 0E       		.uleb128 0xe
+ 2075 00bf 3A       		.uleb128 0x3a
+ 2076 00c0 0B       		.uleb128 0xb
+ 2077 00c1 3B       		.uleb128 0x3b
+ 2078 00c2 0B       		.uleb128 0xb
+ 2079 00c3 49       		.uleb128 0x49
+ 2080 00c4 13       		.uleb128 0x13
+ 2081 00c5 02       		.uleb128 0x2
+ 2082 00c6 17       		.uleb128 0x17
+ 2083 00c7 00       		.byte	0
+ 2084 00c8 00       		.byte	0
+ 2085 00c9 0E       		.uleb128 0xe
+ 2086 00ca 34       		.uleb128 0x34
+ 2087 00cb 00       		.byte	0
+ 2088 00cc 03       		.uleb128 0x3
+ 2089 00cd 0E       		.uleb128 0xe
+ 2090 00ce 3A       		.uleb128 0x3a
+ 2091 00cf 0B       		.uleb128 0xb
+ 2092 00d0 3B       		.uleb128 0x3b
+ 2093 00d1 0B       		.uleb128 0xb
+ 2094 00d2 49       		.uleb128 0x49
+ 2095 00d3 13       		.uleb128 0x13
+ 2096 00d4 1C       		.uleb128 0x1c
+ 2097 00d5 05       		.uleb128 0x5
+ 2098 00d6 00       		.byte	0
+ 2099 00d7 00       		.byte	0
+ 2100 00d8 0F       		.uleb128 0xf
+ 2101 00d9 34       		.uleb128 0x34
+ 2102 00da 00       		.byte	0
+ 2103 00db 03       		.uleb128 0x3
+ 2104 00dc 0E       		.uleb128 0xe
+ 2105 00dd 3A       		.uleb128 0x3a
+ 2106 00de 0B       		.uleb128 0xb
+ 2107 00df 3B       		.uleb128 0x3b
+ 2108 00e0 05       		.uleb128 0x5
+ 2109 00e1 49       		.uleb128 0x49
+ 2110 00e2 13       		.uleb128 0x13
+ 2111 00e3 3F       		.uleb128 0x3f
+ 2112 00e4 19       		.uleb128 0x19
+ 2113 00e5 3C       		.uleb128 0x3c
+ 2114 00e6 19       		.uleb128 0x19
+ 2115 00e7 00       		.byte	0
+ 2116 00e8 00       		.byte	0
+ 2117 00e9 10       		.uleb128 0x10
+ 2118 00ea 35       		.uleb128 0x35
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 43
 
 
- 1833 01f8 756E7369 		.ascii	"unsigned int\000"
- 1833      676E6564 
- 1833      20696E74 
- 1833      00
- 1834              	.LASF27:
- 1835 0205 616E6574 		.ascii	"aneta_tankTurnLeft\000"
- 1835      615F7461 
- 1835      6E6B5475 
- 1835      726E4C65 
- 1835      667400
- 1836              	.LASF17:
- 1837 0218 63686172 		.ascii	"char\000"
- 1837      00
- 1838              	.LASF39:
- 1839 021d 5357315F 		.ascii	"SW1_Read\000"
- 1839      52656164 
- 1839      00
- 1840              	.LASF40:
- 1841 0226 5365744D 		.ascii	"SetMotors\000"
- 1841      6F746F72 
- 1841      7300
- 1842              	.LASF13:
- 1843 0230 696E7433 		.ascii	"int32_t\000"
- 1843      325F7400 
- 1844              	.LASF19:
- 1845 0238 73697A65 		.ascii	"sizetype\000"
- 1845      74797065 
- 1845      00
- 1846              	.LASF31:
- 1847 0241 6D6F746F 		.ascii	"motor_start\000"
- 1847      725F7374 
- 1847      61727400 
- 1848              	.LASF9:
- 1849 024d 6C6F6E67 		.ascii	"long long int\000"
- 1849      206C6F6E 
- 1849      6720696E 
- 1849      7400
- 1850              	.LASF42:
- 1851 025b 7072696E 		.ascii	"printf\000"
- 1851      746600
- 1852              	.LASF2:
- 1853 0262 73686F72 		.ascii	"short int\000"
- 1853      7420696E 
- 1853      7400
- 1854              	.LASF14:
- 1855 026c 75696E74 		.ascii	"uint32_t\000"
- 1855      33325F74 
- 1855      00
- 1856              	.LASF6:
- 1857 0275 6C6F6E67 		.ascii	"long int\000"
- 1857      20696E74 
- 1857      00
- 1858              	.LASF35:
- 1859 027e 76546173 		.ascii	"vTaskDelay\000"
- 1859      6B44656C 
- 1859      617900
- 1860              	.LASF48:
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccSL94vn.s 			page 39
+ 2119 00eb 00       		.byte	0
+ 2120 00ec 49       		.uleb128 0x49
+ 2121 00ed 13       		.uleb128 0x13
+ 2122 00ee 00       		.byte	0
+ 2123 00ef 00       		.byte	0
+ 2124 00f0 11       		.uleb128 0x11
+ 2125 00f1 2E       		.uleb128 0x2e
+ 2126 00f2 00       		.byte	0
+ 2127 00f3 3F       		.uleb128 0x3f
+ 2128 00f4 19       		.uleb128 0x19
+ 2129 00f5 3C       		.uleb128 0x3c
+ 2130 00f6 19       		.uleb128 0x19
+ 2131 00f7 6E       		.uleb128 0x6e
+ 2132 00f8 0E       		.uleb128 0xe
+ 2133 00f9 03       		.uleb128 0x3
+ 2134 00fa 0E       		.uleb128 0xe
+ 2135 00fb 3A       		.uleb128 0x3a
+ 2136 00fc 0B       		.uleb128 0xb
+ 2137 00fd 3B       		.uleb128 0x3b
+ 2138 00fe 0B       		.uleb128 0xb
+ 2139 00ff 6E       		.uleb128 0x6e
+ 2140 0100 0E       		.uleb128 0xe
+ 2141 0101 00       		.byte	0
+ 2142 0102 00       		.byte	0
+ 2143 0103 12       		.uleb128 0x12
+ 2144 0104 2E       		.uleb128 0x2e
+ 2145 0105 00       		.byte	0
+ 2146 0106 3F       		.uleb128 0x3f
+ 2147 0107 19       		.uleb128 0x19
+ 2148 0108 3C       		.uleb128 0x3c
+ 2149 0109 19       		.uleb128 0x19
+ 2150 010a 6E       		.uleb128 0x6e
+ 2151 010b 0E       		.uleb128 0xe
+ 2152 010c 03       		.uleb128 0x3
+ 2153 010d 0E       		.uleb128 0xe
+ 2154 010e 3A       		.uleb128 0x3a
+ 2155 010f 0B       		.uleb128 0xb
+ 2156 0110 3B       		.uleb128 0x3b
+ 2157 0111 0B       		.uleb128 0xb
+ 2158 0112 00       		.byte	0
+ 2159 0113 00       		.byte	0
+ 2160 0114 13       		.uleb128 0x13
+ 2161 0115 2E       		.uleb128 0x2e
+ 2162 0116 00       		.byte	0
+ 2163 0117 3F       		.uleb128 0x3f
+ 2164 0118 19       		.uleb128 0x19
+ 2165 0119 3C       		.uleb128 0x3c
+ 2166 011a 19       		.uleb128 0x19
+ 2167 011b 6E       		.uleb128 0x6e
+ 2168 011c 0E       		.uleb128 0xe
+ 2169 011d 03       		.uleb128 0x3
+ 2170 011e 0E       		.uleb128 0xe
+ 2171 011f 3A       		.uleb128 0x3a
+ 2172 0120 0B       		.uleb128 0xb
+ 2173 0121 3B       		.uleb128 0x3b
+ 2174 0122 05       		.uleb128 0x5
+ 2175 0123 00       		.byte	0
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 44
 
 
- 1861 0289 70757473 		.ascii	"puts\000"
- 1861      00
- 1862              	.LASF0:
- 1863 028e 7369676E 		.ascii	"signed char\000"
- 1863      65642063 
- 1863      68617200 
- 1864              	.LASF37:
- 1865 029a 556C7472 		.ascii	"Ultra_GetDistance\000"
- 1865      615F4765 
- 1865      74446973 
- 1865      74616E63 
- 1865      6500
- 1866              	.LASF22:
- 1867 02ac 5F426F6F 		.ascii	"_Bool\000"
- 1867      6C00
- 1868              	.LASF10:
- 1869 02b2 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1869      206C6F6E 
- 1869      6720756E 
- 1869      7369676E 
- 1869      65642069 
- 1870              	.LASF41:
- 1871 02c9 72616E64 		.ascii	"rand\000"
- 1871      00
- 1872              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 2176 0124 00       		.byte	0
+ 2177 0125 00       		.byte	0
+ 2178              		.section	.debug_loc,"",%progbits
+ 2179              	.Ldebug_loc0:
+ 2180              	.LLST0:
+ 2181 0000 20000000 		.4byte	.LVL21
+ 2182 0004 28000000 		.4byte	.LVL22
+ 2183 0008 0100     		.2byte	0x1
+ 2184 000a 50       		.byte	0x50
+ 2185 000b 00000000 		.4byte	0
+ 2186 000f 00000000 		.4byte	0
+ 2187              	.LLST1:
+ 2188 0013 02000000 		.4byte	.LVL15
+ 2189 0017 14000000 		.4byte	.LVL19
+ 2190 001b 0200     		.2byte	0x2
+ 2191 001d 31       		.byte	0x31
+ 2192 001e 9F       		.byte	0x9f
+ 2193 001f 14000000 		.4byte	.LVL19
+ 2194 0023 52000000 		.4byte	.LVL29
+ 2195 0027 0100     		.2byte	0x1
+ 2196 0029 54       		.byte	0x54
+ 2197 002a 00000000 		.4byte	0
+ 2198 002e 00000000 		.4byte	0
+ 2199              	.LLST2:
+ 2200 0032 02000000 		.4byte	.LVL30
+ 2201 0036 14000000 		.4byte	.LVL34
+ 2202 003a 0200     		.2byte	0x2
+ 2203 003c 31       		.byte	0x31
+ 2204 003d 9F       		.byte	0x9f
+ 2205 003e 14000000 		.4byte	.LVL34
+ 2206 0042 20000000 		.4byte	.LVL37
+ 2207 0046 0100     		.2byte	0x1
+ 2208 0048 54       		.byte	0x54
+ 2209 0049 20000000 		.4byte	.LVL37
+ 2210 004d 2A000000 		.4byte	.LVL39
+ 2211 0051 0200     		.2byte	0x2
+ 2212 0053 30       		.byte	0x30
+ 2213 0054 9F       		.byte	0x9f
+ 2214 0055 2A000000 		.4byte	.LVL39
+ 2215 0059 50000000 		.4byte	.LVL45
+ 2216 005d 0100     		.2byte	0x1
+ 2217 005f 54       		.byte	0x54
+ 2218 0060 00000000 		.4byte	0
+ 2219 0064 00000000 		.4byte	0
+ 2220              	.LLST3:
+ 2221 0068 02000000 		.4byte	.LVL46
+ 2222 006c 14000000 		.4byte	.LVL50
+ 2223 0070 0200     		.2byte	0x2
+ 2224 0072 31       		.byte	0x31
+ 2225 0073 9F       		.byte	0x9f
+ 2226 0074 14000000 		.4byte	.LVL50
+ 2227 0078 20000000 		.4byte	.LVL53
+ 2228 007c 0100     		.2byte	0x1
+ 2229 007e 54       		.byte	0x54
+ 2230 007f 20000000 		.4byte	.LVL53
+ 2231 0083 2A000000 		.4byte	.LVL55
+ 2232 0087 0200     		.2byte	0x2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 45
+
+
+ 2233 0089 30       		.byte	0x30
+ 2234 008a 9F       		.byte	0x9f
+ 2235 008b 2A000000 		.4byte	.LVL55
+ 2236 008f 7A000000 		.4byte	.LVL65
+ 2237 0093 0100     		.2byte	0x1
+ 2238 0095 54       		.byte	0x54
+ 2239 0096 00000000 		.4byte	0
+ 2240 009a 00000000 		.4byte	0
+ 2241              	.LLST4:
+ 2242 009e 00000000 		.4byte	.LVL69
+ 2243 00a2 0E000000 		.4byte	.LVL71
+ 2244 00a6 0100     		.2byte	0x1
+ 2245 00a8 50       		.byte	0x50
+ 2246 00a9 0E000000 		.4byte	.LVL71
+ 2247 00ad 18000000 		.4byte	.LFE91
+ 2248 00b1 0400     		.2byte	0x4
+ 2249 00b3 F3       		.byte	0xf3
+ 2250 00b4 01       		.uleb128 0x1
+ 2251 00b5 50       		.byte	0x50
+ 2252 00b6 9F       		.byte	0x9f
+ 2253 00b7 00000000 		.4byte	0
+ 2254 00bb 00000000 		.4byte	0
+ 2255              	.LLST5:
+ 2256 00bf 00000000 		.4byte	.LVL69
+ 2257 00c3 0C000000 		.4byte	.LVL70
+ 2258 00c7 0100     		.2byte	0x1
+ 2259 00c9 51       		.byte	0x51
+ 2260 00ca 0C000000 		.4byte	.LVL70
+ 2261 00ce 11000000 		.4byte	.LVL72-1
+ 2262 00d2 0200     		.2byte	0x2
+ 2263 00d4 7D       		.byte	0x7d
+ 2264 00d5 00       		.sleb128 0
+ 2265 00d6 11000000 		.4byte	.LVL72-1
+ 2266 00da 18000000 		.4byte	.LFE91
+ 2267 00de 0400     		.2byte	0x4
+ 2268 00e0 F3       		.byte	0xf3
+ 2269 00e1 01       		.uleb128 0x1
+ 2270 00e2 51       		.byte	0x51
+ 2271 00e3 9F       		.byte	0x9f
+ 2272 00e4 00000000 		.4byte	0
+ 2273 00e8 00000000 		.4byte	0
+ 2274              	.LLST6:
+ 2275 00ec 00000000 		.4byte	.LVL73
+ 2276 00f0 0E000000 		.4byte	.LVL75
+ 2277 00f4 0100     		.2byte	0x1
+ 2278 00f6 50       		.byte	0x50
+ 2279 00f7 0E000000 		.4byte	.LVL75
+ 2280 00fb 18000000 		.4byte	.LFE92
+ 2281 00ff 0400     		.2byte	0x4
+ 2282 0101 F3       		.byte	0xf3
+ 2283 0102 01       		.uleb128 0x1
+ 2284 0103 50       		.byte	0x50
+ 2285 0104 9F       		.byte	0x9f
+ 2286 0105 00000000 		.4byte	0
+ 2287 0109 00000000 		.4byte	0
+ 2288              	.LLST7:
+ 2289 010d 00000000 		.4byte	.LVL73
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 46
+
+
+ 2290 0111 0C000000 		.4byte	.LVL74
+ 2291 0115 0100     		.2byte	0x1
+ 2292 0117 51       		.byte	0x51
+ 2293 0118 0C000000 		.4byte	.LVL74
+ 2294 011c 11000000 		.4byte	.LVL76-1
+ 2295 0120 0200     		.2byte	0x2
+ 2296 0122 7D       		.byte	0x7d
+ 2297 0123 00       		.sleb128 0
+ 2298 0124 11000000 		.4byte	.LVL76-1
+ 2299 0128 18000000 		.4byte	.LFE92
+ 2300 012c 0400     		.2byte	0x4
+ 2301 012e F3       		.byte	0xf3
+ 2302 012f 01       		.uleb128 0x1
+ 2303 0130 51       		.byte	0x51
+ 2304 0131 9F       		.byte	0x9f
+ 2305 0132 00000000 		.4byte	0
+ 2306 0136 00000000 		.4byte	0
+ 2307              	.LLST8:
+ 2308 013a 20000000 		.4byte	.LVL83
+ 2309 013e 28000000 		.4byte	.LVL84
+ 2310 0142 0100     		.2byte	0x1
+ 2311 0144 50       		.byte	0x50
+ 2312 0145 00000000 		.4byte	0
+ 2313 0149 00000000 		.4byte	0
+ 2314              	.LLST9:
+ 2315 014d 5C000000 		.4byte	.LVL90
+ 2316 0151 9C000000 		.4byte	.LVL96
+ 2317 0155 0100     		.2byte	0x1
+ 2318 0157 54       		.byte	0x54
+ 2319 0158 00000000 		.4byte	0
+ 2320 015c 00000000 		.4byte	0
+ 2321              	.LLST10:
+ 2322 0160 02000000 		.4byte	.LVL77
+ 2323 0164 14000000 		.4byte	.LVL81
+ 2324 0168 0200     		.2byte	0x2
+ 2325 016a 31       		.byte	0x31
+ 2326 016b 9F       		.byte	0x9f
+ 2327 016c 14000000 		.4byte	.LVL81
+ 2328 0170 AE000000 		.4byte	.LVL100
+ 2329 0174 0100     		.2byte	0x1
+ 2330 0176 56       		.byte	0x56
+ 2331 0177 00000000 		.4byte	0
+ 2332 017b 00000000 		.4byte	0
+ 2333              	.LLST11:
+ 2334 017f 46000000 		.4byte	.LVL88
+ 2335 0183 9C000000 		.4byte	.LVL96
+ 2336 0187 0500     		.2byte	0x5
+ 2337 0189 75       		.byte	0x75
+ 2338 018a 00       		.sleb128 0
+ 2339 018b 30       		.byte	0x30
+ 2340 018c 2E       		.byte	0x2e
+ 2341 018d 9F       		.byte	0x9f
+ 2342 018e 00000000 		.4byte	0
+ 2343 0192 00000000 		.4byte	0
+ 2344              		.section	.debug_aranges,"",%progbits
+ 2345 0000 54000000 		.4byte	0x54
+ 2346 0004 0200     		.2byte	0x2
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 47
+
+
+ 2347 0006 00000000 		.4byte	.Ldebug_info0
+ 2348 000a 04       		.byte	0x4
+ 2349 000b 00       		.byte	0
+ 2350 000c 0000     		.2byte	0
+ 2351 000e 0000     		.2byte	0
+ 2352 0010 00000000 		.4byte	.LFB85
+ 2353 0014 8C000000 		.4byte	.LFE85-.LFB85
+ 2354 0018 00000000 		.4byte	.LFB86
+ 2355 001c 58000000 		.4byte	.LFE86-.LFB86
+ 2356 0020 00000000 		.4byte	.LFB88
+ 2357 0024 58000000 		.4byte	.LFE88-.LFB88
+ 2358 0028 00000000 		.4byte	.LFB89
+ 2359 002c 84000000 		.4byte	.LFE89-.LFB89
+ 2360 0030 00000000 		.4byte	.LFB90
+ 2361 0034 18000000 		.4byte	.LFE90-.LFB90
+ 2362 0038 00000000 		.4byte	.LFB91
+ 2363 003c 18000000 		.4byte	.LFE91-.LFB91
+ 2364 0040 00000000 		.4byte	.LFB92
+ 2365 0044 18000000 		.4byte	.LFE92-.LFB92
+ 2366 0048 00000000 		.4byte	.LFB87
+ 2367 004c C4000000 		.4byte	.LFE87-.LFB87
+ 2368 0050 00000000 		.4byte	0
+ 2369 0054 00000000 		.4byte	0
+ 2370              		.section	.debug_ranges,"",%progbits
+ 2371              	.Ldebug_ranges0:
+ 2372 0000 00000000 		.4byte	.LFB85
+ 2373 0004 8C000000 		.4byte	.LFE85
+ 2374 0008 00000000 		.4byte	.LFB86
+ 2375 000c 58000000 		.4byte	.LFE86
+ 2376 0010 00000000 		.4byte	.LFB88
+ 2377 0014 58000000 		.4byte	.LFE88
+ 2378 0018 00000000 		.4byte	.LFB89
+ 2379 001c 84000000 		.4byte	.LFE89
+ 2380 0020 00000000 		.4byte	.LFB90
+ 2381 0024 18000000 		.4byte	.LFE90
+ 2382 0028 00000000 		.4byte	.LFB91
+ 2383 002c 18000000 		.4byte	.LFE91
+ 2384 0030 00000000 		.4byte	.LFB92
+ 2385 0034 18000000 		.4byte	.LFE92
+ 2386 0038 00000000 		.4byte	.LFB87
+ 2387 003c C4000000 		.4byte	.LFE87
+ 2388 0040 00000000 		.4byte	0
+ 2389 0044 00000000 		.4byte	0
+ 2390              		.section	.debug_line,"",%progbits
+ 2391              	.Ldebug_line0:
+ 2392 0000 F0020000 		.section	.debug_str,"MS",%progbits,1
+ 2392      0200FD01 
+ 2392      00000201 
+ 2392      FB0E0D00 
+ 2392      01010101 
+ 2393              	.LASF28:
+ 2394 0000 616E6574 		.ascii	"aneta_tankTurnRight\000"
+ 2394      615F7461 
+ 2394      6E6B5475 
+ 2394      726E5269 
+ 2394      67687400 
+ 2395              	.LASF52:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 48
+
+
+ 2396 0014 616E6574 		.ascii	"aneta_w3a1\000"
+ 2396      615F7733 
+ 2396      613100
+ 2397              	.LASF23:
+ 2398 001f 616E6574 		.ascii	"aneta_w3a2\000"
+ 2398      615F7733 
+ 2398      613200
+ 2399              	.LASF32:
+ 2400 002a 616E6574 		.ascii	"aneta_w3a3\000"
+ 2400      615F7733 
+ 2400      613300
+ 2401              	.LASF29:
+ 2402 0035 73706565 		.ascii	"speed\000"
+ 2402      6400
+ 2403              	.LASF4:
+ 2404 003b 5F5F7569 		.ascii	"__uint8_t\000"
+ 2404      6E74385F 
+ 2404      7400
+ 2405              	.LASF5:
+ 2406 0045 5F5F696E 		.ascii	"__int32_t\000"
+ 2406      7433325F 
+ 2406      7400
+ 2407              	.LASF21:
+ 2408 004f 6D6F7665 		.ascii	"move\000"
+ 2408      00
+ 2409              	.LASF42:
+ 2410 0054 6D6F746F 		.ascii	"motor_backward\000"
+ 2410      725F6261 
+ 2410      636B7761 
+ 2410      726400
+ 2411              	.LASF12:
+ 2412 0063 75696E74 		.ascii	"uint8_t\000"
+ 2412      385F7400 
+ 2413              	.LASF34:
+ 2414 006b 7475726E 		.ascii	"turnRight\000"
+ 2414      52696768 
+ 2414      7400
+ 2415              	.LASF33:
+ 2416 0075 64656772 		.ascii	"degreeTurn\000"
+ 2416      65655475 
+ 2416      726E00
+ 2417              	.LASF20:
+ 2418 0080 6F627344 		.ascii	"obsD\000"
+ 2418      00
+ 2419              	.LASF37:
+ 2420 0085 6D6F746F 		.ascii	"motor_turn\000"
+ 2420      725F7475 
+ 2420      726E00
+ 2421              	.LASF15:
+ 2422 0090 666C6F61 		.ascii	"float\000"
+ 2422      7400
+ 2423              	.LASF55:
+ 2424 0096 5F5F6275 		.ascii	"__builtin_puts\000"
+ 2424      696C7469 
+ 2424      6E5F7075 
+ 2424      747300
+ 2425              	.LASF30:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 49
+
+
+ 2426 00a5 64656C61 		.ascii	"delay\000"
+ 2426      7900
+ 2427              	.LASF1:
+ 2428 00ab 756E7369 		.ascii	"unsigned char\000"
+ 2428      676E6564 
+ 2428      20636861 
+ 2428      7200
+ 2429              	.LASF49:
+ 2430 00b9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2430      43313120 
+ 2430      352E342E 
+ 2430      31203230 
+ 2430      31363036 
+ 2431 00ec 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2431      20726576 
+ 2431      6973696F 
+ 2431      6E203233 
+ 2431      37373135 
+ 2432 011f 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2432      66756E63 
+ 2432      74696F6E 
+ 2432      2D736563 
+ 2432      74696F6E 
+ 2433              	.LASF8:
+ 2434 0147 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2434      20756E73 
+ 2434      69676E65 
+ 2434      6420696E 
+ 2434      7400
+ 2435              	.LASF24:
+ 2436 0159 616E6574 		.ascii	"aneta_w4a1\000"
+ 2436      615F7734 
+ 2436      613100
+ 2437              	.LASF26:
+ 2438 0164 616E6574 		.ascii	"aneta_w4a2\000"
+ 2438      615F7734 
+ 2438      613200
+ 2439              	.LASF27:
+ 2440 016f 616E6574 		.ascii	"aneta_w4a3\000"
+ 2440      615F7734 
+ 2440      613300
+ 2441              	.LASF50:
+ 2442 017a 616E6574 		.ascii	"aneta.c\000"
+ 2442      612E6300 
+ 2443              	.LASF53:
+ 2444 0182 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2444      52784275 
+ 2444      66666572 
+ 2444      00
+ 2445              	.LASF36:
+ 2446 018f 6D6F746F 		.ascii	"motor_forward\000"
+ 2446      725F666F 
+ 2446      72776172 
+ 2446      6400
+ 2447              	.LASF16:
+ 2448 019d 646F7562 		.ascii	"double\000"
+ 2448      6C6500
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 50
+
+
+ 2449              	.LASF18:
+ 2450 01a4 6C6F6E67 		.ascii	"long double\000"
+ 2450      20646F75 
+ 2450      626C6500 
+ 2451              	.LASF38:
+ 2452 01b0 6D6F746F 		.ascii	"motor_stop\000"
+ 2452      725F7374 
+ 2452      6F7000
+ 2453              	.LASF7:
+ 2454 01bb 5F5F7569 		.ascii	"__uint32_t\000"
+ 2454      6E743332 
+ 2454      5F7400
+ 2455              	.LASF25:
+ 2456 01c6 77616974 		.ascii	"wait\000"
+ 2456      00
+ 2457              	.LASF40:
+ 2458 01cb 556C7472 		.ascii	"Ultra_Start\000"
+ 2458      615F5374 
+ 2458      61727400 
+ 2459              	.LASF11:
+ 2460 01d7 756E7369 		.ascii	"unsigned int\000"
+ 2460      676E6564 
+ 2460      20696E74 
+ 2460      00
+ 2461              	.LASF44:
+ 2462 01e4 49525F53 		.ascii	"IR_Start\000"
+ 2462      74617274 
+ 2462      00
+ 2463              	.LASF17:
+ 2464 01ed 63686172 		.ascii	"char\000"
+ 2464      00
+ 2465              	.LASF45:
+ 2466 01f2 49525F77 		.ascii	"IR_wait\000"
+ 2466      61697400 
+ 2467              	.LASF43:
+ 2468 01fa 5357315F 		.ascii	"SW1_Read\000"
+ 2468      52656164 
+ 2468      00
+ 2469              	.LASF46:
+ 2470 0203 5365744D 		.ascii	"SetMotors\000"
+ 2470      6F746F72 
+ 2470      7300
+ 2471              	.LASF13:
+ 2472 020d 696E7433 		.ascii	"int32_t\000"
+ 2472      325F7400 
+ 2473              	.LASF19:
+ 2474 0215 73697A65 		.ascii	"sizetype\000"
+ 2474      74797065 
+ 2474      00
+ 2475              	.LASF35:
+ 2476 021e 6D6F746F 		.ascii	"motor_start\000"
+ 2476      725F7374 
+ 2476      61727400 
+ 2477              	.LASF9:
+ 2478 022a 6C6F6E67 		.ascii	"long long int\000"
+ 2478      206C6F6E 
+ 2478      6720696E 
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 51
+
+
+ 2478      7400
+ 2479              	.LASF51:
+ 2480 0238 443A5C41 		.ascii	"D:\\Annie\\Metropolia\\Smart Devices\\Smart Program"
+ 2480      6E6E6965 
+ 2480      5C4D6574 
+ 2480      726F706F 
+ 2480      6C69615C 
+ 2481 0267 6D696E67 		.ascii	"ming\\PSoc\\Group6\\ZumoBot\\ZumoBot.cydsn\000"
+ 2481      5C50536F 
+ 2481      635C4772 
+ 2481      6F757036 
+ 2481      5C5A756D 
+ 2482              	.LASF31:
+ 2483 028e 616E6574 		.ascii	"aneta_tankTurnLeft\000"
+ 2483      615F7461 
+ 2483      6E6B5475 
+ 2483      726E4C65 
+ 2483      667400
+ 2484              	.LASF48:
+ 2485 02a1 7072696E 		.ascii	"printf\000"
+ 2485      746600
+ 2486              	.LASF2:
+ 2487 02a8 73686F72 		.ascii	"short int\000"
+ 2487      7420696E 
+ 2487      7400
+ 2488              	.LASF14:
+ 2489 02b2 75696E74 		.ascii	"uint32_t\000"
+ 2489      33325F74 
+ 2489      00
+ 2490              	.LASF6:
+ 2491 02bb 6C6F6E67 		.ascii	"long int\000"
+ 2491      20696E74 
+ 2491      00
+ 2492              	.LASF39:
+ 2493 02c4 76546173 		.ascii	"vTaskDelay\000"
+ 2493      6B44656C 
+ 2493      617900
+ 2494              	.LASF54:
+ 2495 02cf 70757473 		.ascii	"puts\000"
+ 2495      00
+ 2496              	.LASF0:
+ 2497 02d4 7369676E 		.ascii	"signed char\000"
+ 2497      65642063 
+ 2497      68617200 
+ 2498              	.LASF3:
+ 2499 02e0 73686F72 		.ascii	"short unsigned int\000"
+ 2499      7420756E 
+ 2499      7369676E 
+ 2499      65642069 
+ 2499      6E7400
+ 2500              	.LASF41:
+ 2501 02f3 556C7472 		.ascii	"Ultra_GetDistance\000"
+ 2501      615F4765 
+ 2501      74446973 
+ 2501      74616E63 
+ 2501      6500
+ 2502              	.LASF22:
+ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccWAsLCw.s 			page 52
+
+
+ 2503 0305 5F426F6F 		.ascii	"_Bool\000"
+ 2503      6C00
+ 2504              	.LASF10:
+ 2505 030b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2505      206C6F6E 
+ 2505      6720756E 
+ 2505      7369676E 
+ 2505      65642069 
+ 2506              	.LASF47:
+ 2507 0322 72616E64 		.ascii	"rand\000"
+ 2507      00
+ 2508              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

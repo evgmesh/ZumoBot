@@ -12,9 +12,13 @@
 
 #include <stdint.h>
 
-void aneta_w1a1(void);
-void aneta_w1a2(void);
-void aneta_w1a3(void);
+void aneta_w3a1(void);
+void aneta_w3a2(void);
+void aneta_w3a3(void);
+
+void aneta_w4a1(void);
+void aneta_w4a2(void);
+void aneta_w4a3(void);
 
 void aneta_tankTurnRight(uint8_t speed, uint32_t delay);
 void aneta_tankTurnLeft(uint8_t speed, uint32_t delay);
