@@ -133,14 +133,9 @@ void week4_1_evg(void)
 {
     uint32_t count = 0;
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(14000, 14000, 11000, 11000, 14000, 14000);  
     
-    while(SW1_Read());
-      
+    startUp(1,0,1,1);
+    
     reflectance_digital(&dig);
     while(count<5) 
     {
@@ -149,12 +144,11 @@ void week4_1_evg(void)
         printf("one loop, %i lines passed by\n", count);
         if(count == 1){
             motor_forward(0,0);
-            IR_wait();
+            startUp(0,1,0,0);
         }
     }
     printf("Number of lines is %i\n", count);
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
 
 
@@ -163,18 +157,11 @@ void week4_1_evg(void)
 void week4_2_evg(void) 
 {
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
-    IR_wait();
-    //while(SW1_Read());
-    reflectance_digital(&dig); 
+    startUp(1,1,1, 1);
     
-        driveForward();
-        printf("after driveforward\n");
-        IR_wait();  
+    reflectance_digital(&dig); 
+    driveForward();
+    
         reflectance_digital(&dig); 
         while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
         {
@@ -182,7 +169,6 @@ void week4_2_evg(void)
              motor_forward(125,0);
         }
         reflectance_digital(&dig); 
-        //driveForward();
         while(dig.L3 == 0 && dig.R3 == 0)
         {
             motor_forward(50,0);
@@ -199,9 +185,7 @@ void week4_2_evg(void)
                 reflectance_digital(&dig); 
             }
         }
-    printf("end of loop");
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
 //week 4 Exercise 3
 
@@ -209,15 +193,10 @@ void week4_3_evg(void)
 {
     uint32_t count = 0;
     struct sensors_ dig;
-    reflectance_start(); 
-    IR_Start();
-    motor_start();  
-    motor_forward(0,0);
-    reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
-    IR_wait();
-   // while(SW1_Read());
-    reflectance_digital(&dig);
     
+    startUp(1, 0, 1, 1);
+
+    reflectance_digital(&dig);
     while(count<5) 
     {
         driveForward();
@@ -228,7 +207,7 @@ void week4_3_evg(void)
         if(count == 1)
         {
             motor_forward(0,0);
-            IR_wait();
+            startUp(0,1,0,0);
         } else if(count == 2) 
           {
               //turn left on second line  
@@ -255,8 +234,7 @@ void week4_3_evg(void)
                 }
               } 
     }
-    motor_forward(0,0);         
-    motor_stop();
+    end();
 }
 
 
@@ -312,9 +290,31 @@ void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
     SetMotors(0,0, l_speed, r_speed, delay);
 }
 
+void end(void) {
+    motor_forward(0,0);         
+    motor_stop();
+}
 
-
-
+void startUp(int motor, int IR, int reflectance, int button) {
+    if(motor == 1){
+        motor_start();  
+        motor_forward(0,0);
+    }
+    if(IR == 1){
+        IR_Start();
+        IR_wait();    
+    }
+    if(reflectance == 1){
+        reflectance_start(); 
+        reflectance_set_threshold(11000, 11000, 14000, 14000, 11000, 11000);
+    }
+    if(button == 1) {
+        while(SW1_Read());
+    }
+    
+       
+    
+}
 
 
 /* [] END OF FILE */
