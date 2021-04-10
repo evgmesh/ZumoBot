@@ -145,16 +145,12 @@ void week4_1_evg(void)
     while(count<5) 
     {
         driveForward();
-        
         count++;
-        printf("one loop, lines is %i\n", count);
-        motor_forward(0,0);
-        IR_wait();
+        printf("one loop, %i lines passed by\n", count);
         if(count == 1){
             motor_forward(0,0);
             IR_wait();
         }
-       
     }
     printf("Number of lines is %i\n", count);
     motor_forward(0,0);         
@@ -172,35 +168,24 @@ void week4_2_evg(void)
     motor_start();  
     motor_forward(0,0);
     reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
-    
-    while(SW1_Read());
+    IR_wait();
+    //while(SW1_Read());
     reflectance_digital(&dig); 
-    while(dig.L3 == 0 && dig.R3 == 0)
-        {
-            motor_forward(40,0);
-            reflectance_digital(&dig); 
-        }
-        motor_forward(0,0);
+    driveForward();
         IR_wait();  
-        reflectance_digital(&dig); 
-        while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
-        {
-            motor_forward(100,0);
-            reflectance_digital(&dig); 
-        }
         while(dig.L3 == 0 && dig.R3 == 0)
         {
-            motor_forward(40,0);
+            motor_forward(50,0);
             reflectance_digital(&dig); 
             
             if(dig.R2 == 1)
             {   
-                tankTurnEvg(80,0,0);
+                tankTurnEvg(150,0,0);
                 reflectance_digital(&dig); 
             }
             if(dig.L2 == 1)
             {   
-                tankTurnEvg(0,120,0);
+                tankTurnEvg(0,200,0);
                 reflectance_digital(&dig); 
             }
         }
@@ -221,36 +206,57 @@ void week4_3_evg(void)
     reflectance_set_threshold(11000, 11000, 11000, 11000, 11000, 11000);  
     IR_wait();
    // while(SW1_Read());
-    reflectance_digital(&dig); 
-    while(dig.L3 == 0 && dig.R3 == 0)
+    reflectance_digital(&dig);
+    while(count<5) 
     {
-        motor_forward(40,0);
-        reflectance_digital(&dig); 
-    }
-      motor_forward(0,0);
-    IR_flush();  
-    IR_wait();  
-    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
-    {
-        motor_forward(100,0);
-        reflectance_digital(&dig); 
-    }
-     count++;
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
-    {
-        motor_forward(80,0);
-        reflectance_digital(&dig); 
-    }
-    if(count == 1){
-        while(!(dig.L1 == 1 && dig.R1 == 1))
-    {
-        motor_turn(10,200,10);
-        reflectance_digital(&dig); 
-    }
+        driveForward();
+        count++;
+        printf("one loop, %i lines passed by\n", count);
         
+        // wait on first line
+        if(count == 1){
+            motor_forward(0,0);
+            IR_wait();
+          
+        } else if(count == 2) {
+           // motor_forward(0,0);
+           // IR_wait();
+            printf("count is two!\n");
+         //turn left on second line  
+            reflectance_digital(&dig);
+          while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)  ) {
+                motor_turn(4,250,50);
+                reflectance_digital(&dig);
+        }
         
-        
+       // printf("L3 = %d, L2 = %d, L1 = %d, R1= %d, R2= %d, R3= %d\n", dig.L3 , dig.L2 , dig.L1 , dig.R1 ,dig.R2 , dig.R3);
+        //motor_forward(0,0);    
+        //IR_wait();
+        } else if(count == 3) {
+          //  motor_forward(0,0);
+            //IR_wait();
+            
+           //turn right on third line
+            reflectance_digital(&dig);
+          while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0) ) {
+            //printf("while -3 \n");
+                motor_turn(230,10,70);
+                reflectance_digital(&dig);
+        }
+        } else if(count == 4) {
+           // motor_forward(0,0);
+            //IR_wait();
+            
+           //turn right on fourth line
+            reflectance_digital(&dig);
+          while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)) {
+           
+                motor_turn(230,10,50);
+                reflectance_digital(&dig);
+        }
+        } 
     }
+    
     printf("end of loop");
     motor_forward(0,0);         
     motor_stop();
@@ -263,24 +269,19 @@ void driveForward(void){
     struct sensors_ dig;
     reflectance_start(); 
     reflectance_digital(&dig);
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
-    {
-        printf("inside first loop\n");
-        motor_forward(7,0);
-        reflectance_digital(&dig); 
-    }
-    printf("out of first loop\n");
-    motor_forward(0,0);
-    IR_wait();
+    //drives forward when on black
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
-         printf("inside second loop\n");
-        motor_forward(7,0);
+        motor_forward(100,0);
         reflectance_digital(&dig); 
     }
-    printf("out of second loop\n");
+    //drives forward when on white
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    {
+        motor_forward(100,0);
+        reflectance_digital(&dig); 
+    }
     motor_forward(0,0);
-    IR_wait();
 }
 
 
