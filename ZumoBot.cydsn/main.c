@@ -50,7 +50,6 @@
 #include "group6.h"
 #include "Dongbin.h" //temporarily for group test only
 #include "evgenii.h"
-#include "aneta.h"
 
 /**
  * @file    main.c
@@ -75,9 +74,9 @@
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
     
-   //week4_3_evg(); // Evgenii
+   week4_1_evg(); // Evgenii
    //week4_3_DB();         // Dongbin 
-   aneta_w4a3();          // Aneta
+   //group6_Ex2();          // Aneta
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
