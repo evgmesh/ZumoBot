@@ -50,6 +50,7 @@
 #include "group6.h"
 #include "Dongbin.h" //temporarily for group test only
 #include "evgenii.h"
+#include "aneta.h"
 
 /**
  * @file    main.c
