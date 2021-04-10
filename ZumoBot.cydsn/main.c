@@ -75,9 +75,9 @@
    //group6_Ex2();     // Aneta
   // group6_Ex3();       // Evgenii
     
-   week4_1_evg(); // Evgenii
+   //week4_1_evg(); // Evgenii
    //week4_3_DB();         // Dongbin 
-   //group6_Ex2();          // Aneta
+   aneta_w4a1();          // Aneta
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
