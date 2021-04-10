@@ -145,12 +145,9 @@ void week3_3_DB(void){
 /****************************** week 4 Assignment 1 ****************************************/
 void week4_1_DB(void){
     
-    IR_Start();
     onYourMark_DB();    //move the motor to first line
     
     struct sensors_ dig;
-    reflectance_start();
-    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
     
     IR_wait();
     motor_forward(125,0);
@@ -166,10 +163,7 @@ void week4_1_DB(void){
         }
         printf("loop i = %d\n",i); 
     }
-    motor_forward(0,0);
-    motor_stop();
-  
-    progEnd_DB(500);
+    flameout_DB();
     
 }
 
@@ -177,12 +171,9 @@ void week4_1_DB(void){
 
 void week4_2_DB(void){
     
-    IR_Start();
     onYourMark_DB();  //move motor to the first line
     
     struct sensors_ dig;
-    reflectance_start();
-    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
     
     IR_wait();
     reflectance_digital(&dig);
@@ -204,48 +195,36 @@ void week4_2_DB(void){
             motor_forward(125,0);   
         }
     }
-    motor_forward(0,0);
-    motor_stop();
-    
-    progEnd_DB(500);
+    flameout_DB();
 }
 
 /******************************* week 4 Assignment 3 ****************************************/
 void week4_3_DB(void){
     
-    IR_Start();
+    
     onYourMark_DB();       //move motor to the first line
     
-    struct sensors_ dig;
-    reflectance_start();
-    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000);
-    
     IR_wait();
-    uint32_t line = 0; 
-    //reflectance_digital(&dig);
-    motor_forward(50,1300);
+    int line = 0; 
+    
+    motor_forward(50,0);
     
     while(line < 5){
-        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
-        reflectance_digital(&dig);
-        motor_forward(50,0);
-        }
-        line++;
+        lineDetector_DB(); //detect the black line 
+                
+        line++;             //count the number of black lines
+        
         if(line == 2){
             motor_turn(0,75,700);
-            followTheLine();
+            followTheLine_DB();  //control the movement by the line
         }
-        //motor_forward(0,0);
-        //vTaskDelay(1000);
+        
         if(line == 3 || line == 4){
-            motor_turn(75,0,600);
-            followTheLine();
+            motor_turn(75,0,601);
+            followTheLine_DB();
         }
     }
-    motor_forward(0,0);
-    motor_stop();
-    
-    progEnd_DB(500);
+    flameout_DB();
     
 }
     
@@ -333,14 +312,14 @@ void tankRandTR_DB(uint32_t delay){
     SetMotors(0,1,200,0,delay);
 }
 
-int randTurnLR_DB(){
+int randTurnLR_DB(void){
     int TurnLR;
     TickType_t rand = xTaskGetTickCount();
     TurnLR = rand % 2;
     return TurnLR;
 }
 
-int randTurnDeg_DB(){
+int randTurnDeg_DB(void){
     int deg = 0;
     TickType_t rand = xTaskGetTickCount();
     deg = rand % 1000;
@@ -355,15 +334,15 @@ int randTurnDeg_DB(){
     };
 }
 
-void onYourMark_DB(){
+void onYourMark_DB(void){
+    IR_Start();
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
     struct sensors_ dig;
     reflectance_start();
     reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000); 
     // set center sensor threshold to 11000 and others to 9000
         
-    motor_start();              // enable motor controller
-    motor_forward(0,0);         // set speed to zero to stop motors
-   
     while(SW1_Read());
     BatteryLed_Write(true);
     vTaskDelay(200);
@@ -376,9 +355,10 @@ void onYourMark_DB(){
     motor_forward(0,0);  
 }
 
-void followTheLine(void){
+void followTheLine_DB(void){
     struct sensors_ dig;
-    while(dig.L2 == 0 || dig.R2 == 0){
+    reflectance_digital(&dig);
+    while(!(dig.L2 == 1 && dig.R2 == 1)){
         reflectance_digital(&dig);
         if(dig.L1 != 1 && dig.L2 == 0){
             motor_turn(50,0,100);   
@@ -387,8 +367,33 @@ void followTheLine(void){
         }else if(dig.L1 != 0 && dig.R1 != 0){
             motor_forward(50,0); 
         }   
-    }   
+    }
 }
+
+void lineDetector_DB(void){
+    struct sensors_ dig;
+    
+    reflectance_digital(&dig);
+    if(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+                reflectance_digital(&dig);
+                motor_forward(50,0);
+                }
+        }else if((!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))){
+            while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+                reflectance_digital(&dig);
+                motor_forward(50,0);
+                }
+        }   
+    
+}
+void flameout_DB(void){
+    motor_forward(0,0);
+    motor_stop();
+    
+    progEnd_DB(500); 
+}
+
 
 //void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
 
