@@ -141,10 +141,10 @@ void week4_1_evg(void)
     {
         driveForward();
         count++;
-        printf("one loop, %i lines passed by\n", count);
-        if(count == 1){
-            motor_forward(0,0);
-            startUp(0,1,0,0);
+      if(count == 1)
+        {
+         motor_forward(0,0);
+         startUp(0,1,0,0);
         }
     }
     printf("Number of lines is %i\n", count);
@@ -178,12 +178,11 @@ void week4_2_evg(void)
             {   
                 tankTurnEvg(150,0,0);
                 reflectance_digital(&dig); 
-            }
-            if(dig.L2 == 1)
-            {   
+            }else if(dig.L2 == 1)
+             {   
                 tankTurnEvg(0,200,0);
                 reflectance_digital(&dig); 
-            }
+             }
         }
     end();
 }
@@ -216,23 +215,23 @@ void week4_3_evg(void)
                     motor_turn(4,250,50);
                     reflectance_digital(&dig);
               }
-          } else if(count == 3) 
+        } else if(count == 3) 
+          {
+            //turn right on third line
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0) ) 
             {
-                //turn right on third line
-                while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0) ) 
-                {
-                    motor_turn(230,10,70);
-                    reflectance_digital(&dig);
-                }
-            } else if(count == 4) 
-              {
-                //turn right on fourth line
-                while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)) 
-                {
-                    motor_turn(230,10,50);
-                    reflectance_digital(&dig);
-                }
-              } 
+                motor_turn(230,10,70);
+                reflectance_digital(&dig);
+            }
+        } else if(count == 4) 
+          {
+            //turn right on fourth line
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 0 && dig.R3 == 0)) 
+            {
+                motor_turn(230,10,50);
+                reflectance_digital(&dig);
+            }
+          } 
     }
     end();
 }
@@ -295,6 +294,7 @@ void end(void) {
     motor_stop();
 }
 
+// function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
 void startUp(int motor, int IR, int reflectance, int button) {
     if(motor == 1){
         motor_start();  
@@ -311,9 +311,7 @@ void startUp(int motor, int IR, int reflectance, int button) {
     if(button == 1) {
         while(SW1_Read());
     }
-    
-       
-    
+    // more to add here
 }
 
 
