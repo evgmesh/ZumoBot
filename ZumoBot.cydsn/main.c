@@ -71,24 +71,24 @@
         
 /***********************************Test your function here**************************************/
 
+         //group6_Ex1();         // Dongbin
+         //group6_Ex2();     // Aneta
+        // group6_Ex3();       // Evgenii
+        
+        
         /**********************************Dongbin zone***************************/
-   //group6_Ex1();         // Dongbin
-   //group6_Ex2();     // Aneta
-  // group6_Ex3();       // Evgenii
+  
 
     
-   //week4_1_DB();         // Dongbin 
+        week4_3_DB();         // Dongbin 
   
-        
-        
-        
         
         /**********************************Aneta zone***************************/ 
         //aneta_w4a2();          
     
     
         /**********************************Evgenii zone***************************/ 
-        week4_3_evg(); // Evgenii
+        //week4_2_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
