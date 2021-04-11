@@ -3373,6 +3373,7 @@ END GROUP
  .debug_abbrev  0x00005f53      0x1a7 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyFlash.o)
  .debug_abbrev  0x000060fa      0x194 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CySpc.o)
 
+<<<<<<< HEAD
 .debug_line     0x00000000     0xa444
  *(.debug_line)
  .debug_line    0x00000000      0x1ac .\CortexM3\ARM_GCC_541\Debug\Beep.o
@@ -3444,6 +3445,79 @@ END GROUP
  .debug_line    0x00009f64       0x66 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyBootAsmGnu.o)
  .debug_line    0x00009fca      0x21a .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyFlash.o)
  .debug_line    0x0000a1e4      0x260 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CySpc.o)
+=======
+.debug_line     0x00000000     0xa031
+ *(.debug_line)
+ .debug_line    0x00000000      0x190 .\CortexM3\ARM_GCC_541\Debug\Beep.o
+ .debug_line    0x00000190      0x21a .\CortexM3\ARM_GCC_541\Debug\Gyro.o
+ .debug_line    0x000003aa        0x0 .\CortexM3\ARM_GCC_541\Debug\IR.o
+ .debug_line    0x000003aa      0x1d5 .\CortexM3\ARM_GCC_541\Debug\Magnet.o
+ .debug_line    0x0000057f      0x187 .\CortexM3\ARM_GCC_541\Debug\Motor.o
+ .debug_line    0x00000706      0x1bf .\CortexM3\ARM_GCC_541\Debug\Nunchuk.o
+ .debug_line    0x000008c5        0x0 .\CortexM3\ARM_GCC_541\Debug\Ultra.o
+ .debug_line    0x000008c5        0x0 .\CortexM3\ARM_GCC_541\Debug\Retarget.o
+ .debug_line    0x000008c5      0x18e .\CortexM3\ARM_GCC_541\Debug\I2C_Common.o
+ .debug_line    0x00000a53      0x16b .\CortexM3\ARM_GCC_541\Debug\LSM303D.o
+ .debug_line    0x00000bbe      0x404 .\CortexM3\ARM_GCC_541\Debug\debug_uart.o
+ .debug_line    0x00000fc2      0x6d4 .\CortexM3\ARM_GCC_541\Debug\esp8266_socket.o
+ .debug_line    0x00001696      0x264 .\CortexM3\ARM_GCC_541\Debug\rtos_main.o
+ .debug_line    0x000018fa      0x2cb .\CortexM3\ARM_GCC_541\Debug\serial.o
+ .debug_line    0x00001bc5      0x346 .\CortexM3\ARM_GCC_541\Debug\mqtt_sender.o
+ .debug_line    0x00001f0b      0x282 .\CortexM3\ARM_GCC_541\Debug\serial1.o
+ .debug_line    0x0000218d      0x123 .\CortexM3\ARM_GCC_541\Debug\Reflectance.o
+ .debug_line    0x000022b0      0x3d9 .\CortexM3\ARM_GCC_541\Debug\simulator.o
+ .debug_line    0x00002689      0x74d .\CortexM3\ARM_GCC_541\Debug\MQTTClient.o
+ .debug_line    0x00002dd6      0x327 .\CortexM3\ARM_GCC_541\Debug\MQTTFreeRTOS.o
+ .debug_line    0x000030fd      0x149 .\CortexM3\ARM_GCC_541\Debug\MQTTConnectClient.o
+ .debug_line    0x00003246      0x183 .\CortexM3\ARM_GCC_541\Debug\MQTTConnectServer.o
+ .debug_line    0x000033c9       0xb8 .\CortexM3\ARM_GCC_541\Debug\MQTTDeserializePublish.o
+ .debug_line    0x00003481      0x181 .\CortexM3\ARM_GCC_541\Debug\MQTTFormat.o
+ .debug_line    0x00003602      0x2a8 .\CortexM3\ARM_GCC_541\Debug\MQTTPacket.o
+ .debug_line    0x000038aa       0xf9 .\CortexM3\ARM_GCC_541\Debug\MQTTSerializePublish.o
+ .debug_line    0x000039a3       0xef .\CortexM3\ARM_GCC_541\Debug\MQTTSubscribeClient.o
+ .debug_line    0x00003a92       0xc4 .\CortexM3\ARM_GCC_541\Debug\MQTTSubscribeServer.o
+ .debug_line    0x00003b56       0xd8 .\CortexM3\ARM_GCC_541\Debug\MQTTUnsubscribeClient.o
+ .debug_line    0x00003c2e       0xae .\CortexM3\ARM_GCC_541\Debug\MQTTUnsubscribeServer.o
+ .debug_line    0x00003cdc      0x123 .\CortexM3\ARM_GCC_541\Debug\croutine.o
+ .debug_line    0x00003dff      0x357 .\CortexM3\ARM_GCC_541\Debug\event_groups.o
+ .debug_line    0x00004156      0x218 .\CortexM3\ARM_GCC_541\Debug\list.o
+ .debug_line    0x0000436e      0x712 .\CortexM3\ARM_GCC_541\Debug\queue.o
+ .debug_line    0x00004a80      0x526 .\CortexM3\ARM_GCC_541\Debug\stream_buffer.o
+ .debug_line    0x00004fa6      0xca2 .\CortexM3\ARM_GCC_541\Debug\tasks.o
+ .debug_line    0x00005c48      0x123 .\CortexM3\ARM_GCC_541\Debug\timers.o
+ .debug_line    0x00005d6b      0x2a0 .\CortexM3\ARM_GCC_541\Debug\port.o
+ .debug_line    0x0000600b      0x2cc .\CortexM3\ARM_GCC_541\Debug\heap_2.o
+ .debug_line    0x000062d7      0x195 .\CortexM3\ARM_GCC_541\Debug\main.o
+ .debug_line    0x0000646c      0x454 .\CortexM3\ARM_GCC_541\Debug\evgenii.o
+ .debug_line    0x000068c0      0x549 .\CortexM3\ARM_GCC_541\Debug\Dongbin.o
+ .debug_line    0x00006e09      0x31e .\CortexM3\ARM_GCC_541\Debug\aneta.o
+ .debug_line    0x00007127      0x2cd .\CortexM3\ARM_GCC_541\Debug\group6_submitting.o
+ .debug_line    0x000073f4      0x221 .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o
+ .debug_line    0x00007615      0x125 .\CortexM3\ARM_GCC_541\Debug\cymetadata.o
+ .debug_line    0x0000773a      0x218 .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o
+ .debug_line    0x00007952       0xd9 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C.o)
+ .debug_line    0x00007a2b      0x114 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_INT.o)
+ .debug_line    0x00007b3f       0xbb .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_PM.o)
+ .debug_line    0x00007bfa      0x1fd .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_MASTER.o)
+ .debug_line    0x00007df7      0x2c0 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_1.o)
+ .debug_line    0x000080b7       0x97 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(BatteryLed.o)
+ .debug_line    0x0000814e      0x13f .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(Buzzer_PWM.o)
+ .debug_line    0x0000828d       0x90 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(SW1.o)
+ .debug_line    0x0000831d      0x2c0 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_2.o)
+ .debug_line    0x000085dd      0x136 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U2_TX.o)
+ .debug_line    0x00008713      0x136 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U2_RX.o)
+ .debug_line    0x00008849      0x191 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(StatisticsCounter.o)
+ .debug_line    0x000089da       0x92 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(RST_E.o)
+ .debug_line    0x00008a6c      0x136 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U1_TX.o)
+ .debug_line    0x00008ba2      0x136 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U1_RX.o)
+ .debug_line    0x00008cd8      0x17e .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_1_IntClock.o)
+ .debug_line    0x00008e56      0x17e .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_2_IntClock.o)
+ .debug_line    0x00008fd4      0x816 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyLib.o)
+ .debug_line    0x000097ea      0x367 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(cyPm.o)
+ .debug_line    0x00009b51       0x66 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyBootAsmGnu.o)
+ .debug_line    0x00009bb7      0x21a .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyFlash.o)
+ .debug_line    0x00009dd1      0x260 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CySpc.o)
+>>>>>>> 5f0e5546c216922c51a1cddf463ac667d413d77b
 
 .debug_frame    0x00000000     0x66f4
  *(.debug_frame)
@@ -3581,7 +3655,11 @@ END GROUP
  .debug_frame   0x000066b4       0x20 c:/program files (x86)/cypress/psoc creator/4.2/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libnosys.a(isatty.o)
  .debug_frame   0x000066d4       0x20 c:/program files (x86)/cypress/psoc creator/4.2/psoc creator/import/gnu/arm/5.4.1/bin/../lib/gcc/arm-none-eabi/5.4.1/../../../../arm-none-eabi/lib/armv7-m\libnosys.a(lseek.o)
 
+<<<<<<< HEAD
 .debug_str      0x00000000     0x6795
+=======
+.debug_str      0x00000000     0x6814
+>>>>>>> 5f0e5546c216922c51a1cddf463ac667d413d77b
  *(.debug_str)
  .debug_str     0x00000000      0x1d1 .\CortexM3\ARM_GCC_541\Debug\Beep.o
                                 0x219 (size before relaxing)
@@ -3591,6 +3669,7 @@ END GROUP
                                  0xd3 (size before relaxing)
  .debug_str     0x00000409       0x31 .\CortexM3\ARM_GCC_541\Debug\Magnet.o
                                 0x1c8 (size before relaxing)
+<<<<<<< HEAD
  .debug_str     0x0000043a       0x5c .\CortexM3\ARM_GCC_541\Debug\Motor.o
                                 0x1fb (size before relaxing)
  .debug_str     0x00000496       0x9e .\CortexM3\ARM_GCC_541\Debug\Nunchuk.o
@@ -3719,6 +3798,110 @@ END GROUP
                                 0x3b2 (size before relaxing)
  .debug_str     0x000066e9       0xac .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CySpc.o)
                                 0x32a (size before relaxing)
+=======
+ .debug_str     0x000014f3      0x198 .\CortexM3\ARM_GCC_541\Debug\simulator.o
+                                0x4eb (size before relaxing)
+ .debug_str     0x0000168b      0x78e .\CortexM3\ARM_GCC_541\Debug\MQTTClient.o
+                                0xa74 (size before relaxing)
+ .debug_str     0x00001e19       0xf8 .\CortexM3\ARM_GCC_541\Debug\MQTTFreeRTOS.o
+                                0x4f1 (size before relaxing)
+ .debug_str     0x00001f11      0x14b .\CortexM3\ARM_GCC_541\Debug\MQTTConnectClient.o
+                                0x545 (size before relaxing)
+ .debug_str     0x0000205c       0xb4 .\CortexM3\ARM_GCC_541\Debug\MQTTConnectServer.o
+                                0x4e7 (size before relaxing)
+ .debug_str     0x00002110       0x40 .\CortexM3\ARM_GCC_541\Debug\MQTTDeserializePublish.o
+                                0x35a (size before relaxing)
+ .debug_str     0x00002150      0x149 .\CortexM3\ARM_GCC_541\Debug\MQTTFormat.o
+                                0x401 (size before relaxing)
+ .debug_str     0x00002299       0xeb .\CortexM3\ARM_GCC_541\Debug\MQTTPacket.o
+                                0x412 (size before relaxing)
+ .debug_str     0x00002384       0x9a .\CortexM3\ARM_GCC_541\Debug\MQTTSerializePublish.o
+                                0x412 (size before relaxing)
+ .debug_str     0x0000241e       0x64 .\CortexM3\ARM_GCC_541\Debug\MQTTSubscribeClient.o
+                                0x414 (size before relaxing)
+ .debug_str     0x00002482       0x6c .\CortexM3\ARM_GCC_541\Debug\MQTTSubscribeServer.o
+                                0x3d6 (size before relaxing)
+ .debug_str     0x000024ee       0x5f .\CortexM3\ARM_GCC_541\Debug\MQTTUnsubscribeClient.o
+                                0x3d1 (size before relaxing)
+ .debug_str     0x0000254d       0x72 .\CortexM3\ARM_GCC_541\Debug\MQTTUnsubscribeServer.o
+                                0x3c2 (size before relaxing)
+ .debug_str     0x000025bf       0x1e .\CortexM3\ARM_GCC_541\Debug\croutine.o
+                                0x1cc (size before relaxing)
+ .debug_str     0x000025dd      0x445 .\CortexM3\ARM_GCC_541\Debug\event_groups.o
+                                0x699 (size before relaxing)
+ .debug_str     0x00002a22       0x97 .\CortexM3\ARM_GCC_541\Debug\list.o
+                                0x31b (size before relaxing)
+ .debug_str     0x00002ab9      0x599 .\CortexM3\ARM_GCC_541\Debug\queue.o
+                                0xa67 (size before relaxing)
+ .debug_str     0x00003052      0x4e5 .\CortexM3\ARM_GCC_541\Debug\stream_buffer.o
+                                0x8a1 (size before relaxing)
+ .debug_str     0x00003537      0xa96 .\CortexM3\ARM_GCC_541\Debug\tasks.o
+                               0x15e6 (size before relaxing)
+ .debug_str     0x00003fcd       0x1c .\CortexM3\ARM_GCC_541\Debug\timers.o
+                                0x1ca (size before relaxing)
+ .debug_str     0x00003fe9       0x90 .\CortexM3\ARM_GCC_541\Debug\port.o
+                                0x3a5 (size before relaxing)
+ .debug_str     0x00004079      0x14a .\CortexM3\ARM_GCC_541\Debug\heap_2.o
+                                0x3a2 (size before relaxing)
+ .debug_str     0x000041c3       0x56 .\CortexM3\ARM_GCC_541\Debug\main.o
+                                0x1c6 (size before relaxing)
+ .debug_str     0x00004219       0xe3 .\CortexM3\ARM_GCC_541\Debug\evgenii.o
+                                0x3c2 (size before relaxing)
+ .debug_str     0x000042fc      0x102 .\CortexM3\ARM_GCC_541\Debug\Dongbin.o
+                                0x3ff (size before relaxing)
+ .debug_str     0x000043fe       0x8b .\CortexM3\ARM_GCC_541\Debug\aneta.o
+                                0x305 (size before relaxing)
+ .debug_str     0x00004489       0x3e .\CortexM3\ARM_GCC_541\Debug\group6_submitting.o
+                                0x2e0 (size before relaxing)
+ .debug_str     0x000044c7      0x18c .\CortexM3\ARM_GCC_541\Debug\cyfitter_cfg.o
+                                0x36c (size before relaxing)
+ .debug_str     0x00004653       0x75 .\CortexM3\ARM_GCC_541\Debug\cymetadata.o
+                                0x1f8 (size before relaxing)
+ .debug_str     0x000046c8      0x125 .\CortexM3\ARM_GCC_541\Debug\Cm3Start.o
+                                0x31e (size before relaxing)
+ .debug_str     0x000047ed      0x12a .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C.o)
+                                0x2f5 (size before relaxing)
+ .debug_str     0x00004917       0x86 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_INT.o)
+                                0x273 (size before relaxing)
+ .debug_str     0x0000499d       0x56 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_PM.o)
+                                0x291 (size before relaxing)
+ .debug_str     0x000049f3      0x129 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(I2C_MASTER.o)
+                                0x3b8 (size before relaxing)
+ .debug_str     0x00004b1c      0x26e .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_1.o)
+                                0x4c7 (size before relaxing)
+ .debug_str     0x00004d8a       0x6e .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(BatteryLed.o)
+                                0x20f (size before relaxing)
+ .debug_str     0x00004df8      0x127 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(Buzzer_PWM.o)
+                                0x320 (size before relaxing)
+ .debug_str     0x00004f1f       0x48 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(SW1.o)
+                                0x1ec (size before relaxing)
+ .debug_str     0x00004f67      0x1f5 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_2.o)
+                                0x4c7 (size before relaxing)
+ .debug_str     0x0000515c      0x10d .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U2_TX.o)
+                                0x2f2 (size before relaxing)
+ .debug_str     0x00005269       0xf5 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U2_RX.o)
+                                0x2f2 (size before relaxing)
+ .debug_str     0x0000535e      0x222 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(StatisticsCounter.o)
+                                0x450 (size before relaxing)
+ .debug_str     0x00005580       0x4f .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(RST_E.o)
+                                0x1f6 (size before relaxing)
+ .debug_str     0x000055cf       0xf5 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U1_TX.o)
+                                0x2f2 (size before relaxing)
+ .debug_str     0x000056c4       0xf5 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(isr_U1_RX.o)
+                                0x2f2 (size before relaxing)
+ .debug_str     0x000057b9      0x197 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_1_IntClock.o)
+                                0x362 (size before relaxing)
+ .debug_str     0x00005950      0x14c .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(UART_2_IntClock.o)
+                                0x362 (size before relaxing)
+ .debug_str     0x00005a9c      0x7b3 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyLib.o)
+                                0xa5b (size before relaxing)
+ .debug_str     0x0000624f      0x365 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(cyPm.o)
+                                0x747 (size before relaxing)
+ .debug_str     0x000065b4      0x1b4 .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CyFlash.o)
+                                0x3d4 (size before relaxing)
+ .debug_str     0x00006768       0xac .\CortexM3\ARM_GCC_541\Debug\ZumoBot.a(CySpc.o)
+                                0x34c (size before relaxing)
+>>>>>>> 5f0e5546c216922c51a1cddf463ac667d413d77b
 
 .debug_loc      0x00000000     0xd7f9
  *(.debug_loc)
@@ -4257,4 +4440,4 @@ END GROUP
 
 /DISCARD/
  *(.note.GNU-stack)
-OUTPUT(C:\Users\DBY\Documents\group6\ZumoBot\ZumoBot.cydsn\CortexM3\ARM_GCC_541\Debug\ZumoBot.elf elf32-littlearm)
+OUTPUT(C:\Users\Evgeny Meshcheryakov\Documents\metropolia\tmp\Zumo\ZumoBot.cydsn\CortexM3\ARM_GCC_541\Debug\ZumoBot.elf elf32-littlearm)
