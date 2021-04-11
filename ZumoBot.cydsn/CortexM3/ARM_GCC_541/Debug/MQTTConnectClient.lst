@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
   28:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** {
   28              		.loc 1 28 0
   29              		.cfi_startproc
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 2
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 2
 
 
   30              		@ args = 0, pretend = 0, frame = 0
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
   71 002a 7BB1     		cbz	r3, .L3
   40:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 		len += MQTTstrlen(options->will.topicName)+2 + MQTTstrlen(options->will.message)+2;
   72              		.loc 1 40 0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 3
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 3
 
 
   73 002c 04F12403 		add	r3, r4, #36
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
   48:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** }
  120              		.loc 1 48 0
  121 007a 2846     		mov	r0, r5
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 4
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 4
 
 
  122 007c 70BD     		pop	{r4, r5, r6, pc}
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  157 000e FFF7FEFF 		bl	MQTTSerialize_connectLength
  158              	.LVL17:
  159 0012 0746     		mov	r7, r0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 5
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 5
 
 
  160              	.LVL18:
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  195 004c 3149     		ldr	r1, .L25+4
  196 004e 01A8     		add	r0, sp, #4
  197 0050 FFF7FEFF 		bl	writeCString
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 6
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 6
 
 
  198              	.LVL24:
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  238              	.LVL28:
  239              	.L17:
  101:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 	if (options->password.cstring || options->password.lenstring.data)
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 7
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 7
 
 
  240              		.loc 1 101 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  283              		.loc 1 112 0
  284 00da E4B2     		uxtb	r4, r4
  285              	.LVL35:
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 8
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 8
 
 
  286 00dc 14F0800F 		tst	r4, #128
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  330              		.size	MQTTSerialize_connect, .-MQTTSerialize_connect
  331              		.section	.text.MQTTDeserialize_connack,"ax",%progbits
  332              		.align	2
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 9
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 9
 
 
  333              		.global	MQTTDeserialize_connack
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  144:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 		goto exit;
  145:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 
  146:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 	curdata += (rc = MQTTPacket_decodeBuf(curdata, &mylen)); /* read remaining length */
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 10
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 10
 
 
  365              		.loc 1 146 0
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  405              		@ sp needed
  406 004a 30BD     		pop	{r4, r5, pc}
  407              		.cfi_endproc
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 11
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 11
 
 
  408              	.LFE3:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  439 000e 62F30713 		bfi	r3, r2, #4, #4
  440              	.LVL58:
  183:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** 	writeChar(&ptr, header.byte); /* write header */
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 12
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 12
 
 
  441              		.loc 1 183 0
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  196:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c ****   * @param buflen the length in bytes of the supplied buffer, to avoid overruns
  197:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c ****   * @return serialized length, or error if 0
  198:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c ****   */
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 13
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 13
 
 
  199:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** int MQTTSerialize_disconnect(unsigned char* buf, int buflen)
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  214:..\paho.mqtt.embedded-c\MQTTPacket\src/MQTTConnectClient.c **** }
  521              		.loc 1 214 0
  522 0008 08BD     		pop	{r3, pc}
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 14
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 14
 
 
  523              		.cfi_endproc
@@ -804,15 +804,15 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  541 0006 00000000 		.4byte	.Ldebug_abbrev0
  542 000a 04       		.byte	0x4
  543 000b 01       		.uleb128 0x1
- 544 000c DC030000 		.4byte	.LASF88
+ 544 000c 9C030000 		.4byte	.LASF88
  545 0010 0C       		.byte	0xc
- 546 0011 2F010000 		.4byte	.LASF89
- 547 0015 BC000000 		.4byte	.LASF90
+ 546 0011 EF000000 		.4byte	.LASF89
+ 547 0015 8B040000 		.4byte	.LASF90
  548 0019 00000000 		.4byte	.Ldebug_ranges0+0
  549 001d 00000000 		.4byte	0
  550 0021 00000000 		.4byte	.Ldebug_line0
  551 0025 02       		.uleb128 0x2
- 552 0026 52020000 		.4byte	.LASF3
+ 552 0026 12020000 		.4byte	.LASF3
  553 002a 01       		.byte	0x1
  554 002b 48000000 		.4byte	0x48
  555 002f 02       		.byte	0x2
@@ -822,73 +822,73 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  559 0036 00000000 		.4byte	.LASF0
  560 003a 7E       		.sleb128 -2
  561 003b 03       		.uleb128 0x3
- 562 003c F5040000 		.4byte	.LASF1
+ 562 003c BC000000 		.4byte	.LASF1
  563 0040 7F       		.sleb128 -1
  564 0041 04       		.uleb128 0x4
- 565 0042 A3020000 		.4byte	.LASF2
+ 565 0042 63020000 		.4byte	.LASF2
  566 0046 00       		.byte	0
  567 0047 00       		.byte	0
  568 0048 05       		.uleb128 0x5
  569 0049 01       		.byte	0x1
  570 004a 06       		.byte	0x6
- 571 004b 23010000 		.4byte	.LASF19
+ 571 004b E3000000 		.4byte	.LASF19
  572 004f 02       		.uleb128 0x2
- 573 0050 03020000 		.4byte	.LASF4
+ 573 0050 C3010000 		.4byte	.LASF4
  574 0054 01       		.byte	0x1
  575 0055 B4000000 		.4byte	0xb4
  576 0059 02       		.byte	0x2
  577 005a 2B       		.byte	0x2b
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 15
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 15
 
 
  578 005b B4000000 		.4byte	0xb4
  579 005f 04       		.uleb128 0x4
- 580 0060 87030000 		.4byte	.LASF5
+ 580 0060 47030000 		.4byte	.LASF5
  581 0064 01       		.byte	0x1
  582 0065 04       		.uleb128 0x4
- 583 0066 3B020000 		.4byte	.LASF6
+ 583 0066 FB010000 		.4byte	.LASF6
  584 006a 02       		.byte	0x2
  585 006b 04       		.uleb128 0x4
- 586 006c D4030000 		.4byte	.LASF7
+ 586 006c 94030000 		.4byte	.LASF7
  587 0070 03       		.byte	0x3
  588 0071 04       		.uleb128 0x4
- 589 0072 C4040000 		.4byte	.LASF8
+ 589 0072 84040000 		.4byte	.LASF8
  590 0076 04       		.byte	0x4
  591 0077 04       		.uleb128 0x4
- 592 0078 0B050000 		.4byte	.LASF9
+ 592 0078 FA040000 		.4byte	.LASF9
  593 007c 05       		.byte	0x5
  594 007d 04       		.uleb128 0x4
- 595 007e 23050000 		.4byte	.LASF10
+ 595 007e 01050000 		.4byte	.LASF10
  596 0082 06       		.byte	0x6
  597 0083 04       		.uleb128 0x4
- 598 0084 CB040000 		.4byte	.LASF11
+ 598 0084 BF040000 		.4byte	.LASF11
  599 0088 07       		.byte	0x7
  600 0089 04       		.uleb128 0x4
- 601 008a AA040000 		.4byte	.LASF12
+ 601 008a 6A040000 		.4byte	.LASF12
  602 008e 08       		.byte	0x8
  603 008f 04       		.uleb128 0x4
- 604 0090 DA020000 		.4byte	.LASF13
+ 604 0090 9A020000 		.4byte	.LASF13
  605 0094 09       		.byte	0x9
  606 0095 04       		.uleb128 0x4
- 607 0096 A7010000 		.4byte	.LASF14
+ 607 0096 67010000 		.4byte	.LASF14
  608 009a 0A       		.byte	0xa
  609 009b 04       		.uleb128 0x4
  610 009c 7E000000 		.4byte	.LASF15
  611 00a0 0B       		.byte	0xb
  612 00a1 04       		.uleb128 0x4
- 613 00a2 2A050000 		.4byte	.LASF16
+ 613 00a2 08050000 		.4byte	.LASF16
  614 00a6 0C       		.byte	0xc
  615 00a7 04       		.uleb128 0x4
- 616 00a8 7E030000 		.4byte	.LASF17
+ 616 00a8 3E030000 		.4byte	.LASF17
  617 00ac 0D       		.byte	0xd
  618 00ad 04       		.uleb128 0x4
- 619 00ae 50030000 		.4byte	.LASF18
+ 619 00ae 10030000 		.4byte	.LASF18
  620 00b2 0E       		.byte	0xe
  621 00b3 00       		.byte	0
  622 00b4 05       		.uleb128 0x5
  623 00b5 01       		.byte	0x1
  624 00b6 08       		.byte	0x8
- 625 00b7 8F030000 		.4byte	.LASF20
+ 625 00b7 4F030000 		.4byte	.LASF20
  626 00bb 06       		.uleb128 0x6
  627 00bc 04       		.byte	0x4
  628 00bd 02       		.byte	0x2
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  632 00c4 87000000 		.4byte	.LASF21
  633 00c8 02       		.byte	0x2
  634 00c9 43       		.byte	0x43
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 16
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 16
 
 
  635 00ca 00010000 		.4byte	0x100
@@ -937,28 +937,28 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  668 0100 05       		.uleb128 0x5
  669 0101 04       		.byte	0x4
  670 0102 07       		.byte	0x7
- 671 0103 17020000 		.4byte	.LASF23
+ 671 0103 D7010000 		.4byte	.LASF23
  672 0107 09       		.uleb128 0x9
  673 0108 04       		.byte	0x4
  674 0109 02       		.byte	0x2
  675 010a 35       		.byte	0x35
  676 010b 26010000 		.4byte	0x126
  677 010f 0A       		.uleb128 0xa
- 678 0110 CE010000 		.4byte	.LASF24
+ 678 0110 8E010000 		.4byte	.LASF24
  679 0114 02       		.byte	0x2
  680 0115 37       		.byte	0x37
  681 0116 B4000000 		.4byte	0xb4
  682 011a 0A       		.uleb128 0xa
- 683 011b 73010000 		.4byte	.LASF25
+ 683 011b 33010000 		.4byte	.LASF25
  684 011f 02       		.byte	0x2
  685 0120 47       		.byte	0x47
  686 0121 BB000000 		.4byte	0xbb
  687 0125 00       		.byte	0
  688 0126 0B       		.uleb128 0xb
- 689 0127 87040000 		.4byte	.LASF28
+ 689 0127 47040000 		.4byte	.LASF28
  690 012b 02       		.byte	0x2
  691 012c 49       		.byte	0x49
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 17
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 17
 
 
  692 012d 07010000 		.4byte	0x107
@@ -974,7 +974,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  702 0140 52010000 		.4byte	0x152
  703 0144 00       		.byte	0
  704 0145 0D       		.uleb128 0xd
- 705 0146 8B020000 		.4byte	.LASF26
+ 705 0146 4B020000 		.4byte	.LASF26
  706 014a 02       		.byte	0x2
  707 014b 4E       		.byte	0x4e
  708 014c 59010000 		.4byte	0x159
@@ -990,9 +990,9 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  718 015f 05       		.uleb128 0x5
  719 0160 01       		.byte	0x1
  720 0161 08       		.byte	0x8
- 721 0162 B4040000 		.4byte	.LASF27
+ 721 0162 74040000 		.4byte	.LASF27
  722 0166 0B       		.uleb128 0xb
- 723 0167 9C040000 		.4byte	.LASF29
+ 723 0167 5C040000 		.4byte	.LASF29
  724 016b 02       		.byte	0x2
  725 016c 4F       		.byte	0x4f
  726 016d 31010000 		.4byte	0x131
@@ -1002,7 +1002,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  730 0174 51       		.byte	0x51
  731 0175 92010000 		.4byte	0x192
  732 0179 0D       		.uleb128 0xd
- 733 017a 40030000 		.4byte	.LASF30
+ 733 017a 00030000 		.4byte	.LASF30
  734 017e 02       		.byte	0x2
  735 017f 53       		.byte	0x53
  736 0180 59010000 		.4byte	0x159
@@ -1015,10 +1015,10 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  743 0190 04       		.byte	0x4
  744 0191 00       		.byte	0
  745 0192 0B       		.uleb128 0xb
- 746 0193 EA020000 		.4byte	.LASF32
+ 746 0193 AA020000 		.4byte	.LASF32
  747 0197 02       		.byte	0x2
  748 0198 55       		.byte	0x55
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 18
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 18
 
 
  749 0199 71010000 		.4byte	0x171
@@ -1028,7 +1028,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  753 01a0 38       		.byte	0x38
  754 01a1 00020000 		.4byte	0x200
  755 01a5 07       		.uleb128 0x7
- 756 01a6 ED010000 		.4byte	.LASF33
+ 756 01a6 AD010000 		.4byte	.LASF33
  757 01aa 03       		.byte	0x3
  758 01ab 3B       		.byte	0x3b
  759 01ac 00010000 		.4byte	0x100
@@ -1055,7 +1055,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  780 01d0 1B       		.byte	0x1b
  781 01d1 00       		.byte	0
  782 01d2 07       		.uleb128 0x7
- 783 01d3 0C020000 		.4byte	.LASF36
+ 783 01d3 CC010000 		.4byte	.LASF36
  784 01d7 03       		.byte	0x3
  785 01d8 3E       		.byte	0x3e
  786 01d9 00010000 		.4byte	0x100
@@ -1073,12 +1073,12 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  798 01ee 19       		.byte	0x19
  799 01ef 00       		.byte	0
  800 01f0 07       		.uleb128 0x7
- 801 01f1 E1020000 		.4byte	.LASF38
+ 801 01f1 A1020000 		.4byte	.LASF38
  802 01f5 03       		.byte	0x3
  803 01f6 40       		.byte	0x40
  804 01f7 00010000 		.4byte	0x100
  805 01fb 04       		.byte	0x4
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 19
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 19
 
 
  806 01fc 01       		.byte	0x1
@@ -1096,13 +1096,13 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  818 020e 2B       		.byte	0x2b
  819 020f B4000000 		.4byte	0xb4
  820 0213 0A       		.uleb128 0xa
- 821 0214 73010000 		.4byte	.LASF25
+ 821 0214 33010000 		.4byte	.LASF25
  822 0218 03       		.byte	0x3
  823 0219 41       		.byte	0x41
  824 021a 9D010000 		.4byte	0x19d
  825 021e 00       		.byte	0
  826 021f 0B       		.uleb128 0xb
- 827 0220 12050000 		.4byte	.LASF39
+ 827 0220 E9040000 		.4byte	.LASF39
  828 0224 03       		.byte	0x3
  829 0225 43       		.byte	0x43
  830 0226 00020000 		.4byte	0x200
@@ -1112,13 +1112,13 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  834 022d 4B       		.byte	0x4b
  835 022e 7B020000 		.4byte	0x27b
  836 0232 0D       		.uleb128 0xd
- 837 0233 92040000 		.4byte	.LASF40
+ 837 0233 52040000 		.4byte	.LASF40
  838 0237 03       		.byte	0x3
  839 0238 4E       		.byte	0x4e
  840 0239 7B020000 		.4byte	0x27b
  841 023d 00       		.byte	0
  842 023e 0D       		.uleb128 0xd
- 843 023f 8A010000 		.4byte	.LASF41
+ 843 023f 4A010000 		.4byte	.LASF41
  844 0243 03       		.byte	0x3
  845 0244 50       		.byte	0x50
  846 0245 52010000 		.4byte	0x152
@@ -1130,15 +1130,15 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  852 0251 92010000 		.4byte	0x192
  853 0255 08       		.byte	0x8
  854 0256 0D       		.uleb128 0xd
- 855 0257 48030000 		.4byte	.LASF43
+ 855 0257 08030000 		.4byte	.LASF43
  856 025b 03       		.byte	0x3
  857 025c 54       		.byte	0x54
  858 025d 92010000 		.4byte	0x192
  859 0261 14       		.byte	0x14
  860 0262 0D       		.uleb128 0xd
- 861 0263 9D030000 		.4byte	.LASF44
+ 861 0263 5D030000 		.4byte	.LASF44
  862 0267 03       		.byte	0x3
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 20
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 20
 
 
  863 0268 58       		.byte	0x58
@@ -1161,9 +1161,9 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  880 028b 05       		.uleb128 0x5
  881 028c 04       		.byte	0x4
  882 028d 07       		.byte	0x7
- 883 028e 15030000 		.4byte	.LASF45
+ 883 028e D5020000 		.4byte	.LASF45
  884 0292 0B       		.uleb128 0xb
- 885 0293 24020000 		.4byte	.LASF46
+ 885 0293 E4010000 		.4byte	.LASF46
  886 0297 03       		.byte	0x3
  887 0298 5E       		.byte	0x5e
  888 0299 2A020000 		.4byte	0x22a
@@ -1173,19 +1173,19 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  892 02a0 64       		.byte	0x64
  893 02a1 1E030000 		.4byte	0x31e
  894 02a5 0D       		.uleb128 0xd
- 895 02a6 92040000 		.4byte	.LASF40
+ 895 02a6 52040000 		.4byte	.LASF40
  896 02aa 03       		.byte	0x3
  897 02ab 67       		.byte	0x67
  898 02ac 7B020000 		.4byte	0x27b
  899 02b0 00       		.byte	0
  900 02b1 0D       		.uleb128 0xd
- 901 02b2 8A010000 		.4byte	.LASF41
+ 901 02b2 4A010000 		.4byte	.LASF41
  902 02b6 03       		.byte	0x3
  903 02b7 69       		.byte	0x69
  904 02b8 52010000 		.4byte	0x152
  905 02bc 04       		.byte	0x4
  906 02bd 0D       		.uleb128 0xd
- 907 02be 32050000 		.4byte	.LASF47
+ 907 02be 10050000 		.4byte	.LASF47
  908 02c2 03       		.byte	0x3
  909 02c3 6C       		.byte	0x6c
  910 02c4 B4000000 		.4byte	0xb4
@@ -1197,8 +1197,8 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  916 02d0 92010000 		.4byte	0x192
  917 02d4 0C       		.byte	0xc
  918 02d5 0D       		.uleb128 0xd
- 919 02d6 2E030000 		.4byte	.LASF49
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 21
+ 919 02d6 EE020000 		.4byte	.LASF49
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 21
 
 
  920 02da 03       		.byte	0x3
@@ -1206,13 +1206,13 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  922 02dc 1E030000 		.4byte	0x31e
  923 02e0 18       		.byte	0x18
  924 02e1 0D       		.uleb128 0xd
- 925 02e2 ED010000 		.4byte	.LASF33
+ 925 02e2 AD010000 		.4byte	.LASF33
  926 02e6 03       		.byte	0x3
  927 02e7 6F       		.byte	0x6f
  928 02e8 B4000000 		.4byte	0xb4
  929 02ec 1A       		.byte	0x1a
  930 02ed 0D       		.uleb128 0xd
- 931 02ee 81010000 		.4byte	.LASF50
+ 931 02ee 41010000 		.4byte	.LASF50
  932 02f2 03       		.byte	0x3
  933 02f3 70       		.byte	0x70
  934 02f4 B4000000 		.4byte	0xb4
@@ -1224,7 +1224,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  940 0300 92020000 		.4byte	0x292
  941 0304 1C       		.byte	0x1c
  942 0305 0D       		.uleb128 0xd
- 943 0306 E1020000 		.4byte	.LASF38
+ 943 0306 A1020000 		.4byte	.LASF38
  944 030a 03       		.byte	0x3
  945 030b 72       		.byte	0x72
  946 030c 92010000 		.4byte	0x192
@@ -1239,9 +1239,9 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  955 031e 05       		.uleb128 0x5
  956 031f 02       		.byte	0x2
  957 0320 07       		.byte	0x7
- 958 0321 90020000 		.4byte	.LASF51
+ 958 0321 50020000 		.4byte	.LASF51
  959 0325 0B       		.uleb128 0xb
- 960 0326 F5020000 		.4byte	.LASF52
+ 960 0326 B5020000 		.4byte	.LASF52
  961 032a 03       		.byte	0x3
  962 032b 74       		.byte	0x74
  963 032c 9D020000 		.4byte	0x29d
@@ -1251,19 +1251,19 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  967 0333 80       		.byte	0x80
  968 0334 57030000 		.4byte	0x357
  969 0338 07       		.uleb128 0x7
- 970 0339 43020000 		.4byte	.LASF53
+ 970 0339 03020000 		.4byte	.LASF53
  971 033d 03       		.byte	0x3
  972 033e 82       		.byte	0x82
  973 033f 00010000 		.4byte	0x100
  974 0343 04       		.byte	0x4
  975 0344 01       		.byte	0x1
  976 0345 1F       		.byte	0x1f
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 22
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 22
 
 
  977 0346 00       		.byte	0
  978 0347 07       		.uleb128 0x7
- 979 0348 FA010000 		.4byte	.LASF54
+ 979 0348 BA010000 		.4byte	.LASF54
  980 034c 03       		.byte	0x3
  981 034d 83       		.byte	0x83
  982 034e 00010000 		.4byte	0x100
@@ -1283,32 +1283,32 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  996 0365 78       		.byte	0x78
  997 0366 B4000000 		.4byte	0xb4
  998 036a 0A       		.uleb128 0xa
- 999 036b 73010000 		.4byte	.LASF25
+ 999 036b 33010000 		.4byte	.LASF25
  1000 036f 03       		.byte	0x3
  1001 0370 84       		.byte	0x84
  1002 0371 30030000 		.4byte	0x330
  1003 0375 00       		.byte	0
  1004 0376 0B       		.uleb128 0xb
- 1005 0377 12010000 		.4byte	.LASF55
+ 1005 0377 D2000000 		.4byte	.LASF55
  1006 037b 03       		.byte	0x3
  1007 037c 86       		.byte	0x86
  1008 037d 57030000 		.4byte	0x357
  1009 0381 05       		.uleb128 0x5
  1010 0382 02       		.byte	0x2
  1011 0383 05       		.byte	0x5
- 1012 0384 B1030000 		.4byte	.LASF56
+ 1012 0384 71030000 		.4byte	.LASF56
  1013 0388 05       		.uleb128 0x5
  1014 0389 04       		.byte	0x4
  1015 038a 05       		.byte	0x5
- 1016 038b 78010000 		.4byte	.LASF57
+ 1016 038b 38010000 		.4byte	.LASF57
  1017 038f 05       		.uleb128 0x5
  1018 0390 04       		.byte	0x4
  1019 0391 07       		.byte	0x7
- 1020 0392 59020000 		.4byte	.LASF58
+ 1020 0392 19020000 		.4byte	.LASF58
  1021 0396 05       		.uleb128 0x5
  1022 0397 08       		.byte	0x8
  1023 0398 05       		.byte	0x5
- 1024 0399 99010000 		.4byte	.LASF59
+ 1024 0399 59010000 		.4byte	.LASF59
  1025 039d 05       		.uleb128 0x5
  1026 039e 08       		.byte	0x8
  1027 039f 07       		.byte	0x7
@@ -1316,9 +1316,9 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1029 03a4 05       		.uleb128 0x5
  1030 03a5 08       		.byte	0x8
  1031 03a6 04       		.byte	0x4
- 1032 03a7 C2010000 		.4byte	.LASF61
+ 1032 03a7 82010000 		.4byte	.LASF61
  1033 03ab 0F       		.uleb128 0xf
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 23
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 23
 
 
  1034 03ac 04       		.byte	0x4
@@ -1334,7 +1334,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1044 03c5 9C       		.byte	0x9c
  1045 03c6 16040000 		.4byte	0x416
  1046 03ca 14       		.uleb128 0x14
- 1047 03cb D3010000 		.4byte	.LASF64
+ 1047 03cb 93010000 		.4byte	.LASF64
  1048 03cf 01       		.byte	0x1
  1049 03d0 1B       		.byte	0x1b
  1050 03d1 16040000 		.4byte	0x416
@@ -1365,7 +1365,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1075 0417 04       		.byte	0x4
  1076 0418 25030000 		.4byte	0x325
  1077 041c 13       		.uleb128 0x13
- 1078 041d 71040000 		.4byte	.LASF63
+ 1078 041d 31040000 		.4byte	.LASF63
  1079 0421 01       		.byte	0x1
  1080 0422 3A       		.byte	0x3a
  1081 0423 52010000 		.4byte	0x152
@@ -1378,19 +1378,19 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1088 0436 62756600 		.ascii	"buf\000"
  1089 043a 01       		.byte	0x1
  1090 043b 3A       		.byte	0x3a
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 24
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 24
 
 
  1091 043c AB030000 		.4byte	0x3ab
  1092 0440 59000000 		.4byte	.LLST2
  1093 0444 14       		.uleb128 0x14
- 1094 0445 6A040000 		.4byte	.LASF65
+ 1094 0445 2A040000 		.4byte	.LASF65
  1095 0449 01       		.byte	0x1
  1096 044a 3A       		.byte	0x3a
  1097 044b 52010000 		.4byte	0x152
  1098 044f 85000000 		.4byte	.LLST3
  1099 0453 14       		.uleb128 0x14
- 1100 0454 D3010000 		.4byte	.LASF64
+ 1100 0454 93010000 		.4byte	.LASF64
  1101 0458 01       		.byte	0x1
  1102 0459 3A       		.byte	0x3a
  1103 045a 16040000 		.4byte	0x416
@@ -1404,12 +1404,12 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1111 046e 91       		.byte	0x91
  1112 046f 64       		.sleb128 -28
  1113 0470 19       		.uleb128 0x19
- 1114 0471 3E050000 		.4byte	.LASF70
+ 1114 0471 1C050000 		.4byte	.LASF70
  1115 0475 01       		.byte	0x1
  1116 0476 3D       		.byte	0x3d
  1117 0477 26010000 		.4byte	0x126
  1118 047b 1A       		.uleb128 0x1a
- 1119 047c E2040000 		.4byte	.LASF66
+ 1119 047c D6040000 		.4byte	.LASF66
  1120 0480 01       		.byte	0x1
  1121 0481 3E       		.byte	0x3e
  1122 0482 1F020000 		.4byte	0x21f
@@ -1427,7 +1427,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1134 049f 52010000 		.4byte	0x152
  1135 04a3 5A010000 		.4byte	.LLST7
  1136 04a7 1B       		.uleb128 0x1b
- 1137 04a8 D3040000 		.4byte	.LASF74
+ 1137 04a8 C7040000 		.4byte	.LASF74
  1138 04ac 01       		.byte	0x1
  1139 04ad 77       		.byte	0x77
  1140 04ae 0A010000 		.4byte	.L12
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1145 04bf 1D       		.uleb128 0x1d
  1146 04c0 01       		.uleb128 0x1
  1147 04c1 50       		.byte	0x50
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 25
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 25
 
 
  1148 04c2 02       		.uleb128 0x2
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1202 051c 51       		.byte	0x51
  1203 051d 05       		.uleb128 0x5
  1204 051e 03       		.byte	0x3
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 26
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 26
 
 
  1205 051f 00000000 		.4byte	.LC0
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1259 057c 8D050000 		.4byte	0x58d
  1260 0580 1D       		.uleb128 0x1d
  1261 0581 01       		.uleb128 0x1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 27
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 27
 
 
  1262 0582 50       		.byte	0x50
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1316 05dc 00       		.byte	0
  1317 05dd 1C       		.uleb128 0x1c
  1318 05de EE000000 		.4byte	.LVL36
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 28
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 28
 
 
  1319 05e2 8B080000 		.4byte	0x88b
@@ -1642,7 +1642,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1337 0600 00       		.byte	0
  1338 0601 00       		.byte	0
  1339 0602 13       		.uleb128 0x13
- 1340 0603 6B020000 		.4byte	.LASF67
+ 1340 0603 2B020000 		.4byte	.LASF67
  1341 0607 01       		.byte	0x1
  1342 0608 84       		.byte	0x84
  1343 0609 52010000 		.4byte	0x152
@@ -1652,13 +1652,13 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1347 0616 9C       		.byte	0x9c
  1348 0617 FE060000 		.4byte	0x6fe
  1349 061b 14       		.uleb128 0x14
- 1350 061c B3010000 		.4byte	.LASF68
+ 1350 061c 73010000 		.4byte	.LASF68
  1351 0620 01       		.byte	0x1
  1352 0621 84       		.byte	0x84
  1353 0622 AB030000 		.4byte	0x3ab
  1354 0626 92010000 		.4byte	.LLST8
  1355 062a 14       		.uleb128 0x14
- 1356 062b B9040000 		.4byte	.LASF69
+ 1356 062b 79040000 		.4byte	.LASF69
  1357 062f 01       		.byte	0x1
  1358 0630 84       		.byte	0x84
  1359 0631 AB030000 		.4byte	0x3ab
@@ -1670,21 +1670,21 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1365 0640 AB030000 		.4byte	0x3ab
  1366 0644 CE010000 		.4byte	.LLST10
  1367 0648 14       		.uleb128 0x14
- 1368 0649 6A040000 		.4byte	.LASF65
+ 1368 0649 2A040000 		.4byte	.LASF65
  1369 064d 01       		.byte	0x1
  1370 064e 84       		.byte	0x84
  1371 064f 52010000 		.4byte	0x152
  1372 0653 EF010000 		.4byte	.LLST11
  1373 0657 19       		.uleb128 0x19
- 1374 0658 3E050000 		.4byte	.LASF70
+ 1374 0658 1C050000 		.4byte	.LASF70
  1375 065c 01       		.byte	0x1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 29
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 29
 
 
  1376 065d 86       		.byte	0x86
  1377 065e 26010000 		.4byte	0x126
  1378 0662 1F       		.uleb128 0x1f
- 1379 0663 70030000 		.4byte	.LASF71
+ 1379 0663 30030000 		.4byte	.LASF71
  1380 0667 01       		.byte	0x1
  1381 0668 87       		.byte	0x87
  1382 0669 AB030000 		.4byte	0x3ab
@@ -1692,7 +1692,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1384 066e 91       		.byte	0x91
  1385 066f 6C       		.sleb128 -20
  1386 0670 1A       		.uleb128 0x1a
- 1387 0671 83020000 		.4byte	.LASF72
+ 1387 0671 43020000 		.4byte	.LASF72
  1388 0675 01       		.byte	0x1
  1389 0676 88       		.byte	0x88
  1390 0677 AB030000 		.4byte	0x3ab
@@ -1704,7 +1704,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1396 0685 52010000 		.4byte	0x152
  1397 0689 52020000 		.4byte	.LLST13
  1398 068d 1F       		.uleb128 0x1f
- 1399 068e 78030000 		.4byte	.LASF73
+ 1399 068e 38030000 		.4byte	.LASF73
  1400 0692 01       		.byte	0x1
  1401 0693 8A       		.byte	0x8a
  1402 0694 52010000 		.4byte	0x152
@@ -1712,12 +1712,12 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1404 0699 91       		.byte	0x91
  1405 069a 68       		.sleb128 -24
  1406 069b 19       		.uleb128 0x19
- 1407 069c E2040000 		.4byte	.LASF66
+ 1407 069c D6040000 		.4byte	.LASF66
  1408 06a0 01       		.byte	0x1
  1409 06a1 8B       		.byte	0x8b
  1410 06a2 76030000 		.4byte	0x376
  1411 06a6 1B       		.uleb128 0x1b
- 1412 06a7 D3040000 		.4byte	.LASF74
+ 1412 06a7 C7040000 		.4byte	.LASF74
  1413 06ab 01       		.byte	0x1
  1414 06ac 9C       		.byte	0x9c
  1415 06ad 48000000 		.4byte	.L28
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1430 06ce D9060000 		.4byte	0x6d9
  1431 06d2 1D       		.uleb128 0x1d
  1432 06d3 01       		.uleb128 0x1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 30
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 30
 
 
  1433 06d4 51       		.byte	0x51
@@ -1769,7 +1769,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1458 06fc 00       		.byte	0
  1459 06fd 00       		.byte	0
  1460 06fe 13       		.uleb128 0x13
- 1461 06ff BC020000 		.4byte	.LASF75
+ 1461 06ff 7C020000 		.4byte	.LASF75
  1462 0703 01       		.byte	0x1
  1463 0704 A9       		.byte	0xa9
  1464 0705 52010000 		.4byte	0x152
@@ -1785,20 +1785,20 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1474 071e AB030000 		.4byte	0x3ab
  1475 0722 94020000 		.4byte	.LLST14
  1476 0726 14       		.uleb128 0x14
- 1477 0727 6A040000 		.4byte	.LASF65
+ 1477 0727 2A040000 		.4byte	.LASF65
  1478 072b 01       		.byte	0x1
  1479 072c A9       		.byte	0xa9
  1480 072d 52010000 		.4byte	0x152
  1481 0731 CB020000 		.4byte	.LLST15
  1482 0735 14       		.uleb128 0x14
- 1483 0736 CF020000 		.4byte	.LASF76
+ 1483 0736 8F020000 		.4byte	.LASF76
  1484 073a 01       		.byte	0x1
  1485 073b A9       		.byte	0xa9
  1486 073c B4000000 		.4byte	0xb4
  1487 0740 05030000 		.4byte	.LLST16
  1488 0744 1A       		.uleb128 0x1a
- 1489 0745 3E050000 		.4byte	.LASF70
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 31
+ 1489 0745 1C050000 		.4byte	.LASF70
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 31
 
 
  1490 0749 01       		.byte	0x1
@@ -1818,7 +1818,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1504 0768 AB030000 		.4byte	0x3ab
  1505 076c 8A030000 		.4byte	.LLST19
  1506 0770 1B       		.uleb128 0x1b
- 1507 0771 D3040000 		.4byte	.LASF74
+ 1507 0771 C7040000 		.4byte	.LASF74
  1508 0775 01       		.byte	0x1
  1509 0776 BB       		.byte	0xbb
  1510 0777 2E000000 		.4byte	.L32
@@ -1844,7 +1844,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1530 079d 00       		.byte	0
  1531 079e 00       		.byte	0
  1532 079f 13       		.uleb128 0x13
- 1533 07a0 BB030000 		.4byte	.LASF77
+ 1533 07a0 7B030000 		.4byte	.LASF77
  1534 07a4 01       		.byte	0x1
  1535 07a5 C7       		.byte	0xc7
  1536 07a6 52010000 		.4byte	0x152
@@ -1858,12 +1858,12 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1544 07bd 01       		.byte	0x1
  1545 07be C7       		.byte	0xc7
  1546 07bf AB030000 		.4byte	0x3ab
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 32
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 32
 
 
  1547 07c3 9D030000 		.4byte	.LLST20
  1548 07c7 14       		.uleb128 0x14
- 1549 07c8 6A040000 		.4byte	.LASF65
+ 1549 07c8 2A040000 		.4byte	.LASF65
  1550 07cc 01       		.byte	0x1
  1551 07cd C7       		.byte	0xc7
  1552 07ce 52010000 		.4byte	0x152
@@ -1909,7 +1909,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1592 0814 AB030000 		.4byte	0x3ab
  1593 0818 DF030000 		.4byte	.LLST22
  1594 081c 14       		.uleb128 0x14
- 1595 081d 6A040000 		.4byte	.LASF65
+ 1595 081d 2A040000 		.4byte	.LASF65
  1596 0821 01       		.byte	0x1
  1597 0822 D3       		.byte	0xd3
  1598 0823 52010000 		.4byte	0x152
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1601 082c 08000000 		.4byte	.LVL70
  1602 0830 FE060000 		.4byte	0x6fe
  1603 0834 1D       		.uleb128 0x1d
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 33
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 33
 
 
  1604 0835 01       		.uleb128 0x1
@@ -1942,8 +1942,8 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1622 0847 00       		.byte	0
  1623 0848 00       		.byte	0
  1624 0849 20       		.uleb128 0x20
- 1625 084a A6030000 		.4byte	.LASF79
- 1626 084e A6030000 		.4byte	.LASF79
+ 1625 084a 66030000 		.4byte	.LASF79
+ 1626 084e 66030000 		.4byte	.LASF79
  1627 0852 02       		.byte	0x2
  1628 0853 59       		.byte	0x59
  1629 0854 20       		.uleb128 0x20
@@ -1952,41 +1952,41 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1632 085d 02       		.byte	0x2
  1633 085e 64       		.byte	0x64
  1634 085f 20       		.uleb128 0x20
- 1635 0860 D8040000 		.4byte	.LASF81
- 1636 0864 D8040000 		.4byte	.LASF81
+ 1635 0860 CC040000 		.4byte	.LASF81
+ 1636 0864 CC040000 		.4byte	.LASF81
  1637 0868 02       		.byte	0x2
  1638 0869 6D       		.byte	0x6d
  1639 086a 20       		.uleb128 0x20
- 1640 086b DB010000 		.4byte	.LASF82
- 1641 086f DB010000 		.4byte	.LASF82
+ 1640 086b 9B010000 		.4byte	.LASF82
+ 1641 086f 9B010000 		.4byte	.LASF82
  1642 0873 02       		.byte	0x2
  1643 0874 67       		.byte	0x67
  1644 0875 20       		.uleb128 0x20
- 1645 0876 E8040000 		.4byte	.LASF83
- 1646 087a E8040000 		.4byte	.LASF83
+ 1645 0876 DC040000 		.4byte	.LASF83
+ 1646 087a DC040000 		.4byte	.LASF83
  1647 087e 02       		.byte	0x2
  1648 087f 70       		.byte	0x70
  1649 0880 20       		.uleb128 0x20
- 1650 0881 6A010000 		.4byte	.LASF84
- 1651 0885 6A010000 		.4byte	.LASF84
+ 1650 0881 2A010000 		.4byte	.LASF84
+ 1651 0885 2A010000 		.4byte	.LASF84
  1652 0889 02       		.byte	0x2
  1653 088a 6E       		.byte	0x6e
  1654 088b 20       		.uleb128 0x20
- 1655 088c 1E030000 		.4byte	.LASF85
- 1656 0890 1E030000 		.4byte	.LASF85
+ 1655 088c DE020000 		.4byte	.LASF85
+ 1656 0890 DE020000 		.4byte	.LASF85
  1657 0894 02       		.byte	0x2
  1658 0895 71       		.byte	0x71
  1659 0896 20       		.uleb128 0x20
- 1660 0897 0C030000 		.4byte	.LASF86
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 34
+ 1660 0897 CC020000 		.4byte	.LASF86
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 34
 
 
- 1661 089b 0C030000 		.4byte	.LASF86
+ 1661 089b CC020000 		.4byte	.LASF86
  1662 089f 02       		.byte	0x2
  1663 08a0 6C       		.byte	0x6c
  1664 08a1 20       		.uleb128 0x20
- 1665 08a2 5B030000 		.4byte	.LASF87
- 1666 08a6 5B030000 		.4byte	.LASF87
+ 1665 08a2 1B030000 		.4byte	.LASF87
+ 1666 08a6 1B030000 		.4byte	.LASF87
  1667 08aa 02       		.byte	0x2
  1668 08ab 69       		.byte	0x69
  1669 08ac 00       		.byte	0
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1715 002b 00       		.byte	0
  1716 002c 00       		.byte	0
  1717 002d 04       		.uleb128 0x4
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 35
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 35
 
 
  1718 002e 28       		.uleb128 0x28
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1772 0064 0D       		.uleb128 0xd
  1773 0065 00       		.byte	0
  1774 0066 03       		.uleb128 0x3
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 36
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 36
 
 
  1775 0067 08       		.uleb128 0x8
@@ -2158,7 +2158,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1829 009d 00       		.byte	0
  1830 009e 00       		.byte	0
  1831 009f 0C       		.uleb128 0xc
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 37
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 37
 
 
  1832 00a0 0D       		.uleb128 0xd
@@ -2218,7 +2218,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1886 00d6 3A       		.uleb128 0x3a
  1887 00d7 0B       		.uleb128 0xb
  1888 00d8 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 38
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 38
 
 
  1889 00d9 0B       		.uleb128 0xb
@@ -2278,7 +2278,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  1943 0110 0E       		.uleb128 0xe
  1944 0111 3A       		.uleb128 0x3a
  1945 0112 0B       		.uleb128 0xb
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 39
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 39
 
 
  1946 0113 3B       		.uleb128 0x3b
@@ -2338,7 +2338,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2000 014b 3B       		.uleb128 0x3b
  2001 014c 0B       		.uleb128 0xb
  2002 014d 49       		.uleb128 0x49
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 40
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 40
 
 
  2003 014e 13       		.uleb128 0x13
@@ -2398,7 +2398,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2057 0186 13       		.uleb128 0x13
  2058 0187 00       		.byte	0
  2059 0188 00       		.byte	0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 41
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 41
 
 
  2060 0189 1D       		.uleb128 0x1d
@@ -2458,7 +2458,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2114 0000 00000000 		.4byte	.LVL0
  2115 0004 20000000 		.4byte	.LVL3
  2116 0008 0100     		.2byte	0x1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 42
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 42
 
 
  2117 000a 50       		.byte	0x50
@@ -2518,7 +2518,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2171 008f 51       		.byte	0x51
  2172 0090 11000000 		.4byte	.LVL17-1
  2173 0094 5E000000 		.4byte	.LVL26
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 43
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 43
 
 
  2174 0098 0100     		.2byte	0x1
@@ -2578,7 +2578,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2228 0114 9F       		.byte	0x9f
  2229 0115 00000000 		.4byte	0
  2230 0119 00000000 		.4byte	0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 44
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 44
 
 
  2231              	.LLST5:
@@ -2638,7 +2638,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2285 01a7 55       		.byte	0x55
  2286 01a8 00000000 		.4byte	0
  2287 01ac 00000000 		.4byte	0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 45
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 45
 
 
  2288              	.LLST9:
@@ -2698,7 +2698,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2342 022c 9F       		.byte	0x9f
  2343 022d 30000000 		.4byte	.LVL49
  2344 0231 33000000 		.4byte	.LVL50-1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 46
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 46
 
 
  2345 0235 0700     		.2byte	0x7
@@ -2758,7 +2758,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2399 02b5 2E000000 		.4byte	.LVL66
  2400 02b9 32000000 		.4byte	.LFE4
  2401 02bd 0400     		.2byte	0x4
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 47
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 47
 
 
  2402 02bf F3       		.byte	0xf3
@@ -2818,7 +2818,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2456 0337 00000000 		.4byte	0
  2457 033b 00000000 		.4byte	0
  2458              	.LLST17:
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 48
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 48
 
 
  2459 033f 12000000 		.4byte	.LVL58
@@ -2878,7 +2878,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2513 03c8 51       		.byte	0x51
  2514 03c9 07000000 		.4byte	.LVL68-1
  2515 03cd 0A000000 		.4byte	.LFE5
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 49
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 49
 
 
  2516 03d1 0400     		.2byte	0x4
@@ -2938,7 +2938,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2570 003c 0A000000 		.4byte	.LFE6-.LFB6
  2571 0040 00000000 		.4byte	0
  2572 0044 00000000 		.4byte	0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 50
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 50
 
 
  2573              		.section	.debug_ranges,"",%progbits
@@ -2998,7 +2998,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2604              	.LASF22:
  2605 0070 74797065 		.ascii	"type\000"
  2605      00
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 51
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 51
 
 
  2606              	.LASF37:
@@ -3028,370 +3028,367 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 1
  2618              	.LASF35:
  2619 00b4 77696C6C 		.ascii	"willQoS\000"
  2619      516F5300 
- 2620              	.LASF90:
- 2621 00bc 443A5C41 		.ascii	"D:\\Annie\\Metropolia\\Smart Devices\\Smart Program"
- 2621      6E6E6965 
- 2621      5C4D6574 
- 2621      726F706F 
- 2621      6C69615C 
- 2622 00eb 6D696E67 		.ascii	"ming\\PSoc\\Group6\\ZumoBot\\ZumoBot.cydsn\000"
- 2622      5C50536F 
- 2622      635C4772 
- 2622      6F757036 
- 2622      5C5A756D 
- 2623              	.LASF55:
- 2624 0112 4D515454 		.ascii	"MQTTConnackFlags\000"
- 2624      436F6E6E 
- 2624      61636B46 
- 2624      6C616773 
- 2624      00
- 2625              	.LASF19:
- 2626 0123 7369676E 		.ascii	"signed char\000"
- 2626      65642063 
- 2626      68617200 
- 2627              	.LASF89:
- 2628 012f 2E2E5C70 		.ascii	"..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTConn"
- 2628      61686F2E 
- 2628      6D717474 
- 2628      2E656D62 
- 2628      65646465 
- 2629 015e 65637443 		.ascii	"ectClient.c\000"
- 2629      6C69656E 
- 2629      742E6300 
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 52
+ 2620              	.LASF1:
+ 2621 00bc 4D515454 		.ascii	"MQTTPACKET_READ_ERROR\000"
+ 2621      5041434B 
+ 2621      45545F52 
+ 2621      4541445F 
+ 2621      4552524F 
+ 2622              	.LASF55:
+ 2623 00d2 4D515454 		.ascii	"MQTTConnackFlags\000"
+ 2623      436F6E6E 
+ 2623      61636B46 
+ 2623      6C616773 
+ 2623      00
+ 2624              	.LASF19:
+ 2625 00e3 7369676E 		.ascii	"signed char\000"
+ 2625      65642063 
+ 2625      68617200 
+ 2626              	.LASF89:
+ 2627 00ef 2E2E5C70 		.ascii	"..\\paho.mqtt.embedded-c\\MQTTPacket\\src\\MQTTConn"
+ 2627      61686F2E 
+ 2627      6D717474 
+ 2627      2E656D62 
+ 2627      65646465 
+ 2628 011e 65637443 		.ascii	"ectClient.c\000"
+ 2628      6C69656E 
+ 2628      742E6300 
+ 2629              	.LASF84:
+ 2630 012a 77726974 		.ascii	"writeInt\000"
+ 2630      65496E74 
+ 2630      00
+ 2631              	.LASF25:
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 52
 
 
- 2630              	.LASF84:
- 2631 016a 77726974 		.ascii	"writeInt\000"
- 2631      65496E74 
- 2631      00
- 2632              	.LASF25:
- 2633 0173 62697473 		.ascii	"bits\000"
- 2633      00
- 2634              	.LASF57:
- 2635 0178 6C6F6E67 		.ascii	"long int\000"
- 2635      20696E74 
- 2635      00
- 2636              	.LASF50:
- 2637 0181 77696C6C 		.ascii	"willFlag\000"
- 2637      466C6167 
- 2637      00
- 2638              	.LASF41:
- 2639 018a 73747275 		.ascii	"struct_version\000"
- 2639      63745F76 
- 2639      65727369 
- 2639      6F6E00
- 2640              	.LASF59:
- 2641 0199 6C6F6E67 		.ascii	"long long int\000"
- 2641      206C6F6E 
- 2641      6720696E 
- 2641      7400
- 2642              	.LASF14:
- 2643 01a7 554E5355 		.ascii	"UNSUBSCRIBE\000"
- 2643      42534352 
- 2643      49424500 
- 2644              	.LASF68:
- 2645 01b3 73657373 		.ascii	"sessionPresent\000"
- 2645      696F6E50 
- 2645      72657365 
- 2645      6E7400
- 2646              	.LASF61:
- 2647 01c2 6C6F6E67 		.ascii	"long double\000"
- 2647      20646F75 
- 2647      626C6500 
- 2648              	.LASF24:
- 2649 01ce 62797465 		.ascii	"byte\000"
- 2649      00
- 2650              	.LASF64:
- 2651 01d3 6F707469 		.ascii	"options\000"
- 2651      6F6E7300 
- 2652              	.LASF82:
- 2653 01db 4D515454 		.ascii	"MQTTPacket_encode\000"
- 2653      5061636B 
- 2653      65745F65 
- 2653      6E636F64 
- 2653      6500
- 2654              	.LASF33:
- 2655 01ed 636C6561 		.ascii	"cleansession\000"
- 2655      6E736573 
- 2655      73696F6E 
- 2655      00
- 2656              	.LASF54:
- 2657 01fa 72657365 		.ascii	"reserved\000"
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 53
+ 2632 0133 62697473 		.ascii	"bits\000"
+ 2632      00
+ 2633              	.LASF57:
+ 2634 0138 6C6F6E67 		.ascii	"long int\000"
+ 2634      20696E74 
+ 2634      00
+ 2635              	.LASF50:
+ 2636 0141 77696C6C 		.ascii	"willFlag\000"
+ 2636      466C6167 
+ 2636      00
+ 2637              	.LASF41:
+ 2638 014a 73747275 		.ascii	"struct_version\000"
+ 2638      63745F76 
+ 2638      65727369 
+ 2638      6F6E00
+ 2639              	.LASF59:
+ 2640 0159 6C6F6E67 		.ascii	"long long int\000"
+ 2640      206C6F6E 
+ 2640      6720696E 
+ 2640      7400
+ 2641              	.LASF14:
+ 2642 0167 554E5355 		.ascii	"UNSUBSCRIBE\000"
+ 2642      42534352 
+ 2642      49424500 
+ 2643              	.LASF68:
+ 2644 0173 73657373 		.ascii	"sessionPresent\000"
+ 2644      696F6E50 
+ 2644      72657365 
+ 2644      6E7400
+ 2645              	.LASF61:
+ 2646 0182 6C6F6E67 		.ascii	"long double\000"
+ 2646      20646F75 
+ 2646      626C6500 
+ 2647              	.LASF24:
+ 2648 018e 62797465 		.ascii	"byte\000"
+ 2648      00
+ 2649              	.LASF64:
+ 2650 0193 6F707469 		.ascii	"options\000"
+ 2650      6F6E7300 
+ 2651              	.LASF82:
+ 2652 019b 4D515454 		.ascii	"MQTTPacket_encode\000"
+ 2652      5061636B 
+ 2652      65745F65 
+ 2652      6E636F64 
+ 2652      6500
+ 2653              	.LASF33:
+ 2654 01ad 636C6561 		.ascii	"cleansession\000"
+ 2654      6E736573 
+ 2654      73696F6E 
+ 2654      00
+ 2655              	.LASF54:
+ 2656 01ba 72657365 		.ascii	"reserved\000"
+ 2656      72766564 
+ 2656      00
+ 2657              	.LASF4:
+ 2658 01c3 6D736754 		.ascii	"msgTypes\000"
+ 2658      79706573 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 53
 
 
- 2657      72766564 
- 2657      00
- 2658              	.LASF4:
- 2659 0203 6D736754 		.ascii	"msgTypes\000"
- 2659      79706573 
- 2659      00
- 2660              	.LASF36:
- 2661 020c 77696C6C 		.ascii	"willRetain\000"
- 2661      52657461 
- 2661      696E00
- 2662              	.LASF23:
- 2663 0217 756E7369 		.ascii	"unsigned int\000"
- 2663      676E6564 
- 2663      20696E74 
- 2663      00
- 2664              	.LASF46:
- 2665 0224 4D515454 		.ascii	"MQTTPacket_willOptions\000"
- 2665      5061636B 
- 2665      65745F77 
- 2665      696C6C4F 
- 2665      7074696F 
- 2666              	.LASF6:
- 2667 023b 434F4E4E 		.ascii	"CONNACK\000"
- 2667      41434B00 
- 2668              	.LASF53:
- 2669 0243 73657373 		.ascii	"sessionpresent\000"
- 2669      696F6E70 
- 2669      72657365 
- 2669      6E7400
- 2670              	.LASF3:
- 2671 0252 6572726F 		.ascii	"errors\000"
- 2671      727300
- 2672              	.LASF58:
- 2673 0259 6C6F6E67 		.ascii	"long unsigned int\000"
- 2673      20756E73 
- 2673      69676E65 
- 2673      6420696E 
- 2673      7400
- 2674              	.LASF67:
- 2675 026b 4D515454 		.ascii	"MQTTDeserialize_connack\000"
- 2675      44657365 
- 2675      7269616C 
- 2675      697A655F 
- 2675      636F6E6E 
- 2676              	.LASF72:
- 2677 0283 656E6464 		.ascii	"enddata\000"
- 2677      61746100 
- 2678              	.LASF26:
- 2679 028b 64617461 		.ascii	"data\000"
- 2679      00
- 2680              	.LASF51:
- 2681 0290 73686F72 		.ascii	"short unsigned int\000"
- 2681      7420756E 
- 2681      7369676E 
- 2681      65642069 
- 2681      6E7400
- 2682              	.LASF2:
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 54
+ 2658      00
+ 2659              	.LASF36:
+ 2660 01cc 77696C6C 		.ascii	"willRetain\000"
+ 2660      52657461 
+ 2660      696E00
+ 2661              	.LASF23:
+ 2662 01d7 756E7369 		.ascii	"unsigned int\000"
+ 2662      676E6564 
+ 2662      20696E74 
+ 2662      00
+ 2663              	.LASF46:
+ 2664 01e4 4D515454 		.ascii	"MQTTPacket_willOptions\000"
+ 2664      5061636B 
+ 2664      65745F77 
+ 2664      696C6C4F 
+ 2664      7074696F 
+ 2665              	.LASF6:
+ 2666 01fb 434F4E4E 		.ascii	"CONNACK\000"
+ 2666      41434B00 
+ 2667              	.LASF53:
+ 2668 0203 73657373 		.ascii	"sessionpresent\000"
+ 2668      696F6E70 
+ 2668      72657365 
+ 2668      6E7400
+ 2669              	.LASF3:
+ 2670 0212 6572726F 		.ascii	"errors\000"
+ 2670      727300
+ 2671              	.LASF58:
+ 2672 0219 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2672      20756E73 
+ 2672      69676E65 
+ 2672      6420696E 
+ 2672      7400
+ 2673              	.LASF67:
+ 2674 022b 4D515454 		.ascii	"MQTTDeserialize_connack\000"
+ 2674      44657365 
+ 2674      7269616C 
+ 2674      697A655F 
+ 2674      636F6E6E 
+ 2675              	.LASF72:
+ 2676 0243 656E6464 		.ascii	"enddata\000"
+ 2676      61746100 
+ 2677              	.LASF26:
+ 2678 024b 64617461 		.ascii	"data\000"
+ 2678      00
+ 2679              	.LASF51:
+ 2680 0250 73686F72 		.ascii	"short unsigned int\000"
+ 2680      7420756E 
+ 2680      7369676E 
+ 2680      65642069 
+ 2680      6E7400
+ 2681              	.LASF2:
+ 2682 0263 4D515454 		.ascii	"MQTTPACKET_READ_COMPLETE\000"
+ 2682      5041434B 
+ 2682      45545F52 
+ 2682      4541445F 
+ 2682      434F4D50 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 54
 
 
- 2683 02a3 4D515454 		.ascii	"MQTTPACKET_READ_COMPLETE\000"
- 2683      5041434B 
- 2683      45545F52 
- 2683      4541445F 
- 2683      434F4D50 
- 2684              	.LASF75:
- 2685 02bc 4D515454 		.ascii	"MQTTSerialize_zero\000"
- 2685      53657269 
- 2685      616C697A 
- 2685      655F7A65 
- 2685      726F00
- 2686              	.LASF76:
- 2687 02cf 7061636B 		.ascii	"packettype\000"
- 2687      65747479 
- 2687      706500
- 2688              	.LASF13:
- 2689 02da 53554241 		.ascii	"SUBACK\000"
- 2689      434B00
- 2690              	.LASF38:
- 2691 02e1 75736572 		.ascii	"username\000"
- 2691      6E616D65 
- 2691      00
- 2692              	.LASF32:
- 2693 02ea 4D515454 		.ascii	"MQTTString\000"
- 2693      53747269 
- 2693      6E6700
- 2694              	.LASF52:
- 2695 02f5 4D515454 		.ascii	"MQTTPacket_connectData\000"
- 2695      5061636B 
- 2695      65745F63 
- 2695      6F6E6E65 
- 2695      63744461 
- 2696              	.LASF86:
- 2697 030c 72656164 		.ascii	"readChar\000"
- 2697      43686172 
- 2697      00
- 2698              	.LASF45:
- 2699 0315 73697A65 		.ascii	"sizetype\000"
- 2699      74797065 
- 2699      00
- 2700              	.LASF85:
- 2701 031e 77726974 		.ascii	"writeMQTTString\000"
- 2701      654D5154 
- 2701      54537472 
- 2701      696E6700 
- 2702              	.LASF49:
- 2703 032e 6B656570 		.ascii	"keepAliveInterval\000"
- 2703      416C6976 
- 2703      65496E74 
- 2703      65727661 
- 2703      6C00
- 2704              	.LASF30:
- 2705 0340 63737472 		.ascii	"cstring\000"
- 2705      696E6700 
- 2706              	.LASF43:
- 2707 0348 6D657373 		.ascii	"message\000"
- 2707      61676500 
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 55
+ 2683              	.LASF75:
+ 2684 027c 4D515454 		.ascii	"MQTTSerialize_zero\000"
+ 2684      53657269 
+ 2684      616C697A 
+ 2684      655F7A65 
+ 2684      726F00
+ 2685              	.LASF76:
+ 2686 028f 7061636B 		.ascii	"packettype\000"
+ 2686      65747479 
+ 2686      706500
+ 2687              	.LASF13:
+ 2688 029a 53554241 		.ascii	"SUBACK\000"
+ 2688      434B00
+ 2689              	.LASF38:
+ 2690 02a1 75736572 		.ascii	"username\000"
+ 2690      6E616D65 
+ 2690      00
+ 2691              	.LASF32:
+ 2692 02aa 4D515454 		.ascii	"MQTTString\000"
+ 2692      53747269 
+ 2692      6E6700
+ 2693              	.LASF52:
+ 2694 02b5 4D515454 		.ascii	"MQTTPacket_connectData\000"
+ 2694      5061636B 
+ 2694      65745F63 
+ 2694      6F6E6E65 
+ 2694      63744461 
+ 2695              	.LASF86:
+ 2696 02cc 72656164 		.ascii	"readChar\000"
+ 2696      43686172 
+ 2696      00
+ 2697              	.LASF45:
+ 2698 02d5 73697A65 		.ascii	"sizetype\000"
+ 2698      74797065 
+ 2698      00
+ 2699              	.LASF85:
+ 2700 02de 77726974 		.ascii	"writeMQTTString\000"
+ 2700      654D5154 
+ 2700      54537472 
+ 2700      696E6700 
+ 2701              	.LASF49:
+ 2702 02ee 6B656570 		.ascii	"keepAliveInterval\000"
+ 2702      416C6976 
+ 2702      65496E74 
+ 2702      65727661 
+ 2702      6C00
+ 2703              	.LASF30:
+ 2704 0300 63737472 		.ascii	"cstring\000"
+ 2704      696E6700 
+ 2705              	.LASF43:
+ 2706 0308 6D657373 		.ascii	"message\000"
+ 2706      61676500 
+ 2707              	.LASF18:
+ 2708 0310 44495343 		.ascii	"DISCONNECT\000"
+ 2708      4F4E4E45 
+ 2708      435400
+ 2709              	.LASF87:
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 55
 
 
- 2708              	.LASF18:
- 2709 0350 44495343 		.ascii	"DISCONNECT\000"
- 2709      4F4E4E45 
- 2709      435400
- 2710              	.LASF87:
- 2711 035b 4D515454 		.ascii	"MQTTPacket_decodeBuf\000"
- 2711      5061636B 
- 2711      65745F64 
- 2711      65636F64 
- 2711      65427566 
- 2712              	.LASF71:
- 2713 0370 63757264 		.ascii	"curdata\000"
- 2713      61746100 
- 2714              	.LASF73:
- 2715 0378 6D796C65 		.ascii	"mylen\000"
- 2715      6E00
- 2716              	.LASF17:
- 2717 037e 50494E47 		.ascii	"PINGRESP\000"
- 2717      52455350 
- 2717      00
- 2718              	.LASF5:
- 2719 0387 434F4E4E 		.ascii	"CONNECT\000"
- 2719      45435400 
- 2720              	.LASF20:
- 2721 038f 756E7369 		.ascii	"unsigned char\000"
- 2721      676E6564 
- 2721      20636861 
- 2721      7200
- 2722              	.LASF44:
- 2723 039d 72657461 		.ascii	"retained\000"
- 2723      696E6564 
- 2723      00
- 2724              	.LASF79:
- 2725 03a6 4D515454 		.ascii	"MQTTstrlen\000"
- 2725      7374726C 
- 2725      656E00
- 2726              	.LASF56:
- 2727 03b1 73686F72 		.ascii	"short int\000"
- 2727      7420696E 
- 2727      7400
- 2728              	.LASF77:
- 2729 03bb 4D515454 		.ascii	"MQTTSerialize_disconnect\000"
- 2729      53657269 
- 2729      616C697A 
- 2729      655F6469 
- 2729      73636F6E 
- 2730              	.LASF7:
- 2731 03d4 5055424C 		.ascii	"PUBLISH\000"
- 2731      49534800 
- 2732              	.LASF88:
- 2733 03dc 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 2733      43313120 
- 2733      352E342E 
- 2733      31203230 
- 2733      31363036 
- 2734 040f 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 2734      20726576 
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 56
+ 2710 031b 4D515454 		.ascii	"MQTTPacket_decodeBuf\000"
+ 2710      5061636B 
+ 2710      65745F64 
+ 2710      65636F64 
+ 2710      65427566 
+ 2711              	.LASF71:
+ 2712 0330 63757264 		.ascii	"curdata\000"
+ 2712      61746100 
+ 2713              	.LASF73:
+ 2714 0338 6D796C65 		.ascii	"mylen\000"
+ 2714      6E00
+ 2715              	.LASF17:
+ 2716 033e 50494E47 		.ascii	"PINGRESP\000"
+ 2716      52455350 
+ 2716      00
+ 2717              	.LASF5:
+ 2718 0347 434F4E4E 		.ascii	"CONNECT\000"
+ 2718      45435400 
+ 2719              	.LASF20:
+ 2720 034f 756E7369 		.ascii	"unsigned char\000"
+ 2720      676E6564 
+ 2720      20636861 
+ 2720      7200
+ 2721              	.LASF44:
+ 2722 035d 72657461 		.ascii	"retained\000"
+ 2722      696E6564 
+ 2722      00
+ 2723              	.LASF79:
+ 2724 0366 4D515454 		.ascii	"MQTTstrlen\000"
+ 2724      7374726C 
+ 2724      656E00
+ 2725              	.LASF56:
+ 2726 0371 73686F72 		.ascii	"short int\000"
+ 2726      7420696E 
+ 2726      7400
+ 2727              	.LASF77:
+ 2728 037b 4D515454 		.ascii	"MQTTSerialize_disconnect\000"
+ 2728      53657269 
+ 2728      616C697A 
+ 2728      655F6469 
+ 2728      73636F6E 
+ 2729              	.LASF7:
+ 2730 0394 5055424C 		.ascii	"PUBLISH\000"
+ 2730      49534800 
+ 2731              	.LASF88:
+ 2732 039c 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2732      43313120 
+ 2732      352E342E 
+ 2732      31203230 
+ 2732      31363036 
+ 2733 03cf 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2733      20726576 
+ 2733      6973696F 
+ 2733      6E203233 
+ 2733      37373135 
+ 2734 0402 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2734      66756E63 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 56
 
 
- 2734      6973696F 
- 2734      6E203233 
- 2734      37373135 
- 2735 0442 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 2735      66756E63 
- 2735      74696F6E 
- 2735      2D736563 
- 2735      74696F6E 
- 2736              	.LASF65:
- 2737 046a 6275666C 		.ascii	"buflen\000"
- 2737      656E00
- 2738              	.LASF63:
- 2739 0471 4D515454 		.ascii	"MQTTSerialize_connect\000"
- 2739      53657269 
- 2739      616C697A 
- 2739      655F636F 
- 2739      6E6E6563 
- 2740              	.LASF28:
- 2741 0487 4D515454 		.ascii	"MQTTHeader\000"
- 2741      48656164 
- 2741      657200
- 2742              	.LASF40:
- 2743 0492 73747275 		.ascii	"struct_id\000"
- 2743      63745F69 
- 2743      6400
- 2744              	.LASF29:
- 2745 049c 4D515454 		.ascii	"MQTTLenString\000"
- 2745      4C656E53 
- 2745      7472696E 
- 2745      6700
- 2746              	.LASF12:
- 2747 04aa 53554253 		.ascii	"SUBSCRIBE\000"
- 2747      43524942 
- 2747      4500
- 2748              	.LASF27:
- 2749 04b4 63686172 		.ascii	"char\000"
- 2749      00
- 2750              	.LASF69:
- 2751 04b9 636F6E6E 		.ascii	"connack_rc\000"
- 2751      61636B5F 
- 2751      726300
- 2752              	.LASF8:
- 2753 04c4 50554241 		.ascii	"PUBACK\000"
- 2753      434B00
- 2754              	.LASF11:
- 2755 04cb 50554243 		.ascii	"PUBCOMP\000"
- 2755      4F4D5000 
- 2756              	.LASF74:
- 2757 04d3 65786974 		.ascii	"exit\000"
- 2757      00
- 2758              	.LASF81:
- 2759 04d8 77726974 		.ascii	"writeChar\000"
- 2759      65436861 
- 2759      7200
- 2760              	.LASF66:
- 2761 04e2 666C6167 		.ascii	"flags\000"
- 2761      7300
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\ccGIJfMh.s 			page 57
+ 2734      74696F6E 
+ 2734      2D736563 
+ 2734      74696F6E 
+ 2735              	.LASF65:
+ 2736 042a 6275666C 		.ascii	"buflen\000"
+ 2736      656E00
+ 2737              	.LASF63:
+ 2738 0431 4D515454 		.ascii	"MQTTSerialize_connect\000"
+ 2738      53657269 
+ 2738      616C697A 
+ 2738      655F636F 
+ 2738      6E6E6563 
+ 2739              	.LASF28:
+ 2740 0447 4D515454 		.ascii	"MQTTHeader\000"
+ 2740      48656164 
+ 2740      657200
+ 2741              	.LASF40:
+ 2742 0452 73747275 		.ascii	"struct_id\000"
+ 2742      63745F69 
+ 2742      6400
+ 2743              	.LASF29:
+ 2744 045c 4D515454 		.ascii	"MQTTLenString\000"
+ 2744      4C656E53 
+ 2744      7472696E 
+ 2744      6700
+ 2745              	.LASF12:
+ 2746 046a 53554253 		.ascii	"SUBSCRIBE\000"
+ 2746      43524942 
+ 2746      4500
+ 2747              	.LASF27:
+ 2748 0474 63686172 		.ascii	"char\000"
+ 2748      00
+ 2749              	.LASF69:
+ 2750 0479 636F6E6E 		.ascii	"connack_rc\000"
+ 2750      61636B5F 
+ 2750      726300
+ 2751              	.LASF8:
+ 2752 0484 50554241 		.ascii	"PUBACK\000"
+ 2752      434B00
+ 2753              	.LASF90:
+ 2754 048b 433A5C55 		.ascii	"C:\\Users\\DBY\\Documents\\group6\\ZumoBot\\ZumoBot"
+ 2754      73657273 
+ 2754      5C444259 
+ 2754      5C446F63 
+ 2754      756D656E 
+ 2755 04b8 2E637964 		.ascii	".cydsn\000"
+ 2755      736E00
+ 2756              	.LASF11:
+ 2757 04bf 50554243 		.ascii	"PUBCOMP\000"
+ 2757      4F4D5000 
+ 2758              	.LASF74:
+ 2759 04c7 65786974 		.ascii	"exit\000"
+ 2759      00
+ 2760              	.LASF81:
+ 2761 04cc 77726974 		.ascii	"writeChar\000"
+ 2761      65436861 
+ 2761      7200
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccLDzUJL.s 			page 57
 
 
- 2762              	.LASF83:
- 2763 04e8 77726974 		.ascii	"writeCString\000"
- 2763      65435374 
- 2763      72696E67 
- 2763      00
- 2764              	.LASF1:
- 2765 04f5 4D515454 		.ascii	"MQTTPACKET_READ_ERROR\000"
- 2765      5041434B 
- 2765      45545F52 
- 2765      4541445F 
- 2765      4552524F 
- 2766              	.LASF9:
- 2767 050b 50554252 		.ascii	"PUBREC\000"
- 2767      454300
- 2768              	.LASF39:
- 2769 0512 4D515454 		.ascii	"MQTTConnectFlags\000"
- 2769      436F6E6E 
- 2769      65637446 
- 2769      6C616773 
- 2769      00
+ 2762              	.LASF66:
+ 2763 04d6 666C6167 		.ascii	"flags\000"
+ 2763      7300
+ 2764              	.LASF83:
+ 2765 04dc 77726974 		.ascii	"writeCString\000"
+ 2765      65435374 
+ 2765      72696E67 
+ 2765      00
+ 2766              	.LASF39:
+ 2767 04e9 4D515454 		.ascii	"MQTTConnectFlags\000"
+ 2767      436F6E6E 
+ 2767      65637446 
+ 2767      6C616773 
+ 2767      00
+ 2768              	.LASF9:
+ 2769 04fa 50554252 		.ascii	"PUBREC\000"
+ 2769      454300
  2770              	.LASF10:
- 2771 0523 50554252 		.ascii	"PUBREL\000"
+ 2771 0501 50554252 		.ascii	"PUBREL\000"
  2771      454C00
  2772              	.LASF16:
- 2773 052a 50494E47 		.ascii	"PINGREQ\000"
+ 2773 0508 50494E47 		.ascii	"PINGREQ\000"
  2773      52455100 
  2774              	.LASF47:
- 2775 0532 4D515454 		.ascii	"MQTTVersion\000"
+ 2775 0510 4D515454 		.ascii	"MQTTVersion\000"
  2775      56657273 
  2775      696F6E00 
  2776              	.LASF70:
- 2777 053e 68656164 		.ascii	"header\000"
+ 2777 051c 68656164 		.ascii	"header\000"
  2777      657200
  2778              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
