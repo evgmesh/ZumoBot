@@ -12,9 +12,9 @@
 #include <stdint.h>
 
     
-void group6_w3_Ex1(void);
-void group6_w3_Ex2(void);
-void group6_w3_Ex3(void);
+void group6_Ex1(void);
+void group6_Ex2(void);
+void group6_Ex3(void);
     
     
     

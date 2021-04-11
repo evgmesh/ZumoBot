@@ -201,7 +201,6 @@ void week4_2_DB(void){
 /******************************* week 4 Assignment 3 ****************************************/
 void week4_3_DB(void){
     
-    
     onYourMark_DB();       //move motor to the first line
     
     IR_wait();

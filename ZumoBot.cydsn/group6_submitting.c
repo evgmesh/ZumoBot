@@ -33,107 +33,276 @@
 #include "Dongbin.h"
 
 
-/************************ week3 Ex.1 ************************************/
-
-void group6_w3_Ex1(void){
-    motor_start();              // enable motor controller
-    motor_forward(0,0);         // set speed to zero to stop motors
-   
-    while(SW1_Read());
-    BatteryLed_Write(true);
-   
-    vTaskDelay(500);
-   
-    BatteryLed_Write(false);
-    motor_forward(125,2800);     //moving forward
-    tankTR_DB(255,103);             //turn left
-    motor_forward(125,2350);    //continue moving forward
-    tankTR_DB(255,103);
-    motor_forward(125,2500);
-    tankTR_DB(255,123);
+/************************ week4 Ex.1 ************************************/
+void group6_Ex1(void) 
+{
+    uint32_t count = 0;
+    struct sensors_ dig;
     
-    int i = 0;
-    while(i < 22){
-        motor_forward(125,85);
-        softTR_DB(1+i);
-        i++;
-        if(i == 22){
-          softTR_DB(6);   
+    startUp(1,0,1,1);
+    
+    reflectance_digital(&dig);
+    while(count<5) 
+    {
+        driveForward();
+        count++;
+      if(count == 1)
+        {
+         motor_forward(0,0);
+         startUp(0,1,0,0);
         }
     }
-    motor_forward(125,728);
-    motor_forward(0,0);         // stop motors
-    motor_stop();               // disable motor controller
-    
-    progEnd_DB(500);
+    //printf("Number of lines is %i\n", count);
+    end();
 }
 
-/************************ week3 Ex.2 ************************************/
 
-void group6_w3_Ex2(void){
-    int obsD;           // how far the obstacle is
-    int myD = 10;       // how far should obstacle be when robot should turn
-    bool move = true;   // if true robot keeps moving
+/************************ week4 Ex.2 ************************************/
+void group6_Ex2(void) 
+{
+    struct sensors_ dig;
+    startUp(1,1,1, 1);
     
-    printf("ASSIGNMENT 2\n");
-    Ultra_Start();
-    motor_start();
+    reflectance_digital(&dig); 
+    driveForward();
     
-    while(move){
-        motor_forward(50, 100);
-        obsD = Ultra_GetDistance();
-       
-        if(obsD < myD){
-            motor_forward(0,0);         
-            motor_backward(50,100);
-            motor_turn(0,255,320);
+        reflectance_digital(&dig); 
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
+        {
+             reflectance_digital(&dig);
+             motor_forward(125,0);
+        }
+        reflectance_digital(&dig); 
+        while(dig.L3 == 0 && dig.R3 == 0)
+        {
+            motor_forward(50,0);
+            reflectance_digital(&dig); 
+            
+            if(dig.R2 == 1)
+            {   
+                tankTurnEvg(150,0,0);
+                reflectance_digital(&dig); 
+            }else if(dig.L2 == 1)
+             {   
+                tankTurnEvg(0,200,0);
+                reflectance_digital(&dig); 
+             }
+        }
+    end();
+}
+
+
+/************************ week4 Ex.3 ************************************/
+
+void group6_Ex3(void){
+    
+    onYourMark_DB();       //move motor to the first line
+    
+    IR_wait();
+    int line = 0; 
+    
+    motor_forward(50,0);
+    
+    while(line < 5){
+        lineDetector_DB(); //detect the black line 
+                
+        line++;             //count the number of black lines
+        
+        if(line == 2){
+            motor_turn(0,75,700);
+            followTheLine_DB();  //control the movement by the line
         }
         
-        if(!SW1_Read()){        //robot stops moving when button is pressed
-            move = false;
+        if(line == 3 || line == 4){
+            motor_turn(75,0,601);
+            followTheLine_DB();
         }
-    
     }
-
-    motor_stop();
-
+    flameout_DB();
+    
 }
 
-/************************ week3 Ex.3 ************************************/
 
-void group6_w3_Ex3(void) 
-{
-    printf("Press IR send to start and button on PSoC to stop");
-    Ultra_Start();              // Ultra Sonic Start function
-    motor_start();              // enable motor controller
-    motor_forward(0,0);         // set speed to zero to stop motors
-    IR_Start();
-    IR_wait();
-    while(true) {
-        motor_forward(125, 50);
-        int d = Ultra_GetDistance();
-        // Print the detected distance (centimeters)
-      //  printf("distance = %d\r\n", d);
-        vTaskDelay(200);
-       int turn = randomEvg(103, 309);
-        if(d < 11){
-            motor_forward(0,10);         
-            motor_backward(100, 150);
-            if (turn % 2 == 1) {
-               tankTLEvg(255, turn);
-               printf("\nTurn value is %i so I turn left\n", turn);
-            } else {
-               tankTREvg(255, turn);
-               printf("\nTurn value is %i so I turn right\n", turn);
-            }
-        }
-        if(!SW1_Read()){
-             break;
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***************************** Group6 Custom Functions **************************
+
+void driveForward(void){
+    struct sensors_ dig;
+    reflectance_start(); 
+    reflectance_digital(&dig);
+    //drives forward when sensors 2 and 3 are on black
+    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+    {
+        motor_forward(100,0);
+        reflectance_digital(&dig); 
     }
+    //drives forward when sensors 2 and 3 are on white
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    {
+        motor_forward(100,0);
+        reflectance_digital(&dig); 
+    }
+    motor_forward(0,0);
+}
+
+void progEndEvg(uint32_t delay) {
+    bool led = false;
+    while(true){
+     BatteryLed_Write(led^=1);
+     vTaskDelay(delay);   
+    }
+}
+void tankTLEvg(uint8_t speed, uint32_t delay) {
+    SetMotors(1, 0, speed, speed, delay);
+}
+
+void tankTREvg(uint8_t speed, uint32_t delay) {
+    SetMotors(0, 1, speed, speed, delay);
+}
+
+int randomEvg(int min, int max) {
+    srand(xTaskGetTickCount());
+    int random = (rand() % (max - min + 1)) + min;
+    return random;
+}
+
+
+
+void tankTurnEvg(uint8_t l_speed, uint8_t r_speed, uint32_t delay){
+    SetMotors(0,0, l_speed, r_speed, delay);
+}
+
+void end(void) {
     motor_forward(0,0);         
     motor_stop();
+}
+
+// function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
+void startUp(int motor, int IR, int reflectance, int button) {
+    if(motor == 1){
+        motor_start();  
+        motor_forward(0,0);
+    }
+    if(IR == 1){
+        IR_Start();
+        IR_wait();    
+    }
+    if(reflectance == 1){
+        reflectance_start(); 
+        reflectance_set_threshold(11000, 11000, 14000, 14000, 11000, 11000);
+    }
+    if(button == 1) {
+        while(SW1_Read());
+    }
 
 }
+
+void onYourMark_DB(void){
+    IR_Start();
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000); 
+    // set center sensor threshold to 11000 and others to 9000
+        
+    while(SW1_Read());
+    BatteryLed_Write(true);
+    vTaskDelay(200);
+    BatteryLed_Write(false);
+    reflectance_digital(&dig); 
+    motor_forward(125,0);
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        reflectance_digital(&dig);
+    }
+    motor_forward(0,0);  
+}
+
+void followTheLine_DB(void){
+    struct sensors_ dig;
+    reflectance_digital(&dig);
+    while(!(dig.L2 == 1 && dig.R2 == 1)){
+        reflectance_digital(&dig);
+        if(dig.L1 != 1 && dig.L2 == 0){
+            motor_turn(50,0,100);   
+        }else if(dig.R1 != 1 && dig.R2 == 0){
+            motor_turn(0,50,100);   
+        }else if(dig.L1 != 0 && dig.R1 != 0){
+            motor_forward(50,0); 
+        }   
+    }
+}
+
+void lineDetector_DB(void){
+    struct sensors_ dig;
+    reflectance_digital(&dig);
+    if(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+                reflectance_digital(&dig);
+                motor_forward(50,0);
+                }
+        }else if((!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))){
+            while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+                reflectance_digital(&dig);
+                motor_forward(50,0);
+                }
+        }   
+    
+}
+void flameout_DB(void){
+    motor_forward(0,0);
+    motor_stop();
+    
+    progEnd_DB(500); 
+}
+
+
+************************************************************************/
+
+
+
+
+
+
+
 
 

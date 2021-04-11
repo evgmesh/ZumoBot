@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   28:main.c        ****     I2C, UART, Serial<br>
   29:main.c        ****     </p>
   30:main.c        **** */
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 2
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 2
 
 
   31:main.c        **** 
@@ -81,9 +81,9 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   48:main.c        **** #include "serial1.h"
   49:main.c        **** #include <unistd.h>
   50:main.c        **** #include "group6.h"
-  51:main.c        **** #include "Dongbin.h" //temporarily for group test only
-  52:main.c        **** #include "evgenii.h"
-  53:main.c        **** #include "aneta.h"
+  51:main.c        **** //#include "Dongbin.h" //temporarily for group test only
+  52:main.c        **** //#include "evgenii.h"
+  53:main.c        **** //#include "aneta.h"
   54:main.c        **** 
   55:main.c        **** /**
   56:main.c        ****  * @file    main.c
@@ -113,44 +113,42 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   71:main.c        ****         
   72:main.c        **** /***********************************Test your function here**************************************/
   73:main.c        **** 
-  74:main.c        ****          //group6_Ex1();         // Dongbin
-  75:main.c        ****          //group6_Ex2();     // Aneta
-  76:main.c        ****         // group6_Ex3();       // Evgenii
-  77:main.c        ****         
-  78:main.c        ****         
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 3
+  74:main.c        ****          //group6_Ex1();         
+  75:main.c        ****          //group6_Ex2();     
+  76:main.c        ****         group6_Ex3();       
+  37              		.loc 1 76 0
+  38 0002 FFF7FEFF 		bl	group6_Ex3
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 3
 
 
-  79:main.c        ****         /**********************************Dongbin zone***************************/
-  80:main.c        ****   
-  81:main.c        **** 
-  82:main.c        ****     
-  83:main.c        ****         week4_3_DB();         // Dongbin 
-  37              		.loc 1 83 0
-  38 0002 FFF7FEFF 		bl	week4_3_DB
   39              	.LVL0:
   40              	.L2:
-  84:main.c        ****   
-  85:main.c        ****         
-  86:main.c        ****         /**********************************Aneta zone***************************/ 
-  87:main.c        ****         //aneta_w4a2();          
-  88:main.c        ****     
-  89:main.c        ****     
-  90:main.c        ****         /**********************************Evgenii zone***************************/ 
-  91:main.c        ****         //week4_2_evg(); // Evgenii
-  92:main.c        ****     
-  93:main.c        ****  /*
-  94:main.c        ****     printf("\n\n\n!!! BOOT!!\n\n\n");
-  95:main.c        ****     while(true){
-  96:main.c        **** 
-  97:main.c        ****     if(SW1_Read() == PRESSED){
-  98:main.c        ****     print_mqtt(TIME_TOPIC, "%u", xTaskGetTickCount());
-  99:main.c        ****     }
- 100:main.c        ****     }
- 101:main.c        ****         */
- 102:main.c        ****     while(true) 
- 103:main.c        ****     vTaskDelay(100);
-  41              		.loc 1 103 0 discriminator 1
+  77:main.c        ****         
+  78:main.c        ****         
+  79:main.c        ****         /**********************************Dongbin zone***************************/
+  80:main.c        ****   
+  81:main.c        ****         //week4_3_DB();         // Dongbin 
+  82:main.c        ****   
+  83:main.c        ****         
+  84:main.c        ****         /**********************************Aneta zone***************************/ 
+  85:main.c        ****         //aneta_w4a1();          
+  86:main.c        ****     
+  87:main.c        ****     
+  88:main.c        ****         /**********************************Evgenii zone***************************/ 
+  89:main.c        ****         //week4_3_evg(); // Evgenii
+  90:main.c        ****     
+  91:main.c        ****  /*
+  92:main.c        ****     printf("\n\n\n!!! BOOT!!\n\n\n");
+  93:main.c        ****     while(true){
+  94:main.c        **** 
+  95:main.c        ****     if(SW1_Read() == PRESSED){
+  96:main.c        ****     print_mqtt(TIME_TOPIC, "%u", xTaskGetTickCount());
+  97:main.c        ****     }
+  98:main.c        ****     }
+  99:main.c        ****         */
+ 100:main.c        ****     while(true) 
+ 101:main.c        ****     vTaskDelay(100);
+  41              		.loc 1 101 0 discriminator 1
   42 0006 6420     		movs	r0, #100
   43 0008 FFF7FEFF 		bl	vTaskDelay
   44              	.LVL1:
@@ -162,7 +160,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   50              	.Letext0:
   51              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
   52              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
-  53              		.file 4 "Dongbin.h"
+  53              		.file 4 "group6.h"
   54              		.file 5 "..\\FreeRTOS\\Source\\include/task.h"
   55              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
   56              		.section	.debug_info,"",%progbits
@@ -178,11 +176,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   66 0015 43000000 		.4byte	.LASF20
   67 0019 00000000 		.4byte	.Ldebug_ranges0+0
   68 001d 00000000 		.4byte	0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 4
-
-
   69 0021 00000000 		.4byte	.Ldebug_line0
   70 0025 02       		.uleb128 0x2
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 4
+
+
   71 0026 01       		.byte	0x1
   72 0027 06       		.byte	0x6
   73 0028 6C010000 		.4byte	.LASF0
@@ -206,7 +204,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
   91 004c 02       		.uleb128 0x2
   92 004d 04       		.byte	0x4
   93 004e 05       		.byte	0x5
-  94 004f 44010000 		.4byte	.LASF4
+  94 004f 4F010000 		.4byte	.LASF4
   95 0053 02       		.uleb128 0x2
   96 0054 04       		.byte	0x4
   97 0055 07       		.byte	0x7
@@ -238,15 +236,15 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  123 0084 8E010000 		.4byte	.LASF11
  124 0088 02       		.uleb128 0x2
  125 0089 08       		.byte	0x8
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 5
-
-
  126 008a 04       		.byte	0x4
- 127 008b 4D010000 		.4byte	.LASF12
+ 127 008b 58010000 		.4byte	.LASF12
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 5
+
+
  128 008f 02       		.uleb128 0x2
  129 0090 01       		.byte	0x1
  130 0091 08       		.byte	0x8
- 131 0092 3F010000 		.4byte	.LASF13
+ 131 0092 4A010000 		.4byte	.LASF13
  132 0096 02       		.uleb128 0x2
  133 0097 08       		.byte	0x8
  134 0098 04       		.byte	0x4
@@ -256,7 +254,7 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  138 009f 07       		.byte	0x7
  139 00a0 A6010000 		.4byte	.LASF15
  140 00a4 05       		.uleb128 0x5
- 141 00a5 2E010000 		.4byte	.LASF21
+ 141 00a5 39010000 		.4byte	.LASF21
  142 00a9 01       		.byte	0x1
  143 00aa 46       		.byte	0x46
  144 00ab 00000000 		.4byte	.LFB85
@@ -286,23 +284,23 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  168 00df 0A       		.uleb128 0xa
  169 00e0 76000000 		.4byte	0x76
  170 00e4 0B       		.uleb128 0xb
- 171 00e5 54010000 		.4byte	.LASF16
- 172 00e9 54010000 		.4byte	.LASF16
+ 171 00e5 2E010000 		.4byte	.LASF16
+ 172 00e9 2E010000 		.4byte	.LASF16
  173 00ed 04       		.byte	0x4
- 174 00ee 25       		.byte	0x25
+ 174 00ee 11       		.byte	0x11
  175 00ef 0C       		.uleb128 0xc
- 176 00f0 34010000 		.4byte	.LASF17
- 177 00f4 34010000 		.4byte	.LASF17
+ 176 00f0 3F010000 		.4byte	.LASF17
+ 177 00f4 3F010000 		.4byte	.LASF17
  178 00f8 05       		.byte	0x5
  179 00f9 ED02     		.2byte	0x2ed
  180 00fb 00       		.byte	0
  181              		.section	.debug_abbrev,"",%progbits
  182              	.Ldebug_abbrev0:
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 6
-
-
  183 0000 01       		.uleb128 0x1
  184 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 6
+
+
  185 0002 01       		.byte	0x1
  186 0003 25       		.uleb128 0x25
  187 0004 0E       		.uleb128 0xe
@@ -358,11 +356,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  237 0036 05       		.uleb128 0x5
  238 0037 2E       		.uleb128 0x2e
  239 0038 01       		.byte	0x1
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 7
-
-
  240 0039 3F       		.uleb128 0x3f
  241 003a 19       		.uleb128 0x19
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 7
+
+
  242 003b 03       		.uleb128 0x3
  243 003c 0E       		.uleb128 0xe
  244 003d 3A       		.uleb128 0x3a
@@ -418,11 +416,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  294 0078 03       		.uleb128 0x3
  295 0079 0E       		.uleb128 0xe
  296 007a 3A       		.uleb128 0x3a
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 8
-
-
  297 007b 0B       		.uleb128 0xb
  298 007c 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 8
+
+
  299 007d 05       		.uleb128 0x5
  300 007e 49       		.uleb128 0x49
  301 007f 13       		.uleb128 0x13
@@ -478,11 +476,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  351 0000 1C000000 		.4byte	0x1c
  352 0004 0200     		.2byte	0x2
  353 0006 00000000 		.4byte	.Ldebug_info0
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 9
-
-
  354 000a 04       		.byte	0x4
  355 000b 00       		.byte	0
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 9
+
+
  356 000c 0000     		.2byte	0
  357 000e 0000     		.2byte	0
  358 0010 00000000 		.4byte	.LFB85
@@ -497,8 +495,8 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  367 000c 00000000 		.4byte	0
  368              		.section	.debug_line,"",%progbits
  369              	.Ldebug_line0:
- 370 0000 91010000 		.section	.debug_str,"MS",%progbits,1
- 370      02007101 
+ 370 0000 8E010000 		.section	.debug_str,"MS",%progbits,1
+ 370      02007001 
  370      00000201 
  370      FB0E0D00 
  370      01010101 
@@ -538,11 +536,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  385 0077 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
  385      43313120 
  385      352E342E 
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 10
-
-
  385      31203230 
  385      31363036 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 10
+
+
  386 00aa 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
  386      20726576 
  386      6973696F 
@@ -565,27 +563,27 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  391      6720756E 
  391      7369676E 
  391      65642069 
- 392              	.LASF21:
- 393 012e 7A6D6169 		.ascii	"zmain\000"
- 393      6E00
- 394              	.LASF17:
- 395 0134 76546173 		.ascii	"vTaskDelay\000"
- 395      6B44656C 
- 395      617900
- 396              	.LASF13:
- 397 013f 63686172 		.ascii	"char\000"
- 397      00
- 398              	.LASF4:
- 399 0144 6C6F6E67 		.ascii	"long int\000"
- 399      20696E74 
+ 392              	.LASF16:
+ 393 012e 67726F75 		.ascii	"group6_Ex3\000"
+ 393      70365F45 
+ 393      783300
+ 394              	.LASF21:
+ 395 0139 7A6D6169 		.ascii	"zmain\000"
+ 395      6E00
+ 396              	.LASF17:
+ 397 013f 76546173 		.ascii	"vTaskDelay\000"
+ 397      6B44656C 
+ 397      617900
+ 398              	.LASF13:
+ 399 014a 63686172 		.ascii	"char\000"
  399      00
- 400              	.LASF12:
- 401 014d 646F7562 		.ascii	"double\000"
- 401      6C6500
- 402              	.LASF16:
- 403 0154 7765656B 		.ascii	"week4_3_DB\000"
- 403      345F335F 
- 403      444200
+ 400              	.LASF4:
+ 401 014f 6C6F6E67 		.ascii	"long int\000"
+ 401      20696E74 
+ 401      00
+ 402              	.LASF12:
+ 403 0158 646F7562 		.ascii	"double\000"
+ 403      6C6500
  404              	.LASF22:
  405 015f 49544D5F 		.ascii	"ITM_RxBuffer\000"
  405      52784275 
@@ -598,11 +596,11 @@ ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 1
  408              	.LASF14:
  409 0178 6C6F6E67 		.ascii	"long double\000"
  409      20646F75 
-ARM GAS  C:\Users\DBY\AppData\Local\Temp\cclZDpxV.s 			page 11
-
-
  409      626C6500 
  410              	.LASF9:
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\ccm032UU.s 			page 11
+
+
  411 0184 5F5F696E 		.ascii	"__int32_t\000"
  411      7433325F 
  411      7400

@@ -48,9 +48,9 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "group6.h"
-#include "Dongbin.h" //temporarily for group test only
-#include "evgenii.h"
-#include "aneta.h"
+//#include "Dongbin.h" //temporarily for group test only
+//#include "evgenii.h"
+//#include "aneta.h"
 
 /**
  * @file    main.c
@@ -71,24 +71,22 @@
         
 /***********************************Test your function here**************************************/
 
-         //group6_Ex1();         // Dongbin
-         //group6_Ex2();     // Aneta
-        // group6_Ex3();       // Evgenii
+         //group6_Ex1();         
+         //group6_Ex2();     
+        group6_Ex3();       
         
         
         /**********************************Dongbin zone***************************/
   
-
-    
-        week4_3_DB();         // Dongbin 
+        //week4_3_DB();         // Dongbin 
   
         
         /**********************************Aneta zone***************************/ 
-        //aneta_w4a2();          
+        //aneta_w4a1();          
     
     
         /**********************************Evgenii zone***************************/ 
-        //week4_2_evg(); // Evgenii
+        //week4_3_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
