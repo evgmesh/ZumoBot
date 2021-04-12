@@ -49,7 +49,7 @@
 #include <unistd.h>
 #include "group6.h"
 //#include "Dongbin.h" //temporarily for group test only
-//#include "evgenii.h"
+#include "evgenii.h"
 //#include "aneta.h"
 
 /**
@@ -64,7 +64,7 @@
 #define RELEASED 1
 
 
-#if 1
+#if 0
     //week 5 example
     
     void zmain(void) {
@@ -73,7 +73,7 @@
 
          //group6_Ex1();         
          //group6_Ex2();     
-        group6_Ex3();       
+        //group6_Ex3();       
         
         
         /**********************************Dongbin zone***************************/
@@ -105,25 +105,19 @@
 
 /************************************ Test your function here*************************************************/
 
-#if 0
+#if 1
 // Hello World!
 void zmain(void)
 {
-    printf("\nHello, 'World!\n");
-    progEnd(500);
-    //motor_start();
-    //motor_forward(0,0);
+    uint32_t strtTime = xTaskGetTickCount();
+    uint32_t endTime = xTaskGetTickCount();
+    printf("\n\n clearing the buffer\n\n");
     
-    //vTaskDelay(3000);
-    
-    //motor_forward(100,2000);
-   /* motor_turn(200,50,2000);
-    motor_turn(50,20,2000);
-    motor_backward(100,2000);
-    
-    motor_forward(0,0);*/
-    
-    motor_stop();
+    while(SW1_Read() == RELEASED);
+     
+    endTime= xTaskGetTickCount();
+    print_mqtt("Joe/time", "Start: %d, End: %d, Elapsed: %02dm:%02d.%03ds\n", strtTime, endTime, (endTime-strtTime)/1000/60%60, (endTime-strtTime)/1000%60, (endTime-strtTime)%1000);
+   
     while(true)
     {
         vTaskDelay(100); // sleep (in an infinite loop)
