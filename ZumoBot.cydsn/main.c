@@ -64,7 +64,7 @@
 #define RELEASED 1
 
 
-#if 0
+#if 1
     //week 5 example
     
     void zmain(void) {
@@ -86,7 +86,7 @@
     
     
         /**********************************Evgenii zone***************************/ 
-        //week4_3_evg(); // Evgenii
+       week5_1_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
@@ -105,8 +105,8 @@
 
 /************************************ Test your function here*************************************************/
 
-#if 1
-// Hello World!
+#if 0
+//************************************** MQTT Joe example****************************************//
 void zmain(void)
 {
     uint32_t strtTime = xTaskGetTickCount();
