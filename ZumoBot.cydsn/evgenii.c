@@ -38,6 +38,29 @@
 
 /*******************************************************weekly assignments***************************************/
 
+void week5_1_evg(void) 
+{
+    uint32_t firstBtnPress = 0, lastBtnPress = 0, diff = 0;
+    
+    printf("\n\n clearing the buffer\n\n");
+    printf("Press a button\n");
+    
+    
+    while(true)
+    {
+        while(SW1_Read() == RELEASED) vTaskDelay(1); // waiting in the loop until user presses button
+        firstBtnPress = xTaskGetTickCount();
+        diff = firstBtnPress-lastBtnPress;
+        
+        while(SW1_Read() == PRESSED) vTaskDelay(1); // waiting in the loop while user pressing the button
+        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since boot or the last button press is %d, for human: %02im:%02i.%03i", \
+                    diff, diff/1000/60%60, diff/1000%60, diff%1000);
+        lastBtnPress = firstBtnPress;
+    }
+}
+
+
+
 //week 3 Exercise 1
 
 void week3_1_evg(void)
@@ -241,23 +264,7 @@ void week4_3_evg(void)
 
 //week 5 Exercise 1
 
-void week5_1_evg(void) 
-{
-    uint32_t firstBtnPress = 0, lastBtnPress = 0;
-    
-    printf("\n\n clearing the buffer\n\n");
-    printf("Press a button\n");
-    
-    
-    while(true)
-    {
-        while(SW1_Read() == RELEASED) vTaskDelay(1); // waiting in the loop until user presses button
-        firstBtnPress = xTaskGetTickCount();
-        while(SW1_Read() == PRESSED) vTaskDelay(1); // waiting in the loop while user pressing the button
-        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since the last button press is %d, for human: %02dm:%02d.%03ds\n", (firstBtnPress-lastBtnPress), (firstBtnPress-lastBtnPress)/1000/60%60, (firstBtnPress-lastBtnPress)/1000%60, (firstBtnPress-lastBtnPress)%1000);
-        lastBtnPress = xTaskGetTickCount();
-    }
-}
+
 
 void driveForward(void){
     struct sensors_ dig;
