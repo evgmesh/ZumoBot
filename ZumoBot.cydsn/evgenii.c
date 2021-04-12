@@ -32,30 +32,41 @@
 #include "evgenii.h"
 #include <stdlib.h>
 
-#define BUTTON_TOPIC "Group6_Evg/Button"
 #define PRESSED 0
 #define RELEASED 1
+#define BUTTON_TOPIC "Group6_Evg/button"
+#define TURN_TOPIC "Group6_Evg/turn"
+
 
 /*******************************************************weekly assignments***************************************/
 
-void week5_1_evg(void) 
+void week5_2_evg(void) 
 {
-    uint32_t firstBtnPress = 0, lastBtnPress = 0, diff = 0;
-    
-    printf("\n\n clearing the buffer\n\n");
-    printf("Press a button\n");
-    
-    
+    startUp(1,1,0,0,1);
     while(true)
     {
-        while(SW1_Read() == RELEASED) vTaskDelay(1); // waiting in the loop until user presses button
-        firstBtnPress = xTaskGetTickCount();
-        diff = firstBtnPress-lastBtnPress;
-        
-        while(SW1_Read() == PRESSED) vTaskDelay(1); // waiting in the loop while user pressing the button
-        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since boot or the last button press is %d, for human: %02im:%02i.%03i", \
-                    diff, diff/1000/60%60, diff/1000%60, diff%1000);
-        lastBtnPress = firstBtnPress;
+      motor_forward(200, 50);
+      int d = Ultra_GetDistance();
+        //Print the detected distance (centimeters)
+      //printf("distance = %d\r\n", d);
+        vTaskDelay(200);
+        if(d < 15){
+            int random = randomEvg(0, 1);
+            motor_forward(0,0);         
+            motor_backward(100, 150);
+            
+            if (random == 1) {
+               motor_turn(255,0,206);
+               print_mqtt(TURN_TOPIC, "/ Turn direction is right, %i", random);
+            } else {
+               motor_turn(0,255,206);
+               print_mqtt(TURN_TOPIC, "/ Turn direction is left, %i", random);
+            } 
+        }
+        if(SW1_Read() == PRESSED){
+            end(); 
+            break;
+        }
     }
 }
 
@@ -160,7 +171,7 @@ void week4_1_evg(void)
     uint32_t count = 0;
     struct sensors_ dig;
     
-    startUp(1,0,1,1);
+    startUp(1,0,1,1,0);
     
     reflectance_digital(&dig);
     while(count<5) 
@@ -170,7 +181,7 @@ void week4_1_evg(void)
       if(count == 1)
         {
          motor_forward(0,0);
-         startUp(0,1,0,0);
+         startUp(0,1,0,0,0);
         }
     }
     printf("Number of lines is %i\n", count);
@@ -183,7 +194,7 @@ void week4_1_evg(void)
 void week4_2_evg(void) 
 {
     struct sensors_ dig;
-    startUp(1,1,1, 1);
+    startUp(1,1,1, 1, 0);
     
     reflectance_digital(&dig); 
     driveForward();
@@ -219,7 +230,7 @@ void week4_3_evg(void)
     uint32_t count = 0;
     struct sensors_ dig;
     
-    startUp(1, 0, 1, 1);
+    startUp(1, 0, 1, 1, 0);
 
     reflectance_digital(&dig);
     while(count<5) 
@@ -232,7 +243,7 @@ void week4_3_evg(void)
         if(count == 1)
         {
             motor_forward(0,0);
-            startUp(0,1,0,0);
+            startUp(0,1,0,0, 0);
         } else if(count == 2) 
           {
               //turn left on second line  
@@ -264,7 +275,35 @@ void week4_3_evg(void)
 
 //week 5 Exercise 1
 
+void week5_1_evg(void) 
+{
+    uint32_t firstBtnPress = 0, lastBtnPress = 0, diff = 0;
+    
+    printf("\n\n clearing the buffer\n\n");
+    printf("Press a button\n");
+    
+    
+    while(true)
+    {
+        while(SW1_Read() == RELEASED) vTaskDelay(1); // waiting in the loop until user presses button
+        firstBtnPress = xTaskGetTickCount();
+        diff = firstBtnPress-lastBtnPress;
+        
+        while(SW1_Read() == PRESSED) vTaskDelay(1); // waiting in the loop while user pressing the button
+        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since boot or the last button press is %d, for human: %02im:%02i.%03i", \
+                    diff, diff/1000/60%60, diff/1000%60, diff%1000);
+        lastBtnPress = firstBtnPress;
+    }
+}
 
+//week 5 Exercise 2
+
+
+//week 5 Exercise 3
+void week5_3_evg(void) 
+{
+    
+}
 
 void driveForward(void){
     struct sensors_ dig;
@@ -322,7 +361,7 @@ void end(void) {
 }
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
-void startUp(int motor, int IR, int reflectance, int button) {
+void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     if(motor == 1){
         motor_start();  
         motor_forward(0,0);
@@ -338,6 +377,10 @@ void startUp(int motor, int IR, int reflectance, int button) {
     if(button == 1) {
         while(SW1_Read());
     }
+    if(ultra == 1) {
+        Ultra_Start();
+    }
+    
     // more to add here
 }
 

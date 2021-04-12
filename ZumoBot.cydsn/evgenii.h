@@ -21,7 +21,7 @@ void tankTLEvg(uint8_t speed, uint32_t delay);
 void tankTREvg(uint8_t speed, uint32_t delay);
 void tankTurnEvg(uint8_t l_speed, uint8_t r_speed, uint32_t delay);
 int randomEvg(int min, int max);
-void startUp(int motor, int IR, int reflectance, int button);
+void startUp(int motor, int IR, int reflectance, int button, int ultra);
 void driveForward();
 void end(void);
 void week3_1_evg(void);
@@ -31,6 +31,8 @@ void week4_1_evg(void);
 void week4_2_evg(void);
 void week4_3_evg(void);
 void week5_1_evg(void);
+void week5_2_evg(void);
+void week5_3_evg(void);
 
 #endif
 

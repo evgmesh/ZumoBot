@@ -39,7 +39,7 @@ void group6_Ex1(void)
     uint32_t count = 0;
     struct sensors_ dig;
     
-    startUp(1,0,1,1);
+    startUp(1,0,1,1,0);
     
     reflectance_digital(&dig);
     while(count<5) 
@@ -49,7 +49,7 @@ void group6_Ex1(void)
       if(count == 1)
         {
          motor_forward(0,0);
-         startUp(0,1,0,0);
+         startUp(0,1,0,0,0);
         }
     }
     //printf("Number of lines is %i\n", count);
@@ -61,7 +61,7 @@ void group6_Ex1(void)
 void group6_Ex2(void) 
 {
     struct sensors_ dig;
-    startUp(1,1,1, 1);
+    startUp(1,1,1,1,0);
     
     reflectance_digital(&dig); 
     driveForward();

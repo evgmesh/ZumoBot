@@ -47,7 +47,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-#include "group6.h"
+//#include "group6.h"
 //#include "Dongbin.h" //temporarily for group test only
 #include "evgenii.h"
 //#include "aneta.h"
@@ -86,7 +86,7 @@
     
     
         /**********************************Evgenii zone***************************/ 
-       week5_1_evg(); // Evgenii
+       week5_2_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
