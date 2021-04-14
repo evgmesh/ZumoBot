@@ -11,28 +11,6 @@
 
 /*******************************************************weekly assignments***************************************/
 
-void week5_3_evg(void) 
-{
-    struct sensors_ dig;
-    int lines=0;
-    uint32_t irPressed = 0, lineReached = 0, elapsed = 0;
-    
-    startUp(1,1,1,0,0);
-    
-    driveForward(100,0);
-    IR_flush();
-    IR_wait();
-    irPressed = xTaskGetTickCount();
-    while(lines<1){
-    driveForward(150,0);
-    lines++;
-    }
-    lineReached = xTaskGetTickCount();
-    elapsed = lineReached-irPressed;
-    print_mqtt(LAP_TOPIC, "Time elapsed: %ims", elapsed);
-    end();
-}
-
 
 //week 3 Exercise 1
 
@@ -288,6 +266,30 @@ void week5_2_evg(void)
 
 //week 5 Exercise 3
 
+void week5_3_evg(void) 
+{
+    int lines=0;
+    uint32_t irPressed = 0, lineReached = 0, elapsed = 0;
+    
+    startUp(1,1,1,0,0);
+    
+    driveForward(100,0);
+    IR_wait();
+    irPressed = xTaskGetTickCount();
+    
+    while(lines<1){
+    driveForward(150,0);
+    lines++;
+    }
+    
+    lineReached = xTaskGetTickCount();
+    elapsed = lineReached-irPressed;
+    print_mqtt(LAP_TOPIC, "Time elapsed: %ims", elapsed);
+    
+    end();
+}
+
+
 
 void driveForward(uint8 speed, uint32 delay){
     struct sensors_ dig;
@@ -371,6 +373,7 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     if(IR == 1){
         IR_Start();
         printf("to start press IR send\n");
+        IR_flush();
         IR_wait();    
     }
     if(reflectance == 1){
