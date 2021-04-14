@@ -78,7 +78,7 @@
         
         /**********************************Dongbin zone***************************/
   
-        //week4_3_DB();         // Dongbin 
+        //week5_1_DB();         // Dongbin 
   
         
         /**********************************Aneta zone***************************/ 
@@ -113,11 +113,13 @@ void zmain(void)
     uint32_t endTime = xTaskGetTickCount();
     printf("\n\n clearing the buffer\n\n");
     
-    while(SW1_Read() == RELEASED);
-     
-    endTime= xTaskGetTickCount();
-    print_mqtt("Joe/time", "Start: %d, End: %d, Elapsed: %02dm:%02d.%03ds\n", strtTime, endTime, (endTime-strtTime)/1000/60%60, (endTime-strtTime)/1000%60, (endTime-strtTime)%1000);
    
+    while(SW1_Read() == RELEASED);
+    endTime= xTaskGetTickCount();
+    print_mqtt("Joe/time", "Start: %d, End: %d, Elapsed: %02dm:%02d.%03ds\n", strtTime, endTime, (endTime-strtTime)/1000/60%60, (endTime-strtTime)/1000%60, (endTime-strtTime)%1000); 
+   
+
+
     while(true)
     {
         vTaskDelay(100); // sleep (in an infinite loop)
