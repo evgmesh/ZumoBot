@@ -251,21 +251,32 @@ void week5_1_DB(void){
     }
 }
 
+/**************************** week5 Assignment 2 *************************************/
+# define TURN_TOPIC "Robot Serial Number/Turn"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void week5_2_DB(void){
+    
+    motorActivate_DB(1,0,1,0,1);        
+        
+    while(true) {
+        int d = Ultra_GetDistance();     
+        motor_forward(80,200);
+        
+        if(d < 15){
+           motor_forward(0,0);
+           vTaskDelay(1000);
+           motor_backward(80, 600);
+           motor_forward(0,0);
+           vTaskDelay(1500);
+           randTurn90Deg_DB();
+        }
+        if(!SW1_Read ()){
+            break;   
+        }
+    }
+    flameout_DB();
+    
+}
 
 
 
@@ -336,7 +347,8 @@ void tankRandTR_DB(uint32_t delay){
 int randTurnLR_DB(void){
     int TurnLR;
     TickType_t rand = xTaskGetTickCount();
-    TurnLR = rand % 2;
+    TurnLR = rand/1000 % 2;
+    //printf("rand is %d, rand/1000 is %d, turn is %d\n", rand, rand/1000, TurnLR);
     return TurnLR;
 }
 
@@ -411,11 +423,80 @@ void lineDetector_DB(void){
 void flameout_DB(void){
     motor_forward(0,0);
     motor_stop();
+    printf("\n\n Waiting for next order!!\n\n");
     
     progEnd_DB(500); 
 }
 
-
+void motorActivate_DB(int motor,int IR, int ultra, int reflet, int btn){
+    printf("\n\n\n Motor Activated!!! \n\n\n");
+    if(motor == 1){
+        motor_start();
+        motor_forward(0,0);
+    }
+    if(ultra == 1){
+        Ultra_Start();
+    }
+    if(reflet == 1){
+        reflectance_start();
+        reflectance_set_threshold(13000,13000,11000,11000,13000,13000);
+    }
+    if(btn == 1){
+        while(SW1_Read());
+        BatteryLed_Write(true);
+	    vTaskDelay(200); 
+        BatteryLed_Write(false);
+    }
+    if(IR == 1){
+        IR_Start();
+        IR_wait();
+        
+    }
+}
+    
+ void randTurn90Deg_DB(void){
+    if(randTurnLR_DB() == 1){
+        tankRandTR_DB(262);
+        print_mqtt(TURN_TOPIC, "Right");          
+    }else{
+        tankRandTL_DB(262); 
+        print_mqtt(TURN_TOPIC, "Left");   
+    }
+}
+    
 //void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
 
 /* [] END OF FILE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

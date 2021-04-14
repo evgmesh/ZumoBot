@@ -21,12 +21,14 @@ void softTR_DB();
 void tankTL120_DB();
 void tankRandTL_DB(uint32_t delay);
 void tankRandTR_DB(uint32_t delay);
+void randTurn90Deg_DB(void);
 int randTurnDeg_DB();
 int randTurnLR_DB();
 void onYourMark_DB();
 void followTheLine_DB();
 void lineDetector_DB();
 void flameout_DB();
+void motorActivate_DB(int motor,int IR, int ultra, int reflet, int btn);
 
 /********************* Ex.functions **********************/
 void week3_1_DB(void);
@@ -36,9 +38,23 @@ void week4_1_DB(void);
 void week4_2_DB(void);    
 void week4_3_DB(void);
 void week5_1_DB(void);
-
+void week5_2_DB(void);
 
 #endif
 
 
 /* [] END OF FILE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
