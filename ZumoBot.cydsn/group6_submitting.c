@@ -44,7 +44,7 @@ void group6_Ex1(void)
     reflectance_digital(&dig);
     while(count<5) 
     {
-        driveForward();
+        driveForward(100,0);
         count++;
       if(count == 1)
         {
@@ -64,7 +64,7 @@ void group6_Ex2(void)
     startUp(1,1,1,1,0);
     
     reflectance_digital(&dig); 
-    driveForward();
+    driveForward(100,0);
     
         reflectance_digital(&dig); 
         while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))

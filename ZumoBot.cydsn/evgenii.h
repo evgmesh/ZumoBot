@@ -40,7 +40,7 @@ void tankTREvg(uint8_t speed, uint32_t delay);
 void tankTurnEvg(int16 degree);
 int randomEvg(int min, int max);
 void startUp(int motor, int IR, int reflectance, int button, int ultra);
-void driveForward();
+void driveForward(uint8 speed, uint32 delay);
 void end(void);
 void week3_1_evg(void);
 void week3_2_evg(void);

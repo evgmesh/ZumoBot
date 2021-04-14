@@ -7,39 +7,31 @@
 #define RELEASED 1
 #define BUTTON_TOPIC "Group6_Evg/button"
 #define TURN_TOPIC "Group6_Evg/turn"
-
+#define LAP_TOPIC "Group6_Evg/lap"
 
 /*******************************************************weekly assignments***************************************/
 
-void week5_2_evg(void) 
+void week5_3_evg(void) 
 {
-    startUp(1,1,0,0,1);
-    while(SW1_Read() == RELEASED)
-    {
-      motor_forward(150, 80);
-      //int d = Ultra_GetDistance();
-        //Print the detected distance (centimeters)
-      //printf("distance = %d\r\n", d);
-      //  vTaskDelay(200);
-        if(Ultra_GetDistance() < 10){
-            //int random = rand()%2;
-            motor_forward(0,0);         
-            motor_backward(100, 150);
-            
-            if (rand()%2 == 1) {
-               tankTurnEvg(90);
-               motor_forward(0,0);
-               print_mqtt(TURN_TOPIC, "/ Turn direction - right");
-            } else {
-               tankTurnEvg(-90);
-               motor_forward(0,0);
-               print_mqtt(TURN_TOPIC, "/ Turn direction - left");
-            } 
-        }
+    struct sensors_ dig;
+    int lines=0;
+    uint32_t irPressed = 0, lineReached = 0, elapsed = 0;
+    
+    startUp(1,1,1,0,0);
+    
+    driveForward(100,0);
+    IR_flush();
+    IR_wait();
+    irPressed = xTaskGetTickCount();
+    while(lines<1){
+    driveForward(150,0);
+    lines++;
     }
+    lineReached = xTaskGetTickCount();
+    elapsed = lineReached-irPressed;
+    print_mqtt(LAP_TOPIC, "Time elapsed: %ims", elapsed);
     end();
 }
-
 
 
 //week 3 Exercise 1
@@ -146,7 +138,7 @@ void week4_1_evg(void)
     reflectance_digital(&dig);
     while(count<5) 
     {
-        driveForward();
+        driveForward(100,0);
         count++;
       if(count == 1)
         {
@@ -167,7 +159,7 @@ void week4_2_evg(void)
     startUp(1,1,1, 1, 0);
     
     reflectance_digital(&dig); 
-    driveForward();
+    driveForward(100,0);
     
         reflectance_digital(&dig); 
         while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
@@ -205,7 +197,7 @@ void week4_3_evg(void)
     reflectance_digital(&dig);
     while(count<5) 
     {
-        driveForward();
+        driveForward(100,0);
         count++;
         printf("one loop, %i lines passed by\n", count);
         reflectance_digital(&dig);
@@ -252,7 +244,6 @@ void week5_1_evg(void)
     printf("\n\n clearing the buffer\n\n");
     printf("Press a button\n");
     
-    
     while(true)
     {
         lastBtnPress = xTaskGetTickCount();
@@ -269,27 +260,49 @@ void week5_1_evg(void)
 
 //week 5 Exercise 2
 
-
-//week 5 Exercise 3
-void week5_3_evg(void) 
+void week5_2_evg(void) 
 {
-    
+    startUp(1,1,0,0,1);
+    while(SW1_Read() == RELEASED)
+    {
+      motor_forward(150, 80);
+        if(Ultra_GetDistance() < 10){
+            motor_forward(0,0);         
+            motor_backward(150, 150);
+            
+            if (rand()%2 == 1) {
+               tankTurnEvg(90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - right");
+            } else {
+               tankTurnEvg(-90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - left");
+            } 
+            
+        }
+    }
+    end();
 }
 
-void driveForward(void){
+
+//week 5 Exercise 3
+
+
+void driveForward(uint8 speed, uint32 delay){
     struct sensors_ dig;
     reflectance_start(); 
     reflectance_digital(&dig);
     //drives forward when sensors 2 and 3 are on black
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
-        motor_forward(100,0);
+        motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
     //drives forward when sensors 2 and 3 are on white
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
     {
-        motor_forward(100,0);
+        motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
     motor_forward(0,0);
@@ -350,12 +363,14 @@ void end(void) {
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
 void startUp(int motor, int IR, int reflectance, int button, int ultra) {
+    printf("\n\n clearing the buffer\nBoot!\n");
     if(motor == 1){
         motor_start();  
         motor_forward(0,0);
     }
     if(IR == 1){
         IR_Start();
+        printf("to start press IR send\n");
         IR_wait();    
     }
     if(reflectance == 1){
