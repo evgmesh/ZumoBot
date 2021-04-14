@@ -227,7 +227,29 @@ void week4_3_DB(void){
     
 }
     
+/******************************** week 5 Assignment 1 ************************************/
 
+# define TIME_TOPIC "Robot serial number/button"
+# define RELEASED 1
+# define PRESSED 0
+
+void week5_1_DB(void){
+    
+    uint32_t startTime = xTaskGetTickCount();
+    uint32_t endTime;
+    printf("\n\n\n!!!BOOT BOOT!!!\n\n\n");
+    
+    while(true){
+        
+        while(SW1_Read() == RELEASED);
+        
+        endTime = xTaskGetTickCount();
+        print_mqtt(TIME_TOPIC, "Start: %u, End:%u\n Elapsed time: %02dh:%02dm:%03d", startTime, endTime, (endTime - startTime)/1000/3600%24,(endTime - startTime)/1000/60%60,(endTime - startTime)/1000%60 );
+        
+        while(SW1_Read() == PRESSED);
+                  
+    }
+}
 
 
 

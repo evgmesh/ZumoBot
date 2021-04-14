@@ -48,9 +48,9 @@
 #include "serial1.h"
 #include <unistd.h>
 //#include "group6.h"
-//#include "Dongbin.h" //temporarily for group test only
+#include "Dongbin.h" 
 #include "evgenii.h"
-//#include "aneta.h"
+#include "aneta.h"
 
 /**
  * @file    main.c
@@ -78,7 +78,7 @@
         
         /**********************************Dongbin zone***************************/
   
-        //week5_1_DB();         // Dongbin 
+        week5_1_DB();         // Dongbin 
   
         
         /**********************************Aneta zone***************************/ 
@@ -86,7 +86,7 @@
     
     
         /**********************************Evgenii zone***************************/ 
-       week5_3_evg(); // Evgenii
+       //week5_3_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
