@@ -80,11 +80,11 @@ void group6_Ex2(void)
             
             if(dig.R2 == 1)
             {   
-                tankTurnEvg(150,0,0);
+                motor_turn(150,0,0);
                 reflectance_digital(&dig); 
             }else if(dig.L2 == 1)
              {   
-                tankTurnEvg(0,200,0);
+                motor_turn(0,200,0);
                 reflectance_digital(&dig); 
              }
         }

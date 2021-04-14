@@ -14,12 +14,30 @@
 #define EVGENII_H_
 
 #include <stdint.h>
-
+#include <project.h>
+#include <stdio.h>
+#include "FreeRTOS.h"
+#include "task.h"
+#include "Motor.h"
+#include "Ultra.h"
+#include "Nunchuk.h"
+#include "Reflectance.h"
+#include "Gyro.h"
+#include "Accel_magnet.h"
+#include "LSM303D.h"
+#include "IR.h"
+#include "Beep.h"
+#include "mqtt_sender.h"
+#include <time.h>
+#include <sys/time.h>
+#include "serial1.h"
+#include <unistd.h>
+#include <stdlib.h>
 
 void progEndEvg(uint32_t delay);
 void tankTLEvg(uint8_t speed, uint32_t delay);
 void tankTREvg(uint8_t speed, uint32_t delay);
-void tankTurnEvg(uint8_t l_speed, uint8_t r_speed, uint32_t delay);
+void tankTurnEvg(int16 degree);
 int randomEvg(int min, int max);
 void startUp(int motor, int IR, int reflectance, int button, int ultra);
 void driveForward();

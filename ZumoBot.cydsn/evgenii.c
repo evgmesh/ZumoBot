@@ -1,36 +1,7 @@
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
+/* ========================================Evgenii Meshcheriakov==========================================*/
 
-
-#include <project.h>
-#include <stdio.h>
-#include "FreeRTOS.h"
-#include "task.h"
-#include "Motor.h"
-#include "Ultra.h"
-#include "Nunchuk.h"
-#include "Reflectance.h"
-#include "Gyro.h"
-#include "Accel_magnet.h"
-#include "LSM303D.h"
-#include "IR.h"
-#include "Beep.h"
-#include "mqtt_sender.h"
-#include <time.h>
-#include <sys/time.h>
-#include "serial1.h"
-#include <unistd.h>
 #include "evgenii.h"
-#include <stdlib.h>
+
 
 #define PRESSED 0
 #define RELEASED 1
@@ -43,31 +14,30 @@
 void week5_2_evg(void) 
 {
     startUp(1,1,0,0,1);
-    while(true)
+    while(SW1_Read() == RELEASED)
     {
-      motor_forward(200, 50);
-      int d = Ultra_GetDistance();
+      motor_forward(150, 80);
+      //int d = Ultra_GetDistance();
         //Print the detected distance (centimeters)
       //printf("distance = %d\r\n", d);
-        vTaskDelay(200);
-        if(d < 15){
-            int random = randomEvg(0, 1);
+      //  vTaskDelay(200);
+        if(Ultra_GetDistance() < 10){
+            //int random = rand()%2;
             motor_forward(0,0);         
             motor_backward(100, 150);
             
-            if (random == 1) {
-               motor_turn(255,0,206);
-               print_mqtt(TURN_TOPIC, "/ Turn direction is right, %i", random);
+            if (rand()%2 == 1) {
+               tankTurnEvg(90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - right");
             } else {
-               motor_turn(0,255,206);
-               print_mqtt(TURN_TOPIC, "/ Turn direction is left, %i", random);
+               tankTurnEvg(-90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - left");
             } 
         }
-        if(SW1_Read() == PRESSED){
-            end(); 
-            break;
-        }
     }
+    end();
 }
 
 
@@ -88,7 +58,7 @@ void week3_1_evg(void)
     tankTREvg(255, 103);           // 2nd turn
     motor_forward(125,2550);
     tankTREvg(255, 103);           // 2nd turn
-    tankTurnEvg(164,135,1780);
+  //  tankTurnEvg(164,135,1780);
     motor_forward(125,570);     // moving forward from starting point
     motor_forward(0,0);         // stop motors
     motor_stop();               // disable motor controller
@@ -213,11 +183,11 @@ void week4_2_evg(void)
             
             if(dig.R2 == 1)
             {   
-                tankTurnEvg(150,0,0);
+             motor_turn(150,0,0);
                 reflectance_digital(&dig); 
             }else if(dig.L2 == 1)
              {   
-                tankTurnEvg(0,200,0);
+             motor_turn(0,200,0);
                 reflectance_digital(&dig); 
              }
         }
@@ -285,12 +255,13 @@ void week5_1_evg(void)
     
     while(true)
     {
+        lastBtnPress = xTaskGetTickCount();
         while(SW1_Read() == RELEASED) vTaskDelay(1); // waiting in the loop until user presses button
         firstBtnPress = xTaskGetTickCount();
         diff = firstBtnPress-lastBtnPress;
         
         while(SW1_Read() == PRESSED) vTaskDelay(1); // waiting in the loop while user pressing the button
-        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since boot or the last button press is %d, for human: %02im:%02i.%03i", \
+        print_mqtt(BUTTON_TOPIC, "/ Milliseconds since boot or the last button press is %d, or: %02dm:%02d.%03ds", \
                     diff, diff/1000/60%60, diff/1000%60, diff%1000);
         lastBtnPress = firstBtnPress;
     }
@@ -351,8 +322,25 @@ int randomEvg(int min, int max) {
 
 
 
-void tankTurnEvg(uint8 l_speed, uint8 r_speed, uint32 delay){
-    SetMotors(0,0, l_speed, r_speed, delay);
+void tankTurnEvg(int16 degree){
+    
+    uint8 leftState, rightState, correction;
+    
+    if(degree>=0) {
+        leftState=0;
+    } else{
+        leftState=1;
+    }
+    if(degree<0) {
+        rightState=0;
+        correction= (degree * -1) %360;
+    } else{
+        rightState=1;
+        correction= degree % 360;
+    }
+    uint32 delay = (correction * 1048)/360;
+    
+    SetMotors(leftState,rightState, 100, 100, delay);
 }
 
 void end(void) {
