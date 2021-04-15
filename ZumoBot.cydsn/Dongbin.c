@@ -278,6 +278,48 @@ void week5_2_DB(void){
     
 }
 
+/*************************** week5 Assignment 3 **************************************/
+# define ELAPSED_TIME_TOPIC "Robot serial number/lap"
+
+void week5_3_DB(void){
+    onYourMark2_DB();    //move the motor to first line
+    struct sensors_ dig;
+    
+    uint32_t startTime = 0;
+    uint32_t endTime = 0;
+    printf("\n\n\n!!!BOOT BOOT!!!\n\n");
+    
+    IR_wait();
+    for(int i = 0; i < 4; i++){
+        startTime = xTaskGetTickCount();
+        
+        while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+            reflectance_digital(&dig);
+            motor_forward(50,0);
+        }              
+        motor_forward(50,0);
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+            reflectance_digital(&dig);
+        }
+        endTime = xTaskGetTickCount();
+        motor_forward(0,0);
+        vTaskDelay(300);
+        print_mqtt(ELAPSED_TIME_TOPIC, "startTime: %d, endTime: %d, Elapsed time: %dms", startTime, endTime, (endTime - startTime));
+    }
+    flameout_DB();
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -423,7 +465,7 @@ void lineDetector_DB(void){
 void flameout_DB(void){
     motor_forward(0,0);
     motor_stop();
-    printf("\n\n Waiting for next order!!\n\n");
+    printf("\n\n Press the reset and Try it again!!\n\n");
     
     progEnd_DB(500); 
 }
@@ -463,31 +505,35 @@ void motorActivate_DB(int motor,int IR, int ultra, int reflet, int btn){
         print_mqtt(TURN_TOPIC, "Left");   
     }
 }
+
+void onYourMark2_DB(void){
+    IR_Start();
+    motor_start();              // enable motor controller
+    motor_forward(0,0);         // set speed to zero to stop motors
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_set_threshold(15000, 15000, 16000, 16000, 15000, 15000); 
+    // set center sensor threshold to 11000 and others to 9000
+        
+    reflectance_digital(&dig); 
+    motor_forward(125,0);
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        reflectance_digital(&dig);
+    }
+    
+    while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+        reflectance_digital(&dig);
+        motor_forward(50,0);
+    }
+    
+    motor_forward(0,0); 
+    
+}
+
     
 //void SetMotors(uint8 left_dir, uint8 right_dir, uint8 left_speed, uint8 right_speed, uint32 delay)
 
 /* [] END OF FILE */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
