@@ -277,6 +277,7 @@ void week5_3_evg(void)
     IR_wait();
     irPressed = xTaskGetTickCount();
     
+    
     while(lines<1){
     driveForward(150,0);
     lines++;
