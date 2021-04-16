@@ -25,6 +25,7 @@ void randTurn90Deg_DB(void);
 int randTurnDeg_DB();
 int randTurnLR_DB();
 void onYourMark_DB();
+void onYourMark2_DB();
 void followTheLine_DB();
 void lineDetector_DB();
 void flameout_DB();
@@ -39,6 +40,8 @@ void week4_2_DB(void);
 void week4_3_DB(void);
 void week5_1_DB(void);
 void week5_2_DB(void);
+void week5_3_DB(void);
+
 
 #endif
 
