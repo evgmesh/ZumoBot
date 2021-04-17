@@ -20,6 +20,10 @@ void aneta_w4a1(void);
 void aneta_w4a2(void);
 void aneta_w4a3(void);
 
+void aneta_w5a1(void);
+void aneta_w5a2(void);
+void aneta_w5a3(void);
+
 void aneta_tankTurnRight(uint8_t speed, uint32_t delay);
 void aneta_tankTurnLeft(uint8_t speed, uint32_t delay);
 

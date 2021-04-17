@@ -31,6 +31,10 @@
 #include <unistd.h>
 #include "aneta.h"
 #include <stdlib.h>
+#include <stdint.h>
+
+#define PRESSED 0
+#define RELEASED 1
 
 //WEEK 3 ASSIGNMENT 1 *****************************************************************************************
 void aneta_w3a1(void){
@@ -202,6 +206,96 @@ void aneta_w4a2(void){
 
 //WEEK 4 ASSIGNMENT 3 *****************************************************************************************
 void aneta_w4a3(void){
+    
+    printf("ASSIGNMENT 3\n");
+    motor_start();
+    
+
+    motor_stop();
+
+}
+
+//WEEK 5 ASSIGNMENT 1 *****************************************************************************************
+void aneta_w5a1(void){
+    int btn1Time = 0; 
+    int btn2Time = 0;
+    int time;
+    
+    printf("ASSIGNMENT 1\n");
+    motor_start();
+    
+        while (SW1_Read()== RELEASED){      
+            vTaskDelay(0);
+        }
+        btn1Time = xTaskGetTickCount();         //when button is pressed for the first time
+        
+        
+    while (true){    
+        
+        while (SW1_Read() == RELEASED){         //wait for the button to be pressed
+            vTaskDelay(0);
+        }
+        btn2Time = xTaskGetTickCount();         //get time of the press
+        
+        while (SW1_Read() == PRESSED){          //wait for the button to be released
+            vTaskDelay(0);        
+        }
+        
+        time = btn2Time - btn1Time;             //find the time betweeen presses
+        print_mqtt("zumo6/button", "Time: %d ms\n", time );
+        btn1Time = btn2Time;
+        
+    }
+    motor_stop();
+
+}
+
+//WEEK 5 ASSIGNMENT 2 *****************************************************************************************
+void aneta_w5a2(void){
+    
+    int obsD;           // how far the obstacle is
+    int myD = 10;       // how far should obstacle be when robot should turn
+    int delay = 290;    // delay for motors; if delay is 290 and speed of motors is X, then robot turns X degrees (left/right)
+    int degreeTurn;     // how many degrees robot turns
+    bool move = true;   // if true robot keeps moving
+    bool turnRight;     // if true robot turns right, else turns left
+    
+    printf("ASSIGNMENT 2\n");
+    motor_start();
+    Ultra_Start();
+
+    while(move){
+        motor_forward(50, 100);
+        obsD = Ultra_GetDistance();
+       
+        if(obsD < myD){
+            motor_forward(0,0);         
+            motor_backward(50,100);
+            turnRight = rand() % 2;  
+            
+            if (turnRight){
+                print_mqtt("zumo6/turn", "Right turn\n" );
+                aneta_tankTurnRight(90,delay);              //90 deg turn right
+            } else {
+                print_mqtt("zumo6/turn", "Left turn\n" );
+                aneta_tankTurnLeft(90,delay);               //90 deg turn left
+            }
+            
+        }
+        
+        if(!SW1_Read()){        //robot stops moving when the user button is pressed
+             move = false;
+        }
+    
+    }
+
+
+    motor_stop();
+
+}
+
+//WEEK 5 ASSIGNMENT 3 *****************************************************************************************
+void aneta_w5a3(void){
     
     printf("ASSIGNMENT 3\n");
     motor_start();
