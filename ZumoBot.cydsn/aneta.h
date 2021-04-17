@@ -23,8 +23,13 @@ void aneta_w4a3(void);
 void aneta_w5a1(void);
 void aneta_w5a2(void);
 void aneta_w5a3(void);
+void aneta_w5a3v2(void);
+
+void aneta_smart_digital(void);
 
 void aneta_tankTurnRight(uint8_t speed, uint32_t delay);
 void aneta_tankTurnLeft(uint8_t speed, uint32_t delay);
+void aneta_moveToBlackLine(uint8_t speed, uint32_t delay);
+void aneta_moveThroughBlackLine(uint8_t speed, uint32_t delay);
 
 /* [] END OF FILE */

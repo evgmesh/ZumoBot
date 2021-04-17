@@ -146,29 +146,37 @@ void aneta_w3a3(void){
 
 //WEEK 4 ASSIGNMENT 1 *****************************************************************************************
 void aneta_w4a1(void){
-    bool wait=1;
+    int line=0;
+    struct sensors_ dig;
     
     printf("ASSIGNMENT 1\n");
     motor_start();
     IR_Start();
+    reflectance_start();
     
-    while(wait)
-    {
-        vTaskDelay(100);
-        if (!SW1_Read()){               //if button is pressed
-            wait=0;                     //then end the loop
-            motor_forward(100,200);     // and move forward to the first line
+    while (!(dig.L3 == 1 && dig.R3 == 1)){      //robot moves forward until it reaches the first line
+        reflectance_digital(&dig);
+        motor_forward(50,25);  
+    }
+    motor_forward(0,0);                         //then he stops
+    IR_wait();                                  //and waits for IR signal
+    
+    while (line < 4){
+        while ((dig.L3 == 1 && dig.R3 == 1)){       //robot moves forward until it reaches a white space
+            reflectance_digital(&dig);
+            motor_forward(50,25);  
         }
+        
+        while (!(dig.L3 == 1 && dig.R3 == 1)){      //robot moves forward until it reaches the second line
+            reflectance_digital(&dig);
+            motor_forward(50,25);  
+        }
+        line++;
     }
     
-    motor_forward(0,0);                 //stop
-    IR_wait();                          //and wait for IR signal
-    
-    motor_forward(122,1000);            //then move to the last line
-    printf("My job is done \n");
+    printf("done\n");
 
     motor_stop();
-
 }
 
 //WEEK 4 ASSIGNMENT 2 *****************************************************************************************
@@ -329,6 +337,55 @@ void aneta_w5a3(void){
 
 }
 
+//WEEK 5 ASSIGNMENT 3 with functions *****************************************************************************************
+void aneta_w5a3v2(void){
+    int irTime,stopTime,lapTime;
+    
+    printf("ASSIGNMENT 3\n");
+    motor_start();
+    IR_Start();
+    
+    aneta_moveToBlackLine(50,25);           //robot moves forward until it reaches the first line
+    motor_forward(0,0);
+    
+    IR_wait();                              //and waits for IR signal
+    irTime = xTaskGetTickCount();           //get time 
+    
+    aneta_moveThroughBlackLine(50,25);      //robot moves forward until it reaches a white space
+    aneta_moveToBlackLine(50,25);           //robot moves forward until it reaches the second line
+    
+    stopTime = xTaskGetTickCount();         //get time 
+    lapTime = stopTime - irTime;            //get time difference
+    
+    print_mqtt("zumo6/lap"," Lap time: %d ms\n", lapTime);               
+    
+    motor_stop();
+
+}
+
+void aneta_smart_digital(void){
+    int obsD;           // how far the obstacle is
+    int myD = 10;       // how far should obstacle be when robot should turn
+
+    Ultra_Start();
+    motor_start();
+    
+    printf("start\n");
+    
+    while(true){
+        motor_forward(50, 100);
+        obsD = Ultra_GetDistance();
+       
+        if(obsD < myD){
+            motor_forward(0,0); 
+	        vTaskDelay(2000);        
+            motor_turn(0,50,2000);       //left turn
+        }
+    }
+
+    motor_stop();
+
+}
 
 
 
@@ -343,6 +400,23 @@ void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
     SetMotors(1, 0, speed, speed, delay);
 }
 
+void aneta_moveToBlackLine(uint8_t speed, uint32_t delay){
+    struct sensors_ dig;
+    reflectance_start();
+    while (!(dig.L3 == 1 && dig.R3 == 1)){     
+        reflectance_digital(&dig);
+        motor_forward(speed,delay);  
+    }
+}
+
+void aneta_moveThroughBlackLine(uint8_t speed, uint32_t delay){
+    struct sensors_ dig;
+    reflectance_start();
+    while ((dig.L3 == 1 && dig.R3 == 1)){ 
+        reflectance_digital(&dig);
+        motor_forward(speed,delay);  
+    }
+}
 
 
 /* [] END OF FILE */
