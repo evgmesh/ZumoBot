@@ -242,7 +242,7 @@ void aneta_w5a1(void){
         }
         
         time = btn2Time - btn1Time;             //find the time betweeen presses
-        print_mqtt("zumo6/button", "Time: %d ms\n", time );
+        print_mqtt("zumo6/button", " Time: %d ms\n", time );
         btn1Time = btn2Time;
         
     }
@@ -256,7 +256,6 @@ void aneta_w5a2(void){
     int obsD;           // how far the obstacle is
     int myD = 10;       // how far should obstacle be when robot should turn
     int delay = 290;    // delay for motors; if delay is 290 and speed of motors is X, then robot turns X degrees (left/right)
-    int degreeTurn;     // how many degrees robot turns
     bool move = true;   // if true robot keeps moving
     bool turnRight;     // if true robot turns right, else turns left
     
@@ -274,10 +273,10 @@ void aneta_w5a2(void){
             turnRight = rand() % 2;  
             
             if (turnRight){
-                print_mqtt("zumo6/turn", "Right turn\n" );
+                print_mqtt("zumo6/turn", " Right turn\n" );
                 aneta_tankTurnRight(90,delay);              //90 deg turn right
             } else {
-                print_mqtt("zumo6/turn", "Left turn\n" );
+                print_mqtt("zumo6/turn", " Left turn\n" );
                 aneta_tankTurnLeft(90,delay);               //90 deg turn left
             }
             
@@ -296,9 +295,34 @@ void aneta_w5a2(void){
 
 //WEEK 5 ASSIGNMENT 3 *****************************************************************************************
 void aneta_w5a3(void){
+    int irTime,stopTime,lapTime;
+    struct sensors_ dig;
     
     printf("ASSIGNMENT 3\n");
     motor_start();
+    IR_Start();
+    reflectance_start();
+    
+    while (!(dig.L3 == 1 && dig.R3 == 1)){      //robot moves forward until it reaches the first line
+        reflectance_digital(&dig);
+        motor_forward(50,25);  
+    }
+    motor_forward(0,0);                         //then he stops
+    IR_wait();                                  //and waits for IR signal
+    irTime = xTaskGetTickCount();               //get time 
+    
+    while ((dig.L3 == 1 && dig.R3 == 1)){       //robot moves forward until it reaches a white space
+        reflectance_digital(&dig);
+        motor_forward(50,25);  
+    }
+    
+    while (!(dig.L3 == 1 && dig.R3 == 1)){      //robot moves forward until it reaches the second line
+        reflectance_digital(&dig);
+        motor_forward(50,25);  
+    }
+    stopTime = xTaskGetTickCount();             //get time 
+    lapTime = stopTime - irTime;                //get time difference
+    print_mqtt("zumo6/lap"," Lap time: %d ms\n", lapTime);               
     
 
     motor_stop();
