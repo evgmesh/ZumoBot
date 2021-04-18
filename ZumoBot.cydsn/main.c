@@ -59,10 +59,10 @@
 */
 
 
-#define TIME_TOPIC "Zumo0/Time"
+/*#define TIME_TOPIC "Zumo0/Time"
 #define PRESSED 0
 #define RELEASED 1
-
+*/
 
 #if 1
     //week 5 example
@@ -73,7 +73,7 @@
 
          //group6_Ex1();         
          //group6_Ex2();     
-        group6_Ex3();       
+            //group6_Ex3();       
         
         
         /**********************************Dongbin zone***************************/
@@ -83,7 +83,7 @@
         
         /**********************************Aneta zone***************************/ 
      
-        //aneta_w5a3();
+        //aneta_w5a3v2();
     
     
         /**********************************Evgenii zone***************************/ 
