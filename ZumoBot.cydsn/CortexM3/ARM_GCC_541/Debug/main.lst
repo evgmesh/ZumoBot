@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   28:main.c        ****     I2C, UART, Serial<br>
   29:main.c        ****     </p>
   30:main.c        **** */
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 2
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 2
 
 
   31:main.c        **** 
@@ -80,7 +80,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   47:main.c        **** #include <sys/time.h>
   48:main.c        **** #include "serial1.h"
   49:main.c        **** #include <unistd.h>
-  50:main.c        **** //#include "group6.h"
+  50:main.c        **** #include "group6.h"
   51:main.c        **** #include "Dongbin.h" 
   52:main.c        **** #include "evgenii.h"
   53:main.c        **** #include "aneta.h"
@@ -115,12 +115,16 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   73:main.c        **** 
   74:main.c        ****          //group6_Ex1();         
   75:main.c        ****          //group6_Ex2();     
-  76:main.c        ****         //group6_Ex3();       
+  76:main.c        ****         group6_Ex3();       
+  37              		.loc 1 76 0
+  38 0002 FFF7FEFF 		bl	group6_Ex3
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 3
+
+
+  39              	.LVL0:
+  40              	.L2:
   77:main.c        ****         
   78:main.c        ****         
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 3
-
-
   79:main.c        ****         /**********************************Dongbin zone***************************/
   80:main.c        ****   
   81:main.c        ****         //week5_3_DB();         // Dongbin 
@@ -128,15 +132,11 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   83:main.c        ****         
   84:main.c        ****         /**********************************Aneta zone***************************/ 
   85:main.c        ****      
-  86:main.c        ****         aneta_w5a2();
-  37              		.loc 1 86 0
-  38 0002 FFF7FEFF 		bl	aneta_w5a2
-  39              	.LVL0:
-  40              	.L2:
+  86:main.c        ****         //aneta_w5a3();
   87:main.c        ****     
   88:main.c        ****     
   89:main.c        ****         /**********************************Evgenii zone***************************/ 
-  90:main.c        ****        //week5_3_evg(); // Evgenii
+  90:main.c        ****        //week5_2_evg(); // Evgenii
   91:main.c        ****     
   92:main.c        ****  /*
   93:main.c        ****     printf("\n\n\n!!! BOOT!!\n\n\n");
@@ -159,9 +159,9 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   48              		.size	zmain, .-zmain
   49 000e 00BF     		.text
   50              	.Letext0:
-  51              		.file 2 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eab
-  52              		.file 3 "d:\\program files\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm-none-eab
-  53              		.file 4 "aneta.h"
+  51              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+  52              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.2\\psoc creator\\import\\gnu\\arm\\5.4.
+  53              		.file 4 "group6.h"
   54              		.file 5 "..\\FreeRTOS\\Source\\include/task.h"
   55              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
   56              		.section	.debug_info,"",%progbits
@@ -171,45 +171,45 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
   60 0006 00000000 		.4byte	.Ldebug_abbrev0
   61 000a 04       		.byte	0x4
   62 000b 01       		.uleb128 0x1
-  63 000c 91000000 		.4byte	.LASF18
+  63 000c 77000000 		.4byte	.LASF18
   64 0010 0C       		.byte	0xc
-  65 0011 7F000000 		.4byte	.LASF19
-  66 0015 29000000 		.4byte	.LASF20
+  65 0011 3C000000 		.4byte	.LASF19
+  66 0015 43000000 		.4byte	.LASF20
   67 0019 00000000 		.4byte	.Ldebug_ranges0+0
   68 001d 00000000 		.4byte	0
   69 0021 00000000 		.4byte	.Ldebug_line0
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 4
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 4
 
 
   70 0025 02       		.uleb128 0x2
   71 0026 01       		.byte	0x1
   72 0027 06       		.byte	0x6
-  73 0028 8E010000 		.4byte	.LASF0
+  73 0028 6C010000 		.4byte	.LASF0
   74 002c 02       		.uleb128 0x2
   75 002d 01       		.byte	0x1
   76 002e 08       		.byte	0x8
-  77 002f 0E000000 		.4byte	.LASF1
+  77 002f 2E000000 		.4byte	.LASF1
   78 0033 02       		.uleb128 0x2
   79 0034 02       		.byte	0x2
   80 0035 05       		.byte	0x5
-  81 0036 B6010000 		.4byte	.LASF2
+  81 0036 94010000 		.4byte	.LASF2
   82 003a 02       		.uleb128 0x2
   83 003b 02       		.byte	0x2
   84 003c 07       		.byte	0x7
-  85 003d 48010000 		.4byte	.LASF3
+  85 003d 0E000000 		.4byte	.LASF3
   86 0041 03       		.uleb128 0x3
-  87 0042 A6010000 		.4byte	.LASF9
+  87 0042 84010000 		.4byte	.LASF9
   88 0046 02       		.byte	0x2
   89 0047 3F       		.byte	0x3f
   90 0048 4C000000 		.4byte	0x4c
   91 004c 02       		.uleb128 0x2
   92 004d 04       		.byte	0x4
   93 004e 05       		.byte	0x5
-  94 004f 71010000 		.4byte	.LASF4
+  94 004f 4F010000 		.4byte	.LASF4
   95 0053 02       		.uleb128 0x2
   96 0054 04       		.byte	0x4
   97 0055 07       		.byte	0x7
-  98 0056 1F010000 		.4byte	.LASF5
+  98 0056 05010000 		.4byte	.LASF5
   99 005a 02       		.uleb128 0x2
  100 005b 08       		.byte	0x8
  101 005c 05       		.byte	0x5
@@ -217,7 +217,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  103 0061 02       		.uleb128 0x2
  104 0062 08       		.byte	0x8
  105 0063 07       		.byte	0x7
- 106 0064 31010000 		.4byte	.LASF7
+ 106 0064 17010000 		.4byte	.LASF7
  107 0068 04       		.uleb128 0x4
  108 0069 04       		.byte	0x4
  109 006a 05       		.byte	0x5
@@ -225,37 +225,37 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  111 006f 02       		.uleb128 0x2
  112 0070 04       		.byte	0x4
  113 0071 07       		.byte	0x7
- 114 0072 1C000000 		.4byte	.LASF8
+ 114 0072 21000000 		.4byte	.LASF8
  115 0076 03       		.uleb128 0x3
- 116 0077 C0010000 		.4byte	.LASF10
+ 116 0077 9E010000 		.4byte	.LASF10
  117 007b 03       		.byte	0x3
  118 007c 2C       		.byte	0x2c
  119 007d 41000000 		.4byte	0x41
  120 0081 02       		.uleb128 0x2
  121 0082 04       		.byte	0x4
  122 0083 04       		.byte	0x4
- 123 0084 B0010000 		.4byte	.LASF11
+ 123 0084 8E010000 		.4byte	.LASF11
  124 0088 02       		.uleb128 0x2
  125 0089 08       		.byte	0x8
  126 008a 04       		.byte	0x4
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 5
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 5
 
 
- 127 008b 7A010000 		.4byte	.LASF12
+ 127 008b 58010000 		.4byte	.LASF12
  128 008f 02       		.uleb128 0x2
  129 0090 01       		.byte	0x1
  130 0091 08       		.byte	0x8
- 131 0092 6C010000 		.4byte	.LASF13
+ 131 0092 4A010000 		.4byte	.LASF13
  132 0096 02       		.uleb128 0x2
  133 0097 08       		.byte	0x8
  134 0098 04       		.byte	0x4
- 135 0099 9A010000 		.4byte	.LASF14
+ 135 0099 78010000 		.4byte	.LASF14
  136 009d 02       		.uleb128 0x2
  137 009e 04       		.byte	0x4
  138 009f 07       		.byte	0x7
- 139 00a0 C8010000 		.4byte	.LASF15
+ 139 00a0 A6010000 		.4byte	.LASF15
  140 00a4 05       		.uleb128 0x5
- 141 00a5 5B010000 		.4byte	.LASF21
+ 141 00a5 39010000 		.4byte	.LASF21
  142 00a9 01       		.byte	0x1
  143 00aa 46       		.byte	0x46
  144 00ab 00000000 		.4byte	.LFB85
@@ -278,27 +278,27 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  161 00d1 00       		.byte	0
  162 00d2 00       		.byte	0
  163 00d3 09       		.uleb128 0x9
- 164 00d4 81010000 		.4byte	.LASF22
+ 164 00d4 5F010000 		.4byte	.LASF22
  165 00d8 06       		.byte	0x6
  166 00d9 1207     		.2byte	0x712
  167 00db DF000000 		.4byte	0xdf
  168 00df 0A       		.uleb128 0xa
  169 00e0 76000000 		.4byte	0x76
  170 00e4 0B       		.uleb128 0xb
- 171 00e5 86000000 		.4byte	.LASF16
- 172 00e9 86000000 		.4byte	.LASF16
+ 171 00e5 2E010000 		.4byte	.LASF16
+ 172 00e9 2E010000 		.4byte	.LASF16
  173 00ed 04       		.byte	0x4
- 174 00ee 18       		.byte	0x18
+ 174 00ee 11       		.byte	0x11
  175 00ef 0C       		.uleb128 0xc
- 176 00f0 61010000 		.4byte	.LASF17
- 177 00f4 61010000 		.4byte	.LASF17
+ 176 00f0 3F010000 		.4byte	.LASF17
+ 177 00f4 3F010000 		.4byte	.LASF17
  178 00f8 05       		.byte	0x5
  179 00f9 ED02     		.2byte	0x2ed
  180 00fb 00       		.byte	0
  181              		.section	.debug_abbrev,"",%progbits
  182              	.Ldebug_abbrev0:
  183 0000 01       		.uleb128 0x1
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 6
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 6
 
 
  184 0001 11       		.uleb128 0x11
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  238 0037 2E       		.uleb128 0x2e
  239 0038 01       		.byte	0x1
  240 0039 3F       		.uleb128 0x3f
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 7
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 7
 
 
  241 003a 19       		.uleb128 0x19
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  295 0079 0E       		.uleb128 0xe
  296 007a 3A       		.uleb128 0x3a
  297 007b 0B       		.uleb128 0xb
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 8
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 8
 
 
  298 007c 3B       		.uleb128 0x3b
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  352 0004 0200     		.2byte	0x2
  353 0006 00000000 		.4byte	.Ldebug_info0
  354 000a 04       		.byte	0x4
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 9
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 9
 
 
  355 000b 00       		.byte	0
@@ -496,8 +496,8 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  367 000c 00000000 		.4byte	0
  368              		.section	.debug_line,"",%progbits
  369              	.Ldebug_line0:
- 370 0000 73010000 		.section	.debug_str,"MS",%progbits,1
- 370      02005301 
+ 370 0000 8E010000 		.section	.debug_str,"MS",%progbits,1
+ 370      02007001 
  370      00000201 
  370      FB0E0D00 
  370      01010101 
@@ -506,120 +506,117 @@ ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 1
  372      206C6F6E 
  372      6720696E 
  372      7400
- 373              	.LASF1:
- 374 000e 756E7369 		.ascii	"unsigned char\000"
- 374      676E6564 
- 374      20636861 
- 374      7200
+ 373              	.LASF3:
+ 374 000e 73686F72 		.ascii	"short unsigned int\000"
+ 374      7420756E 
+ 374      7369676E 
+ 374      65642069 
+ 374      6E7400
  375              	.LASF8:
- 376 001c 756E7369 		.ascii	"unsigned int\000"
+ 376 0021 756E7369 		.ascii	"unsigned int\000"
  376      676E6564 
  376      20696E74 
  376      00
- 377              	.LASF20:
- 378 0029 443A5C41 		.ascii	"D:\\Annie\\Metropolia\\Smart Devices\\Smart Program"
- 378      6E6E6965 
- 378      5C4D6574 
- 378      726F706F 
- 378      6C69615C 
- 379 0058 6D696E67 		.ascii	"ming\\PSoc\\Group6\\ZumoBot\\ZumoBot.cydsn\000"
- 379      5C50536F 
- 379      635C4772 
- 379      6F757036 
- 379      5C5A756D 
- 380              	.LASF19:
- 381 007f 6D61696E 		.ascii	"main.c\000"
- 381      2E6300
- 382              	.LASF16:
- 383 0086 616E6574 		.ascii	"aneta_w5a2\000"
- 383      615F7735 
- 383      613200
+ 377              	.LASF1:
+ 378 002e 756E7369 		.ascii	"unsigned char\000"
+ 378      676E6564 
+ 378      20636861 
+ 378      7200
+ 379              	.LASF19:
+ 380 003c 6D61696E 		.ascii	"main.c\000"
+ 380      2E6300
+ 381              	.LASF20:
+ 382 0043 433A5C55 		.ascii	"C:\\Users\\DBY\\Documents\\group6\\ZumoBot\\ZumoBot"
+ 382      73657273 
+ 382      5C444259 
+ 382      5C446F63 
+ 382      756D656E 
+ 383 0070 2E637964 		.ascii	".cydsn\000"
+ 383      736E00
  384              	.LASF18:
- 385 0091 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 385 0077 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
  385      43313120 
  385      352E342E 
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 10
-
-
  385      31203230 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 10
+
+
  385      31363036 
- 386 00c4 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 386 00aa 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
  386      20726576 
  386      6973696F 
  386      6E203233 
  386      37373135 
- 387 00f7 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 387 00dd 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
  387      66756E63 
  387      74696F6E 
  387      2D736563 
  387      74696F6E 
  388              	.LASF5:
- 389 011f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 389 0105 6C6F6E67 		.ascii	"long unsigned int\000"
  389      20756E73 
  389      69676E65 
  389      6420696E 
  389      7400
  390              	.LASF7:
- 391 0131 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 391 0117 6C6F6E67 		.ascii	"long long unsigned int\000"
  391      206C6F6E 
  391      6720756E 
  391      7369676E 
  391      65642069 
- 392              	.LASF3:
- 393 0148 73686F72 		.ascii	"short unsigned int\000"
- 393      7420756E 
- 393      7369676E 
- 393      65642069 
- 393      6E7400
+ 392              	.LASF16:
+ 393 012e 67726F75 		.ascii	"group6_Ex3\000"
+ 393      70365F45 
+ 393      783300
  394              	.LASF21:
- 395 015b 7A6D6169 		.ascii	"zmain\000"
+ 395 0139 7A6D6169 		.ascii	"zmain\000"
  395      6E00
  396              	.LASF17:
- 397 0161 76546173 		.ascii	"vTaskDelay\000"
+ 397 013f 76546173 		.ascii	"vTaskDelay\000"
  397      6B44656C 
  397      617900
  398              	.LASF13:
- 399 016c 63686172 		.ascii	"char\000"
+ 399 014a 63686172 		.ascii	"char\000"
  399      00
  400              	.LASF4:
- 401 0171 6C6F6E67 		.ascii	"long int\000"
+ 401 014f 6C6F6E67 		.ascii	"long int\000"
  401      20696E74 
  401      00
  402              	.LASF12:
- 403 017a 646F7562 		.ascii	"double\000"
+ 403 0158 646F7562 		.ascii	"double\000"
  403      6C6500
  404              	.LASF22:
- 405 0181 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 405 015f 49544D5F 		.ascii	"ITM_RxBuffer\000"
  405      52784275 
  405      66666572 
  405      00
  406              	.LASF0:
- 407 018e 7369676E 		.ascii	"signed char\000"
+ 407 016c 7369676E 		.ascii	"signed char\000"
  407      65642063 
  407      68617200 
  408              	.LASF14:
-ARM GAS  C:\Users\aneta\AppData\Local\Temp\cceSStvx.s 			page 11
-
-
- 409 019a 6C6F6E67 		.ascii	"long double\000"
+ 409 0178 6C6F6E67 		.ascii	"long double\000"
  409      20646F75 
  409      626C6500 
+ARM GAS  C:\Users\DBY\AppData\Local\Temp\cc08Y096.s 			page 11
+
+
  410              	.LASF9:
- 411 01a6 5F5F696E 		.ascii	"__int32_t\000"
+ 411 0184 5F5F696E 		.ascii	"__int32_t\000"
  411      7433325F 
  411      7400
  412              	.LASF11:
- 413 01b0 666C6F61 		.ascii	"float\000"
+ 413 018e 666C6F61 		.ascii	"float\000"
  413      7400
  414              	.LASF2:
- 415 01b6 73686F72 		.ascii	"short int\000"
+ 415 0194 73686F72 		.ascii	"short int\000"
  415      7420696E 
  415      7400
  416              	.LASF10:
- 417 01c0 696E7433 		.ascii	"int32_t\000"
+ 417 019e 696E7433 		.ascii	"int32_t\000"
  417      325F7400 
  418              	.LASF15:
- 419 01c8 73697A65 		.ascii	"sizetype\000"
+ 419 01a6 73697A65 		.ascii	"sizetype\000"
  419      74797065 
  419      00
  420              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

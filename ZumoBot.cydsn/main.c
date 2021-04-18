@@ -47,7 +47,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-//#include "group6.h"
+#include "group6.h"
 #include "Dongbin.h" 
 #include "evgenii.h"
 #include "aneta.h"
@@ -73,7 +73,7 @@
 
          //group6_Ex1();         
          //group6_Ex2();     
-        //group6_Ex3();       
+        group6_Ex3();       
         
         
         /**********************************Dongbin zone***************************/
@@ -83,11 +83,11 @@
         
         /**********************************Aneta zone***************************/ 
      
-        aneta_w5a2();
+        //aneta_w5a3();
     
     
         /**********************************Evgenii zone***************************/ 
-       //week5_3_evg(); // Evgenii
+       //week5_2_evg(); // Evgenii
     
  /*
     printf("\n\n\n!!! BOOT!!\n\n\n");
