@@ -52,6 +52,11 @@ void week5_1_evg(void);
 void week5_2_evg(void);
 void week5_3_evg(void);
 
+void sumo_wrestling(void);
+void line_follower(void);
+void maze(void);
+
+
 #endif
 
 /* [] END OF FILE */

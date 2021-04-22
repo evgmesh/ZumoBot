@@ -33,93 +33,102 @@
 #include "Dongbin.h"
 
 
-/************************ week4 Ex.1 ************************************/
-void group6_Ex1(void) 
-{
-    uint32_t count = 0;
-    struct sensors_ dig;
+/************************ week5 Ex.1 ************************************/
+#define PRESSED 0
+#define RELEASED 1
+#define BUTTON_TOPIC "Group6/button"
+#define TURN_TOPIC "Group6/turn"
+#define LAP_TOPIC "Group6/lap"
+
+void group6_Ex1(void){
+    int btn1Time = 0; 
+    int btn2Time = 0;
+    int time;
     
-    startUp(1,0,1,1,0);
+    printf("ASSIGNMENT 1\n");
+    motor_start();
     
-    reflectance_digital(&dig);
-    while(count<5) 
-    {
-        driveForward(100,0);
-        count++;
-      if(count == 1)
-        {
-         motor_forward(0,0);
-         startUp(0,1,0,0,0);
+        while (SW1_Read()== RELEASED){      
+            vTaskDelay(0);
         }
+        btn1Time = xTaskGetTickCount();         //when button is pressed for the first time
+        
+        
+    while (true){    
+        
+        while (SW1_Read() == RELEASED){         //wait for the button to be pressed
+            vTaskDelay(0);
+        }
+        btn2Time = xTaskGetTickCount();         //get time of the press
+        
+        while (SW1_Read() == PRESSED){          //wait for the button to be released
+            vTaskDelay(0);        
+        }
+        
+        time = btn2Time - btn1Time;             //find the time betweeen presses
+        print_mqtt(BUTTON_TOPIC, " Time: %d ms\n", time );
+        btn1Time = btn2Time;
+        
     }
-    //printf("Number of lines is %i\n", count);
-    end();
+    motor_stop();
+
 }
 
-
-/************************ week4 Ex.2 ************************************/
+/************************ week5 Ex.2 ************************************/
 void group6_Ex2(void) 
 {
-    struct sensors_ dig;
-    startUp(1,1,1,1,0);
-    
-    reflectance_digital(&dig); 
-    driveForward(100,0);
-    
-        reflectance_digital(&dig); 
-        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
-        {
-             reflectance_digital(&dig);
-             motor_forward(125,0);
-        }
-        reflectance_digital(&dig); 
-        while(dig.L3 == 0 && dig.R3 == 0)
-        {
-            motor_forward(50,0);
-            reflectance_digital(&dig); 
+    startUp(1,1,0,0,1);
+    while(SW1_Read() == RELEASED)
+    {
+      motor_forward(150, 80);
+        if(Ultra_GetDistance() < 10){
+            motor_forward(0,0);         
+            motor_backward(150, 150);
             
-            if(dig.R2 == 1)
-            {   
-                motor_turn(150,0,0);
-                reflectance_digital(&dig); 
-            }else if(dig.L2 == 1)
-             {   
-                motor_turn(0,200,0);
-                reflectance_digital(&dig); 
-             }
+            if (rand()%2 == 1) {
+               tankTurnEvg(90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - right");
+            } else {
+               tankTurnEvg(-90);
+               motor_forward(0,0);
+               print_mqtt(TURN_TOPIC, "/ Turn direction - left");
+            } 
+            
         }
+    }
     end();
 }
 
 
-/************************ week4 Ex.3 ************************************/
+/************************ week5 Ex.3 ************************************/
 
 void group6_Ex3(void){
+    onYourMark2_DB();    //move the motor to first line
+    struct sensors_ dig;
     
-    onYourMark_DB();       //move motor to the first line
+    uint32_t startTime = 0;
+    uint32_t endTime = 0;
+    printf("\n\n\n!!!BOOT BOOT!!!\n\n");
     
     IR_wait();
-    int line = 0; 
-    
-    motor_forward(50,0);
-    
-    while(line < 5){
-        lineDetector_DB(); //detect the black line 
-                
-        line++;             //count the number of black lines
+    for(int i = 0; i < 4; i++){
+        startTime = xTaskGetTickCount();
         
-        if(line == 2){
-            motor_turn(0,75,700);
-            followTheLine_DB();  //control the movement by the line
+        while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+            reflectance_digital(&dig);
+            motor_forward(50,0);
+        }              
+        motor_forward(50,0);
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+            reflectance_digital(&dig);
         }
-        
-        if(line == 3 || line == 4){
-            motor_turn(75,0,601);
-            followTheLine_DB();
-        }
+        endTime = xTaskGetTickCount();
+        motor_forward(0,0);
+        vTaskDelay(300);
+        print_mqtt(LAP_TOPIC, "startTime: %d, endTime: %d, Elapsed time: %dms", startTime, endTime, (endTime - startTime));
     }
     flameout_DB();
-    
 }
 
 
@@ -165,20 +174,20 @@ void group6_Ex3(void){
 
 /***************************** Group6 Custom Functions **************************
 
-void driveForward(void){
+void driveForward(uint8 speed, uint32 delay){
     struct sensors_ dig;
     reflectance_start(); 
     reflectance_digital(&dig);
     //drives forward when sensors 2 and 3 are on black
     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
-        motor_forward(100,0);
+        motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
     //drives forward when sensors 2 and 3 are on white
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
     {
-        motor_forward(100,0);
+        motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
     motor_forward(0,0);
@@ -205,10 +214,24 @@ int randomEvg(int min, int max) {
     return random;
 }
 
-
-
-void tankTurnEvg(uint8_t l_speed, uint8_t r_speed, uint32_t delay){
-    SetMotors(0,0, l_speed, r_speed, delay);
+void tankTurnEvg(int16 degree){
+    
+    uint8 leftState, rightState, correction;
+    if(degree>=0) {
+        leftState=0;
+    } else{
+        leftState=1;
+    }
+    if(degree<0) {
+        rightState=0;
+        correction= (degree * -1) %360;
+    } else{
+        rightState=1;
+        correction= degree % 360;
+    }
+    uint32 delay = (correction * 1048)/360;
+    
+    SetMotors(leftState,rightState, 100, 100, delay);
 }
 
 void end(void) {
@@ -217,13 +240,16 @@ void end(void) {
 }
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
-void startUp(int motor, int IR, int reflectance, int button) {
+void startUp(int motor, int IR, int reflectance, int button, int ultra) {
+    printf("\n\n clearing the buffer\nBoot!\n");
     if(motor == 1){
         motor_start();  
         motor_forward(0,0);
     }
     if(IR == 1){
         IR_Start();
+        printf("to start press IR send\n");
+        IR_flush();
         IR_wait();    
     }
     if(reflectance == 1){
@@ -233,69 +259,44 @@ void startUp(int motor, int IR, int reflectance, int button) {
     if(button == 1) {
         while(SW1_Read());
     }
-
+    if(ultra == 1) {
+        Ultra_Start();
+    }
+    
+    // more to add here
 }
 
-void onYourMark_DB(void){
+void flameout_DB(void){
+    motor_forward(0,0);
+    motor_stop();
+    printf("\n\n Press the reset and Try it again!!\n\n");
+    
+    progEnd_DB(500); 
+}
+
+void onYourMark2_DB(void){
     IR_Start();
     motor_start();              // enable motor controller
     motor_forward(0,0);         // set speed to zero to stop motors
     struct sensors_ dig;
     reflectance_start();
-    reflectance_set_threshold(13000, 13000, 11000, 11000, 13000, 13000); 
+    reflectance_set_threshold(15000, 15000, 16000, 16000, 15000, 15000); 
     // set center sensor threshold to 11000 and others to 9000
         
-    while(SW1_Read());
-    BatteryLed_Write(true);
-    vTaskDelay(200);
-    BatteryLed_Write(false);
     reflectance_digital(&dig); 
     motor_forward(125,0);
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
         reflectance_digital(&dig);
     }
-    motor_forward(0,0);  
-}
-
-void followTheLine_DB(void){
-    struct sensors_ dig;
-    reflectance_digital(&dig);
-    while(!(dig.L2 == 1 && dig.R2 == 1)){
+    
+    while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
         reflectance_digital(&dig);
-        if(dig.L1 != 1 && dig.L2 == 0){
-            motor_turn(50,0,100);   
-        }else if(dig.R1 != 1 && dig.R2 == 0){
-            motor_turn(0,50,100);   
-        }else if(dig.L1 != 0 && dig.R1 != 0){
-            motor_forward(50,0); 
-        }   
+        motor_forward(50,0);
     }
-}
-
-void lineDetector_DB(void){
-    struct sensors_ dig;
-    reflectance_digital(&dig);
-    if(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
-            while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
-                reflectance_digital(&dig);
-                motor_forward(50,0);
-                }
-        }else if((!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))){
-            while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
-                reflectance_digital(&dig);
-                motor_forward(50,0);
-                }
-        }   
+    
+    motor_forward(0,0); 
     
 }
-void flameout_DB(void){
-    motor_forward(0,0);
-    motor_stop();
-    
-    progEnd_DB(500); 
-}
-
-
 ************************************************************************/
 
 
