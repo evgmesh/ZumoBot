@@ -42,8 +42,9 @@
 #define READY_TOPIC "Zumo06/ready"
 #define START_TOPIC "Zumo06/start"
 #define STOP_TOPIC "Zumo06/stop"
-#define STOP_TOPIC "Zumo06/time"
+#define TIME_TOPIC "Zumo06/time"
 #define MISS_TOPIC "Zumo06/miss"
+#define LINE_TOPIC "Zumo06/line"
 
 /*******************************************************weekly assignments***************************************/
 
@@ -376,32 +377,27 @@ void line_follower(void) {
     
    startUp(1,1,1,0,0);
     
-    IR_wait(); 
-    
+   IR_wait();  
     while(lines<3)
     {
-    reflectance_digital(&dig);
-    driveForward(240,0);
-    lines++;
-  //  print_mqtt(LAP_TOPIC, " lines: %d\n", lines);
-    if (lines == 1)
-    {
-       motor_forward(0,0);
-       print_mqtt(READY_TOPIC, " line");
-       IR_flush();
-       IR_wait(); 
-       startTime = xTaskGetTickCount();
-       print_mqtt(START_TOPIC, " %i", startTime);
-    }
+        reflectance_digital(&dig);
+        driveForward(255,0);
+        lines++;
+        if (lines == 1)
+        {
+            motor_forward(0,0);
+            print_mqtt(READY_TOPIC, " line");
+            IR_flush();
+            IR_wait(); 
+            startTime = xTaskGetTickCount();
+            print_mqtt(START_TOPIC, " %i", startTime);
+        }
         
-    
-   // IR_wait();
-    //irPressed = xTaskGetTickCount();
     }
     stopTime = xTaskGetTickCount();
     elapsed = stopTime-startTime;
     print_mqtt(STOP_TOPIC, " %i", stopTime);
-    print_mqtt(STOP_TOPIC, " time elapsed: %ims, %02ds", elapsed, elapsed/1000);
+    print_mqtt(STOP_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
     end();
 }
 
@@ -415,8 +411,10 @@ void maze(void) {
 
 void driveForward(uint8 speed, uint32 delay){
     
+    // declarations
     struct sensors_ dig;
     reflectance_digital(&dig);
+    bool miss = true;
     //drives forward when sensors 2 and 3 are on black
    // while (!(dig.L3 == 1 && dig.L2 == 1 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 1 && dig.R3 == 1))
 /*  possible for sumo if start from outside of any line  
@@ -444,6 +442,16 @@ void driveForward(uint8 speed, uint32 delay){
         {
             tankTLEvg(255,0);
             reflectance_digital(&dig); 
+        }
+        else if (miss && dig.R1 == 0 && dig.L1 == 0)
+        {
+            print_mqtt(MISS_TOPIC, " %i", xTaskGetTickCount());   
+            miss = false;
+        }
+        else if (!miss && dig.R1 == 1 && dig.L1 == 1)
+        {
+            print_mqtt(LINE_TOPIC, " %i", xTaskGetTickCount());
+            miss = true;
         }
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
