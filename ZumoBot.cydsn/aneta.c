@@ -387,6 +387,146 @@ void aneta_smart_digital(void){
 
 }
 
+//MAZE ****************************************************************************************************
+
+void aneta_maze(void){
+    int x=0, y=-1;
+    int startTime, endTime;
+    int obsD=20, myD=11;
+    int xEndP;
+    bool goRight, inMaze=1;
+
+    //////// MAZE GETTING READY /////////////
+    
+    motor_start();
+    IR_Start();
+    Ultra_Start();
+    reflectance_start();
+   
+    aneta_moveToBlackLine(50,20);
+    print_mqtt("Zumo06/ready", " maze\n");
+    
+    IR_wait();
+    startTime = xTaskGetTickCount();
+    print_mqtt("Zumo06/start"," %d\n", startTime);
+    aneta_maze_moveThroughBlackLine();
+    
+    //////// MAZE ENTERED -- GET NEAR THE END /////////////
+    
+    while (inMaze){
+        obsD = Ultra_GetDistance();
+        
+        while (obsD>myD && y<11){
+            aneta_maze_moveToNextLineAndCenter();
+            y++;
+            print_mqtt("Zumo06/position"," %d %d\n", x, y);
+            obsD = Ultra_GetDistance();
+            
+        }
+        
+        if (y==11){                         //if robot is safe from obstacles (ner the end)
+                inMaze=0;     
+        } else {                            //else he must turn and avoid the obstacles
+        
+            switch(x){
+                case -3: {
+                    goRight=1;
+                    break;
+                }
+                case 3: {
+                    goRight=0;
+                    break;
+                }
+                default: {
+                    srand(xTaskGetTickCount());
+                    goRight=rand() % 2;
+                    break;
+                }
+            }
+        
+            
+            if (goRight){
+                aneta_maze_tankTurn90Right();
+                obsD = Ultra_GetDistance();
+                if (obsD>myD){                                      //if no obstacle then turn Right
+                    aneta_maze_moveToNextLineAndCenter();
+                    x++;
+                    print_mqtt("Zumo06/position"," %d %d\n", x, y);
+                    aneta_maze_tankTurn90Left();
+                }else{                                              //else turn back and Left
+                    aneta_maze_tankTurn90Left();
+                    aneta_maze_tankTurn90Left();
+                    aneta_maze_moveToNextLineAndCenter();
+                    x--;
+                    print_mqtt("Zumo06/position"," %d %d\n", x, y);
+                    aneta_maze_tankTurn90Right();
+                }
+            } else {   
+                aneta_maze_tankTurn90Left();
+                obsD = Ultra_GetDistance();
+                if (obsD>myD){                                      //if no obtacle then turn Left
+                    aneta_maze_moveToNextLineAndCenter();
+                    x--;
+                    print_mqtt("Zumo06/position"," %d %d\n", x, y);
+                    aneta_maze_tankTurn90Right();
+                }else{                                              //else turn back and Right
+                    aneta_maze_tankTurn90Right();
+                    aneta_maze_tankTurn90Right();
+                    aneta_maze_moveToNextLineAndCenter();
+                    x++;
+                    print_mqtt("Zumo06/position"," %d %d\n", x, y);
+                    aneta_maze_tankTurn90Left();
+                }
+            }
+        }
+        
+    } 
+    
+    //////// NEAR MAZE'S END -- LEAVE THE MAZE /////////////
+        //center -- go to 0 11
+        xEndP = x;
+        if (xEndP>0){
+            aneta_maze_tankTurn90Left();
+            for (int i=0; i<abs(xEndP); i++){
+                aneta_maze_moveToNextLineAndCenter();
+                x--;
+                print_mqtt("Zumo06/position"," %d %d\n", x, y);
+            }
+            aneta_maze_tankTurn90Right();
+        } else if (xEndP<0){
+            aneta_maze_tankTurn90Right();
+            for (int i=0; i<abs(xEndP); i++){
+                aneta_maze_moveToNextLineAndCenter();
+                x++;
+                print_mqtt("Zumo06/position"," %d %d\n", x, y);
+            }
+            aneta_maze_tankTurn90Left();
+        } 
+            
+        
+        //leave maze
+        inMaze=1;
+        while (inMaze){
+            aneta_maze_moveToNextLineAndCenter();
+            y++;
+            print_mqtt("Zumo06/position"," %d %d\n", x, y);
+            if (y==13){
+                inMaze=0;
+                endTime = xTaskGetTickCount();
+                print_mqtt("Zumo06/stop"," %d\n", endTime);
+            }
+        }
+        
+        motor_forward(50,1000);
+        print_mqtt("Zumo06/time"," %d\n", endTime-startTime);
+    
+    
+    
+    motor_stop();
+    
+    
+}
+
 
 
 
@@ -403,20 +543,71 @@ void aneta_tankTurnLeft(uint8_t speed, uint32_t delay){
 void aneta_moveToBlackLine(uint8_t speed, uint32_t delay){
     struct sensors_ dig;
     reflectance_start();
+    reflectance_digital(&dig);
     while (!(dig.L3 == 1 && dig.R3 == 1)){     
         reflectance_digital(&dig);
         motor_forward(speed,delay);  
     }
+    motor_forward(0,0);
 }
 
 void aneta_moveThroughBlackLine(uint8_t speed, uint32_t delay){
     struct sensors_ dig;
     reflectance_start();
+    reflectance_digital(&dig);
     while ((dig.L3 == 1 && dig.R3 == 1)){ 
         reflectance_digital(&dig);
         motor_forward(speed,delay);  
     }
+    motor_forward(0,0);
 }
+
+void aneta_maze_moveToBlackLine(void){
+    int speed=50, delay=20;
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_digital(&dig);
+    while (!(dig.L3 == 1 && dig.R3 == 1)){     
+        reflectance_digital(&dig);
+        motor_forward(speed,delay);  
+    }
+    motor_forward(0,0);
+}
+
+void aneta_maze_moveThroughBlackLine(void){
+    int speed=50, delay=20;
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_digital(&dig);
+    while ((dig.L3 == 1 && dig.R3 == 1)){ 
+        reflectance_digital(&dig);
+        motor_forward(speed,delay);  
+    }
+    motor_forward(0,0);
+}
+
+void aneta_maze_moveToNextLineAndCenter(){
+    int speed=50, delay=20;
+    struct sensors_ dig;
+    reflectance_start();
+    reflectance_digital(&dig);
+    while (!(dig.L3 == 1 || dig.R3 == 1)){     
+        reflectance_digital(&dig);
+        motor_forward(speed,delay);  
+    }
+    motor_forward(50,415);
+    motor_forward(0,0);
+}
+
+void aneta_maze_tankTurn90Right(void){
+    SetMotors(0, 1, 90, 90, 290);
+}
+
+void aneta_maze_tankTurn90Left(void){
+    SetMotors(1, 0, 90, 90, 290);
+}
+
+
 
 
 /* [] END OF FILE */

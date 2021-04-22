@@ -27,9 +27,21 @@ void aneta_w5a3v2(void);
 
 void aneta_smart_digital(void);
 
+void aneta_maze(void);
+void aneta_maze_v2(void);
+
 void aneta_tankTurnRight(uint8_t speed, uint32_t delay);
 void aneta_tankTurnLeft(uint8_t speed, uint32_t delay);
 void aneta_moveToBlackLine(uint8_t speed, uint32_t delay);
 void aneta_moveThroughBlackLine(uint8_t speed, uint32_t delay);
+
+void aneta_maze_moveToBlackLine(void);
+void aneta_maze_moveThroughBlackLine(void);
+void aneta_maze_moveToNextLineAndCenter(void);
+void aneta_maze_tankTurn90Right(void);
+void aneta_maze_tankTurn90Left(void);
+
+void aneta_maze_getReady(void);
+void aneta_maze_turn(void);
 
 /* [] END OF FILE */
