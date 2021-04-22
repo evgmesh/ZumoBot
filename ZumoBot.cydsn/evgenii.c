@@ -45,6 +45,9 @@
 #define TIME_TOPIC "Zumo06/time"
 #define MISS_TOPIC "Zumo06/miss"
 #define LINE_TOPIC "Zumo06/line"
+#define OBST_TOPIC "Zumo06/obstacle"
+
+
 
 /*******************************************************weekly assignments***************************************/
 
@@ -333,43 +336,52 @@ void week5_3_evg(void)
 
 void sumo_wrestling(void) 
 {
-    int lines=0;
+    int angle=0;
     struct sensors_ dig;
-    uint32_t irPressed = 0, lineReached = 0, elapsed = 0;
+    int32_t startTime = 0, stopTime = 0, elapsed = 0, obst = 0;
     
-    startUp(1,1,1,0,0);
+    startUp(1,1,1,0,1);
     
-    driveForward(100,0);
     IR_wait();
-    irPressed = xTaskGetTickCount();
-    
-    printf("after driveforward");
-        reflectance_digital(&dig); 
-        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
+    reflectance_digital(&dig); 
+    driveForward(255,0);
+    print_mqtt(READY_TOPIC, " zumo");
+    IR_flush();
+    IR_wait();
+    startTime = xTaskGetTickCount();
+    print_mqtt(START_TOPIC, " %i", startTime);
+    while(SW1_Read() == RELEASED)
+    {
+        angle = randomEvg(45, 180);
+        motor_forward(200,30);
+        if (Ultra_GetDistance()<3)
         {
-             reflectance_digital(&dig);
-             motor_forward(125,0);
+            obst = xTaskGetTickCount();
+            print_mqtt(OBST_TOPIC, " %i", obst);
+            tankTurnEvg(angle);
         }
-        reflectance_digital(&dig); 
-        while(dig.L3 == 0 && dig.R3 == 0)
-        {
-            motor_forward(50,0);
             reflectance_digital(&dig); 
-            
-            if(dig.R2 == 1)
+            while(dig.L3 == 1 && dig.R3 == 0)
             {   
-             motor_turn(200,0,0);
+                motor_forward(0,0);
+                tankTurnEvg(angle);
                 reflectance_digital(&dig); 
-            }else if(dig.L2 == 1)
-             {   
-             motor_turn(0,200,0);
-                reflectance_digital(&dig); 
-             }
-        }
+            }
+            while (dig.L3 == 0 && dig.R3 == 1)
+            {   
+                motor_forward(0,0);
+                tankTurnEvg(-angle);
+                reflectance_digital(&dig);  
+            }
+    }
+    stopTime = xTaskGetTickCount();
+    elapsed = stopTime-startTime;
+    print_mqtt(STOP_TOPIC, " %i", stopTime);
+    print_mqtt(TIME_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
     end();
 }
 
-
+// set value of variable bonus in driveForward to 1 
 void line_follower(void) {
    int lines=0;
    struct sensors_ dig;
@@ -397,7 +409,7 @@ void line_follower(void) {
     stopTime = xTaskGetTickCount();
     elapsed = stopTime-startTime;
     print_mqtt(STOP_TOPIC, " %i", stopTime);
-    print_mqtt(STOP_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
+    print_mqtt(TIME_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
     end();
 }
 
@@ -414,16 +426,8 @@ void driveForward(uint8 speed, uint32 delay){
     // declarations
     struct sensors_ dig;
     reflectance_digital(&dig);
-    bool miss = true;
-    //drives forward when sensors 2 and 3 are on black
-   // while (!(dig.L3 == 1 && dig.L2 == 1 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 1 && dig.R3 == 1))
-/*  possible for sumo if start from outside of any line  
-    while (!(dig.L1 == 1 || dig.R1 == 1))
-    {
-         
-        motor_forward(speed,delay);
-        reflectance_digital(&dig); 
-    } */
+    bool miss = true, bonus = 1;
+    
      while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
         motor_forward(speed,delay);
@@ -435,31 +439,29 @@ void driveForward(uint8 speed, uint32 delay){
         
         if(dig.R1 == 1 && dig.L1 == 0)
         {
-            tankTREvg(255,0);
+            tankTREvg(speed,delay);
             reflectance_digital(&dig); 
         } 
         else if (dig.R1 == 0 && dig.L1 == 1)
         {
-            tankTLEvg(255,0);
+            tankTLEvg(speed,delay);
             reflectance_digital(&dig); 
         }
-        else if (miss && dig.R1 == 0 && dig.L1 == 0)
+        
+        /* followed two if elses are made for bonus of line follower task, 
+           variable bonus set to 1 if task follow the line  */
+        else if (bonus && miss && dig.R1 == 0 && dig.L1 == 0)
         {
             print_mqtt(MISS_TOPIC, " %i", xTaskGetTickCount());   
-            miss = false;
+            miss = !miss;
         }
-        else if (!miss && dig.R1 == 1 && dig.L1 == 1)
+        else if (bonus && !miss && dig.R1 == 1 && dig.L1 == 1)
         {
             print_mqtt(LINE_TOPIC, " %i", xTaskGetTickCount());
             miss = true;
         }
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
-       /* while(dig.R1 == 1 && dig.L1 == 10)
-        {
-            motor_forward(speed,delay);
-            reflectance_digital(&dig); 
-        } */
         
     }
     motor_forward(0,0);
@@ -533,7 +535,7 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     }
     if(reflectance == 1){
         reflectance_start(); 
-        reflectance_set_threshold(11000, 11000, 16000, 16000, 11000, 11000);
+        reflectance_set_threshold(13000, 11000, 18000, 18000, 11000, 13000);
     }
     if(button == 1) {
         while(SW1_Read());
