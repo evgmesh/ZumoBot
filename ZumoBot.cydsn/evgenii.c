@@ -1,3 +1,4 @@
+
 /* ========================================
  *
  * Copyright YOUR COMPANY, THE YEAR
@@ -35,9 +36,14 @@
 
 #define PRESSED 0
 #define RELEASED 1
-#define BUTTON_TOPIC "Group6_Evg/button"
-#define TURN_TOPIC "Group6_Evg/turn"
-#define LAP_TOPIC "Group6_Evg/lap"
+#define BUTTON_TOPIC "Zumo06/button"
+#define TURN_TOPIC "Zumo06/turn"
+#define LAP_TOPIC "Zumo06/lap"
+#define READY_TOPIC "Zumo06/ready"
+#define START_TOPIC "Zumo06/start"
+#define STOP_TOPIC "Zumo06/stop"
+#define STOP_TOPIC "Zumo06/time"
+#define MISS_TOPIC "Zumo06/miss"
 
 /*******************************************************weekly assignments***************************************/
 
@@ -321,13 +327,106 @@ void week5_3_evg(void)
 }
 
 
+//********************************Project***************************************//
+                                // Sumo
+
+void sumo_wrestling(void) 
+{
+    int lines=0;
+    struct sensors_ dig;
+    uint32_t irPressed = 0, lineReached = 0, elapsed = 0;
+    
+    startUp(1,1,1,0,0);
+    
+    driveForward(100,0);
+    IR_wait();
+    irPressed = xTaskGetTickCount();
+    
+    printf("after driveforward");
+        reflectance_digital(&dig); 
+        while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0))
+        {
+             reflectance_digital(&dig);
+             motor_forward(125,0);
+        }
+        reflectance_digital(&dig); 
+        while(dig.L3 == 0 && dig.R3 == 0)
+        {
+            motor_forward(50,0);
+            reflectance_digital(&dig); 
+            
+            if(dig.R2 == 1)
+            {   
+             motor_turn(200,0,0);
+                reflectance_digital(&dig); 
+            }else if(dig.L2 == 1)
+             {   
+             motor_turn(0,200,0);
+                reflectance_digital(&dig); 
+             }
+        }
+    end();
+}
+
+
+void line_follower(void) {
+   int lines=0;
+   struct sensors_ dig;
+   uint32_t startTime = 0, stopTime = 0, elapsed = 0;
+    
+   startUp(1,1,1,0,0);
+    
+    IR_wait(); 
+    
+    while(lines<3)
+    {
+    reflectance_digital(&dig);
+    driveForward(240,0);
+    lines++;
+  //  print_mqtt(LAP_TOPIC, " lines: %d\n", lines);
+    if (lines == 1)
+    {
+       motor_forward(0,0);
+       print_mqtt(READY_TOPIC, " line");
+       IR_flush();
+       IR_wait(); 
+       startTime = xTaskGetTickCount();
+       print_mqtt(START_TOPIC, " %i", startTime);
+    }
+        
+    
+   // IR_wait();
+    //irPressed = xTaskGetTickCount();
+    }
+    stopTime = xTaskGetTickCount();
+    elapsed = stopTime-startTime;
+    print_mqtt(STOP_TOPIC, " %i", stopTime);
+    print_mqtt(STOP_TOPIC, " time elapsed: %ims, %02ds", elapsed, elapsed/1000);
+    end();
+}
+
+void maze(void) {
+    
+    
+}
+
+
+
 
 void driveForward(uint8 speed, uint32 delay){
+    
     struct sensors_ dig;
-    reflectance_start(); 
     reflectance_digital(&dig);
     //drives forward when sensors 2 and 3 are on black
-    while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+   // while (!(dig.L3 == 1 && dig.L2 == 1 && dig.L1 == 1 && dig.R1 == 1 && dig.R2 == 1 && dig.R3 == 1))
+/*  possible for sumo if start from outside of any line  
+    while (!(dig.L1 == 1 || dig.R1 == 1))
+    {
+         
+        motor_forward(speed,delay);
+        reflectance_digital(&dig); 
+    } */
+     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
     {
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
@@ -335,8 +434,25 @@ void driveForward(uint8 speed, uint32 delay){
     //drives forward when sensors 2 and 3 are on white
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
     {
+        
+        if(dig.R1 == 1 && dig.L1 == 0)
+        {
+            tankTREvg(255,0);
+            reflectance_digital(&dig); 
+        } 
+        else if (dig.R1 == 0 && dig.L1 == 1)
+        {
+            tankTLEvg(255,0);
+            reflectance_digital(&dig); 
+        }
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
+       /* while(dig.R1 == 1 && dig.L1 == 10)
+        {
+            motor_forward(speed,delay);
+            reflectance_digital(&dig); 
+        } */
+        
     }
     motor_forward(0,0);
 }
@@ -392,6 +508,7 @@ void tankTurnEvg(int16 degree){
 void end(void) {
     motor_forward(0,0);         
     motor_stop();
+    printf("\nend of task");
 }
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
@@ -403,13 +520,12 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     }
     if(IR == 1){
         IR_Start();
-        printf("to start press IR send\n");
-        IR_flush();
-        IR_wait();    
+//        printf("to start press IR send\n");
+        IR_flush();    
     }
     if(reflectance == 1){
         reflectance_start(); 
-        reflectance_set_threshold(11000, 11000, 14000, 14000, 11000, 11000);
+        reflectance_set_threshold(11000, 11000, 16000, 16000, 11000, 11000);
     }
     if(button == 1) {
         while(SW1_Read());

@@ -65,7 +65,7 @@
 */
 
 #if 1
-    //week 5 example
+
     
     void zmain(void) {
         
@@ -87,17 +87,12 @@
     
     
         /**********************************Evgenii zone***************************/ 
-       //week5_2_evg(); // Evgenii
-    
- /*
-    printf("\n\n\n!!! BOOT!!\n\n\n");
-    while(true){
-
-    if(SW1_Read() == PRESSED){
-    print_mqtt(TIME_TOPIC, "%u", xTaskGetTickCount());
-    }
-    }
-        */
+     //sumo_wrestling(); // Evgenii
+        
+       line_follower();
+      // maze();
+      //week3_1_evg();
+ 
     while(true) 
     vTaskDelay(100);
     
