@@ -36,16 +36,16 @@
     
 #define PRESSED 0
 #define RELEASED 1
-#define BUTTON_TOPIC "Zumo06/button"
-#define TURN_TOPIC "Zumo06/turn"
-#define LAP_TOPIC "Zumo06/lap"
-#define READY_TOPIC "Zumo06/ready"
-#define START_TOPIC "Zumo06/start"
-#define STOP_TOPIC "Zumo06/stop"
-#define TIME_TOPIC "Zumo06/time"
-#define MISS_TOPIC "Zumo06/miss"
-#define LINE_TOPIC "Zumo06/line"
-#define OBST_TOPIC "Zumo06/obstacle"
+#define BUTTON_TOPIC "Zumo06/button/"
+#define TURN_TOPIC "Zumo06/turn/"
+#define LAP_TOPIC "Zumo06/lap/"
+#define READY_TOPIC "Zumo06/ready/"
+#define START_TOPIC "Zumo06/start/"
+#define STOP_TOPIC "Zumo06/stop/"
+#define TIME_TOPIC "Zumo06/time/"
+#define MISS_TOPIC "Zumo06/miss/"
+#define LINE_TOPIC "Zumo06/line/"
+#define OBST_TOPIC "Zumo06/obstacle/"
 
 void progEndEvg(uint32_t delay);
 void tankTLEvg(uint8_t speed, uint32_t delay);
@@ -55,6 +55,9 @@ int randomEvg(int min, int max);
 void startUp(int motor, int IR, int reflectance, int button, int ultra);
 void driveForward(uint8 speed, uint32 delay);
 void end(void);
+void end_mqtt(uint32_t start, uint32_t stop);
+uint16_t sense(struct sensors_ dig);
+
 void week3_1_evg(void);
 void week3_2_evg(void);
 void week3_3_evg(void);

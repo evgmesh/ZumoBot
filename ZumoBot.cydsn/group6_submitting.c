@@ -36,9 +36,9 @@
 /************************ week5 Ex.1 ************************************/
 #define PRESSED 0
 #define RELEASED 1
-#define BUTTON_TOPIC "Group6/button"
-#define TURN_TOPIC "Group6/turn"
-#define LAP_TOPIC "Group6/lap"
+//#define BUTTON_TOPIC "Group6/button"
+//#define TURN_TOPIC "Group6/turn"
+//#define LAP_TOPIC "Group6/lap"
 
 void group6_Ex1(void){
     int btn1Time = 0; 

@@ -119,7 +119,7 @@ void week3_3_evg(void)
 
 void week4_1_evg(void) 
 {
-    uint32_t count = 0;
+    int count = 0;
     struct sensors_ dig;
     
     startUp(1,0,1,1,0);
@@ -135,7 +135,7 @@ void week4_1_evg(void)
          startUp(0,1,0,0,0);
         }
     }
-    printf("Number of lines is %ul\n", count);
+    printf("Number of lines is %i\n", count);
     end();
 }
 
@@ -188,7 +188,7 @@ void week4_3_evg(void)
     {
         driveForward(100,0);
         count++;
-        printf("one loop, %ul lines passed by\n", count);
+        printf("one loop, %lu lines passed by\n", count);
         reflectance_digital(&dig);
         // wait on first line
         if(count == 1)
@@ -296,7 +296,7 @@ void week5_3_evg(void)
     
     lineReached = xTaskGetTickCount();
     elapsed = lineReached-irPressed;
-    print_mqtt(LAP_TOPIC, "Time elapsed: %ims", elapsed);
+    print_mqtt(LAP_TOPIC, "time elapsed: %ims", elapsed);
     
     end();
 }
@@ -307,52 +307,48 @@ void week5_3_evg(void)
 
 void sumo_wrestling(void) 
 {
-    int angle=0;
     struct sensors_ dig;
-    int32_t startTime = 0, stopTime = 0, elapsed = 0, obst = 0;
+    int32_t startTime = 0, stopTime = 0, obst = 0;
     
     startUp(1,1,1,0,1);
     
     IR_wait();
     reflectance_digital(&dig); 
     driveForward(255,0);
-    print_mqtt(READY_TOPIC, " zumo");
+    print_mqtt(READY_TOPIC, "zumo");
     IR_flush();
     IR_wait();
     motor_forward(100,100);
     startTime = xTaskGetTickCount();
-    print_mqtt(START_TOPIC, " %i", startTime);
+    print_mqtt(START_TOPIC, " %lu", startTime);
     while(SW1_Read() == RELEASED)
     {
-        angle = randomEvg(45, 180);
-        motor_forward(200,0);
+        int angle = randomEvg(45, 180);
         if (Ultra_GetDistance()<3)
         {
             obst = xTaskGetTickCount();
-            print_mqtt(OBST_TOPIC, " %i", obst);
+            print_mqtt(OBST_TOPIC, " %lu", obst);
+            motor_forward(0,0);
             tankTurnEvg(angle%2 == 1 ? -angle : angle);
         } 
         reflectance_digital(&dig);
-        while (dig.L3 == 1 || dig.L2 == 1 || dig.L1 == 1 || dig.R1 == 1 || dig.R2 == 1 || dig.R3 == 1)
-          {   
-               motor_forward(0,0);
-              //  motor_backward(100,100);
-                tankTurnEvg(angle%2 == 1 ? -angle : angle);
-                reflectance_digital(&dig); 
-          }
+        while (sense(dig) > 0)
+        {   
+            motor_forward(0,0);
+            tankTurnEvg(angle%2 == 1 ? -angle : angle);
+            reflectance_digital(&dig); 
+        }
+        motor_forward(250,0);
     }
     stopTime = xTaskGetTickCount();
-    elapsed = stopTime-startTime;
-    print_mqtt(STOP_TOPIC, " %i", stopTime);
-    print_mqtt(TIME_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
-    end();
+    end_mqtt(startTime, stopTime);
 }
 
 // set value of variable bonus in driveForward to 1 
 void line_follower(void) {
    int lines=0;
    struct sensors_ dig;
-   uint32_t startTime = 0, stopTime = 0, elapsed = 0;
+   uint32_t startTime = 0, stopTime = 0;
     
    startUp(1,1,1,0,0);
     
@@ -360,12 +356,12 @@ void line_follower(void) {
     while(lines<3)
     {
         reflectance_digital(&dig);
-        driveForward(200,0);
+        driveForward(255,0);
         lines++;
         if (lines == 1)
         {
             motor_forward(0,0);
-            print_mqtt(READY_TOPIC, " line");
+            print_mqtt(READY_TOPIC, "line");
             IR_flush();
             IR_wait(); 
             startTime = xTaskGetTickCount();
@@ -374,10 +370,7 @@ void line_follower(void) {
         
     }
     stopTime = xTaskGetTickCount();
-    elapsed = stopTime-startTime;
-    print_mqtt(STOP_TOPIC, " %i", stopTime);
-    print_mqtt(TIME_TOPIC, " elapsed: %ims, %02ds", elapsed, elapsed/1000);
-    end();
+    end_mqtt(startTime, stopTime);
 }
 
 void maze(void) {
@@ -472,7 +465,7 @@ void tankTurnEvg(int16 degree){
     }
     if(degree<0) {
         rightState=0;
-        correction= (degree * -1) %360;
+        correction= (degree * -1) % 360;
     } else{
         rightState=1;
         correction= degree % 360;
@@ -485,8 +478,17 @@ void tankTurnEvg(int16 degree){
 void end(void) {
     motor_forward(0,0);         
     motor_stop();
-    printf("\nend of task");
 }
+
+void end_mqtt(uint32_t start, uint32_t stop) {
+    motor_forward(0,0);         
+    motor_stop();
+    uint32_t elapsed = stop-start;
+    print_mqtt(STOP_TOPIC, " %lu", stop);
+    print_mqtt(TIME_TOPIC, "elapsed: %lums, %02lus", elapsed, elapsed/1000);
+}
+
+
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
 void startUp(int motor, int IR, int reflectance, int button, int ultra) {
@@ -512,6 +514,13 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     }
     
     // more to add here
+}
+
+uint16_t sense(struct sensors_ dig)
+{
+    uint16_t sum = dig.L3 + dig.L2 + dig.L1 + dig.R1 + dig.R2 + dig.R3;
+    
+ return sum;   
 }
 
 
