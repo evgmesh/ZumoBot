@@ -1,15 +1,5 @@
 
-/* ========================================
- *
- * Copyright YOUR COMPANY, THE YEAR
- * All Rights Reserved
- * UNPUBLISHED, LICENSED SOFTWARE.
- *
- * CONFIDENTIAL AND PROPRIETARY INFORMATION
- * WHICH IS THE PROPERTY OF your company.
- *
- * ========================================
-*/
+/* ========================================Evgenii Meshcheriakov==========================================*/
 #include <project.h>
 #include <stdio.h>
 #include "FreeRTOS.h"
@@ -28,26 +18,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-    
-/* ========================================Evgenii Meshcheriakov==========================================*/
-
 #include "evgenii.h"
-
-
-#define PRESSED 0
-#define RELEASED 1
-#define BUTTON_TOPIC "Zumo06/button"
-#define TURN_TOPIC "Zumo06/turn"
-#define LAP_TOPIC "Zumo06/lap"
-#define READY_TOPIC "Zumo06/ready"
-#define START_TOPIC "Zumo06/start"
-#define STOP_TOPIC "Zumo06/stop"
-#define TIME_TOPIC "Zumo06/time"
-#define MISS_TOPIC "Zumo06/miss"
-#define LINE_TOPIC "Zumo06/line"
-#define OBST_TOPIC "Zumo06/obstacle"
-
-
 
 /*******************************************************weekly assignments***************************************/
 
@@ -164,7 +135,7 @@ void week4_1_evg(void)
          startUp(0,1,0,0,0);
         }
     }
-    printf("Number of lines is %i\n", count);
+    printf("Number of lines is %ul\n", count);
     end();
 }
 
@@ -217,7 +188,7 @@ void week4_3_evg(void)
     {
         driveForward(100,0);
         count++;
-        printf("one loop, %i lines passed by\n", count);
+        printf("one loop, %ul lines passed by\n", count);
         reflectance_digital(&dig);
         // wait on first line
         if(count == 1)
@@ -348,31 +319,27 @@ void sumo_wrestling(void)
     print_mqtt(READY_TOPIC, " zumo");
     IR_flush();
     IR_wait();
+    motor_forward(100,100);
     startTime = xTaskGetTickCount();
     print_mqtt(START_TOPIC, " %i", startTime);
     while(SW1_Read() == RELEASED)
     {
         angle = randomEvg(45, 180);
-        motor_forward(200,30);
+        motor_forward(200,0);
         if (Ultra_GetDistance()<3)
         {
             obst = xTaskGetTickCount();
             print_mqtt(OBST_TOPIC, " %i", obst);
-            tankTurnEvg(angle);
-        }
-            reflectance_digital(&dig); 
-            while(dig.L3 == 1 && dig.R3 == 0)
-            {   
-                motor_forward(0,0);
-                tankTurnEvg(angle);
+            tankTurnEvg(angle%2 == 1 ? -angle : angle);
+        } 
+        reflectance_digital(&dig);
+        while (dig.L3 == 1 || dig.L2 == 1 || dig.L1 == 1 || dig.R1 == 1 || dig.R2 == 1 || dig.R3 == 1)
+          {   
+               motor_forward(0,0);
+              //  motor_backward(100,100);
+                tankTurnEvg(angle%2 == 1 ? -angle : angle);
                 reflectance_digital(&dig); 
-            }
-            while (dig.L3 == 0 && dig.R3 == 1)
-            {   
-                motor_forward(0,0);
-                tankTurnEvg(-angle);
-                reflectance_digital(&dig);  
-            }
+          }
     }
     stopTime = xTaskGetTickCount();
     elapsed = stopTime-startTime;
@@ -393,7 +360,7 @@ void line_follower(void) {
     while(lines<3)
     {
         reflectance_digital(&dig);
-        driveForward(255,0);
+        driveForward(200,0);
         lines++;
         if (lines == 1)
         {
@@ -453,7 +420,7 @@ void driveForward(uint8 speed, uint32 delay){
         else if (bonus && miss && dig.R1 == 0 && dig.L1 == 0)
         {
             print_mqtt(MISS_TOPIC, " %i", xTaskGetTickCount());   
-            miss = !miss;
+            miss = false;
         }
         else if (bonus && !miss && dig.R1 == 1 && dig.L1 == 1)
         {

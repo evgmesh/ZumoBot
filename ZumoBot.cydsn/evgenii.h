@@ -33,6 +33,19 @@
 #include "serial1.h"
 #include <unistd.h>
 #include <stdlib.h>
+    
+#define PRESSED 0
+#define RELEASED 1
+#define BUTTON_TOPIC "Zumo06/button"
+#define TURN_TOPIC "Zumo06/turn"
+#define LAP_TOPIC "Zumo06/lap"
+#define READY_TOPIC "Zumo06/ready"
+#define START_TOPIC "Zumo06/start"
+#define STOP_TOPIC "Zumo06/stop"
+#define TIME_TOPIC "Zumo06/time"
+#define MISS_TOPIC "Zumo06/miss"
+#define LINE_TOPIC "Zumo06/line"
+#define OBST_TOPIC "Zumo06/obstacle"
 
 void progEndEvg(uint32_t delay);
 void tankTLEvg(uint8_t speed, uint32_t delay);

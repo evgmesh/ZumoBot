@@ -87,9 +87,9 @@
     
     
         /**********************************Evgenii zone***************************/ 
-     //sumo_wrestling(); // Evgenii
+           sumo_wrestling(); // Evgenii
         
-      line_follower();
+      // line_follower();
       // maze();
       //week3_1_evg();
  
@@ -98,6 +98,8 @@
     
     }
 #endif
+
+
 
 /************************************ Test your function here*************************************************/
 
