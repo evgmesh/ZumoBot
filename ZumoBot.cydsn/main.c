@@ -51,6 +51,7 @@
 #include "Dongbin.h" 
 #include "evgenii.h"
 #include "aneta.h"
+#include "DBproject.h"
 
 /**
  * @file    main.c
@@ -78,7 +79,8 @@
         
         /**********************************Dongbin zone***************************/
   
-        //week5_3_DB();         // Dongbin 
+        SUMO_DB(); 
+        //line_project(); // Dongbin 
   
         
         /**********************************Aneta zone***************************/ 
@@ -87,7 +89,7 @@
     
     
         /**********************************Evgenii zone***************************/ 
-           sumo_wrestling(); // Evgenii
+           //sumo_wrestling(); // Evgenii
         
         // line_follower();
       // maze();
