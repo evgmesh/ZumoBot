@@ -19,6 +19,7 @@
 #include "serial1.h"
 #include <unistd.h>
 #include "evgenii.h"
+#include <math.h>
 
 /*******************************************************weekly assignments***************************************/
 
@@ -34,11 +35,11 @@ void week3_1_evg(void)
     IR_wait();
     motor_forward(125,2750);     // moving forward from starting point
     
-    tankTREvg(255, 103);           // 1st turning right 
+    turnRight(255, 103);           // 1st turning right 
     motor_forward(125,2350);    // forward on horisontal line
-    tankTREvg(255, 103);           // 2nd turn
+    turnRight(255, 103);           // 2nd turn
     motor_forward(125,2550);
-    tankTREvg(255, 103);           // 2nd turn
+    turnRight(255, 103);           // 2nd turn
   //  tankTurnEvg(164,135,1780);
     motor_forward(125,570);     // moving forward from starting point
     motor_forward(0,0);         // stop motors
@@ -99,10 +100,10 @@ void week3_3_evg(void)
             motor_forward(0,10);         
             motor_backward(100, 150);
             if (turn % 2 == 1) {
-               tankTLEvg(255, turn);
+               turnLeft(255, turn);
                printf("\nTurn value is %i so I turn left\n", turn);
             } else {
-               tankTREvg(255, turn);
+               turnRight(255, turn);
                printf("\nTurn value is %i so I turn right\n", turn);
             }
         }
@@ -374,8 +375,17 @@ void line_follower(void) {
 }
 
 void maze(void) {
+    startUp(0,0,1,0,0);
     
-    
+    struct sensors_ dig;
+    reflectance_digital(&dig);
+    while(true)
+    {
+        printf("sense return %u\n", sense(dig));
+        vTaskDelay(200);
+        reflectance_digital(&dig);
+        }
+    end();
 }
 
 
@@ -388,23 +398,24 @@ void driveForward(uint8 speed, uint32 delay){
     reflectance_digital(&dig);
     bool miss = true, bonus = 1;
     
-     while(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)
+    //drives forward when all sensors are on the line
+     while(sense(dig)==63)
     {
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
-    //drives forward when sensors 2 and 3 are on white
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1))
+    //condition when only central sensors are on the line
+    while(sense(dig)!=63)
     {
-        
-        if(dig.R1 == 1 && dig.L1 == 0)
+        //if loosing line from left side of the bot - turn right
+        if(dig.L1 == 0 && dig.R1 == 1)
         {
-            tankTREvg(speed,delay);
+            turnRight(speed,delay);
             reflectance_digital(&dig); 
         } 
-        else if (dig.R1 == 0 && dig.L1 == 1)
+        else if (dig.L1 == 1 && dig.R1 == 0)
         {
-            tankTLEvg(speed,delay);
+            turnLeft(speed,delay);
             reflectance_digital(&dig); 
         }
         
@@ -438,11 +449,11 @@ void progEndEvg(uint32_t delay) {
      vTaskDelay(delay);   
     }
 }
-void tankTLEvg(uint8_t speed, uint32_t delay) {
+void turnLeft(uint8_t speed, uint32_t delay) {
     SetMotors(1, 0, speed, speed, delay);
 }
 
-void tankTREvg(uint8_t speed, uint32_t delay) {
+void turnRight(uint8_t speed, uint32_t delay) {
     SetMotors(0, 1, speed, speed, delay);
 }
 
@@ -504,7 +515,7 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     }
     if(reflectance == 1){
         reflectance_start(); 
-        reflectance_set_threshold(13000, 11000, 18000, 18000, 11000, 13000);
+        reflectance_set_threshold(13000, 11000, 19000, 19000, 11000, 13000);
     }
     if(button == 1) {
         while(SW1_Read());
@@ -517,8 +528,9 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
 }
 
 uint16_t sense(struct sensors_ dig)
-{
-    uint16_t sum = dig.L3 + dig.L2 + dig.L1 + dig.R1 + dig.R2 + dig.R3;
+{                               
+//returns this value   1          2         4           8           16          32
+    uint16_t sum = dig.L3*1 + dig.L2*2 + dig.L1*4 + dig.R1*8 + dig.R2*16 + dig.R3*32;
     
  return sum;   
 }

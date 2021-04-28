@@ -87,11 +87,12 @@
     
     
         /**********************************Evgenii zone***************************/ 
-           sumo_wrestling(); // Evgenii
+         // sumo_wrestling(); // Evgenii
         
-        // line_follower();
-      // maze();
+        line_follower();
+      //maze();
       //week3_1_evg();
+       // aneta_maze();
  
     while(true) 
     vTaskDelay(100);

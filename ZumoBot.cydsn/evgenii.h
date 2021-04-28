@@ -48,8 +48,8 @@
 #define OBST_TOPIC "Zumo06/obstacle/"
 
 void progEndEvg(uint32_t delay);
-void tankTLEvg(uint8_t speed, uint32_t delay);
-void tankTREvg(uint8_t speed, uint32_t delay);
+void turnLeft(uint8_t speed, uint32_t delay);
+void turnRight(uint8_t speed, uint32_t delay);
 void tankTurnEvg(int16 degree);
 int randomEvg(int min, int max);
 void startUp(int motor, int IR, int reflectance, int button, int ultra);
