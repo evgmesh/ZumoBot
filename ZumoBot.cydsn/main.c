@@ -79,22 +79,22 @@
         
         /**********************************Dongbin zone***************************/
   
-        SUMO_DB(); 
-        //line_project(); // Dongbin 
+        //SUMO_DB(); 
+        //line_project(); 
+        //Maze();
   
         
         /**********************************Aneta zone***************************/ 
      
         //aneta_w5a3v2();
-    
+       aneta_maze();
+        
     
         /**********************************Evgenii zone***************************/ 
 
-        
-        line_follower();
+        //line_follower();
       //maze();
       //week3_1_evg();
-       // aneta_maze();
  
     while(true) 
     vTaskDelay(100);
