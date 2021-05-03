@@ -357,7 +357,7 @@ void line_follower(void) {
     while(lines<3)
     {
         reflectance_digital(&dig);
-        driveForward(255,0);
+        driveForward(100,0);
         lines++;
         if (lines == 1)
         {
@@ -375,17 +375,69 @@ void line_follower(void) {
 }
 
 void maze(void) {
-    startUp(0,0,1,0,0);
-    
     struct sensors_ dig;
+    startUp(1,1,1,0,1);
+    int maxX = 3;
+    int maxY = 14;
+    int Y = -1;
+    int X = 0;
+    int left = -90;
+    int right = 90;
+    bool dirUp = true, dirLeft=false, dirRight=false;
+    
+    IR_wait();              // temp - delete and turn on button in startUp
+    driveForward(200,0);
+    IR_wait();  
+    
+    
+    
     reflectance_digital(&dig);
-    while(true)
+    while(Y < 4)
     {
-        printf("sense return %u\n", sense(dig));
-        vTaskDelay(200);
+        if(dirUp && Ultra_GetDistance() > 13)
+        {
         reflectance_digital(&dig);
+        driveForward(50,0);
+        Y++;
+        print_mqtt(POSI_TOPIC, "%i %i\n", X, Y);
+        vTaskDelay(800);
         }
-    end();
+        if(dirUp && Ultra_GetDistance() < 13)
+        {
+            motor_forward(200,100);
+            tankTurnEvg(left);
+            driveForward(50,0);
+            X--;
+            print_mqtt(POSI_TOPIC, "dirUp %i %i\n", X, Y);
+            dirLeft = true;
+            dirUp = false;
+            vTaskDelay(800);
+        } 
+          else if(dirLeft && Ultra_GetDistance() > 13)
+          {
+            print_mqtt(POSI_TOPIC, "dirLeft %i %i\n", X, Y);
+            motor_forward(200,110);
+            tankTurnEvg(right);
+            driveForward(50,0);
+            Y++;
+            print_mqtt(POSI_TOPIC, "dirUp %i %i\n", X, Y);
+            dirLeft = false;
+            dirUp = true;
+            vTaskDelay(800);
+          }
+          else if(dirRight)
+          {
+            print_mqtt(POSI_TOPIC, "dirRight %i %i\n", X, Y);
+            end();
+          }
+    } 
+    if(Y==3)
+    {
+        print_mqtt(STOP_TOPIC, "END");
+        end();
+    }
+        
+   // end();
 }
 
 
@@ -403,10 +455,12 @@ void driveForward(uint8 speed, uint32 delay){
     {
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
+      //  printf("sense is %i\n", sense(dig));
     }
     //condition when only central sensors are on the line
-    while(sense(dig)!=63)
+    while(sense(dig)!=63 && sense(dig)!=60 && sense(dig)!= 15)
     {
+      //  printf("sense is %i\n", sense(dig));
         //if loosing line from left side of the bot - turn right
         if(dig.L1 == 0 && dig.R1 == 1)
         {
@@ -503,7 +557,7 @@ void end_mqtt(uint32_t start, uint32_t stop) {
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
 void startUp(int motor, int IR, int reflectance, int button, int ultra) {
-    printf("\n\n clearing the buffer\nBoot!\n");
+    printf("\n\nBoot!\n");
     if(motor == 1){
         motor_start();  
         motor_forward(0,0);
@@ -515,7 +569,7 @@ void startUp(int motor, int IR, int reflectance, int button, int ultra) {
     }
     if(reflectance == 1){
         reflectance_start(); 
-        reflectance_set_threshold(13000, 11000, 19000, 19000, 11000, 13000);
+        reflectance_set_threshold(13000, 11000, 15000, 15000, 11000, 13000);
     }
     if(button == 1) {
         while(SW1_Read());

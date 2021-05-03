@@ -46,6 +46,7 @@
 #define MISS_TOPIC "Zumo06/miss/"
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
+#define POSI_TOPIC "Zumo06/position/"
 
 void progEndEvg(uint32_t delay);
 void turnLeft(uint8_t speed, uint32_t delay);

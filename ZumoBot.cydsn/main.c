@@ -79,7 +79,7 @@
         
         /**********************************Dongbin zone***************************/
   
-        SUMO_DB(); 
+      //  SUMO_DB(); 
         //line_project(); // Dongbin 
   
         
@@ -91,8 +91,8 @@
         /**********************************Evgenii zone***************************/ 
 
         
-        line_follower();
-      //maze();
+   //     line_follower();
+      maze();
       //week3_1_evg();
        // aneta_maze();
  
