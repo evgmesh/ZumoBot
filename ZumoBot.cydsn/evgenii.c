@@ -394,50 +394,90 @@ void maze(void) {
     reflectance_digital(&dig);
     while(Y < 4)
     {
-        if(dirUp && Ultra_GetDistance() > 13)
+        while(dirUp && Ultra_GetDistance() > 13)
         {
-        reflectance_digital(&dig);
-        driveForward(50,0);
-        Y++;
-        print_mqtt(POSI_TOPIC, "%i %i\n", X, Y);
-        vTaskDelay(800);
+            reflectance_digital(&dig);
+            driveThruMaze(SPEED,0);
+            Y++;
+            print_mqtt(POSI_TOPIC, "case 1 %i %i", X, Y);
+            vTaskDelay(100);
         }
         if(dirUp && Ultra_GetDistance() < 13)
         {
-            motor_forward(200,100);
-            tankTurnEvg(left);
-            driveForward(50,0);
-            X--;
-            print_mqtt(POSI_TOPIC, "dirUp %i %i\n", X, Y);
+            print_mqtt(POSI_TOPIC, "case 2 %i %i", X, Y);
             dirLeft = true;
             dirUp = false;
-            vTaskDelay(800);
-        } 
-          else if(dirLeft && Ultra_GetDistance() > 13)
-          {
-            print_mqtt(POSI_TOPIC, "dirLeft %i %i\n", X, Y);
             motor_forward(200,110);
-            tankTurnEvg(right);
-            driveForward(50,0);
-            Y++;
-            print_mqtt(POSI_TOPIC, "dirUp %i %i\n", X, Y);
+            tankTurnEvg(left);
+            motor_forward(0,0);
+            vTaskDelay(100);
+        } 
+        if(dirLeft && Ultra_GetDistance() > 13)
+        {   
             dirLeft = false;
             dirUp = true;
-            vTaskDelay(800);
-          }
-          else if(dirRight)
-          {
-            print_mqtt(POSI_TOPIC, "dirRight %i %i\n", X, Y);
-            end();
-          }
+            reflectance_digital(&dig);
+            driveThruMaze(SPEED,0);
+            X--;
+            print_mqtt(POSI_TOPIC, "case 3 %i %i", X, Y);
+            
+            motor_forward(200,110);
+            tankTurnEvg(right);
+            motor_forward(0,0);
+            vTaskDelay(100);
+            if(Ultra_GetDistance() < 13)
+            {
+                print_mqtt(POSI_TOPIC, "case 4 %i %i", X, Y);
+                dirLeft = true;
+                dirUp = false;
+                
+                tankTurnEvg(left);
+                motor_forward(0,0);
+                vTaskDelay(100);
+            }
+        }
+        if(dirLeft && Ultra_GetDistance() < 13)
+        {
+            
+            dirLeft = false;
+            dirRight = true; 
+            tankTurnEvg(180);
+            motor_forward(0,0);
+            print_mqtt(POSI_TOPIC, "case 5 %i %i", X, Y);
+            vTaskDelay(100);
+        }
+        if(dirRight && Ultra_GetDistance() > 13)
+        {
+            dirRight = false;
+            dirUp = true;
+            driveThruMaze(SPEED,0);
+            X++;
+            print_mqtt(POSI_TOPIC, "case 6 %i %i", X, Y);
+            motor_forward(200,110);
+            tankTurnEvg(left);
+            motor_forward(0,0);
+            vTaskDelay(100);
+            if(Ultra_GetDistance() < 13)
+            {
+                print_mqtt(POSI_TOPIC, "case 7 %i %i", X, Y);
+                dirRight = true;
+                dirUp = false;
+                
+                tankTurnEvg(right);
+                motor_forward(0,0);
+                vTaskDelay(100);
+            }
+            
+        }
+        
     } 
-    if(Y==3)
+  /*  if(Y==3)
     {
         print_mqtt(STOP_TOPIC, "END");
         end();
     }
-        
-   // end();
+        */
+    end();
 }
 
 
@@ -448,7 +488,7 @@ void driveForward(uint8 speed, uint32 delay){
     // declarations
     struct sensors_ dig;
     reflectance_digital(&dig);
-    bool miss = true, bonus = 1;
+    bool miss = true, bonus = 0;
     
     //drives forward when all sensors are on the line
      while(sense(dig)==63)
@@ -458,6 +498,7 @@ void driveForward(uint8 speed, uint32 delay){
       //  printf("sense is %i\n", sense(dig));
     }
     //condition when only central sensors are on the line
+    //while(sense(dig)!=63 && sense(dig)!=60 && sense(dig)!= 15)
     while(sense(dig)!=63 && sense(dig)!=60 && sense(dig)!= 15)
     {
       //  printf("sense is %i\n", sense(dig));
@@ -492,7 +533,47 @@ void driveForward(uint8 speed, uint32 delay){
     motor_forward(0,0);
 }
 
-
+void driveThruMaze(uint8 speed, uint32 delay){
+    
+    // declarations
+    struct sensors_ dig;
+    reflectance_digital(&dig);
+    
+    //drives forward when all sensors are on the line
+    while(sense(dig)!= 12)
+    {
+        if(dig.L1 == 1 && dig.R1 == 0)
+        {
+            turnLeft(speed,delay);
+            reflectance_digital(&dig);
+        }
+        if(dig.L1 == 0 && dig.R1 == 1)
+        {
+            turnRight(speed,delay);
+            reflectance_digital(&dig);
+        }
+            motor_forward(speed,delay);
+            reflectance_digital(&dig);
+    }
+    while(dig.L3 == 0 || dig.R3 == 0)
+    {
+            if(dig.L2 == 1 && dig.R2 == 0)
+            {
+                turnLeft(speed,delay);
+                reflectance_digital(&dig); 
+            }
+            if(dig.L2 == 0 && dig.R2 == 1)
+            {
+                turnRight(speed,delay);
+                reflectance_digital(&dig); 
+            }
+       
+        motor_forward(speed,delay);
+        reflectance_digital(&dig); 
+        
+    }
+    motor_forward(0,0);
+}
 
 
 
@@ -541,6 +622,7 @@ void tankTurnEvg(int16 degree){
 }
 
 void end(void) {
+    printf("End of the programm\n");
     motor_forward(0,0);         
     motor_stop();
 }
