@@ -47,7 +47,7 @@
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
 #define POSI_TOPIC "Zumo06/position/"
-#define SPEED 100
+#define SPEED 150
 #define FAST 255
 
 void progEndEvg(uint32_t delay);
