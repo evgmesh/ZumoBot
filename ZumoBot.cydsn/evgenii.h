@@ -47,7 +47,7 @@
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
 #define POSI_TOPIC "Zumo06/position/"
-#define SPEED 20
+#define SPEED 100
 #define FAST 255
 
 void progEndEvg(uint32_t delay);
@@ -60,6 +60,7 @@ void driveForward(uint8 speed, uint32 delay);
 void end(void);
 void end_mqtt(uint32_t start, uint32_t stop);
 uint16_t sense(struct sensors_ dig);
+int noRestrict(int *Y);
 
 void driveThruMaze(uint8 speed, uint32 delay);
 

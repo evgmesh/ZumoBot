@@ -387,32 +387,46 @@ void maze(void) {
     
     IR_wait();              // temp - delete and turn on button in startUp
     driveForward(200,0);
+    printf("obst is %i\n", noRestrict(&Y));
     IR_wait();  
     
     
     
     reflectance_digital(&dig);
-    while(Y < 4)
+    while(Y < 11)
     {
-        while(dirUp && Ultra_GetDistance() > 13)
+        while(dirUp && noRestrict(&Y))
         {
             reflectance_digital(&dig);
             driveThruMaze(SPEED,0);
             Y++;
             print_mqtt(POSI_TOPIC, "case 1 %i %i", X, Y);
+            printf("obst is %i\n", noRestrict(&Y));
             vTaskDelay(100);
         }
-        if(dirUp && Ultra_GetDistance() < 13)
+        if(dirUp && Ultra_GetDistance() < 13 && X != - maxX)
         {
-            print_mqtt(POSI_TOPIC, "case 2 %i %i", X, Y);
+            print_mqtt(POSI_TOPIC, "case 2 left %i %i", X, Y);
             dirLeft = true;
             dirUp = false;
             motor_forward(200,110);
             tankTurnEvg(left);
             motor_forward(0,0);
+            printf("obst is %i\n", noRestrict(&Y));
             vTaskDelay(100);
         } 
-        if(dirLeft && Ultra_GetDistance() > 13)
+        if(dirUp && Ultra_GetDistance() < 13 && X == - maxX)
+        {
+            print_mqtt(POSI_TOPIC, "case 2 right %i %i", X, Y);
+            dirRight = true;
+            dirUp = false;
+            motor_forward(200,110);
+            tankTurnEvg(right);
+            motor_forward(0,0);
+            printf("obst is %i\n", noRestrict(&Y));
+            vTaskDelay(100);
+        }
+        if(dirLeft && noRestrict(&Y) && X != - maxX)
         {   
             dirLeft = false;
             dirUp = true;
@@ -425,13 +439,23 @@ void maze(void) {
             tankTurnEvg(right);
             motor_forward(0,0);
             vTaskDelay(100);
-            if(Ultra_GetDistance() < 13)
+            if(Ultra_GetDistance() < 13 && X != - maxX)
             {
-                print_mqtt(POSI_TOPIC, "case 4 %i %i", X, Y);
+                print_mqtt(POSI_TOPIC, "case 4 left %i %i", X, Y);
                 dirLeft = true;
                 dirUp = false;
                 
                 tankTurnEvg(left);
+                motor_forward(0,0);
+                vTaskDelay(100);
+            }
+            if(Ultra_GetDistance() < 13 && X == - maxX)
+            {
+                print_mqtt(POSI_TOPIC, "case 4 right %i %i", X, Y);
+                dirLeft = false;
+                dirRight = true;
+                
+                tankTurnEvg(right);
                 motor_forward(0,0);
                 vTaskDelay(100);
             }
@@ -446,7 +470,7 @@ void maze(void) {
             print_mqtt(POSI_TOPIC, "case 5 %i %i", X, Y);
             vTaskDelay(100);
         }
-        if(dirRight && Ultra_GetDistance() > 13)
+        if(dirRight && noRestrict(&Y) && X<3)
         {
             dirRight = false;
             dirUp = true;
@@ -540,42 +564,62 @@ void driveThruMaze(uint8 speed, uint32 delay){
     reflectance_digital(&dig);
     
     //drives forward when all sensors are on the line
-    while(sense(dig)!= 12)
+     while(sense(dig)!=12)
     {
-        if(dig.L1 == 1 && dig.R1 == 0)
-        {
-            turnLeft(speed,delay);
-            reflectance_digital(&dig);
-        }
-        if(dig.L1 == 0 && dig.R1 == 1)
+        while(dig.L1 == 0 && dig.R1 == 1)
         {
             turnRight(speed,delay);
-            reflectance_digital(&dig);
+            reflectance_digital(&dig); 
+        } 
+        while(dig.L1 == 1 && dig.R1 == 0)
+        {
+            turnLeft(speed,delay);
+            reflectance_digital(&dig); 
         }
-            motor_forward(speed,delay);
-            reflectance_digital(&dig);
-    }
-    while(dig.L3 == 0 || dig.R3 == 0)
-    {
-            if(dig.L2 == 1 && dig.R2 == 0)
-            {
-                turnLeft(speed,delay);
-                reflectance_digital(&dig); 
-            }
-            if(dig.L2 == 0 && dig.R2 == 1)
-            {
-                turnRight(speed,delay);
-                reflectance_digital(&dig); 
-            }
-       
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
-        
+      //  printf("sense is %i\n", sense(dig));
+    }
+    
+    while (dig.L3 == 0 && dig.R3 == 0)
+    {
+        if(dig.L2 == 1 && dig.R2 ==0)
+        {
+            while(dig.L2 == 1 && dig.R2 ==0)
+            {
+                turnLeft(speed,delay);
+                reflectance_digital(&dig);
+            }
+        }
+        if(dig.L2 == 0 && dig.R2 ==1)
+        {
+            while(dig.L2 == 0 && dig.R2 ==1)
+            {
+                turnRight(speed,delay);
+                reflectance_digital(&dig);
+            }
+        }
+        motor_forward(speed,delay);
+        reflectance_digital(&dig); 
     }
     motor_forward(0,0);
 }
 
-
+int noRestrict(int *Y)
+{
+        if(Ultra_GetDistance()<13)
+        {
+            return 0;   
+        }
+        if(*Y>10)
+        {
+            return 0;   
+        }
+        
+    return 1;
+}
+    
+    
 
 void progEndEvg(uint32_t delay) {
     bool led = false;
