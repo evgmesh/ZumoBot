@@ -405,7 +405,7 @@ void maze(void) {
             driveThruMaze(SPEED,0);
             Y++;
             print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-            vTaskDelay(100);
+            vTaskDelay(50);
         }
         if(dirUp && Ultra_GetDistance() < 13 && X != - maxX)
         {
@@ -414,7 +414,7 @@ void maze(void) {
             motor_forward(200,110);
             tankTurnEvg(left);
             motor_forward(0,0);
-            vTaskDelay(100);
+            vTaskDelay(10);
         } 
         if(dirUp && Ultra_GetDistance() < 13 && X == - maxX)
         {
@@ -423,7 +423,7 @@ void maze(void) {
             motor_forward(200,110);
             tankTurnEvg(right);
             motor_forward(0,0);
-            vTaskDelay(100);
+            vTaskDelay(10);
         }
         if(dirLeft && noRestrict(&Y) && X != - maxX)
         {   
@@ -436,7 +436,7 @@ void maze(void) {
             motor_forward(200,110);
             tankTurnEvg(right);
             motor_forward(0,0);
-            vTaskDelay(100);
+            vTaskDelay(10);
             if(Ultra_GetDistance() < 13 && X != - maxX)
             {
                 dirLeft = true;
@@ -444,7 +444,7 @@ void maze(void) {
                 
                 tankTurnEvg(left);
                 motor_forward(0,0);
-                vTaskDelay(100);
+                vTaskDelay(10);
             }
             if(Ultra_GetDistance() < 13 && X == - maxX)
             {
@@ -453,7 +453,7 @@ void maze(void) {
                 
                 tankTurnEvg(right);
                 motor_forward(0,0);
-                vTaskDelay(100);
+                vTaskDelay(10);
             }
         }
         if(dirLeft && Ultra_GetDistance() < 13)
@@ -463,7 +463,7 @@ void maze(void) {
             dirRight = true; 
             tankTurnEvg(180);
             motor_forward(0,0);
-            vTaskDelay(100);
+            vTaskDelay(10);
         }
         if(dirRight && noRestrict(&Y) && X<3)
         {
@@ -483,7 +483,7 @@ void maze(void) {
                 
                 tankTurnEvg(right);
                 motor_forward(0,0);
-                vTaskDelay(100);
+                vTaskDelay(10);
             }
         }
     } 
@@ -498,7 +498,7 @@ void maze(void) {
                 driveForward(SPEED, 0);
                 X++;
                 print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-                vTaskDelay(100);
+                vTaskDelay(10);
             }
             motor_forward(200,110);
             tankTurnEvg(left);
@@ -512,16 +512,17 @@ void maze(void) {
                 driveThruMaze(SPEED, 0);
                 X--;
                 print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-                vTaskDelay(100);
+                vTaskDelay(10);
             }
             motor_forward(200,110);
             tankTurnEvg(right);
         }
         while(Y < 13)
         {
-            driveThruMaze(SPEED, 0);
             Y++;
+            driveThruMaze(SPEED, 0);
             print_mqtt(POSI_TOPIC, "%i %i", X, Y);
+            vTaskDelay(10);
         }
         motor_forward(0,0);
         motor_forward(100,700);
@@ -595,12 +596,12 @@ void driveThruMaze(uint8 speed, uint32 delay){
     {
         while(dig.L1 == 0 && dig.R1 == 1)
         {
-            turnRight(speed,delay);
+            tankTurnEvg(1);
             reflectance_digital(&dig); 
         } 
         while(dig.L1 == 1 && dig.R1 == 0)
         {
-            turnLeft(speed,delay);
+            tankTurnEvg(-1);
             reflectance_digital(&dig); 
         }
         motor_forward(speed,delay);
@@ -614,7 +615,7 @@ void driveThruMaze(uint8 speed, uint32 delay){
         {
             while(dig.L2 == 1 && dig.R2 ==0)
             {
-                turnLeft(speed,delay);
+                tankTurnEvg(-1);
                 reflectance_digital(&dig);
             }
         }
@@ -622,7 +623,7 @@ void driveThruMaze(uint8 speed, uint32 delay){
         {
             while(dig.L2 == 0 && dig.R2 ==1)
             {
-                turnRight(speed,delay);
+                tankTurnEvg(1);
                 reflectance_digital(&dig);
             }
         }
@@ -642,11 +643,31 @@ int noRestrict(int *Y)
         {
             return 0;   
         }
-        
     return 1;
 }
     
-    
+int obst(void)
+{
+    if(Ultra_GetDistance() < 15) 
+    {
+        return 1;   
+    }
+    return 0;
+}
+
+void leftInMaze(void)
+{
+    motor_forward(200,110);
+    tankTurnEvg(-90);
+    motor_forward(0,0);     
+}
+
+void rightInMaze(void)
+{
+    motor_forward(200,110);
+    tankTurnEvg(90);
+    motor_forward(0,0);     
+}
 
 void progEndEvg(uint32_t delay) {
     bool led = false;

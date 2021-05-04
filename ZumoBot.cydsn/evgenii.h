@@ -61,6 +61,9 @@ void end(void);
 void end_mqtt(uint32_t start, uint32_t stop);
 uint16_t sense(struct sensors_ dig);
 int noRestrict(int *Y);
+int obst(void);
+void leftInMaze(void);
+void rightInMaze(void);
 
 void driveThruMaze(uint8 speed, uint32 delay);
 
