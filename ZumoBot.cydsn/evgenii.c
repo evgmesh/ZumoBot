@@ -407,7 +407,7 @@ void maze(void) {
             Y++;
             print_mqtt(POSI_TOPIC, "%i %i", X, Y);
         }
-        if(dirUp && obst() && X != - maxX)
+        if(dirUp && Ultra_GetDistance() < 15 && X != - maxX)
         {
             dirLeft = true;
             dirUp = false;
@@ -415,7 +415,7 @@ void maze(void) {
             tankTurnEvg(left);
             motor_forward(0,0); 
         } 
-        else if(dirUp && Ultra_GetDistance() < 15 && X == - maxX)
+        if(dirUp && Ultra_GetDistance() < 15 && X == - maxX)
         {
             dirRight = true;
             dirUp = false;
@@ -423,7 +423,7 @@ void maze(void) {
             tankTurnEvg(right);
             motor_forward(0,0);
         }
-        else if(dirLeft && noRestrict(&Y) && X != - maxX)
+        if(dirLeft && noRestrict(&Y) && X != - maxX)
         {   
             dirLeft = false;
             dirUp = true;
@@ -442,7 +442,7 @@ void maze(void) {
                 tankTurnEvg(left);
                 motor_forward(0,0);
             }
-            else if(Ultra_GetDistance() < 13 && X == - maxX)
+            if(Ultra_GetDistance() < 13 && X == - maxX)
             {
                 dirLeft = false;
                 dirRight = true;
@@ -451,7 +451,7 @@ void maze(void) {
                 motor_forward(0,0);
             }
         }
-        else if(dirLeft && Ultra_GetDistance() < 13)
+        if(dirLeft && Ultra_GetDistance() < 13)
         {
             
             dirLeft = false;
@@ -459,7 +459,7 @@ void maze(void) {
             tankTurnEvg(180);
             motor_forward(0,0);
         }
-        else if(dirRight && noRestrict(&Y) && X<3)
+        if(dirRight && noRestrict(&Y) && X<3)
         {
             dirRight = false;
             dirUp = true;
@@ -495,7 +495,7 @@ void maze(void) {
             motor_forward(200,110);
             tankTurnEvg(left);
         }
-        else if (X>0)
+        if (X>0)
         {
             motor_forward(200,110);
             tankTurnEvg(left);
