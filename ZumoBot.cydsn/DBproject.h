@@ -29,15 +29,17 @@ void line_motorTurn(int16_t degree);
 void end_line(void);
 
 /******************************* MAZE ***********************************************/
-void Maze_startup(int motor, int IR, int ultra, int reflect, int btn);
-void Maze_onTheMark(void);
-int randTurn_Maze(void);
-void MazeTurn(int16_t degree);
-void Maze_grid_following(void);
-void Mqtt_print(int x, int y);
-void Maze_grid_leftedge(void);
-void Maze_end_line(uint32_t startTime);
-void Maze_grid_rightedge(void);
+
+void MazeIII_startup(int motor,int IR, int ultra, int reflect, int btn);    
+void MazeIII_onTheMark(void);   
+void MazeIII_grid_following(void);    
+void MazeIII_Mqtt_print(int x, int y);
+int MazeIII_random(void);
+void MazeIII_Turn(int16_t degree);
+void MazeIII_leftedge(void);
+void MazeIII_rightedge(void);
+void MazeIII_end_line(uint32_t startTime);
+
 
 
 
@@ -47,7 +49,7 @@ void Maze_grid_rightedge(void);
 
 void SUMO_DB();
 void line_project();
-void Maze();
+void MazeIII();
 
 
 #endif

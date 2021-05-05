@@ -125,122 +125,175 @@ void line_project(void){
 
 
 /************************************* Maze Project ********************************************/
-# define safeDist 10
-# define leftedge -3
-# define rightedge 3
-void Maze(void){
-    Maze_startup(1,1,1,1,1);
+#define left -90
+#define right 90
+#define safeDist 10
+#define leftedge -3
+#define rightedge 3
+
+void MazeIII(void){
     uint32_t startTime;
-    struct sensors_ dig;
     int x, y, obsDist;
     x = 0;
     y = -1;
-    
     obsDist = 0;
-    Maze_grid_following();
-    print_mqtt(ZUMO_TOPIC_READY, "Maze");
-        
+    bool goleft = false;
+    bool goright = false;
+    MazeIII_startup(1,1,1,1,1);
+    MazeIII_onTheMark();
+    
+    //to be ready to start on the line
     IR_wait();
     startTime = xTaskGetTickCount();
     print_mqtt(ZUMO_TOPIC_START, "%d", startTime);
     
-    while(true){
+   //between row 0 and row 10, robot movement
+    while(y < 11){
         obsDist = Ultra_GetDistance();
-        while(obsDist > safeDist){
-            reflectance_digital(&dig);
-            if(y == 11 && x > 0){
-                MazeTurn(-90);
-                while(x > 0){
-                    Maze_grid_following();
-                    x--;
-                    Mqtt_print(x,y);
-                }
-                MazeTurn(90);
-            }else if(y == 11 && x < 0){
-                MazeTurn(90);
-                while(x < 0){
-                Maze_grid_following();
-                x++;
-                Mqtt_print(x,y);   
-                }
-                MazeTurn(-90);
-            }else if(y == 11 && x == 0){
-                while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
-                motor_forward(100,0);   
-                }
-            } 
-            Maze_grid_following();
+        while(obsDist > safeDist && y < 11){
+            obsDist = Ultra_GetDistance();
             y++;
-            Mqtt_print(x,y);
-            if(y == 13){
-                Maze_end_line(startTime);
-            }
+            MazeIII_Mqtt_print(x,y);
+            MazeIII_grid_following();
             obsDist = Ultra_GetDistance();
         }
-        if(randTurn_Maze() == 1){
-            MazeTurn(-90);
+        
+        //random determine direction of left or right
+        if(obsDist < safeDist){          
+            int j = MazeIII_random();
+            switch(j){
+                case(0):{
+                    goleft = true;
+                    break;  
+                }
+                case(1):{
+                    goright = true;
+                    break;
+                }
+            }
+        } 
+        
+        //move on the left side of y axis 
+        while(goleft && x > leftedge && y < 11){
             obsDist = Ultra_GetDistance();
-            while(obsDist < safeDist){
-                MazeTurn(180);
+            while(obsDist > safeDist && y < 11){
+                y++;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_grid_following();
                 obsDist = Ultra_GetDistance();
-                goto right;
             }
-            left:
-            Maze_grid_following();
-            x--;
-            Mqtt_print(x, y);
-            MazeTurn(90);
-            if(x == leftedge){
-                obsDist = Ultra_GetDistance();
-                while(obsDist > safeDist && y < 11){
-                    Maze_grid_leftedge();
-                    y++;
-                    Mqtt_print(x,y);
-                    obsDist = Ultra_GetDistance();
-                }
-                while(obsDist < safeDist){
-                    MazeTurn(90);
-                    Maze_grid_following();
-                    MazeTurn(-90);
-                    obsDist = Ultra_GetDistance();
-                    x++;
-                    Mqtt_print(x,y); 
-                }
+            if(y < 11){
+                MazeIII_Turn(left);
             }
-        }else{
-            MazeTurn(90);
             obsDist = Ultra_GetDistance();
-            while(obsDist < safeDist){
-                MazeTurn(-180);
-                obsDist = Ultra_GetDistance();
-                goto left;
-            }
-            right:
-            Maze_grid_following();
-            x++;
-            Mqtt_print(x, y);
-            MazeTurn(-90);
-            if( x == rightedge){
-                obsDist = Ultra_GetDistance();
-                while(obsDist > safeDist && y < 11){
-                    Maze_grid_rightedge();
-                    y++;
-                    Mqtt_print(x,y);
-                    obsDist = Ultra_GetDistance();
-                }
-                while(obsDist < safeDist){
-                    MazeTurn(-90);
-                    Maze_grid_following();
-                    MazeTurn(90);
-                    obsDist = Ultra_GetDistance();
-                    x--;
-                    Mqtt_print(x,y);
-                }           
+            if(obsDist > safeDist && y < 11){ //check if there is obstacel
+                x--;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_grid_following();
+                MazeIII_Turn(right);  
+            }else if(obsDist < safeDist){ //obstacle exists, then no goal on left side
+                MazeIII_Turn(right);
+                goleft = false; 
             }
         }
+        
+        //when robot moves on left edge
+        if(goleft && x == leftedge){ 
+            obsDist = Ultra_GetDistance();
+            while(obsDist > safeDist && y < 11){
+                y++;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_leftedge();
+                obsDist = Ultra_GetDistance();
+            }
+            MazeIII_Turn(right); 
+            obsDist = Ultra_GetDistance();
+            
+            while(obsDist > safeDist && x < 0){ //when reach the left edge, no need 
+                                                //to check obstacle but go straight to poisiiton x0
+                x++;                            
+                MazeIII_Mqtt_print(x,y);
+                MazeIII_grid_following();
+                obsDist = Ultra_GetDistance();
+            }
+            MazeIII_Turn(left);
+            goleft = false;             //left side switch off
+        }  
+                
+        // Robot moves to the right side
+        while(goright && x < rightedge && y < 11){
+            obsDist = Ultra_GetDistance();
+            while(obsDist > safeDist && y < 11){
+                y++;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_grid_following(); 
+                obsDist = Ultra_GetDistance();
+            }
+            if(y < 11){
+                MazeIII_Turn(right);
+            }
+            obsDist = Ultra_GetDistance();
+            if(obsDist > safeDist && y < 11){  // check if there is obstacle
+                x++;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_grid_following();
+                MazeIII_Turn(left);  
+            }else if(obsDist < safeDist){      //obstacle exists, then no goal on right side
+                MazeIII_Turn(right);
+                goright = false;               //right side switch off
+            }
+        }
+        //when robot reach the right edge
+        if(goright && x == rightedge){
+            obsDist = Ultra_GetDistance();
+            while(obsDist > safeDist && y < 11){  //move forward if no obstacles
+                y++;
+                MazeIII_Mqtt_print(x, y);
+                MazeIII_rightedge();
+                obsDist = Ultra_GetDistance();
+            }
+            MazeIII_Turn(left); 
+            obsDist = Ultra_GetDistance();
+            while(obsDist > safeDist && x > 0){    //when reach the right edge, no need 
+                                                    //to check obstacle but go straight to poisiiton x0
+                x--;
+                MazeIII_Mqtt_print(x,y);
+                MazeIII_grid_following();
+                obsDist = Ultra_GetDistance();
+            }
+            MazeIII_Turn(right);
+            goright = false;
+        }  
     }
-}
     
+    //after row 11 to the finish line
+    while(y <13){
+        if(y == 11 && x > 0){               //on right side 
+            MazeIII_Turn(left);
+            while(x > 0){
+                MazeIII_grid_following();
+                x--;
+                MazeIII_Mqtt_print(x,y);
+            }
+            MazeIII_Turn(right);
+        }else if(y == 11 && x < 0){         //on the left side
+            MazeIII_Turn(right);
+            while(x < 0){
+                MazeIII_grid_following();
+                x++;
+                MazeIII_Mqtt_print(x,y);   
+            }
+            MazeIII_Turn(left);
+        }else if(y == 11 && x == 0){        //on the position x0
+            while(y < 13){             
+                MazeIII_grid_following(); 
+                y++;
+                MazeIII_Mqtt_print(x,y);
+            }
+        }   
+    }  
+    MazeIII_end_line(startTime);
+}
     
     
     
@@ -430,8 +483,9 @@ void end_line(void){
  }
 
 /**************************************** Maze Function **************************************/
-void Maze_startup(int motor,int IR, int ultra, int reflect, int btn){
-      
+void MazeIII_startup(int motor,int IR, int ultra, int reflect, int btn){
+    printf("\n\n\n!!!BOOT!!!\n\n\n");
+    
     if(motor == 1){
         motor_start();
         motor_forward(0,0);
@@ -454,14 +508,44 @@ void Maze_startup(int motor,int IR, int ultra, int reflect, int btn){
     }
 }
 
-int randTurn_Maze(void){
-    int TurnLR;
-    TickType_t rand = xTaskGetTickCount();
-    TurnLR = rand/1000 % 2;
-    return TurnLR;
+void MazeIII_onTheMark(void){
+    struct sensors_ dig;
+    reflectance_digital(&dig); 
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        motor_forward(100,0);
+        reflectance_digital(&dig);
+    }
+    motor_forward(100,80);
+    motor_forward(0,0); 
+    print_mqtt(ZUMO_TOPIC_READY, "Maze");
 }
 
-void MazeTurn(int16_t degree){
+void MazeIII_grid_following(void){
+    struct sensors_ dig;
+    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
+        reflectance_digital(&dig);
+        motor_forward(255,0);
+    }
+    while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
+        reflectance_digital(&dig);
+        motor_forward(255,0);
+    }
+    motor_forward(100,120);
+    motor_forward(0,0);
+}
+
+void MazeIII_Mqtt_print(int x, int y){
+    print_mqtt(ZUMO_TOPIC_POSITION, "%d %d", x, y);   
+}
+
+int MazeIII_random(void){
+    int i;
+    TickType_t rand = xTaskGetTickCount();
+    i = rand/1000 % 2;
+    return i;
+}
+
+void MazeIII_Turn(int16_t degree){
      uint8 leftState, rightState, correction;
     if(degree>=0) {
         leftState=0;
@@ -481,53 +565,35 @@ void MazeTurn(int16_t degree){
     vTaskDelay(300);
 }
 
-void Maze_grid_following(void){
-    struct sensors_ dig;
-    while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
-        reflectance_digital(&dig);
-        motor_forward(100,0);
-    }
-    while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
-        reflectance_digital(&dig);
-        motor_forward(100,0);
-    }
-    motor_forward(100,120);
-    motor_forward(0,0);
-}
-
-void Maze_grid_leftedge(void){
+void MazeIII_leftedge(void){
     struct sensors_ dig; 
     while(!(dig.R2 == 1 && dig.R3 == 1)){
         reflectance_digital(&dig);
-        motor_forward(100,0);
+        motor_forward(255,0);
     }
     while(!(dig.R2 == 0 && dig.R3 == 0)){
         reflectance_digital(&dig);
-        motor_forward(100,0);
+        motor_forward(255,0);
     }
     motor_forward(100,120);
     motor_forward(0,0); 
 }
 
-void Maze_grid_rightedge(void){
+void MazeIII_rightedge(void){
     struct sensors_ dig; 
-    while(!(dig.L3 == 1 && dig.L2 == 1)){
+    while(!(dig.L2 == 1 && dig.L3 == 1)){
         reflectance_digital(&dig);
-        motor_forward(100,0);
+        motor_forward(255,0);
     }
-    while(!(dig.L3 == 0 && dig.L2 == 0)){
+    while(!(dig.L2 == 0 && dig.L3 == 0)){
         reflectance_digital(&dig);
-        motor_forward(100,0);
+        motor_forward(255,0);
     }
     motor_forward(100,120);
     motor_forward(0,0); 
 }
 
-void Mqtt_print(int x, int y){
-    print_mqtt(ZUMO_TOPIC_POSITION, "%d %d", x, y);   
-}
-
-void Maze_end_line(uint32_t startTime){
+void MazeIII_end_line(uint32_t startTime){
     motor_forward(0,0);
     motor_stop();
     uint32_t endTime = xTaskGetTickCount();
