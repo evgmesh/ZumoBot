@@ -47,10 +47,7 @@
 #include <sys/time.h>
 #include "serial1.h"
 #include <unistd.h>
-#include "group6.h"
-#include "Dongbin.h" 
 #include "evgenii.h"
-#include "aneta.h"
 #include "DBproject.h"
 
 /**
@@ -79,7 +76,7 @@
         
         /**********************************Dongbin zone***************************/
             
-      //  MazeIII();
+       // MazeIII();
   
         
         /**********************************Aneta zone***************************/ 
@@ -89,9 +86,19 @@
         
     
         /**********************************Evgenii zone***************************/ 
+    #if MAZE    
         maze();
-      //week3_1_evg();
- 
+    #endif
+    
+    #if LINE    
+        line_follower();
+    #endif
+    
+    #if SUMO    
+        sumo_wrestling();
+    #endif
+    
+    
     while(true) 
     vTaskDelay(100);
     

@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 1
 
 
    1              		.syntax unified
@@ -58,7 +58,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
   29:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * A sample implementation of pvPortMalloc() and vPortFree() that permits
   30:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * allocated blocks to be freed, but does not combine adjacent free blocks
   31:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * into a single larger block (and so will fragment memory).  See heap_4.c for
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 2
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 2
 
 
   32:..\FreeRTOS\Source\portable\MemMang/heap_2.c ****  * an equivalent that does combine adjacent blocks into single larger blocks.
@@ -118,7 +118,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
   86:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** /* Keeps track of the number of free bytes remaining, but says nothing about
   87:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** fragmentation. */
   88:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** static size_t xFreeBytesRemaining = configADJUSTED_HEAP_SIZE;
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 3
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 3
 
 
   89:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
@@ -178,7 +178,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  143:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				/* Byte alignment required. */
  144:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 				xWantedSize += ( portBYTE_ALIGNMENT - ( xWantedSize & portBYTE_ALIGNMENT_MASK ) );
  145:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			}
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 4
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 4
 
 
  146:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
@@ -238,7 +238,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  200:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			extern void vApplicationMallocFailedHook( void );
  201:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			vApplicationMallocFailedHook();
  202:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		}
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 5
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 5
 
 
  203:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	}
@@ -298,7 +298,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  252:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** uint8_t *pucAlignedHeap;
  253:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 
  254:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	/* Ensure the heap starts on a correctly aligned boundary. */
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 6
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 6
 
 
  255:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 	pucAlignedHeap = ( uint8_t * ) ( ( ( portPOINTER_SIZE_TYPE ) &ucHeap[ portBYTE_ALIGNMENT ] ) & ( ~
@@ -358,7 +358,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  119:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** BlockLink_t *pxBlock, *pxPreviousBlock, *pxNewBlockLink;
   70              		.loc 1 119 0
   71              		.cfi_startproc
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 7
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 7
 
 
   72              		@ args = 0, pretend = 0, frame = 0
@@ -418,7 +418,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  117              	.LVL9:
  153:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 			while( ( pxBlock->xBlockSize < xWantedSize ) && ( pxBlock->pxNextFreeBlock != NULL ) )
  118              		.loc 1 153 0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 8
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 8
 
 
  119 0036 1B49     		ldr	r1, .L18
@@ -478,7 +478,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  162              	.LVL15:
  181:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 					pxBlock->xBlockSize = xWantedSize;
  163              		.loc 1 181 0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 9
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 9
 
 
  164 006a 7260     		str	r2, [r6, #4]
@@ -538,7 +538,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  211              	.LVL26:
  198:..\FreeRTOS\Source\portable\MemMang/heap_2.c **** 		{
  212              		.loc 1 198 0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 10
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 10
 
 
  213 0098 0DB9     		cbnz	r5, .L12
@@ -598,7 +598,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  260              		.loc 1 225 0
  261 000a FFF7FEFF 		bl	vTaskSuspendAll
  262              	.LVL31:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 11
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 11
 
 
  263              	.LBB4:
@@ -658,7 +658,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  312              		.global	xPortGetFreeHeapSize
  313              		.thumb
  314              		.thumb_func
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 12
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 12
 
 
  315              		.type	xPortGetFreeHeapSize, %function
@@ -718,7 +718,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  365      00000000 
  365      00000000 
  365      00000000 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 13
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 13
 
 
  365      00000000 
@@ -778,7 +778,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  417 0045 03       		.uleb128 0x3
  418 0046 08       		.byte	0x8
  419 0047 04       		.byte	0x4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 14
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 14
 
 
  420 0048 25030000 		.4byte	.LASF2
@@ -838,7 +838,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  474 00b1 04       		.byte	0x4
  475 00b2 03       		.uleb128 0x3
  476 00b3 01       		.byte	0x1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 15
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 15
 
 
  477 00b4 08       		.byte	0x8
@@ -898,7 +898,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  531 0123 25000000 		.4byte	0x25
  532 0127 04       		.byte	0x4
  533 0128 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 16
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 16
 
 
  534 0129 06       		.uleb128 0x6
@@ -958,7 +958,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  588 019e 78       		.byte	0x78
  589 019f 6A010000 		.4byte	0x16a
  590 01a3 50000000 		.4byte	.LLST1
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 17
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 17
 
 
  591 01a7 0D       		.uleb128 0xd
@@ -1018,7 +1018,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  645 022e 00       		.byte	0
  646 022f 10       		.uleb128 0x10
  647 0230 08000000 		.4byte	.LVL4
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 18
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 18
 
 
  648 0234 73030000 		.4byte	0x373
@@ -1078,7 +1078,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  702 02bd 73030000 		.4byte	0x373
  703 02c1 10       		.uleb128 0x10
  704 02c2 36000000 		.4byte	.LVL36
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 19
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 19
 
 
  705 02c6 7F030000 		.4byte	0x37f
@@ -1138,7 +1138,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  759 033c 2F010000 		.4byte	0x12f
  760 0340 05       		.uleb128 0x5
  761 0341 03       		.byte	0x3
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 20
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 20
 
 
  762 0342 08900000 		.4byte	xEnd
@@ -1198,7 +1198,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  816 0014 16       		.uleb128 0x16
  817 0015 00       		.byte	0
  818 0016 03       		.uleb128 0x3
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 21
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 21
 
 
  819 0017 0E       		.uleb128 0xe
@@ -1258,7 +1258,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  873 004d 3A       		.uleb128 0x3a
  874 004e 0B       		.uleb128 0xb
  875 004f 3B       		.uleb128 0x3b
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 22
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 22
 
 
  876 0050 0B       		.uleb128 0xb
@@ -1318,7 +1318,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  930 0087 02       		.uleb128 0x2
  931 0088 18       		.uleb128 0x18
  932 0089 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 23
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 23
 
 
  933 008a 00       		.byte	0
@@ -1378,7 +1378,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  987 00c1 02       		.uleb128 0x2
  988 00c2 17       		.uleb128 0x17
  989 00c3 00       		.byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 24
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 24
 
 
  990 00c4 00       		.byte	0
@@ -1438,7 +1438,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1044 00fc 06       		.uleb128 0x6
  1045 00fd 40       		.uleb128 0x40
  1046 00fe 18       		.uleb128 0x18
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 25
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 25
 
 
  1047 00ff 9742     		.uleb128 0x2117
@@ -1498,7 +1498,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1101 0136 06       		.uleb128 0x6
  1102 0137 40       		.uleb128 0x40
  1103 0138 18       		.uleb128 0x18
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 26
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 26
 
 
  1104 0139 9742     		.uleb128 0x2117
@@ -1558,7 +1558,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1158 0171 49       		.uleb128 0x49
  1159 0172 13       		.uleb128 0x13
  1160 0173 1C       		.uleb128 0x1c
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 27
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 27
 
 
  1161 0174 0B       		.uleb128 0xb
@@ -1618,7 +1618,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1215 01aa 3F       		.uleb128 0x3f
  1216 01ab 19       		.uleb128 0x19
  1217 01ac 3C       		.uleb128 0x3c
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 28
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 28
 
 
  1218 01ad 19       		.uleb128 0x19
@@ -1678,7 +1678,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1272 0063 0100     		.2byte	0x1
  1273 0065 53       		.byte	0x53
  1274 0066 00000000 		.4byte	0
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 29
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 29
 
 
  1275 006a 00000000 		.4byte	0
@@ -1738,7 +1738,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1329              	.LLST5:
  1330 00fb 70000000 		.4byte	.LVL16
  1331 00ff 74000000 		.4byte	.LVL18
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 30
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 30
 
 
  1332 0103 0600     		.2byte	0x6
@@ -1798,7 +1798,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1386              	.LLST10:
  1387 0196 12000000 		.4byte	.LVL32
  1388 019a 16000000 		.4byte	.LVL33
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 31
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 31
 
 
  1389 019e 0600     		.2byte	0x6
@@ -1858,7 +1858,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1442      02004302 
  1442      00000201 
  1442      FB0E0D00 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 32
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 32
 
 
  1442      01010101 
@@ -1918,7 +1918,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1468      6C6F636B 
  1468      00
  1469              	.LASF37:
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 33
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 33
 
 
  1470 0093 75634865 		.ascii	"ucHeap\000"
@@ -1978,7 +1978,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1490      52784275 
  1490      66666572 
  1490      00
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 34
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 34
 
 
  1491              	.LASF40:
@@ -2038,7 +2038,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1514      65642069 
  1515              	.LASF17:
  1516 0259 75696E74 		.ascii	"uint8_t\000"
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 35
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 35
 
 
  1516      385F7400 
@@ -2098,7 +2098,7 @@ ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 1
  1542 02fc 78467265 		.ascii	"xFreeBytesRemaining\000"
  1542      65427974 
  1542      65735265 
-ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\ccUxFCm0.s 			page 36
+ARM GAS  C:\Users\EVGENY~1\AppData\Local\Temp\cccb3Tde.s 			page 36
 
 
  1542      6D61696E 
