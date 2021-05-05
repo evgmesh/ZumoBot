@@ -47,8 +47,11 @@
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
 #define POSI_TOPIC "Zumo06/position/"
-#define SPEED 150
+#define SPEED 100
 #define FAST 255
+#define LEFT -1
+#define RIGHT 1
+#define FORWARD 0
 
 void progEndEvg(uint32_t delay);
 void turnLeft(uint8_t speed, uint32_t delay);
@@ -61,7 +64,7 @@ void end(void);
 void end_mqtt(uint32_t start, uint32_t stop);
 uint16_t sense(struct sensors_ dig);
 int noRestrict(int *Y);
-int obst(void);
+bool obst(void);
 void leftInMaze(void);
 void rightInMaze(void);
 
