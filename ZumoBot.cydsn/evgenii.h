@@ -33,6 +33,14 @@
 #include "serial1.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <math.h>
+    
+    
+//***************choose project******************//
+
+#define MAZE 0   
+#define LINE 0
+#define SUMO 1
     
 #define PRESSED 0
 #define RELEASED 1
@@ -47,21 +55,29 @@
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
 #define POSI_TOPIC "Zumo06/position/"
-#define SPEED 150
+#define SPEED 120
 #define FAST 255
+#define LEFT -1
+#define RIGHT 1
+#define FORWARD 0
+#define MOTOR 1
+#define INFRA 1
+#define REFLECT 1
+#define BUTTON 1
+#define ULTRA 1
 
 void progEndEvg(uint32_t delay);
 void turnLeft(uint8_t speed, uint32_t delay);
 void turnRight(uint8_t speed, uint32_t delay);
 void tankTurnEvg(int16 degree);
 int randomEvg(int min, int max);
-void startUp(int motor, int IR, int reflectance, int button, int ultra);
+void startUp(int motor, int ir, int reflectance, int button, int ultra);
 void driveForward(uint8 speed, uint32 delay);
 void end(void);
 void end_mqtt(uint32_t start, uint32_t stop);
 uint16_t sense(struct sensors_ dig);
 int noRestrict(int *Y);
-int obst(void);
+bool obst(void);
 void leftInMaze(void);
 void rightInMaze(void);
 
