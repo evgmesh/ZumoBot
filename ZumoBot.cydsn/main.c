@@ -79,9 +79,9 @@
         
         /**********************************Dongbin zone***************************/
             
-        MazeIII();
-  
-        
+        MazeIII(); //dongbin
+        //line_follower(); //evgenii
+        //sumo_wrestling();//evgenii
         /**********************************Aneta zone***************************/ 
      
         //aneta_w5a3v2();
@@ -91,6 +91,7 @@
         /**********************************Evgenii zone***************************/ 
         //maze();
       //week3_1_evg();
+        
  
     while(true) 
     vTaskDelay(100);
