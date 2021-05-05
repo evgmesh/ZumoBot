@@ -388,7 +388,6 @@ void maze(void) {
     int left = -90;
     int right = 90;
     int dir = 0;
-    bool dirUp = true, dirLeft=false, dirRight=false;
     
     IR_wait();              // temp - delete and turn on button in startUp
     driveForward(200,0);
@@ -400,33 +399,30 @@ void maze(void) {
     reflectance_digital(&dig);
     while(Y < maxY)
     {
-        while(dirUp && noRestrict(&Y))
+        while((dir == FORWARD) && noRestrict(&Y))
         {
             reflectance_digital(&dig);
             driveThruMaze(SPEED,0);
             Y++;
             print_mqtt(POSI_TOPIC, "%i %i", X, Y);
         }
-        if(dirUp && Ultra_GetDistance() < 15 && X != - maxX)
+        if((dir == FORWARD) && Ultra_GetDistance() < 15 && X != - maxX)
         {
-            dirLeft = true;
-            dirUp = false;
+            dir += LEFT;
             motor_forward(200,110);
             tankTurnEvg(left);
             motor_forward(0,0); 
         } 
-        if(dirUp && Ultra_GetDistance() < 15 && X == - maxX)
+        if((dir == FORWARD) && Ultra_GetDistance() < 15 && X == - maxX)
         {
-            dirRight = true;
-            dirUp = false;
+            dir += RIGHT;
             motor_forward(200,110);
             tankTurnEvg(right);
             motor_forward(0,0);
         }
-        if(dirLeft && noRestrict(&Y) && X != - maxX)
+        if((dir == LEFT) && noRestrict(&Y) && X != - maxX)
         {   
-            dirLeft = false;
-            dirUp = true;
+            dir += RIGHT;
             reflectance_digital(&dig);
             driveThruMaze(SPEED,0);
             X--;
@@ -436,33 +432,30 @@ void maze(void) {
             motor_forward(0,0);
             if(Ultra_GetDistance() < 13 && X != - maxX)
             {
-                dirLeft = true;
-                dirUp = false;
+                dir += LEFT;
+                
                 
                 tankTurnEvg(left);
                 motor_forward(0,0);
             }
             if(Ultra_GetDistance() < 13 && X == - maxX)
             {
-                dirLeft = false;
-                dirRight = true;
+                dir += RIGHT;
                 
                 tankTurnEvg(right);
                 motor_forward(0,0);
             }
         }
-        if(dirLeft && Ultra_GetDistance() < 13)
+        if((dir == LEFT) && Ultra_GetDistance() < 13)
         {
+            dir += RIGHT*2;
             
-            dirLeft = false;
-            dirRight = true; 
             tankTurnEvg(180);
             motor_forward(0,0);
         }
-        if(dirRight && noRestrict(&Y) && X<3)
+        if((dir == RIGHT) && noRestrict(&Y) && X<3)
         {
-            dirRight = false;
-            dirUp = true;
+            dir = dir + LEFT;
             driveThruMaze(SPEED,0);
             X++;
             print_mqtt(POSI_TOPIC, "%i %i", X, Y);
@@ -471,8 +464,7 @@ void maze(void) {
             motor_forward(0,0);
             if(Ultra_GetDistance() < 13)
             {
-                dirRight = true;
-                dirUp = false;
+                dir += RIGHT;
                 
                 tankTurnEvg(right);
                 motor_forward(0,0);
