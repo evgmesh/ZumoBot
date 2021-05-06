@@ -1,7 +1,7 @@
 
 #include "evgenii.h"
 
- // Sumo
+ //********************************Sumo***************************************//
 
 void sumo_wrestling(void) 
 {
@@ -15,11 +15,11 @@ void sumo_wrestling(void)
     startUp(MOTOR,INFRA,REFLECT,BUTTON,ULTRA);
     
     reflectance_digital(&dig); 
-    driveForward(255,0);
+    driveForward(FAST,0);
     print_mqtt(READY_TOPIC, "zumo");
     IR_flush();
     IR_wait();
-    motor_forward(100,150);
+    motor_forward(100,200);
     startTime = xTaskGetTickCount();
     print_mqtt(START_TOPIC, " %lu", startTime);
     while(SW1_Read() == RELEASED)
@@ -46,7 +46,7 @@ void sumo_wrestling(void)
 }
 
 
-//********************************Project***************************************//
+//********************************Line follower***************************************//
                                
 
 // set value of variable bonus in driveForward to 1 
@@ -90,133 +90,97 @@ void line_follower(void) {
 }
 
 void maze(void) {
-    struct sensors_ dig;
     
+    struct sensors_ dig;
     uint32_t startTime = 0, stopTime = 0;
-    int maxX = 3;       int maxY = 11;
-    int Y = -1;
-    int X = 0;
-    int left = -90;     int right = 90;
-    int dir = 0;
+    int Y = -1, X = 0;
+    int dir = 0, left = -90, right = 90;
     
     startUp(MOTOR,INFRA,REFLECT,0,ULTRA);
     IR_wait();              // temp - delete and turn on button in startUp
     
     driveForward(200,0);
     print_mqtt(READY_TOPIC, "maze");
-    IR_wait();  
-    startTime = xTaskGetTickCount();
-    print_mqtt(START_TOPIC, " %lu", startTime);
     
-    reflectance_digital(&dig);
-    while(Y < maxY)
+    start_mqtt(&startTime);
+    
+    while(Y < 11)
     {
         while((dir == FORWARD) && noRestrict(&Y))
         {
-            reflectance_digital(&dig);
-            driveThruMaze(SPEED,0);
-            Y++;
-            print_mqtt(POSI_TOPIC, "%i %i", X, Y);
+            oneStepForward(&X,&Y);
         }
-        if((dir == FORWARD) && Ultra_GetDistance() < 13 && X != - maxX)
+        if((dir == FORWARD) && Ultra_GetDistance() < 13 && !edge(&X))
         {
             dir += LEFT;
-            motor_forward(200,110);
-            tankTurnEvg(left);
-            motor_forward(0,0); 
+            leftInMaze();
         } 
-        if((dir == FORWARD) && Ultra_GetDistance() < 15 && X == - maxX)
+        if((dir == FORWARD) && Ultra_GetDistance() < 15 && edge(&X))
         {
             dir += RIGHT;
-            motor_forward(200,110);
-            tankTurnEvg(right);
-            motor_forward(0,0);
+            rightInMaze();
         }
-        if((dir == LEFT) && noRestrict(&Y) && X != - maxX)
+        if((dir == LEFT) && noRestrict(&Y) && !edge(&X))
         {   
             dir += RIGHT;
-            reflectance_digital(&dig);
-            driveThruMaze(SPEED,0);
-            X--;
-            print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-            motor_forward(200,110);
-            tankTurnEvg(right);
-            motor_forward(0,0);
-            if(Ultra_GetDistance() < 13 && X != - maxX)
+            oneStepLeft(&X,&Y);
+            rightInMaze();
+            if(Ultra_GetDistance() < 13 && !edge(&X))
             {
                 dir += LEFT;
                 tankTurnEvg(left);
-                motor_forward(0,0);
             }
-            else if(Ultra_GetDistance() < 15 && X == - maxX)
+            else if(Ultra_GetDistance() < 15 && edge(&X))
             {
                 dir += RIGHT;
                 tankTurnEvg(right);
-                motor_forward(0,0);
             }
         }
         if((dir == LEFT) && Ultra_GetDistance() < 15)
         {
             dir += RIGHT*2;
             tankTurnEvg(180);
-            motor_forward(0,0);
         }
         if((dir == RIGHT) && noRestrict(&Y) && X<3)
         {
             dir = dir + LEFT;
-            driveThruMaze(SPEED,0);
-            X++;
-            print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-            motor_forward(200,110);
-            tankTurnEvg(left);
-            motor_forward(0,0);
+            oneStepRight(&X,&Y);
+            leftInMaze();
             if(Ultra_GetDistance() < 15)
             {
                 dir += RIGHT;
                 tankTurnEvg(right);
-                motor_forward(0,0);
             }
         }
     } 
-    if(Y == maxY)
+// end of the maze when Y is 11
+    if(X<0)
     {
-        if(X<0)
+        rightInMaze();
+        while(X!=0)
         {
-            motor_forward(200,110);
-            tankTurnEvg(right);
-            while(X!=0)
-            {
-                driveThruMaze(SPEED, 0);
-                X++;
-                print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-                
-            }
-            motor_forward(200,110);
-            tankTurnEvg(left);
+            oneStepRight(&X,&Y);
         }
-        if (X>0)
+        motor_forward(200,110);
+        tankTurnEvg(left);
+    } 
+    else if (X>0)
+    {
+        leftInMaze();
+        while(X!=0)
         {
-            motor_forward(200,110);
-            tankTurnEvg(left);
-            while(X!=0)
-            {
-                driveThruMaze(SPEED, 0);
-                X--;
-                print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-            }
-            motor_forward(200,110);
-            tankTurnEvg(right);
+            oneStepLeft(&X,&Y);
         }
-        while(Y < 13)
-        {
-            Y++;
-            driveThruMaze(SPEED, 0);
-            print_mqtt(POSI_TOPIC, "%i %i", X, Y);
-        }
-        motor_forward(0,0);
-        motor_forward(100,700);
-        print_mqtt(STOP_TOPIC, "END");
+        rightInMaze();
     }
+    while(Y < 13)
+    {
+        oneStepForward(&X,&Y);
+    }
+    motor_forward(0,0);
+    motor_forward(100,700);
+    print_mqtt(STOP_TOPIC, "END");
+
     stopTime = xTaskGetTickCount();
     end_mqtt(startTime, stopTime);
 }
@@ -349,6 +313,20 @@ bool obst(void)
     return false;
 }
 
+bool edge(int *X)
+{
+    if (*X == 3 || *X == -3)
+    {
+        return 1;   
+    } 
+    else 
+    {
+        return 0;
+    }
+      
+}
+
+
 void leftInMaze(void)
 {
     motor_forward(200,110);
@@ -362,6 +340,28 @@ void rightInMaze(void)
     tankTurnEvg(90);
     motor_forward(0,0);  
 }
+
+void oneStepForward(int *X, int *Y)
+{
+    *Y = *Y+1;
+    driveThruMaze(SPEED, 0);
+    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y); 
+}
+
+
+void oneStepLeft(int *X, int *Y)
+{
+    driveThruMaze(SPEED,0);
+    *X = *X-1;
+    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);   
+}
+void oneStepRight(int *X, int *Y)
+{
+    driveThruMaze(SPEED,0);
+    *X = *X+1;
+    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);
+}
+
 
 void progEndEvg(uint32_t delay) {
     bool led = false;
@@ -406,6 +406,15 @@ void tankTurnEvg(int16 degree){
     
     SetMotors(leftState,rightState, 100, 100, delay);
 }
+
+void start_mqtt(uint32_t *startTime)
+{
+    IR_flush();
+    IR_wait();  
+    *startTime = xTaskGetTickCount();
+    print_mqtt(START_TOPIC, " %lu", *startTime);
+}
+
 
 void end(void) {
     printf("End of the programm\n");

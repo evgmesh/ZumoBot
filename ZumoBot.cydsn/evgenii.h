@@ -38,9 +38,9 @@
     
 //***************choose project******************//
 
-#define MAZE 0   
+#define MAZE 1   
 #define LINE 0
-#define SUMO 1
+#define SUMO 0
     
 #define PRESSED 0
 #define RELEASED 1
@@ -74,25 +74,20 @@ int randomEvg(int min, int max);
 void startUp(int motor, int ir, int reflectance, int button, int ultra);
 void driveForward(uint8 speed, uint32 delay);
 void end(void);
+void start_mqtt(uint32_t *startTime);
 void end_mqtt(uint32_t start, uint32_t stop);
 uint16_t sense(struct sensors_ dig);
 int noRestrict(int *Y);
 bool obst(void);
+bool edge(int *X);
 void leftInMaze(void);
 void rightInMaze(void);
-
+void oneStepForward(int *X, int *Y);
+void oneStepLeft(int *X, int *Y);
+void oneStepRight(int *X, int *Y);
 void driveThruMaze(uint8 speed, uint32 delay);
 
 
-void week3_1_evg(void);
-void week3_2_evg(void);
-void week3_3_evg(void);
-void week4_1_evg(void);
-void week4_2_evg(void);
-void week4_3_evg(void);
-void week5_1_evg(void);
-void week5_2_evg(void);
-void week5_3_evg(void);
 
 void sumo_wrestling(void);
 void line_follower(void);
