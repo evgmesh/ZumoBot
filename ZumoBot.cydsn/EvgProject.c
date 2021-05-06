@@ -51,137 +51,120 @@ void sumo_wrestling(void)
 
 void line_follower(void) {
     
-//choose speed (0-255). default speed is maximum
+// Choose speed (0-255). default speed is maximum
    int speed = FAST;
-//decraration of variables
+// Decraration of variables
    int lines=0;
    struct sensors_ dig;
    uint32_t startTime = 0, stopTime = 0;
    
-//start of motor, IR and Reflectance sensors. Also setup of button
-//zumo is waiting for button press to start programm
-  // startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
+/* Start of motor, IR and Reflectance sensors. Also setup of button
+zumo is waiting for button press to start programm */
+   startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
    
-    printf("\n\n\n\n\nBoot!\n\n\n");
-    
-        motor_start();  
-        motor_forward(0,0);
-    
-        IR_Start();
-        IR_flush();    
-    
-        reflectance_start(); 
-        reflectance_set_threshold(15000, 15000, 17000, 17000, 15000, 15000);
-    
-        while(SW1_Read());
-    
-    
-    
-
-    
-    
-   //zumo is waiting for IR command and then registers time
+   // Zumo is waiting for IR command and then registers time
    print_mqtt(READY_TOPIC, "zumo");
     
     while(lines<3)
     {
-        //zumo drives across line until begining of next line
+        // Zumo drives across line until begining of next line
         reflectance_digital(&dig);
         driveForward(speed,0);
         lines++;
         
-        //one the first line zumo stops and wait for IR command
+        // One the first line zumo stops and wait for IR command
         if (lines == 1)
         {
             motor_forward(0,0);
             print_mqtt(READY_TOPIC, "line");
             IR_flush();
             IR_wait(); 
-            //register start time
+            
+            // Register start time
             startTime = xTaskGetTickCount();
             print_mqtt(START_TOPIC, " %i", startTime);
         }
-        
     }
-    //register stop time, total time and end of the program
-    //stopTime = xTaskGetTickCount();
+    
+    // Register stop time, total time and end of the program
     end_mqtt(startTime, stopTime);
 }
 
+//********************************Maze***************************************//
+
 void maze(void) {
 
-    //decraration of variables
+    // Decraration of variables
     struct sensors_ dig;
     uint32_t startTime = 0, stopTime = 0;
     int Y = -1, X = 0, safeDist = 13;
     int dir = 0, left = -90, right = 90;
     
-    /*start of motor, IR and Reflectance sensors. Also setup of button
+    /* Start of motor, IR and Reflectance sensors. Also setup of button
     zumo is waiting for button press to start programm */
-    startUp(MOTOR,INFRA,REFLECT,0,ULTRA);
-    IR_wait();                              // temp line - delete and turn on button in startUp
+    startUp(MOTOR,INFRA,REFLECT,BUTTON,ULTRA);
     
-    //zumo get to first line and inform that is ready
+    // Zumo get to first line and inform that is ready
     driveForward(FAST,0);
     print_mqtt(READY_TOPIC, "maze");
     
-    //zumo is waiting for IR command and then registers time
+    // Zumo is waiting for IR command and then registers time
     start_mqtt(&startTime);
 
-    //find path in maze until last line with no obstacles
+    // Find path in maze until last line with no obstacles
     while(Y < 11)
     {
-        //zumo drives forward if no obstacles or not last line
+        // Zumo drives forward if no obstacles or not last line
         while((dir == FORWARD) && noRestrict(&Y))
         {
             oneStepForward(&X,&Y);
         }
-            //if obstacle detected while driving forward - turn LEFT
+            // If obstacle detected while driving forward - turn LEFT
         if((dir == FORWARD) && Ultra_GetDistance() < safeDist && !edge(&X))
         {
             dir += LEFT;
             leftInMaze();
         }
-            //if obstacle detected while driving forward AND it is edge - turn RIGHT
+            // If obstacle detected while driving forward AND it is edge - turn RIGHT
         if((dir == FORWARD) && Ultra_GetDistance() < safeDist && edge(&X))
         {
             dir += RIGHT;
             rightInMaze();
         }
-            //if zumo turned LEFT - drive one intersection and turn UP
+            // If zumo turned LEFT - drive one intersection and turn UP
         if((dir == LEFT) && noRestrict(&Y) && !edge(&X))
         {   
             dir += RIGHT;
             oneStepLeft(&X,&Y);
             rightInMaze();
             
-            //if obstacle detected and it is no edge - turn LEFT again
+            // If obstacle detected and it is no edge - turn LEFT again
             if(Ultra_GetDistance() < safeDist && !edge(&X))
             {
                 dir += LEFT;
                 tankTurnEvg(left);
             }
-               //if obstacle detected and it is edge - make 180 degree turn RIGHT
+               // If obstacle detected and it is edge - make 180 degree turn RIGHT
             else if(Ultra_GetDistance() < safeDist && edge(&X))
             {
                 dir += RIGHT;
                 tankTurnEvg(right);
             }
         }
-            //if zumo turned LEFT and obstacle detected make 180 degree turn RIGHT
+            // If zumo turned LEFT and obstacle detected make 180 degree turn RIGHT
         if((dir == LEFT) && Ultra_GetDistance() < safeDist)
         {
             dir += RIGHT*2;
             tankTurnEvg(180);
         }
-            //if zumo turned RIGHT and it is no edge - drive one intersection and turn UP
+            // If zumo turned RIGHT and it is no edge - drive one intersection and turn UP
         if((dir == RIGHT) && noRestrict(&Y) && X<3)
         {
             dir = dir + LEFT;
             oneStepRight(&X,&Y);
             leftInMaze();
             
-            //if obstacle detected after turn UP - turn RIGHT
+            // If obstacle detected after turn UP - turn RIGHT
             if(Ultra_GetDistance() < safeDist)
             {
                 dir += RIGHT;
@@ -224,33 +207,31 @@ void maze(void) {
 }
 
 
-
+//****************************************FUNCTIONS***********************************************/
 
 void driveForward(uint8 speed, uint32 delay){
     
-    // declarations
+    // Declarations
     struct sensors_ dig;
     reflectance_digital(&dig);
     bool miss = true, bonus = true;
     
-    //drives forward when all sensors are on the line
+    // Drives forward when all sensors are on the line
      while(sense(dig)==63)
     {
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
-      //  printf("sense is %i\n", sense(dig));
     }
-    //condition when only central sensors are on the line
-    //while(sense(dig)!=63 && sense(dig)!=60 && sense(dig)!= 15)
+    // Condition when zumo on intersection line
     while(sense(dig)!=63 && sense(dig)!=60 && sense(dig)!= 15)
     {
-      //  printf("sense is %i\n", sense(dig));
-        //if loosing line from left side of the bot - turn right
+        // If loosing line from left side of the bot - turn right
         if(dig.L1 == 0 && dig.R1 == 1)
         {
             turnRight(speed,delay);
             reflectance_digital(&dig); 
         } 
+        // If loosing line from right side of the bot - turn left
         else if (dig.L1 == 1 && dig.R1 == 0)
         {
             turnLeft(speed,delay);
@@ -271,18 +252,17 @@ void driveForward(uint8 speed, uint32 delay){
         }
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
-        
     }
     motor_forward(0,0);
 }
 
 void driveThruMaze(uint8 speed, uint32 delay){
     
-    // declarations
+    // Declarations
     struct sensors_ dig;
     reflectance_digital(&dig);
     
-    //drives forward when all sensors are on the line
+    // Drives forward when all sensors are on the line
      while(sense(dig)!=12)
     {
         while(dig.L1 == 0 && dig.R1 == 1)
@@ -295,14 +275,13 @@ void driveThruMaze(uint8 speed, uint32 delay){
             tankTurnEvg(-2);
             reflectance_digital(&dig); 
         }
-           
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
-      //  printf("sense is %i\n", sense(dig));
     }
-         
+    // Navigation of the zumo when on the edges in maze
     while (dig.L3 == 0 && dig.R3 == 0)
     {
+        // When on right edge
         if(dig.L2 == 1 && dig.R2 ==0)
         {
             while(dig.L2 == 1 && dig.R2 ==0)
@@ -310,8 +289,10 @@ void driveThruMaze(uint8 speed, uint32 delay){
                 tankTurnEvg(-1);
                 reflectance_digital(&dig);
             }
+            // Stabilization
             tankTurnEvg(-4);
         }
+        // When on left edge
         if(dig.L2 == 0 && dig.R2 ==1)
         {
             while(dig.L2 == 0 && dig.R2 ==1)
@@ -319,15 +300,16 @@ void driveThruMaze(uint8 speed, uint32 delay){
                 tankTurnEvg(1);
                 reflectance_digital(&dig);
             }
+            // Stabilization
             tankTurnEvg(4);
         }
-        
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
     }
     motor_forward(0,0);
 }
 
+// Function to check obstacles and Y coordinate
 int noRestrict(int *Y)
 {
         if(Ultra_GetDistance()<15)
@@ -340,7 +322,8 @@ int noRestrict(int *Y)
         }
     return 1;
 }
-    
+
+// NOT IN USE BECAUSE OF PROBLEMS WITH PSoC CREATOR
 bool obst(void)
 {
     int i = Ultra_GetDistance();
@@ -351,6 +334,7 @@ bool obst(void)
     return false;
 }
 
+// Function to check if zumo is on the edge of the maze
 bool edge(int *X)
 {
     if (*X == 3 || *X == -3)
@@ -364,7 +348,7 @@ bool edge(int *X)
       
 }
 
-
+// Function to center the zumo and tank turn left (anti clockwise) 90 degrees
 void leftInMaze(void)
 {
     motor_forward(200,110);
@@ -372,6 +356,7 @@ void leftInMaze(void)
     motor_forward(0,0); 
 }
 
+// Function to center the zumo and tank turn right (clockwise) 90 degrees
 void rightInMaze(void)
 {
     motor_forward(200,110);
@@ -379,6 +364,7 @@ void rightInMaze(void)
     motor_forward(0,0);  
 }
 
+// Function to drive forward one intersection UP and increasing Y coordinate by 1
 void oneStepForward(int *X, int *Y)
 {
     *Y = *Y+1;
@@ -386,13 +372,15 @@ void oneStepForward(int *X, int *Y)
     print_mqtt(POSI_TOPIC, "%i %i", *X, *Y); 
 }
 
-
+// Function to drive forward one intersection LEFT and decreasing X coordinate by 1
 void oneStepLeft(int *X, int *Y)
 {
     driveThruMaze(SPEED,0);
     *X = *X-1;
     print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);   
 }
+
+// Function to drive forward one intersection RIGHT and increasing X coordinate by 1
 void oneStepRight(int *X, int *Y)
 {
     driveThruMaze(SPEED,0);
@@ -400,51 +388,48 @@ void oneStepRight(int *X, int *Y)
     print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);
 }
 
-
-void progEndEvg(uint32_t delay) {
-    bool led = false;
-    while(true){
-     BatteryLed_Write(led^=1);
-     vTaskDelay(delay);   
-    }
-}
+// Function to turn zumo left with specified speed and delay
 void turnLeft(uint8_t speed, uint32_t delay) {
     SetMotors(1, 0, speed, speed, delay);
 }
 
+// Function to turn zumo right with specified speed and delay
 void turnRight(uint8_t speed, uint32_t delay) {
     SetMotors(0, 1, speed, speed, delay);
 }
 
+// Function to get random value within specified range given as parameter.
 int randomEvg(int min, int max) {
     srand(xTaskGetTickCount());
     int random = (rand() % (max - min + 1)) + min;
     return random;
 }
 
-
-
+// Function of zumo tank turn. Takes angle degree as parameter. + is clockwise - anti clockwise
 void tankTurnEvg(int16 degree){
     
     uint8 leftState, rightState, correction;
     
-    if(degree>=0) {
-        leftState=0;
+    if(degree>=0)
+    {
+        leftState = 0;
     } else{
-        leftState=1;
-    }
-    if(degree<0) {
-        rightState=0;
-        correction= (degree * -1) % 360;
+        leftState = 1;
+      }
+    if(degree<0) 
+    {
+        rightState = 0;
+        correction = (degree * -1) % 360;
     } else{
-        rightState=1;
-        correction= degree % 360;
-    }
+        rightState = 1;
+        correction = degree % 360;
+      }
     uint32 delay = (correction * 1048)/360;
     
-    SetMotors(leftState,rightState, 100, 100, delay);
+    SetMotors(leftState,rightState,100,100,delay);
 }
 
+// Function to wait for IR command and start timer when it is given
 void start_mqtt(uint32_t *startTime)
 {
     IR_flush();
@@ -453,13 +438,14 @@ void start_mqtt(uint32_t *startTime)
     print_mqtt(START_TOPIC, " %lu", *startTime);
 }
 
-
+// Function to stop motor
 void end(void) {
     printf("End of the programm\n");
     motor_forward(0,0);         
     motor_stop();
 }
 
+// Function to stop motor and register of stop time and time spend for the task
 void end_mqtt(uint32_t start, uint32_t stop) {
     motor_forward(0,0);         
     motor_stop();
@@ -468,7 +454,6 @@ void end_mqtt(uint32_t start, uint32_t stop) {
     print_mqtt(STOP_TOPIC, " %lu", stop);
     print_mqtt(TIME_TOPIC, "elapsed: %lums, %02lus", elapsed, elapsed/1000);
 }
-
 
 
 // function to start assets. 1 as parameter starts motor, infrared, reflectance, button in same order 
@@ -480,7 +465,6 @@ void startUp(int motor, int ir, int reflectance, int button, int ultra) {
     }
     if(ir == 1){
         IR_Start();
-//        printf("to start press IR send\n");
         IR_flush();    
     }
     if(reflectance == 1){
@@ -493,10 +477,9 @@ void startUp(int motor, int ir, int reflectance, int button, int ultra) {
     if(ultra == 1) {
         Ultra_Start();
     }
-    
-    // more to add here
 }
 
+// Function to quickly check values of the reflectance sensors
 uint16_t sense(struct sensors_ dig)
 {                               
 //returns this value   1          2         4           8           16          32
@@ -504,5 +487,15 @@ uint16_t sense(struct sensors_ dig)
     
  return sum;   
 }
+
+// Function of end of the process
+void progEndEvg(uint32_t delay) {
+    bool led = false;
+    while(true){
+     BatteryLed_Write(led^=1);
+     vTaskDelay(delay);   
+    }
+}
+
 
 /* [] END OF FILE */
