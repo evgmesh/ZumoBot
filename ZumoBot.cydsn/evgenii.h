@@ -38,8 +38,8 @@
     
 //***************choose project******************//
 
-#define MAZE 1   
-#define LINE 0
+#define MAZE 0   
+#define LINE 1
 #define SUMO 0
     
 #define PRESSED 0

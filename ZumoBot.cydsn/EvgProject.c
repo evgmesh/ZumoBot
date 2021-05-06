@@ -60,8 +60,26 @@ void line_follower(void) {
    
 //start of motor, IR and Reflectance sensors. Also setup of button
 //zumo is waiting for button press to start programm
-   startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
+  // startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
    
+    printf("\n\n\n\n\nBoot!\n\n\n");
+    
+        motor_start();  
+        motor_forward(0,0);
+    
+        IR_Start();
+        IR_flush();    
+    
+        reflectance_start(); 
+        reflectance_set_threshold(15000, 15000, 17000, 17000, 15000, 15000);
+    
+        while(SW1_Read());
+    
+    
+    
+
+    
+    
    //zumo is waiting for IR command and then registers time
    print_mqtt(READY_TOPIC, "zumo");
     
@@ -86,7 +104,7 @@ void line_follower(void) {
         
     }
     //register stop time, total time and end of the program
-    stopTime = xTaskGetTickCount();
+    //stopTime = xTaskGetTickCount();
     end_mqtt(startTime, stopTime);
 }
 

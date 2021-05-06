@@ -86,17 +86,17 @@
         
     
         /**********************************Evgenii zone***************************/ 
-    #if MAZE    
+#if MAZE    
         maze();
-    #endif
+#endif
     
-    #if LINE    
+#if LINE    
         line_follower();
-    #endif
+#endif
     
-    #if SUMO    
+#if SUMO    
         sumo_wrestling();
-    #endif
+#endif
     
    // mazeMehul();
     
