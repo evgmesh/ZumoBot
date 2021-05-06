@@ -91,6 +91,7 @@
         
     
         /**********************************Evgenii zone***************************/ 
+<<<<<<< HEAD
 
         //maze();
       //week3_1_evg();
@@ -98,22 +99,25 @@
  
 
     #if MAZE    
+=======
+#if MAZE    
+>>>>>>> 34a1481e273d942bcb4a334c5952cbdf7abd038e
         maze();
-    #endif
+#endif
     
-    #if LINE    
+#if LINE    
         line_follower();
-    #endif
+#endif
     
-    #if SUMO    
+#if SUMO    
         sumo_wrestling();
-    #endif
+#endif
     
+   // mazeMehul();
     
 
     while(true) 
     vTaskDelay(100);
-    
     }
 #endif
 
