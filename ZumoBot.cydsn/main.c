@@ -98,6 +98,7 @@
         sumo_wrestling();
     #endif
     
+   // mazeMehul();
     
     while(true) 
     vTaskDelay(100);

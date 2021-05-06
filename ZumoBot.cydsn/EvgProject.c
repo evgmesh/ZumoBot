@@ -17,11 +17,11 @@ void sumo_wrestling(void)
     reflectance_digital(&dig); 
     driveForward(FAST,0);
     print_mqtt(READY_TOPIC, "zumo");
-    IR_flush();
-    IR_wait();
+    
+    start_mqtt(&startTime);
+    
     motor_forward(100,200);
-    startTime = xTaskGetTickCount();
-    print_mqtt(START_TOPIC, " %lu", startTime);
+    
     while(SW1_Read() == RELEASED)
     {
         int angle = randomEvg(45, 180);
@@ -49,19 +49,20 @@ void sumo_wrestling(void)
 //********************************Line follower***************************************//
                                
 
-// set value of variable bonus in driveForward to 1 
 void line_follower(void) {
-   //choose speed (0-255). default speed is maximum
+    
+//choose speed (0-255). default speed is maximum
    int speed = FAST;
-   //decraration of variables
+//decraration of variables
    int lines=0;
    struct sensors_ dig;
    uint32_t startTime = 0, stopTime = 0;
    
-   //start of motor, IR and Reflectance sensors. Also setup of button
-   //zumo is waiting for button press to start programm
+//start of motor, IR and Reflectance sensors. Also setup of button
+//zumo is waiting for button press to start programm
    startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
-
+   
+   //zumo is waiting for IR command and then registers time
    print_mqtt(READY_TOPIC, "zumo");
     
     while(lines<3)
@@ -90,70 +91,88 @@ void line_follower(void) {
 }
 
 void maze(void) {
-    
+
+    //decraration of variables
     struct sensors_ dig;
     uint32_t startTime = 0, stopTime = 0;
-    int Y = -1, X = 0;
+    int Y = -1, X = 0, safeDist = 13;
     int dir = 0, left = -90, right = 90;
     
+    /*start of motor, IR and Reflectance sensors. Also setup of button
+    zumo is waiting for button press to start programm */
     startUp(MOTOR,INFRA,REFLECT,0,ULTRA);
-    IR_wait();              // temp - delete and turn on button in startUp
+    IR_wait();                              // temp line - delete and turn on button in startUp
     
-    driveForward(200,0);
+    //zumo get to first line and inform that is ready
+    driveForward(FAST,0);
     print_mqtt(READY_TOPIC, "maze");
     
+    //zumo is waiting for IR command and then registers time
     start_mqtt(&startTime);
-    
+
+    //find path in maze until last line with no obstacles
     while(Y < 11)
     {
+        //zumo drives forward if no obstacles or not last line
         while((dir == FORWARD) && noRestrict(&Y))
         {
             oneStepForward(&X,&Y);
         }
-        if((dir == FORWARD) && Ultra_GetDistance() < 13 && !edge(&X))
+            //if obstacle detected while driving forward - turn LEFT
+        if((dir == FORWARD) && Ultra_GetDistance() < safeDist && !edge(&X))
         {
             dir += LEFT;
             leftInMaze();
-        } 
-        if((dir == FORWARD) && Ultra_GetDistance() < 15 && edge(&X))
+        }
+            //if obstacle detected while driving forward AND it is edge - turn RIGHT
+        if((dir == FORWARD) && Ultra_GetDistance() < safeDist && edge(&X))
         {
             dir += RIGHT;
             rightInMaze();
         }
+            //if zumo turned LEFT - drive one intersection and turn UP
         if((dir == LEFT) && noRestrict(&Y) && !edge(&X))
         {   
             dir += RIGHT;
             oneStepLeft(&X,&Y);
             rightInMaze();
-            if(Ultra_GetDistance() < 13 && !edge(&X))
+            
+            //if obstacle detected and it is no edge - turn LEFT again
+            if(Ultra_GetDistance() < safeDist && !edge(&X))
             {
                 dir += LEFT;
                 tankTurnEvg(left);
             }
-            else if(Ultra_GetDistance() < 15 && edge(&X))
+               //if obstacle detected and it is edge - make 180 degree turn RIGHT
+            else if(Ultra_GetDistance() < safeDist && edge(&X))
             {
                 dir += RIGHT;
                 tankTurnEvg(right);
             }
         }
-        if((dir == LEFT) && Ultra_GetDistance() < 15)
+            //if zumo turned LEFT and obstacle detected make 180 degree turn RIGHT
+        if((dir == LEFT) && Ultra_GetDistance() < safeDist)
         {
             dir += RIGHT*2;
             tankTurnEvg(180);
         }
+            //if zumo turned RIGHT and it is no edge - drive one intersection and turn UP
         if((dir == RIGHT) && noRestrict(&Y) && X<3)
         {
             dir = dir + LEFT;
             oneStepRight(&X,&Y);
             leftInMaze();
-            if(Ultra_GetDistance() < 15)
+            
+            //if obstacle detected after turn UP - turn RIGHT
+            if(Ultra_GetDistance() < safeDist)
             {
                 dir += RIGHT;
                 tankTurnEvg(right);
             }
         }
     } 
-// end of the maze when Y is 11
+        // End of the maze when Y is 11. If not on the central line - navigate to this line
+    // If zumo in left side of maze - turn RIGHT and drive until reaches the central line
     if(X<0)
     {
         rightInMaze();
@@ -164,6 +183,7 @@ void maze(void) {
         motor_forward(200,110);
         tankTurnEvg(left);
     } 
+        // If zumo in right side of maze - turn LEFT and drive until reaches the central line
     else if (X>0)
     {
         leftInMaze();
@@ -173,15 +193,15 @@ void maze(void) {
         }
         rightInMaze();
     }
+        // Then drive forward until the last intersection at coordinate 13
     while(Y < 13)
     {
         oneStepForward(&X,&Y);
     }
+    
+    // Get out of the maze and mqtt time spend for the completing the maze
     motor_forward(0,0);
     motor_forward(100,700);
-    print_mqtt(STOP_TOPIC, "END");
-
-    stopTime = xTaskGetTickCount();
     end_mqtt(startTime, stopTime);
 }
 
@@ -425,6 +445,7 @@ void end(void) {
 void end_mqtt(uint32_t start, uint32_t stop) {
     motor_forward(0,0);         
     motor_stop();
+    stop = xTaskGetTickCount();
     uint32_t elapsed = stop-start;
     print_mqtt(STOP_TOPIC, " %lu", stop);
     print_mqtt(TIME_TOPIC, "elapsed: %lums, %02lus", elapsed, elapsed/1000);
