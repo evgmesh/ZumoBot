@@ -41,14 +41,13 @@ void sumo_wrestling(void)
         }
         motor_forward(250,0);
     }
-    stopTime = xTaskGetTickCount();
+    // Register stop time, total time and end of the program
     end_mqtt(startTime, stopTime);
 }
 
 
 //********************************Line follower***************************************//
                                
-
 void line_follower(void) {
     
     // Choose speed (0-255). default speed is maximum
@@ -86,7 +85,6 @@ void line_follower(void) {
             print_mqtt(START_TOPIC, " %i", startTime);
         }
     }
-    
     // Register stop time, total time and end of the program
     end_mqtt(startTime, stopTime);
 }
@@ -173,7 +171,7 @@ void maze(void) {
             }
         }
     } 
-        // End of the maze when Y is 11. If not on the central line - navigate to this line
+    // End of the maze when Y is 11. If not on the central line - navigate to this line
     // If zumo in left side of maze - turn RIGHT and drive until reaches the central line
     if(X<0)
     {
@@ -185,7 +183,7 @@ void maze(void) {
         motor_forward(200,110);
         tankTurnEvg(left);
     } 
-        // If zumo in right side of maze - turn LEFT and drive until reaches the central line
+    // If zumo in right side of maze - turn LEFT and drive until reaches the central line
     else if (X>0)
     {
         leftInMaze();
@@ -195,12 +193,12 @@ void maze(void) {
         }
         rightInMaze();
     }
-        // Then drive forward until the last intersection at coordinate 13
+    // Then drive forward until the last intersection at coordinate 13
     while(Y < 13)
     {
         oneStepForward(&X,&Y);
     }
-    
+ 
     // Get out of the maze and mqtt time spend for the completing the maze
     motor_forward(0,0);
     motor_forward(200,400);

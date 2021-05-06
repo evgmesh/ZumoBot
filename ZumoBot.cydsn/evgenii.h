@@ -41,9 +41,9 @@
 #define MAZE 1   
 #define LINE 0
 #define SUMO 0
-    
-#define SPEED 160
-    
+
+//***************microdefinitions******************//
+#define SPEED 130
 #define PRESSED 0
 #define RELEASED 1
 #define BUTTON_TOPIC "Zumo06/button/"
@@ -67,6 +67,7 @@
 #define BUTTON 1
 #define ULTRA 1
 
+//***************fucntions declaration******************//
 void progEndEvg(uint32_t delay);
 void turnLeft(uint8_t speed, uint32_t delay);
 void turnRight(uint8_t speed, uint32_t delay);
@@ -87,8 +88,6 @@ void oneStepForward(int *X, int *Y);
 void oneStepLeft(int *X, int *Y);
 void oneStepRight(int *X, int *Y);
 void driveThruMaze(uint8 speed, uint32 delay);
-
-
 
 void sumo_wrestling(void);
 void line_follower(void);
