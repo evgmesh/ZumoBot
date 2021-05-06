@@ -16,7 +16,7 @@ void sumo_wrestling(void)
     
     reflectance_digital(&dig); 
     driveForward(FAST,0);
-    print_mqtt(READY_TOPIC, "zumo");
+    print_mqtt(READY_TOPIC, " zumo");
     
     start_mqtt(&startTime);
     
@@ -28,7 +28,7 @@ void sumo_wrestling(void)
         if (Ultra_GetDistance()<3)
         {
             obst = xTaskGetTickCount();
-            print_mqtt(OBST_TOPIC, " %lu", obst);
+            print_mqtt(OBST_TOPIC, " % lu", obst);
             motor_forward(0,0);
             tankTurnEvg(angle%2 == 1 ? -angle : angle);
         } 
@@ -51,19 +51,20 @@ void sumo_wrestling(void)
 
 void line_follower(void) {
     
-// Choose speed (0-255). default speed is maximum
+    // Choose speed (0-255). default speed is maximum
    int speed = FAST;
-// Decraration of variables
+    
+    // Decraration of variables
    int lines=0;
    struct sensors_ dig;
    uint32_t startTime = 0, stopTime = 0;
    
-/* Start of motor, IR and Reflectance sensors. Also setup of button
-zumo is waiting for button press to start programm */
+    /* Start of motor, IR and Reflectance sensors. Also setup of button
+    zumo is waiting for button press to start programm */
    startUp(MOTOR,INFRA,REFLECT,BUTTON,0);
    
    // Zumo is waiting for IR command and then registers time
-   print_mqtt(READY_TOPIC, "zumo");
+   print_mqtt(READY_TOPIC, " zumo");
     
     while(lines<3)
     {
@@ -72,11 +73,11 @@ zumo is waiting for button press to start programm */
         driveForward(speed,0);
         lines++;
         
-        // One the first line zumo stops and wait for IR command
+        // On the first line zumo stops and wait for IR command
         if (lines == 1)
         {
             motor_forward(0,0);
-            print_mqtt(READY_TOPIC, "line");
+            print_mqtt(READY_TOPIC, " line");
             IR_flush();
             IR_wait(); 
             
@@ -106,8 +107,8 @@ void maze(void) {
     
     // Zumo get to first line and inform that is ready
     driveForward(FAST,0);
-    print_mqtt(READY_TOPIC, "maze");
-    
+    print_mqtt(READY_TOPIC, " maze");
+    printf("Press IR send to start\n");
     // Zumo is waiting for IR command and then registers time
     start_mqtt(&startTime);
 
@@ -202,7 +203,7 @@ void maze(void) {
     
     // Get out of the maze and mqtt time spend for the completing the maze
     motor_forward(0,0);
-    motor_forward(100,700);
+    motor_forward(200,400);
     end_mqtt(startTime, stopTime);
 }
 
@@ -213,11 +214,11 @@ void driveForward(uint8 speed, uint32 delay){
     
     // Declarations
     struct sensors_ dig;
-    reflectance_digital(&dig);
     bool miss = true, bonus = true;
     
     // Drives forward when all sensors are on the line
-     while(sense(dig)==63)
+    reflectance_digital(&dig);
+    while(sense(dig)==63)
     {
         motor_forward(speed,delay);
         reflectance_digital(&dig); 
@@ -237,9 +238,8 @@ void driveForward(uint8 speed, uint32 delay){
             turnLeft(speed,delay);
             reflectance_digital(&dig); 
         }
-        
-        /* followed two if elses are made for bonus of line follower task, 
-           variable bonus set to 1 if task follow the line  */
+        /* followed two if elses statements are made for bonus of line follower task, 
+           variable bool bonus set to 1 if task "follow the line"  */
         else if (bonus && miss && dig.R1 == 0 && dig.L1 == 0)
         {
             print_mqtt(MISS_TOPIC, " %i", xTaskGetTickCount());   
@@ -369,7 +369,7 @@ void oneStepForward(int *X, int *Y)
 {
     *Y = *Y+1;
     driveThruMaze(SPEED, 0);
-    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y); 
+    print_mqtt(POSI_TOPIC, " %i %i", *X, *Y); 
 }
 
 // Function to drive forward one intersection LEFT and decreasing X coordinate by 1
@@ -377,7 +377,7 @@ void oneStepLeft(int *X, int *Y)
 {
     driveThruMaze(SPEED,0);
     *X = *X-1;
-    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);   
+    print_mqtt(POSI_TOPIC, " %i %i", *X, *Y);   
 }
 
 // Function to drive forward one intersection RIGHT and increasing X coordinate by 1
@@ -385,7 +385,7 @@ void oneStepRight(int *X, int *Y)
 {
     driveThruMaze(SPEED,0);
     *X = *X+1;
-    print_mqtt(POSI_TOPIC, "%i %i", *X, *Y);
+    print_mqtt(POSI_TOPIC, " %i %i", *X, *Y);
 }
 
 // Function to turn zumo left with specified speed and delay
@@ -452,7 +452,7 @@ void end_mqtt(uint32_t start, uint32_t stop) {
     stop = xTaskGetTickCount();
     uint32_t elapsed = stop-start;
     print_mqtt(STOP_TOPIC, " %lu", stop);
-    print_mqtt(TIME_TOPIC, "elapsed: %lums, %02lus", elapsed, elapsed/1000);
+    print_mqtt(TIME_TOPIC, "% lu ms, %02lu s", elapsed, elapsed/1000);
 }
 
 
@@ -472,6 +472,7 @@ void startUp(int motor, int ir, int reflectance, int button, int ultra) {
         reflectance_set_threshold(15000, 15000, 17000, 17000, 15000, 15000);
     }
     if(button == 1) {
+        printf("Press the button\n\n");
         while(SW1_Read());
     }
     if(ultra == 1) {

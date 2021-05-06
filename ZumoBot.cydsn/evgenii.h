@@ -42,6 +42,8 @@
 #define LINE 0
 #define SUMO 0
     
+#define SPEED 160
+    
 #define PRESSED 0
 #define RELEASED 1
 #define BUTTON_TOPIC "Zumo06/button/"
@@ -55,7 +57,6 @@
 #define LINE_TOPIC "Zumo06/line/"
 #define OBST_TOPIC "Zumo06/obstacle/"
 #define POSI_TOPIC "Zumo06/position/"
-#define SPEED 120
 #define FAST 255
 #define LEFT -1
 #define RIGHT 1
