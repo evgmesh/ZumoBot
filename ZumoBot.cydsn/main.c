@@ -76,15 +76,14 @@
         
         /**********************************Dongbin zone***************************/
             
-<<<<<<< HEAD
-        MazeIII(); //dongbin
-        //line_follower(); //evgenii
+
+        //MazeIII(); //dongbin
+        line_follower(); //evgenii
         //sumo_wrestling();//evgenii
-=======
-       // MazeIII();
+
+      
   
         
->>>>>>> 711896493bc2ceda5149bfa904aae90286ffa4bd
         /**********************************Aneta zone***************************/ 
      
         //aneta_w5a3v2();
@@ -92,12 +91,12 @@
         
     
         /**********************************Evgenii zone***************************/ 
-<<<<<<< HEAD
+
         //maze();
       //week3_1_evg();
         
  
-=======
+
     #if MAZE    
         maze();
     #endif
@@ -111,7 +110,7 @@
     #endif
     
     
->>>>>>> 711896493bc2ceda5149bfa904aae90286ffa4bd
+
     while(true) 
     vTaskDelay(100);
     
