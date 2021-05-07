@@ -40,26 +40,26 @@
 
 /********************** SUMO Project ***************************/
 
-void SUMO_DB(void){
+void SUMO_Project(void){
     uint32_t startTime;
     uint32_t obstacleTime;
     uint32_t endTime;
-    sumo_startUp(1,1,1,1,1);
+    sumo_startUp(1,1,1,1,1);                                //Startup the robot with all sensors and ultrasonic and button etc.
     startTime = xTaskGetTickCount();
     
-    sumo_along_line();
-    sumo_onTheMark();
-    print_mqtt(ZUMO_TOPIC_READY, "zumo");
+    sumo_along_line();                                      //following the line for entry
+    sumo_onTheMark();                                       //stop and wait for IR button press
+    print_mqtt(ZUMO_TOPIC_READY, "sumo");
     
     IR_wait();
     startTime = xTaskGetTickCount();
-    sumo_enterance();
+    sumo_enterance();                                       //enter the SUMO ring
     print_mqtt(ZUMO_TOPIC_START,"%d", startTime);
     while(SW1_Read()){
         struct sensors_ dig;
         reflectance_digital(&dig);
         
-        while((dig.L1 != 1 && dig.R1 != 1)){
+        while((dig.L1 != 1 && dig.R1 != 1)){                //Loop around inside ring till it detects edge
             reflectance_digital(&dig);
             motor_forward(255,0);
             int d = Ultra_GetDistance();
@@ -68,11 +68,11 @@ void SUMO_DB(void){
             obstacleTime = xTaskGetTickCount();
             print_mqtt(ZUMO_TOPIC_OBSTACLE, "%d", obstacleTime);
             motor_backward(255, 100);
-            sumo_motorTurn(sumo_randDeg());
+            sumo_motorTurn(sumo_randDeg());                 //when detect obstacles, start random turn
             motor_forward(255,0);
             } 
         }
-        sumo_motorTurn(120);
+        sumo_motorTurn(120);                                //On the ring edge, it turns 120 degree only
         motor_forward(255,0); 
     }
     endTime = xTaskGetTickCount();
@@ -81,13 +81,13 @@ void SUMO_DB(void){
 
 /************************************ Line Project ****************************************/
 
-void line_project(void){
+void LINE_Project(void){
     uint32_t startTime;
     uint32_t endTime;
     struct sensors_ dig;
     
-    line_startup(1,1,0,1,1);
-    line_onTheMark();
+    line_startup(1,1,0,1,1);                               //Startup all neccessary detectors or buttons
+    line_onTheMark();                                      //move till the first line and waiting for order!
     print_mqtt(ZUMO_TOPIC_READY, "line");
     
     IR_wait();
@@ -96,7 +96,7 @@ void line_project(void){
     
     reflectance_digital(&dig);    
     int i = 0;
-    while(i < 2){
+    while(i < 2){                                          //running twice when detects lines
         while(!(dig.L3 == 0 && dig.L2 == 0 && dig.R2 == 0 && dig.R3 == 0)){
         reflectance_digital(&dig);
         motor_forward(255,0);
@@ -104,18 +104,18 @@ void line_project(void){
         while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
             reflectance_digital(&dig);   
             motor_forward(255,0);
-            if(dig.L1 != 1 && dig.R1 == 1){
-                line_motorTurn(3);
+            if(dig.L1 != 1 && dig.R1 == 1){             //center sensors used to detect if miss, if so, turn left
+                line_motorTurn(3);                      //turning degree +3 degree to left
                 reflectance_digital(&dig); 
-            }else if(dig.L1 == 1 && dig.R1 != 1){
-                 line_motorTurn(-3); 
+            }else if(dig.L1 == 1 && dig.R1 != 1){       //if miss, turn right
+                 line_motorTurn(-3);                    //turning degree means -3 degree to right
                  reflectance_digital(&dig);  
-            }else if(dig.L1 != 1 && dig.R1 != 1){
+            }else if(dig.L1 != 1 && dig.R1 != 1){       //if both sensors miss, then print miss message
                  uint32_t missTime = xTaskGetTickCount();
                  print_mqtt(ZUMO_TOPIC_MISS, "%d", missTime);   
             }    
         }
-        i++;
+        i++;                                            //loop increase
     }    
     end_line();
     endTime = xTaskGetTickCount();
@@ -217,7 +217,7 @@ void MazeIII(void){
                 obsDist = Ultra_GetDistance();
             }
             MazeIII_Turn(left);
-            goleft = false;             //left side switch off
+            goleft = false;                     //left side switch off
         }  
                 
         // Robot moves to the right side
@@ -255,7 +255,7 @@ void MazeIII(void){
             MazeIII_Turn(left); 
             obsDist = Ultra_GetDistance();
             while(obsDist > safeDist && x > 0){    //when reach the right edge, no need 
-                                                    //to check obstacle but go straight to poisiiton x0
+                                                   //to check obstacle but go straight to poisiiton x0
                 x--;
                 MazeIII_Mqtt_print(x,y);
                 MazeIII_grid_following();
@@ -294,10 +294,13 @@ void MazeIII(void){
     }  
     MazeIII_end_line(startTime);
 }
+
     
     
-    
-    
+ 
+
+
+
     
     
     
@@ -334,7 +337,8 @@ void MazeIII(void){
 
 
 /******************************** SUMO- Custom Functions  ********************************/
-void sumo_startUp(int motor,int IR, int ultra, int reflet, int btn){
+void sumo_startUp(int motor,int IR, int ultra, int reflet, int btn){   // startup function to activate all if needed
+    printf("\n\n\n!!!BOOT,BOOT!!!\n\n\n");
     if(motor == 1){
         motor_start();
         motor_forward(0,0);
@@ -357,7 +361,8 @@ void sumo_startUp(int motor,int IR, int ultra, int reflet, int btn){
     }
 }
 
-void sumo_along_line(void){
+void sumo_along_line(void){                     //automatically turn 45 degree on left or right
+                                                //by detecting the line
     struct sensors_ dig;
     reflectance_digital(&dig); 
     motor_forward(50,0);
@@ -393,26 +398,26 @@ void sumo_enterance(void){
 
 int sumo_randDeg(void){
     int deg;
-    TickType_t rand = xTaskGetTickCount();
-    deg = rand/10 % 180;
+    TickType_t rand = xTaskGetTickCount();              
+    deg = rand/10 % 180;                        //random degree till 180 degree when encounter obstacle, it could be in 360 range as well
     return deg;
 }
 
-void sumo_motorTurn(int16_t degree){
+void sumo_motorTurn(int16_t degree){                //motor automatic turning function to give tankturn by fill in parameter degree
     uint8 leftState, rightState, correction;
     if(degree>=0) {
-        leftState=0;
+        leftState=0;                                //positive degree means right turn
     } else{
         leftState=1;
     }
-    if(degree<0) {
+    if(degree<0) {                                  //negative degree means left turn
         rightState=0;
         correction= (degree * -1) %360;
     } else{
         rightState=1;
         correction= degree % 360;
     }
-    uint32 delay = (correction * 1050)/360;
+    uint32 delay = (correction * 1050)/360;         //check with 100 turnning around it about 1050 delay then calculate delay
     SetMotors(leftState,rightState, 100, 100, delay);
 }
 
@@ -426,7 +431,8 @@ void end_sumo(uint32_t startTime, uint32_t endTime){
 
 /**************************************** Line-Custom Functions *********************************/
 void line_startup(int motor,int IR, int ultra, int reflect, int btn){
-      
+    printf("\n\n\n!!!BOOT,BOOT!!!\n\n\n");  
+    
     if(motor == 1){
         motor_start();
         motor_forward(0,0);
@@ -484,7 +490,7 @@ void end_line(void){
 
 /**************************************** Maze Function **************************************/
 void MazeIII_startup(int motor,int IR, int ultra, int reflect, int btn){
-    printf("\n\n\n!!!BOOT!!!\n\n\n");
+    printf("\n\n\n!!!BOOT,BOOT!!!\n\n\n");
     
     if(motor == 1){
         motor_start();
@@ -520,7 +526,7 @@ void MazeIII_onTheMark(void){
     print_mqtt(ZUMO_TOPIC_READY, "Maze");
 }
 
-void MazeIII_grid_following(void){
+void MazeIII_grid_following(void){                                      //following th grid line then move a bit further turn 90 degree
     struct sensors_ dig;
     while(!(dig.L3 == 1 && dig.L2 == 1 && dig.R2 == 1 && dig.R3 == 1)){
         reflectance_digital(&dig);
@@ -530,7 +536,7 @@ void MazeIII_grid_following(void){
         reflectance_digital(&dig);
         motor_forward(255,0);
     }
-    motor_forward(100,120);
+    motor_forward(100,120);                                            //make sure it turn 90 both central sensors are on the line 
     motor_forward(0,0);
 }
 
@@ -538,7 +544,7 @@ void MazeIII_Mqtt_print(int x, int y){
     print_mqtt(ZUMO_TOPIC_POSITION, "%d %d", x, y);   
 }
 
-int MazeIII_random(void){
+int MazeIII_random(void){                           //random turn function to give random value
     int i;
     TickType_t rand = xTaskGetTickCount();
     i = rand/1000 % 2;
@@ -562,10 +568,10 @@ void MazeIII_Turn(int16_t degree){
     uint32 delay = (correction * 1050)/360;
     SetMotors(leftState,rightState, 100, 100, delay);
     motor_forward(0,0);
-    vTaskDelay(300);
+    vTaskDelay(50);
 }
 
-void MazeIII_leftedge(void){
+void MazeIII_leftedge(void){                        //on the edge, use either side of sensor to detect the lines
     struct sensors_ dig; 
     while(!(dig.R2 == 1 && dig.R3 == 1)){
         reflectance_digital(&dig);
@@ -579,7 +585,7 @@ void MazeIII_leftedge(void){
     motor_forward(0,0); 
 }
 
-void MazeIII_rightedge(void){
+void MazeIII_rightedge(void){                       //on the edge, use either side of sensor to detect the lines
     struct sensors_ dig; 
     while(!(dig.L2 == 1 && dig.L3 == 1)){
         reflectance_digital(&dig);
@@ -593,7 +599,7 @@ void MazeIII_rightedge(void){
     motor_forward(0,0); 
 }
 
-void MazeIII_end_line(uint32_t startTime){
+void MazeIII_end_line(uint32_t startTime){      //end when reach the top, print time elapsed
     motor_forward(0,0);
     motor_stop();
     uint32_t endTime = xTaskGetTickCount();
@@ -605,6 +611,5 @@ void MazeIII_end_line(uint32_t startTime){
         vTaskDelay(300);
     }
  }
-
 
 /* [] END OF FILE */

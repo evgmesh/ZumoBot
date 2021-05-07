@@ -76,9 +76,9 @@
         
         /**********************************Dongbin zone***************************/
             
-
+          //SUMO();
         //MazeIII(); //dongbin
-        line_follower(); //evgenii
+        //line_follower(); //evgenii
         //sumo_wrestling();//evgenii
 
       
@@ -91,17 +91,10 @@
         
     
         /**********************************Evgenii zone***************************/ 
-<<<<<<< HEAD
+      
 
-        //maze();
-      //week3_1_evg();
-        
- 
-
-    #if MAZE    
-=======
 #if MAZE    
->>>>>>> 34a1481e273d942bcb4a334c5952cbdf7abd038e
+
         maze();
 #endif
     

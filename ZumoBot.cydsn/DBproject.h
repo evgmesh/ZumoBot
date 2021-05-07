@@ -13,6 +13,14 @@
 
 #ifndef ZUMO6PROJECT_H_
 #define ZUMO6PROJECT_H_
+    
+    
+    
+    
+#define MAZE   0
+#define LINE   0
+#define SUMO   0
+   
 
 /*************************************SUMO****************************************/
 void sumo_startUp(int motor,int IR, int ultra, int reflet, int btn);
@@ -29,7 +37,6 @@ void line_motorTurn(int16_t degree);
 void end_line(void);
 
 /******************************* MAZE ***********************************************/
-
 void MazeIII_startup(int motor,int IR, int ultra, int reflect, int btn);    
 void MazeIII_onTheMark(void);   
 void MazeIII_grid_following(void);    
@@ -42,14 +49,6 @@ void MazeIII_end_line(uint32_t startTime);
 
 
 
-
-
-
-/************************************ Project functions**************************/
-
-void SUMO_DB();
-void line_project();
-void MazeIII();
 
 
 #endif
